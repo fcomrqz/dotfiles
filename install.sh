@@ -164,3 +164,6 @@ echo '  MongoDB Compass: The GUI for MongoDB'
 brew install --cask loopback > /dev/null 2>&1
 echo '  Loopback: Cable-Free Audio Routing'
 
+brew install --cask dash > /dev/null 2>&1
+echo '  Dash: Offline Software Documentation'
+
