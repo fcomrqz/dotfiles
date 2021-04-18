@@ -99,3 +99,6 @@ cp ~/dotfiles/icons/firefox.icns /Applications/Firefox.app/Contents/Resources/fi
 touch /Applications/Firefox.app
 echo "  Firefox: Mozillaz' Web Browser"
 
+brew install --cask maccy > /dev/null 2>&1
+echo '  Maccy: Clipboard manager'
+
