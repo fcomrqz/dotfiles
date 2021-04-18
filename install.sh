@@ -207,3 +207,6 @@ echo "  Numbers: Apple's Spreadsheets"
 mas install 405399194 > /dev/null 2>&1
 echo '  Kindle: Ebook Reader'
 
+mas install 497799835 > /dev/null 2>&1
+echo '  Xcode: Integrated Development Environment for Apple Products'
+
