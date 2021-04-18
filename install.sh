@@ -88,3 +88,9 @@ echo '  tree: Display directories as trees'
 brew install universal-ctags > /dev/null 2>&1
 echo '  universal-ctags: A maintained implementation of ctags'
 
+echo ''
+printf "\033[1;34m[brew]: Installing Desktop Apps\033[0m\n"
+
+brew install --cask google-chrome > /dev/null 2>&1
+echo "  Google Chrome: Google's Web Browser"
+
