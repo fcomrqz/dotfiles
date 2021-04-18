@@ -1,0 +1,23 @@
+[character]
+success_symbol = '[›](bold green)'
+error_symbol = '[✗](bold red)'
+[git_status]
+disabled = true
+[git_branch]
+symbol = ''
+style = 'bold bright-purple'
+[package]
+symbol = ''
+style = 'bold blue'
+[jobs]
+format='[$symbol](bold red) '
+symbol='•'
+[directory]
+style = 'bold bright-yellow'
+[nodejs]
+symbol = ''
+[battery]
+full_symbol = ''
+charging_symbol = ''
+discharging_symbol = ''
+empty_symbol = ''

@@ -1,0 +1,26 @@
+'atom-text-editor':
+  'ctrl-left': 'editor:outdent-selected-rows',
+  'ctrl-right': 'editor:indent-selected-rows',
+  'ctrl-down': 'editor:move-line-down',
+  'ctrl-up': 'editor:move-line-up',
+  'ctrl-a': 'tree-view:toggle'
+  'ctrl-u': 'editor:delete-line'
+  'cmd-.': 'custom:inline-comment'
+  'home': 'editor:fold-current-row',
+  'end': 'editor:unfold-current-row'
+  'alt-left': 'editor:move-to-previous-subword-boundary'
+  'alt-right': 'editor:move-to-next-subword-boundary'
+  'alt-shift-left': 'editor:select-to-previous-subword-boundary'
+  'alt-shift-right': 'editor:select-to-next-subword-boundary'
+
+'atom-text-editor:not([mini])':
+  'alt-up': 'keyboard-scroll:scrollUpWithCursor'
+  'alt-down': 'keyboard-scroll:scrollDownWithCursor'
+  'pageup': 'keyboard-scroll:scrollUp'
+  'pagedown': 'keyboard-scroll:scrollDown'
+  'alt-shift-down': 'editor:select-smaller-syntax-node'
+  'alt-shift-up': 'editor:select-larger-syntax-node'
+
+
+'.workspace':
+  'ctrl-s': 'github:toggle-git-tab'

@@ -1,0 +1,117 @@
+"*":
+  "atom-ide-typescript":
+    returnTypeInAutocomplete: "right"
+    typeScriptServer: {}
+  "auto-dark-mode":
+    notifyOnChange: false
+  "autocomplete-plus":
+    confirmCompletion: "tab"
+    enableAutoConfirmSingleSuggestion: false
+    enableExtendedUnicodeSupport: true
+    includeCompletionsFromAllBuffers: false
+    similarSuggestionRemoval: "textOrSnippet"
+    strictMatching: true
+  "bracket-matcher":
+    highlightMatchingLineNumber: true
+  core:
+    closeDeletedFileTabs: true
+    closeEmptyWindows: false
+    disabledPackages: [
+      "welcome"
+      "background-tips"
+      "bookmarks"
+      "styleguide"
+    ]
+    followSymlinks: false
+    ignoredNames: [
+      ".git"
+      ".hg"
+      ".svn"
+      ".DS_Store"
+      "._*"
+      "Thumbs.db"
+      "desktop.ini"
+      "node_modules"
+      "package-lock.json"
+      ".vercel"
+      ".nuxt"
+      ".eslintcache"
+    ]
+    openEmptyEditorOnStart: false
+    packagesWithKeymapsDisabled: [
+      "keybinding-resolver"
+      "prettier-atom"
+      "highlight-selected"
+    ]
+    packagesWithSnippetsDisabled: [
+      "language-javascript"
+      "language-todo"
+    ]
+    reopenProjectMenuCount: 3
+    restorePreviousWindowsOnStart: "always"
+    telemetryConsent: "limited"
+    themes: [
+      "one-light-ui"
+      "one-light-syntax"
+    ]
+    uriHandlerRegistration: "always"
+  editor:
+    autoIndentOnPaste: false
+    fontFamily: "SFMono-Semibold, Menlo, Consolas, DejaVu Sans Mono, monospace"
+    fontSize: 14
+    lineHeight: 1.8
+    scrollPastEnd: true
+    showIndentGuide: true
+  "exception-reporting":
+    userId: "2e723bfe-8436-4abf-bfea-d68d01f836d5"
+  "fuzzy-finder":
+    scoringSystem: "alternate"
+  "highlight-selected":
+    hideHighlightOnSelectedWord: true
+    highlightBackground: true
+    lightTheme: true
+  "keyboard-scroll":
+    animationDuration: 0
+  linter:
+    lintOnChange: false
+  "linter-eslint":
+    advanced: {}
+    autofix:
+      fixOnSave: true
+    disabling: {}
+    lintHtmlFiles: true
+  "linter-stylelint":
+    disableWhenNoConfig: false
+    showIgnored: true
+    useStandard: true
+  "linter-ui-default":
+    alwaysTakeMinimumSpace: true
+    decorateOnTreeView: "None"
+    statusBarClickBehavior: "Jump to next issue"
+    statusBarRepresents: "Current File"
+  "markdown-preview":
+    breakOnSingleNewline: true
+  "one-dark-ui":
+    hideDockButtons: true
+    stickyHeaders: true
+    tabSizing: "Maximum"
+  "one-light-ui":
+    hideDockButtons: true
+    stickyHeaders: true
+    tabSizing: "Maximum"
+  "prettier-atom":
+    formatOnSaveOptions:
+      enabled: true
+    prettierEslintOptions: {}
+    useEditorConfig: false
+  tabs:
+    addNewTabsAtEnd: true
+    enableVcsColoring: true
+    showIcons: false
+  "tree-view":
+    alwaysOpenExisting: true
+    autoReveal: true
+    hideIgnoredNames: true
+    squashDirectoryNames: true
+  welcome:
+    showOnStartup: false
