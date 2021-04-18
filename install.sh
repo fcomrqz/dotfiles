@@ -210,3 +210,6 @@ echo '  Kindle: Ebook Reader'
 mas install 497799835 > /dev/null 2>&1
 echo '  Xcode: Integrated Development Environment for Apple Products'
 
+mas install 441258766 > /dev/null 2>&1
+echo '  Magnet: Window Manager'
+
