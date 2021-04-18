@@ -9,3 +9,8 @@ export POSTMARK_ACCOUNT_TOKEN=$POSTMARK_ACCOUNT_TOKEN
 export POSTMARK_SERVER_TOKEN=$POSTMARK_SERVER_TOKEN
 sudo -v
 
+echo ''
+printf "\033[1;34m[brew]: Installing Packages\033[0m\n"
+curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash -s arg1 arg2  > /dev/null 2>&1
+echo '  Homebrew: macOS Package Manager'
+
