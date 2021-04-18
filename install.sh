@@ -148,3 +148,8 @@ echo '    fcomrqz/atom-ide-vue: A hackable text editor for the 21st Century'
 apm i fcomrqz/atom-language-vue > /dev/null 2>&1
 echo '    fcomrqz/atom-language-vue: A hackable text editor for the 21st Century'
 
+brew install --cask insomnia > /dev/null 2>&1
+cp ~/dotfiles/icons/Insomnia.icns /Applications/Insomnia.app/Contents/Resources/Insomnia.icns
+touch /Applications/Insomnia.app
+echo '  Insomnia: The Collaborative API Client and Design Tool'
+
