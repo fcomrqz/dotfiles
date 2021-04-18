@@ -156,3 +156,8 @@ echo '  Insomnia: The Collaborative API Client and Design Tool'
 brew install --cask google-analytics-opt-out > /dev/null 2>&1
 echo '  Google Analytics Opt Out: Hide your traffic from Google Analytics'
 
+brew install --cask mongodb-compass > /dev/null 2>&1
+cp ~/dotfiles/icons/MongoDB.icns /Applications/MongoDB\ Compass.app/Contents/Resources/electron.icns
+touch /Applications/MongoDB\ Compass.app
+echo '  MongoDB Compass: The GUI for MongoDB'
+
