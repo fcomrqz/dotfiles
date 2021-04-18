@@ -153,3 +153,6 @@ cp ~/dotfiles/icons/Insomnia.icns /Applications/Insomnia.app/Contents/Resources/
 touch /Applications/Insomnia.app
 echo '  Insomnia: The Collaborative API Client and Design Tool'
 
+brew install --cask google-analytics-opt-out > /dev/null 2>&1
+echo '  Google Analytics Opt Out: Hide your traffic from Google Analytics'
+
