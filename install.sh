@@ -167,3 +167,6 @@ echo '  Loopback: Cable-Free Audio Routing'
 brew install --cask dash > /dev/null 2>&1
 echo '  Dash: Offline Software Documentation'
 
+brew install --cask tunnelbear > /dev/null 2>&1
+echo '  TunnelBear: Take back your online privacy with TunnelBear VPN'
+
