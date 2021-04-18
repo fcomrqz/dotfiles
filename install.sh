@@ -161,3 +161,6 @@ cp ~/dotfiles/icons/MongoDB.icns /Applications/MongoDB\ Compass.app/Contents/Res
 touch /Applications/MongoDB\ Compass.app
 echo '  MongoDB Compass: The GUI for MongoDB'
 
+brew install --cask loopback > /dev/null 2>&1
+echo '  Loopback: Cable-Free Audio Routing'
+
