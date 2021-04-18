@@ -48,3 +48,6 @@ brew install node@14 > /dev/null 2>&1
 brew link node@14 > /dev/null 2>&1
 echo "  node v14: A JavaScript runtime built on Chrome's V8 JavaScript engine"
 
+brew install dog > /dev/null 2>&1
+echo '  dog: DNS client'
+
