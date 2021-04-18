@@ -38,3 +38,6 @@ brew install bat > /dev/null 2>&1
 ln -sF ~/dotfiles/bat/.batrc ~/.config/bat/.batrc
 echo '  bat: A cat clone with syntax highlighting and Git integration'
 
+brew install cloc > /dev/null 2>&1
+echo '  cloc: Count Lines of Code'
+
