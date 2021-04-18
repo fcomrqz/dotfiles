@@ -213,3 +213,6 @@ echo '  Xcode: Integrated Development Environment for Apple Products'
 mas install 441258766 > /dev/null 2>&1
 echo '  Magnet: Window Manager'
 
+mas install 1482454543 > /dev/null 2>&1
+echo "  Twitter: It's what's happening"
+echo ''
