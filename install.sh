@@ -85,3 +85,6 @@ echo '  trash: tool that moves files or folder to the trash'
 brew install tree > /dev/null 2>&1
 echo '  tree: Display directories as trees'
 
+brew install universal-ctags > /dev/null 2>&1
+echo '  universal-ctags: A maintained implementation of ctags'
+
