@@ -72,3 +72,6 @@ echo '  httpie: HTTP client for the API era'
 brew install mas > /dev/null 2>&1
 echo '  mas: AppStore CLI'
 
+brew install mongodb-community > /dev/null 2>&1
+echo '  mongodb-community: MongoDB server and tools'
+
