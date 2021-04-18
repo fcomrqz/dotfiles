@@ -192,3 +192,9 @@ echo '  postmark-cli: Reliable delivery for your application emails'
 npm i -g vercel > /dev/null 2>&1
 echo '  vercel: Develop. Preview. Ship.'
 
+echo ''
+printf "\033[1;34m[mas]: Installing apps from AppStore\033[0m\n"
+
+mas install 904280696 > /dev/null 2>&1
+echo '  Things: To-do list'
+
