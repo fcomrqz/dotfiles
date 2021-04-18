@@ -82,3 +82,6 @@ echo '  starship: The minimal, blazing-fast, and infinitely customizable prompt 
 brew install trash > /dev/null 2>&1
 echo '  trash: tool that moves files or folder to the trash'
 
+brew install tree > /dev/null 2>&1
+echo '  tree: Display directories as trees'
+
