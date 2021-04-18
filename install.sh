@@ -69,3 +69,6 @@ echo '  htop: An interactive process viewer'
 brew install httpie > /dev/null 2>&1
 echo '  httpie: HTTP client for the API era'
 
+brew install mas > /dev/null 2>&1
+echo '  mas: AppStore CLI'
+
