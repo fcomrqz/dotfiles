@@ -102,3 +102,49 @@ echo "  Firefox: Mozillaz' Web Browser"
 brew install --cask maccy > /dev/null 2>&1
 echo '  Maccy: Clipboard manager'
 
+brew install --cask atom > /dev/null 2>&1
+echo '  Atom: A hackable text editor for the 21st Century'
+ln -sF ~/dotfiles/atom/config.cson ~/.atom/config.cson
+ln -sF ~/dotfiles/atom/init.coffee ~/.atom/init.coffee
+ln -sF ~/dotfiles/atom/keymap.cson ~/.atom/keymap.cson
+ln -sF ~/dotfiles/atom/snippets.cson ~/.atom/snippets.cson
+ln -sF ~/dotfiles/atom/styles.less ~/.atom/styles.less
+cp ~/dotfiles/atom/atom.icns /Applications/Atom.app/Contents/Resources/atom.icns
+touch /Applications/Atom.app
+echo '  [dotfiles]: Atom Linked'
+echo '  [apm]: Installing Atom Packages'
+apm i atom-quokka > /dev/null 2>&1
+echo '    atom-quokka: A hackable text editor for the 21st Century'
+apm i atom-wallaby > /dev/null 2>&1
+echo '    atom-wallaby: A hackable text editor for the 21st Century'
+apm i auto-dark-mode > /dev/null 2>&1
+echo '    auto-dark-mode: A hackable text editor for the 21st Century'
+apm i busy-signal > /dev/null 2>&1
+echo '    busy-signal: A hackable text editor for the 21st Century'
+apm i highlight-selected > /dev/null 2>&1
+echo '    highlight-selected: A hackable text editor for the 21st Century'
+apm i intentions > /dev/null 2>&1
+echo '    intentions: A hackable text editor for the 21st Century'
+apm i keyboard-scroll > /dev/null 2>&1
+echo '    keyboard-scroll: A hackable text editor for the 21st Century'
+apm i language-fish-shell > /dev/null 2>&1
+echo '    language-fish-shell: A hackable text editor for the 21st Century'
+apm i linter > /dev/null 2>&1
+echo '    linter: A hackable text editor for the 21st Century'
+apm i linter-eslint > /dev/null 2>&1
+echo '    linter-eslint: A hackable text editor for the 21st Century'
+apm i linter-ui-default > /dev/null 2>&1
+echo '    linter-ui-default: A hackable text editor for the 21st Century'
+apm i prettier-atom > /dev/null 2>&1
+echo '    prettier-atom: A hackable text editor for the 21st Century'
+ln -sF ~/dotfiles/prettier/.prettierrc ~/.prettierrc
+echo '    [dotfiles]: Prettier Linked'
+apm i smart-tags > /dev/null 2>&1
+echo '    smart-tags: A hackable text editor for the 21st Century'
+apm i fcomrqz/atom-ide-typescript > /dev/null 2>&1
+echo '    fcomrqz/atom-ide-typescript: A hackable text editor for the 21st Century'
+apm i fcomrqz/atom-ide-vue > /dev/null 2>&1
+echo '    fcomrqz/atom-ide-vue: A hackable text editor for the 21st Century'
+apm i fcomrqz/atom-language-vue > /dev/null 2>&1
+echo '    fcomrqz/atom-language-vue: A hackable text editor for the 21st Century'
+
