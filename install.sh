@@ -66,3 +66,6 @@ brew install htop > /dev/null 2>&1
 ln -sF ~/dotfiles/htop/htoprc ~/.config/htop/htoprc
 echo '  htop: An interactive process viewer'
 
+brew install httpie > /dev/null 2>&1
+echo '  httpie: HTTP client for the API era'
+
