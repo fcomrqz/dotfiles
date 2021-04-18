@@ -14,3 +14,23 @@ printf "\033[1;34m[brew]: Installing Packages\033[0m\n"
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash -s arg1 arg2  > /dev/null 2>&1
 echo '  Homebrew: macOS Package Manager'
 
+brew install fish > /dev/null 2>&1
+echo '  Fish Shell: Finally, a command line shell for the 90s'
+
+ln -sF ~/dotfiles/shells/fish/functions ~/.config/fish/functions
+ln -sF ~/dotfiles/shells/fish/config.fish ~/.config/fish/config.fish
+ln -sF ~/dotfiles/shells/.bashrc ~/.bashrc
+ln -sF ~/dotfiles/shells/.zshrc ~/.zshrc
+echo '    [dotfiles]: Shells are linked'
+
+sudo sh -c "echo $(which fish) >> /etc/shells"
+
+chsh -s /usr/local/bin/fish
+echo '    [sudo]: Fish shell is the default shell'
+
+# Add ~/.hushlogin to remove the last login message when you open Terminal.app
+touch ~/.hushlogin
+
+fish ~/dotfiles/tokens.fish
+echo '    [fish]: Tokens are exported'
+
