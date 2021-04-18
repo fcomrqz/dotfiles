@@ -170,3 +170,6 @@ echo '  Dash: Offline Software Documentation'
 brew install --cask tunnelbear > /dev/null 2>&1
 echo '  TunnelBear: Take back your online privacy with TunnelBear VPN'
 
+brew install --cask adobe-creative-cloud > /dev/null 2>&1
+echo '  Adobe Creative Cloud: Adobe App Manager'
+
