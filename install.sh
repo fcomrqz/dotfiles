@@ -54,3 +54,7 @@ echo '  dog: DNS client'
 brew install fd > /dev/null 2>&1
 echo '  fd: A simple, fast and user-friendly alternative to find'
 
+brew install git > /dev/null 2>&1
+ln -sF ~/dotfiles/git/.gitconfig ~/.gitconfig
+echo '  git: The stupid content tracker'
+
