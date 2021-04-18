@@ -178,3 +178,17 @@ cp ~/dotfiles/icons/Android\ Studio.icns /Applications/Android\ Studio.app/Conte
 touch /Applications/Android\ Studio.app
 echo '  Android Studio:  Integrated Development Environment for Android'
 
+echo ''
+printf "\033[1;34m[npm]: Installing Global Node Packages\033[0m\n"
+npm i -g npm@latest > /dev/null 2>&1
+ln -sF ~/dotfiles/npm/.npmrc ~/.npmrc
+
+npm i -g npm-check-updates > /dev/null 2>&1
+echo '  ncu: npm check updates'
+
+npm i -g postmark-cli > /dev/null 2>&1
+echo '  postmark-cli: Reliable delivery for your application emails'
+
+npm i -g vercel > /dev/null 2>&1
+echo '  vercel: Develop. Preview. Ship.'
+
