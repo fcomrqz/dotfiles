@@ -75,3 +75,7 @@ echo '  mas: AppStore CLI'
 brew install mongodb-community > /dev/null 2>&1
 echo '  mongodb-community: MongoDB server and tools'
 
+brew install starship > /dev/null 2>&1
+ln -sF ~/dotfiles/starship/starship.toml ~/.config/starship.toml
+echo '  starship: The minimal, blazing-fast, and infinitely customizable prompt for any shell'
+
