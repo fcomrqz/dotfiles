@@ -79,3 +79,6 @@ brew install starship > /dev/null 2>&1
 ln -sF ~/dotfiles/starship/starship.toml ~/.config/starship.toml
 echo '  starship: The minimal, blazing-fast, and infinitely customizable prompt for any shell'
 
+brew install trash > /dev/null 2>&1
+echo '  trash: tool that moves files or folder to the trash'
+
