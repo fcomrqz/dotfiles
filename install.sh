@@ -94,3 +94,8 @@ printf "\033[1;34m[brew]: Installing Desktop Apps\033[0m\n"
 brew install --cask google-chrome > /dev/null 2>&1
 echo "  Google Chrome: Google's Web Browser"
 
+brew install --cask firefox > /dev/null 2>&1
+cp ~/dotfiles/icons/firefox.icns /Applications/Firefox.app/Contents/Resources/firefox.icns
+touch /Applications/Firefox.app
+echo "  Firefox: Mozillaz' Web Browser"
+
