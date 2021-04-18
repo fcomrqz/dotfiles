@@ -62,3 +62,7 @@ brew install gh > /dev/null 2>&1
 ln -sF ~/dotfiles/gh/config.yml ~/.config/gh/config.yml
 echo '  gh: GitHub CLI'
 
+brew install htop > /dev/null 2>&1
+ln -sF ~/dotfiles/htop/htoprc ~/.config/htop/htoprc
+echo '  htop: An interactive process viewer'
+
