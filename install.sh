@@ -173,3 +173,8 @@ echo '  TunnelBear: Take back your online privacy with TunnelBear VPN'
 brew install --cask adobe-creative-cloud > /dev/null 2>&1
 echo '  Adobe Creative Cloud: Adobe App Manager'
 
+brew install --cask android-studio > /dev/null 2>&1
+cp ~/dotfiles/icons/Android\ Studio.icns /Applications/Android\ Studio.app/Contents/Resources/studio.icns
+touch /Applications/Android\ Studio.app
+echo '  Android Studio:  Integrated Development Environment for Android'
+
