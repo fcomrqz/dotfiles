@@ -177,9 +177,6 @@ ln -sF ~/dotfiles/npm/.npmrc ~/.npmrc
 npm i -g npm-check-updates > /dev/null 2>&1
 echo '  ncu: npm check updates'
 
-npm i -g postmark-cli > /dev/null 2>&1
-echo '  postmark-cli: Reliable delivery for your application emails'
-
 npm i -g vercel > /dev/null 2>&1
 echo '  vercel: Develop. Preview. Ship.'
 
