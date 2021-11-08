@@ -127,8 +127,6 @@ apm i auto-dark-mode > /dev/null 2>&1
 echo '    auto-dark-mode: A hackable text editor for the 21st Century'
 apm i busy-signal > /dev/null 2>&1
 echo '    busy-signal: A hackable text editor for the 21st Century'
-apm i highlight-selected > /dev/null 2>&1
-echo '    highlight-selected: A hackable text editor for the 21st Century'
 apm i intentions > /dev/null 2>&1
 echo '    intentions: A hackable text editor for the 21st Century'
 apm i keyboard-scroll > /dev/null 2>&1
