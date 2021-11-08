@@ -80,7 +80,13 @@ brew install mas > /dev/null 2>&1
 echo '  mas: AppStore CLI'
 
 brew install mongodb-community > /dev/null 2>&1
-echo '  mongodb-community: MongoDB server and tools'
+echo '  mongodb-community: MongoDB server'
+
+brew install mongodb-database-tools > /dev/null 2>&1
+echo '  mongodb-database-tools: MongoDB tools'
+
+brew install mongosh > /dev/null 2>&1
+echo '  mongosh: MongoDB Shell'
 
 brew install starship > /dev/null 2>&1
 ln -sF ~/dotfiles/starship/starship.toml ~/.config/starship.toml
