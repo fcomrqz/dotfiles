@@ -3,3 +3,37 @@
 [user]
 	name = Fran
 	email = fcomrqz@users.noreply.github.com
+[pager]
+  diff = delta
+  log = delta
+	reflog = delta
+	show = delta
+[delta]
+	commit-style = raw
+  file-style = yellow
+	file-decoration-style = omit
+	file-added-label = [+]
+	file-copied-label = [==]
+	file-modified-label = [*]
+	file-removed-label = [-]
+	file-renamed-label = [->]
+  hunk-header-style = file line-number syntax
+	hunk-header-file-style = yellow
+	hunk-header-decoration-style = omit
+	zero-style = syntax
+	minus-style = red 224
+	minus-emph-style = red 224
+	plus-style = 28 194
+	plus-emph-style = 28 194
+  # minus-non-emph-style = red 224
+  # minus-empty-line-marker-style = red 224
+  # plus-non-emph-style = syntax 194
+	# plus-empty-line-marker-style = purple purple
+  # hyperlinks = true
+  # inspect-raw-lines = true
+  line-numbers = true
+	line-numbers-minus-style = brightred bold
+  line-numbers-plus-style = brightgreen bold
+	line-numbers-right-format = "{np:^4} "
+	line-numbers-left-format = "{nm:^4} "
+	tabs = 2
