@@ -5,7 +5,7 @@ export GITHUB_TOKEN=$GITHUB_TOKEN
 sudo -v
 
 echo ''
-printf "\033[1;34m[brew]: Installing Packages\033[0m\n"
+echo '[brew]: Installing Packages'
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash -s arg1 arg2  > /dev/null 2>&1
 echo '  Homebrew: macOS Package Manager'
 
@@ -32,6 +32,9 @@ echo '    [fish]: Tokens are exported'
 brew install bat > /dev/null 2>&1
 ln -sF ~/dotfiles/bat/.batrc ~/.config/bat/.batrc
 echo '  bat: A cat clone with syntax highlighting and Git integration'
+
+brew install screen > /dev/null 2>&1
+echo '  screen: screen manager with VT100/ANSI terminal emulation'
 
 brew install cloc > /dev/null 2>&1
 echo '  cloc: Count Lines of Code'
