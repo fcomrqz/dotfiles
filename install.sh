@@ -16,7 +16,7 @@ ln -sF ~/dotfiles/shells/fish/functions ~/.config/fish/functions
 ln -sF ~/dotfiles/shells/fish/config.fish ~/.config/fish/config.fish
 ln -sF ~/dotfiles/shells/.bashrc ~/.bashrc
 ln -sF ~/dotfiles/shells/.zshrc ~/.zshrc
-echo '    [dotfiles]: Shells are linked'
+echo '    [dotfiles]: Shells linked'
 
 sudo sh -c "echo $(which fish) >> /etc/shells"
 
@@ -102,7 +102,7 @@ brew install universal-ctags > /dev/null 2>&1
 echo '  universal-ctags: A maintained implementation of ctags'
 
 echo ''
-printf "\033[1;34m[brew]: Installing Desktop Apps\033[0m\n"
+echo ' [brew]: Installing Desktop Apps'
 
 brew install --cask google-chrome > /dev/null 2>&1
 echo "  Google Chrome: Google's Web Browser"
@@ -179,8 +179,9 @@ brew install --cask android-studio > /dev/null 2>&1
 echo '  Android Studio:  Integrated Development Environment for Android'
 
 echo ''
-printf "\033[1;34m[npm]: Installing Global Node Packages\033[0m\n"
+echo '[npm]: Installing Global Node Packages'
 npm i -g npm@latest > /dev/null 2>&1
+echo 'npm: link dotfile'
 ln -sF ~/dotfiles/npm/.npmrc ~/.npmrc
 
 npm i -g npm-check-updates > /dev/null 2>&1
@@ -193,11 +194,14 @@ npm i -g vercel > /dev/null 2>&1
 echo '  vercel: Develop. Preview. Ship.'
 
 echo ''
-printf "\033[1;34m[mas]: Installing apps from AppStore\033[0m\n"
+echo '[mas]: Installing apps from AppStore'
 
 mas install 904280696 > /dev/null 2>&1
 echo '  Things: To-do list'
 
+mas install 1482454543 > /dev/null 2>&1
+echo "  Twitter: It's what's happening"
+echo ''
 
 mas install 409203825 > /dev/null 2>&1
 echo "  Numbers: Apple's Spreadsheets"
@@ -208,6 +212,3 @@ echo '  Kindle: Ebook Reader'
 mas install 497799835 > /dev/null 2>&1
 echo '  Xcode: Integrated Development Environment for Apple Products'
 
-mas install 1482454543 > /dev/null 2>&1
-echo "  Twitter: It's what's happening"
-echo ''
