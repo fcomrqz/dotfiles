@@ -55,6 +55,9 @@ echo '  fd: A simple, fast and user-friendly alternative to find'
 brew install ripgrep > /dev/null 2>&1
 echo '  ripgrep: Better grep'
 
+brew install rename > /dev/null 2>&1
+echo '  rename: Rename multiple files'
+
 brew install git > /dev/null 2>&1
 ln -sF ~/dotfiles/git/.gitconfig ~/.gitconfig
 echo '  git: The stupid content tracker'
