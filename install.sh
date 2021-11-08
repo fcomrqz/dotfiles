@@ -104,9 +104,6 @@ echo "  Google Chrome: Google's Web Browser"
 brew install --cask firefox > /dev/null 2>&1
 echo "  Firefox: Mozillaz' Web Browser"
 
-brew install --cask maccy > /dev/null 2>&1
-echo '  Maccy: Clipboard manager'
-
 brew install --cask atom > /dev/null 2>&1
 echo '  Atom: A hackable text editor for the 21st Century'
 ln -sF ~/dotfiles/atom/config.cson ~/.atom/config.cson
@@ -163,6 +160,9 @@ echo '  MongoDB Compass: The GUI for MongoDB'
 brew install --cask loopback > /dev/null 2>&1
 echo '  Loopback: Cable-Free Audio Routing'
 
+brew install --cask raycast > /dev/null 2>&1
+echo '  Raycast: Better Spotlight'
+
 brew install --cask dash > /dev/null 2>&1
 echo '  Dash: Offline Software Documentation'
 
@@ -204,9 +204,6 @@ echo '  Kindle: Ebook Reader'
 
 mas install 497799835 > /dev/null 2>&1
 echo '  Xcode: Integrated Development Environment for Apple Products'
-
-mas install 441258766 > /dev/null 2>&1
-echo '  Magnet: Window Manager'
 
 mas install 1482454543 > /dev/null 2>&1
 echo "  Twitter: It's what's happening"
