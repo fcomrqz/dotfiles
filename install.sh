@@ -155,8 +155,6 @@ echo '    fcomrqz/atom-language-vue: A hackable text editor for the 21st Century
 brew install --cask google-analytics-opt-out > /dev/null 2>&1
 echo '  Google Analytics Opt Out: Hide your traffic from Google Analytics'
 
-brew install --cask mongodb-compass > /dev/null 2>&1
-echo '  MongoDB Compass: The GUI for MongoDB'
 
 brew install --cask loopback > /dev/null 2>&1
 echo '  Loopback: Cable-Free Audio Routing'
