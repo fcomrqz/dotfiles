@@ -1,23 +1,56 @@
+format = """
+$directory$package$git_state$git_branch$git_commit$cmd_duration
+$git_status$jobs$character
+"""
+
 [character]
-success_symbol = '[›](bold green)'
-error_symbol = '[✗](bold red)'
+  success_symbol = '[➜](bold green)'
+  error_symbol = '[✗](bold red)'
+
 [git_status]
-disabled = true
+  format = '([$stashed](bold cyan))([$modified](bold yellow))([$untracked](bold green))([$deleted](bold red))([$staged](bold cyan))([$conflicted](bold red))'
+  conflicted = '▸◂ '
+  ahead	= '↑ '
+  behind = '↓'
+  diverged = '◂▸ '
+  up_to_date = '✔︎ '
+  stashed	= '⚬ '
+  modified = '* '
+  untracked	= '+ '
+  deleted	= '− '
+  staged = '• '
+
+[git_commit]
+  format = '[$hash](bright-green)(:[$tag](bright-purple)) '
+  commit_hash_length = 7
+  only_detached = false
+  tag_disabled = false
+  tag_symbol = ''
+
+
+[git_state]
+  format = '$state( [$progress_current:$progress_total](bold yellow)) '
+  rebase = "[rebasing](bold cyan)"
+  merge = "[merging](bold yellow)"
+  cherry_pick = "[pick](bold red)"
+
 [git_branch]
-symbol = ''
-style = 'bold bright-purple'
+  format = '[$branch](bold bright-purple):'
+  only_attached = true
+
 [package]
-symbol = ''
-style = 'bold blue'
+  format = '[$version](bold blue) '
+
 [jobs]
-format='[$symbol](bold red) '
-symbol='•'
+  format='[$number](bold purple) '
+  number_threshold = 1
+
 [directory]
-style = 'bold bright-yellow'
-[nodejs]
-symbol = ''
+  format = '[$path]($style)[$read_only]($read_only_style) '
+  style = 'bold bright-yellow'
+
 [battery]
-full_symbol = ''
-charging_symbol = ''
-discharging_symbol = ''
-empty_symbol = ''
+  full_symbol = ''
+  charging_symbol = ''
+  discharging_symbol = ''
+  empty_symbol = ''
