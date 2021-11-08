@@ -195,8 +195,6 @@ printf "\033[1;34m[mas]: Installing apps from AppStore\033[0m\n"
 mas install 904280696 > /dev/null 2>&1
 echo '  Things: To-do list'
 
-mas install 1448916662 > /dev/null 2>&1
-echo '  Step Two: A beautiful, modern two-step verification app'
 
 mas install 409203825 > /dev/null 2>&1
 echo "  Numbers: Apple's Spreadsheets"
