@@ -95,8 +95,6 @@ brew install --cask google-chrome > /dev/null 2>&1
 echo "  Google Chrome: Google's Web Browser"
 
 brew install --cask firefox > /dev/null 2>&1
-cp ~/dotfiles/icons/firefox.icns /Applications/Firefox.app/Contents/Resources/firefox.icns
-touch /Applications/Firefox.app
 echo "  Firefox: Mozillaz' Web Browser"
 
 brew install --cask maccy > /dev/null 2>&1
@@ -109,8 +107,6 @@ ln -sF ~/dotfiles/atom/init.coffee ~/.atom/init.coffee
 ln -sF ~/dotfiles/atom/keymap.cson ~/.atom/keymap.cson
 ln -sF ~/dotfiles/atom/snippets.cson ~/.atom/snippets.cson
 ln -sF ~/dotfiles/atom/styles.less ~/.atom/styles.less
-cp ~/dotfiles/atom/atom.icns /Applications/Atom.app/Contents/Resources/atom.icns
-touch /Applications/Atom.app
 echo '  [dotfiles]: Atom Linked'
 echo '  [apm]: Installing Atom Packages'
 apm i atom-quokka > /dev/null 2>&1
@@ -149,16 +145,12 @@ apm i fcomrqz/atom-language-vue > /dev/null 2>&1
 echo '    fcomrqz/atom-language-vue: A hackable text editor for the 21st Century'
 
 brew install --cask insomnia > /dev/null 2>&1
-cp ~/dotfiles/icons/Insomnia.icns /Applications/Insomnia.app/Contents/Resources/Insomnia.icns
-touch /Applications/Insomnia.app
 echo '  Insomnia: The Collaborative API Client and Design Tool'
 
 brew install --cask google-analytics-opt-out > /dev/null 2>&1
 echo '  Google Analytics Opt Out: Hide your traffic from Google Analytics'
 
 brew install --cask mongodb-compass > /dev/null 2>&1
-cp ~/dotfiles/icons/MongoDB.icns /Applications/MongoDB\ Compass.app/Contents/Resources/electron.icns
-touch /Applications/MongoDB\ Compass.app
 echo '  MongoDB Compass: The GUI for MongoDB'
 
 brew install --cask loopback > /dev/null 2>&1
@@ -174,8 +166,6 @@ brew install --cask adobe-creative-cloud > /dev/null 2>&1
 echo '  Adobe Creative Cloud: Adobe App Manager'
 
 brew install --cask android-studio > /dev/null 2>&1
-cp ~/dotfiles/icons/Android\ Studio.icns /Applications/Android\ Studio.app/Contents/Resources/studio.icns
-touch /Applications/Android\ Studio.app
 echo '  Android Studio:  Integrated Development Environment for Android'
 
 echo ''
