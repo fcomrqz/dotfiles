@@ -22,7 +22,7 @@ _Internet speed will determine how long takes._
    1. Finish the setup assistant process.
 
 2. Run the next command in your terminal to download this repo, install [all the apps I use](https://fcomrqz.com/tools#macOS) and setup my preferences.
-   _You will be asked for your GitHub token, Postmark tokens, and macOS login password._
+   _You will be asked for your GitHub token and macOS login password._
 
 ```sh
 git clone https://github.com/fcomrqz/dotfiles && cd dotfiles && bash install.sh
