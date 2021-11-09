@@ -187,6 +187,9 @@ echo '  vercel: Develop. Preview. Ship.'
 echo ''
 echo '[mas]: Installing apps from AppStore'
 
+mas install 1480933944 > /dev/null 2>&1
+echo '  Vimari: Add Vim keybindings to Safari'
+
 mas install 904280696 > /dev/null 2>&1
 echo '  Things: To-do list'
 
