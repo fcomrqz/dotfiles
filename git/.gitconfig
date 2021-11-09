@@ -5,6 +5,10 @@
 	email = fcomrqz@users.noreply.github.com
 [core]
 	editor = atom --wait
+[blame]
+	date = relative
+[format]
+	pretty = %C(brightgreen)%h%Creset %s %C(brightblue)%cr%Creset%C(brightmagenta)%d%Creset
 [pager]
   diff = delta
   log = delta
