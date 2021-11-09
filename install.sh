@@ -167,7 +167,7 @@ echo '  Android Studio:  Integrated Development Environment for Android'
 
 echo ''
 echo '[npm]: Installing Global Node Packages'
-npm i -g npm@latest > /dev/null 2>&1
+npm i -g npm@latest --force > /dev/null 2>&1
 echo 'npm: link dotfile'
 ln -sF ~/dotfiles/npm/.npmrc ~/.npmrc
 
