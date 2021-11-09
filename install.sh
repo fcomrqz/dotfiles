@@ -50,9 +50,6 @@ echo "  node v14: A JavaScript runtime built on Chrome's V8 JavaScript engine"
 brew install dog > /dev/null 2>&1
 echo '  dog: DNS client'
 
-brew install fd > /dev/null 2>&1
-echo '  fd: A simple, fast and user-friendly alternative to find'
-
 brew install ripgrep > /dev/null 2>&1
 echo '  ripgrep: Better grep'
 
