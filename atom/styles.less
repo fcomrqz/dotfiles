@@ -1,5 +1,7 @@
 @import 'syntax-variables';
-// Hidden elements
+@import 'colors';
+
+// Hide elements
 atom-pane.pane .tab.active::before,
 atom-text-editor .gutter[gutter-name='linter-ui-default'],
 status-bar .current-path,
@@ -7,10 +9,11 @@ status-bar .file-info,
 status-bar .cursor-position,
 status-bar .line-ending-tile,
 status-bar .encoding-status,
-status-bar .grammar-status,
 status-bar .github-StatusBarTile,
 status-bar .github-ChangedFilesCount,
-.suggestion-description {
+.suggestion-description,
+.icon-git-branch,
+.github-PushPull-icon {
   display: none !important;
 }
 
@@ -79,56 +82,66 @@ atom-text-editor.editor .linter-highlight.linter-warning {
 }
 
 // Tree view
-.item-views .outline-view li {
-  display: flex;
-  flex-direction: column;
-}
-
-.item-views .outline-view li > span {
-  display: flex;
-  align-items: center;
-}
-
-.item-views .outline-view li[cursoron] {
-  background-color: inherit;
-}
-
-.item-views .outline-view li[cursoron] > span {
-  background-color: @background-color-highlight;
-}
-
 // Tree view: Remove icons
 .list-item > .icon::before {
   display: none;
 }
 
-// Tree view: Remove file icon space
-.list-tree.has-collapsable-children li.list-item {
-  margin-left: 0;
-}
-
-// Tree view: Row height
-.list-item.project-root-header,
-.list-item.project-root-header::before {
+// Tree view: Center icon
+.path-row {
   display: flex;
   align-items: center;
-  line-height: 27px !important;
 }
 
-.list-item > .name,
-.list-group .selected::before,
-.list-tree .selected::before,
-.list-item::before {
-  font-family: var(--editor-font-family);
-  line-height: 26px !important;
+.tree-view .project-root-header {
+  border: none !important;
   height: 26px !important;
 }
 
+.list-item {
+  font-family: var(--editor-font-family);
+  line-height: 26px !important;
+}
+
+.list-group .selected::before,
+.list-tree .selected::before {
+  height: 26px !important;
+}
+
+.list-tree.has-collapsable-children .list-nested-item > .list-tree > li,
+.list-tree.has-collapsable-children .list-nested-item > .list-group > li {
+  padding-left: 15px;
+}
+
+.list-tree.has-collapsable-children li.list-item {
+  margin-left: 15px;
+}
+
+.list-tree.has-collapsable-children .list-nested-item > .list-item::before {
+  margin-right: 3px;
+}
+
+// Find Project
+.preview-pane .results-view .context-row,
+.preview-pane .results-view .match-row {
+  box-shadow: none;
+}
+
 // Status Bar
+.status-bar,
+.status-bar-left,
+.status-bar-right {
+  display: flex;
+  align-items: center;
+}
+
+.status-bar .flexbox-repaint-hack {
+  align-items: center;
+}
+
 .title,
 .github-StatusBarTileController,
 .selection-count,
-.highlight-selected-status,
 .status-bar-right a,
 .status-bar-left a,
 .quokka-panel-view-container,
@@ -141,20 +154,27 @@ atom-text-editor.editor .linter-highlight.linter-warning {
   padding: 0 !important;
 }
 
-.linter-status-count a:nth-child(1) {
-  text-align: center;
-  padding-left: 10px;
-  padding-right: 10px;
+.linter-status-count a {
+  padding-top: 0;
+  padding-left: 8px;
+  padding-right: 6px;
 }
 
 .linter-status-count a:nth-child(1)::before {
   content: '✖︎';
-  margin-right: 2px;
 }
 
-.linter-status-count a:nth-child(2),
-.linter-status-count a:nth-child(3) {
-  display: none;
+.linter-status-count a:nth-child(2)::before {
+  content: '▲';
+}
+
+.linter-status-count a:nth-child(3)::before {
+  content: '◆';
+  font-size: 16px;
+}
+
+.github-StatusBarTileController {
+  display: block;
 }
 
 // Bracket Matcher
@@ -163,31 +183,63 @@ atom-text-editor .bracket-matcher .region {
 }
 
 // Panels
-
 atom-panel-container.bottom > atom-panel.bottom {
   border-right: none;
   border-bottom: none;
 }
 
 // Modals
+atom-panel.modal {
+  font-family: var(--editor-font-family);
+}
+
+atom-panel.modal .list-group {
+  max-height: 475px !important;
+}
+
+atom-panel.modal .list-group li::before,
+atom-panel.modal .fuzzy-finder .primary-line,
+.fuzzy-finder .loading-message {
+  display: none !important;
+}
+
+atom-panel.modal .secondary-line {
+  padding-left: 0;
+}
+
+// Fix white flash when open Fuzzy Finder
 atom-panel.modal::after {
-  -webkit-animation: none; // Fix white flash when open Fuzzy Finder
-}
-
-.modal .select-list .list-group li,
-.modal.select-list .list-group {
-  font-family: 'SFMono-Semibold';
-}
-
-.select-list ol.list-group {
-  max-height: 336px;
+  -webkit-animation: none;
 }
 
 // GoTo Line
 .go-to-line .message {
-  display: none;
+  display: none !important;
 }
 
 .go-to-line .editor.mini {
   margin-bottom: 0;
+}
+
+// Settings
+.settings-view .config-menu .icon {
+  display: flex;
+  align-items: center;
+}
+
+.settings-view .config-menu .icon::before {
+  margin-right: 10px;
+}
+
+.sub-section-heading {
+  display: flex;
+  align-items: center;
+}
+
+atom-text-editor .line.wle::after {
+  color: @hue-5-2;
+}
+
+atom-text-editor .line.wlc::after {
+  color: @mono-3;
 }

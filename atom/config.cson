@@ -14,15 +14,18 @@
   "bracket-matcher":
     highlightMatchingLineNumber: true
   core:
+    automaticallyUpdate: false
     closeDeletedFileTabs: true
     closeEmptyWindows: false
+    debugLSP: true
     disabledPackages: [
       "welcome"
       "background-tips"
       "bookmarks"
       "styleguide"
+      "grammar-selector"
+      "deprecation-cop"
     ]
-    followSymlinks: false
     ignoredNames: [
       ".git"
       ".hg"
@@ -36,40 +39,38 @@
       ".vercel"
       ".nuxt"
       ".eslintcache"
+      ".husky"
     ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: [
       "keybinding-resolver"
-      "prettier-atom"
-      "highlight-selected"
+      "spell-check"
+      "keyboard-scroll"
     ]
     packagesWithSnippetsDisabled: [
       "language-javascript"
       "language-todo"
+      "language-html"
     ]
     reopenProjectMenuCount: 3
     restorePreviousWindowsOnStart: "always"
     telemetryConsent: "limited"
-    themes: [
-      "one-light-ui"
-      "one-light-syntax"
-    ]
+    titleBar: "hidden"
     uriHandlerRegistration: "always"
   editor:
-    autoIndentOnPaste: false
     fontFamily: "SFMono-Semibold, Menlo, Consolas, DejaVu Sans Mono, monospace"
-    fontSize: 14
+    fontSize: 13
     lineHeight: 1.8
+    multiCursorOnClick: false
     scrollPastEnd: true
-    showIndentGuide: true
   "exception-reporting":
     userId: "2e723bfe-8436-4abf-bfea-d68d01f836d5"
+  "find-and-replace":
+    searchContextLineCountAfter: 2
+    searchContextLineCountBefore: 2
+    useRipgrep: true
   "fuzzy-finder":
     scoringSystem: "alternate"
-  "highlight-selected":
-    hideHighlightOnSelectedWord: true
-    highlightBackground: true
-    lightTheme: true
   "keyboard-scroll":
     animationDuration: 0
   linter:
@@ -78,24 +79,36 @@
     advanced: {}
     autofix:
       fixOnSave: true
+      ignoreFixableRulesWhileTyping: true
     disabling: {}
-    lintHtmlFiles: true
+    scopes: [
+      "source.js"
+      "source.jsx"
+      "source.js.jsx"
+      "source.flow"
+      "source.babel"
+      "source.js-semantic"
+      "text.html.vue"
+    ]
   "linter-stylelint":
-    disableWhenNoConfig: false
-    showIgnored: true
-    useStandard: true
+    fixOnSave: true
   "linter-ui-default":
     alwaysTakeMinimumSpace: true
     decorateOnTreeView: "None"
+    panelHeight: 422.5
     statusBarClickBehavior: "Jump to next issue"
     statusBarRepresents: "Current File"
+    tooltipFollows: "Mouse"
   "markdown-preview":
     breakOnSingleNewline: true
+    useGitHubStyle: true
   "one-dark-ui":
+    fontSize: 11
     hideDockButtons: true
     stickyHeaders: true
     tabSizing: "Maximum"
   "one-light-ui":
+    fontSize: 11
     hideDockButtons: true
     stickyHeaders: true
     tabSizing: "Maximum"
@@ -104,14 +117,16 @@
       enabled: true
     prettierEslintOptions: {}
     useEditorConfig: false
+  "spell-check":
+    addKnownWords: true
+  "status-bar": {}
   tabs:
     addNewTabsAtEnd: true
     enableVcsColoring: true
     showIcons: false
   "tree-view":
-    alwaysOpenExisting: true
-    autoReveal: true
+    focusOnReveal: false
+    hiddenOnStartup: true
     hideIgnoredNames: true
-    squashDirectoryNames: true
   welcome:
     showOnStartup: false
