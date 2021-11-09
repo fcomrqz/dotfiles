@@ -3,6 +3,8 @@
 [user]
 	name = Fran
 	email = fcomrqz@users.noreply.github.com
+[core]
+	editor = atom --wait
 [pager]
   diff = delta
   log = delta
