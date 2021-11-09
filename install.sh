@@ -175,6 +175,12 @@ ln -sF ~/dotfiles/npm/.npmrc ~/.npmrc
 npm i -g npm-check-updates > /dev/null 2>&1
 echo '  ncu: npm check updates'
 
+npm i -g np > /dev/null 2>&1
+echo '  np: A better `npm publish`'
+
+npm i -g lighthouse > /dev/null 2>&1
+echo '  lighthouse: Automated auditing, performance metrics, and best practices for the web.'
+
 npm i -g vercel > /dev/null 2>&1
 echo '  vercel: Develop. Preview. Ship.'
 
