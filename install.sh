@@ -197,3 +197,7 @@ echo '  Kindle: Ebook Reader'
 mas install 497799835 > /dev/null 2>&1
 echo '  Xcode: Integrated Development Environment for Apple Products'
 
+# Hide Dock
+defaults write com.apple.dock autohide -bool true && killall Dock
+defaults write com.apple.dock autohide-delay -float 1000 && killall Dock
+defaults write com.apple.dock no-bouncing -bool TRUE && killall Dock
