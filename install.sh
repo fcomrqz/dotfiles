@@ -34,6 +34,7 @@ ln -sF ~/dotfiles/bat/.batrc ~/.config/bat/.batrc
 echo '  bat: A cat clone with syntax highlighting and Git integration'
 
 brew install screen > /dev/null 2>&1
+ln -sF ~/dotfiles/screen/.screenrc ~/.screenrc
 echo '  screen: screen manager with VT100/ANSI terminal emulation'
 
 brew install cloc > /dev/null 2>&1
@@ -97,7 +98,6 @@ echo '  trash: tool that moves files or folder to the trash'
 
 brew install tree > /dev/null 2>&1
 echo '  tree: Display directories as trees'
-
 
 echo ''
 echo ' [brew]: Installing Desktop Apps'

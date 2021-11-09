@@ -1,0 +1,6 @@
+shell /usr/local/bin/fish
+
+startup_message off
+hardstatus off
+
+caption always "%3n %h%?"
