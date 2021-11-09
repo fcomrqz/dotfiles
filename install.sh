@@ -12,7 +12,8 @@ echo '  Homebrew: macOS Package Manager'
 brew install fish > /dev/null 2>&1
 echo '  Fish Shell: Finally, a command line shell for the 90s'
 
-ln -sF ~/dotfiles/shells/fish/functions ~/.config/fish/functions
+mkdir ~/.config/fish
+ln -sF ~/dotfiles/shells/fish/functions ~/.config/fish
 ln -sF ~/dotfiles/shells/fish/config.fish ~/.config/fish/config.fish
 ln -sF ~/dotfiles/shells/.bashrc ~/.bashrc
 ln -sF ~/dotfiles/shells/.zshrc ~/.zshrc
@@ -30,6 +31,7 @@ fish ~/dotfiles/tokens.fish
 echo '    [fish]: Tokens are exported'
 
 brew install bat > /dev/null 2>&1
+mkdir ~/.config/bat
 ln -sF ~/dotfiles/bat/.batrc ~/.config/bat/.batrc
 echo '  bat: A cat clone with syntax highlighting and Git integration'
 
