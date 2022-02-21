@@ -42,8 +42,9 @@ $jobs$git_status$character
   format = '[$version](bold blue) '
 
 [jobs]
-  format='[$number](bold purple) '
-  number_threshold = 1
+  format ='[$symbol$number](bold red) '
+  symbol = '▸'
+  number_threshold = 2
 
 [directory]
   format = '[$path]($style)[$read_only]($read_only_style) '
