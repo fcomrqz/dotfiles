@@ -4,3 +4,4 @@ startup_message off
 hardstatus off
 
 caption always "%3n %h%?"
+defscrollback 1024
