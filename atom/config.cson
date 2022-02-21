@@ -63,6 +63,7 @@
     lineHeight: 1.8
     multiCursorOnClick: false
     scrollPastEnd: true
+    showIndentGuide: true
   "exception-reporting":
     userId: "2e723bfe-8436-4abf-bfea-d68d01f836d5"
   "find-and-replace":
