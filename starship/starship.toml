@@ -49,6 +49,7 @@ $jobs$git_status$character
 [directory]
   format = '[$path]($style)[$read_only]($read_only_style) '
   style = 'bold bright-yellow'
+  truncate_to_repo = false
 
 [battery]
   full_symbol = ''
