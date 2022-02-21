@@ -70,6 +70,7 @@ brew install git-delta > /dev/null 2>&1
 echo '  delta: A better diff'
 
 brew install htop > /dev/null 2>&1
+mdkir ~/.config/htop
 ln -sF ~/dotfiles/htop/htoprc ~/.config/htop/htoprc
 echo '  htop: An interactive process viewer'
 
