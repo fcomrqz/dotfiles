@@ -8,17 +8,17 @@ $jobs$git_status$character
   error_symbol = '[✗](bold red)'
 
 [git_status]
-  format = '([$stashed](bold cyan))([$modified](bold yellow))([$untracked](bold green))([$deleted](bold red))([$staged](bold cyan))([$conflicted](bold red))'
+  format = '([$stashed](bold cyan))([$modified](bold yellow))([$untracked](bold green))([$deleted](bold red))([$staged](bold blue))([$conflicted](bold red))'
   conflicted = '▸◂ '
   ahead	= '↑ '
   behind = '↓'
   diverged = '◂▸ '
   up_to_date = '✔︎ '
-  stashed	= '⚬ '
+  stashed	= '• '
   modified = '* '
   untracked	= '+ '
   deleted	= '− '
-  staged = '• '
+  staged = '⦿ '
 
 [git_commit]
   format = '[$hash](bright-green)(:[$tag](bright-purple)) '
