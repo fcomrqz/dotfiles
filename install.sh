@@ -80,11 +80,9 @@ echo '  httpie: HTTP client for the API era'
 brew install mas > /dev/null 2>&1
 echo '  mas: AppStore CLI'
 
-brew install mongodb-community > /dev/null 2>&1
+brew tap mongodb/brew
+brew install mongodb-community@5.0 > /dev/null 2>&1
 echo '  mongodb-community: MongoDB server'
-
-brew install mongodb-database-tools > /dev/null 2>&1
-echo '  mongodb-database-tools: MongoDB tools'
 
 brew install mongosh > /dev/null 2>&1
 echo '  mongosh: MongoDB Shell'
