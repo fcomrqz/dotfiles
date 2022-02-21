@@ -25,6 +25,7 @@
       "styleguide"
       "grammar-selector"
       "deprecation-cop"
+      "wrap-guide"
     ]
     ignoredNames: [
       ".git"
