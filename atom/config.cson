@@ -58,6 +58,7 @@
     titleBar: "hidden"
     uriHandlerRegistration: "always"
   editor:
+    autoIndentOnPaste: false
     fontFamily: "SFMono-Semibold, Menlo, Consolas, DejaVu Sans Mono, monospace"
     fontSize: 13
     lineHeight: 1.8
