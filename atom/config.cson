@@ -115,6 +115,7 @@
   "prettier-atom":
     formatOnSaveOptions:
       enabled: true
+      respectEslintignore: false
     prettierEslintOptions: {}
     useEditorConfig: false
   "spell-check":
