@@ -40,7 +40,6 @@
       ".vercel"
       ".nuxt"
       ".eslintcache"
-      ".husky"
     ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: [
