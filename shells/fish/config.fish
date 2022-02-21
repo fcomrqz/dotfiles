@@ -50,9 +50,8 @@ set -U fish_pager_color_progress white -b --background=normal
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/fran/google-cloud-sdk/path.fish.inc' ]; . '/Users/fran/google-cloud-sdk/path.fish.inc'; end
 
-# Select Terminal Appearance
-defaults read -g AppleInterfaceStyle > /dev/null 2>&1
-if test $status -eq 0
+# Select Terminal Appearance from hour
+if test (date '+%H') -lt 5; or test (date '+%H') -ge 18
 osascript -e 'tell application "Terminal"
            set current settings of tabs of windows to settings set "dark" # Theme name
          end tell'
