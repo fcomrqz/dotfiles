@@ -1,6 +1,6 @@
 format = """
 $directory$package$git_state$git_branch$git_commit$cmd_duration
-$git_status$jobs$character
+$jobs$git_status$character
 """
 
 [character]
