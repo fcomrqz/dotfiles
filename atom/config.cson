@@ -9,6 +9,7 @@
     enableAutoConfirmSingleSuggestion: false
     enableExtendedUnicodeSupport: true
     includeCompletionsFromAllBuffers: false
+    minimumWordLength: 1
     similarSuggestionRemoval: "textOrSnippet"
     strictMatching: true
   "bracket-matcher":
