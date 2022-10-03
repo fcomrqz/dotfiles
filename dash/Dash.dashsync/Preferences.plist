@@ -9,7 +9,7 @@
 			<key>CSS_Device_Media_Queries</key>
 			<dict>
 				<key>date</key>
-				<date>2021-03-02T10:19:04Z</date>
+				<date>2022-02-21T17:27:02Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -25,7 +25,7 @@
 			<key>Crontab</key>
 			<dict>
 				<key>date</key>
-				<date>2021-03-02T10:19:03Z</date>
+				<date>2022-02-21T17:27:04Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -41,7 +41,7 @@
 			<key>Git</key>
 			<dict>
 				<key>date</key>
-				<date>2021-03-02T10:19:04Z</date>
+				<date>2022-02-21T17:27:03Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -62,7 +62,7 @@
 			<key>Git_Flow</key>
 			<dict>
 				<key>date</key>
-				<date>2021-03-02T10:19:04Z</date>
+				<date>2022-02-21T17:27:03Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -83,7 +83,7 @@
 			<key>HTML_Head_Elements</key>
 			<dict>
 				<key>date</key>
-				<date>2021-03-02T10:19:03Z</date>
+				<date>2022-02-21T17:27:03Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -99,7 +99,7 @@
 			<key>HTTP_Header_Fields</key>
 			<dict>
 				<key>date</key>
-				<date>2021-03-02T10:19:03Z</date>
+				<date>2022-02-21T17:27:04Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -115,7 +115,7 @@
 			<key>HTTP_Status_Codes</key>
 			<dict>
 				<key>date</key>
-				<date>2021-03-02T10:19:03Z</date>
+				<date>2022-02-21T17:27:02Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -131,7 +131,7 @@
 			<key>Swift</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-01T19:56:16Z</date>
+				<date>2022-02-21T17:27:02Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -161,7 +161,7 @@
 			<key>Xcode_Shortcuts</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-01T19:56:54Z</date>
+				<date>2022-02-21T17:27:03Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -190,7 +190,7 @@
 			<key>Xcode_UI_Testing</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-01T19:56:51Z</date>
+				<date>2022-02-21T17:27:04Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -363,7 +363,7 @@
 			<key>evilsoft/crocks</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-16T06:58:48Z</date>
+				<date>2021-11-10T19:53:48Z</date>
 				<key>entry</key>
 				<dict>
 					<key>name</key>
@@ -377,7 +377,7 @@
 			<key>facebook/jest</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-19T23:42:03Z</date>
+				<date>2021-11-10T19:55:45Z</date>
 				<key>entry</key>
 				<dict>
 					<key>name</key>
@@ -391,7 +391,7 @@
 			<key>mongodb/docs-node</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-16T22:49:54Z</date>
+				<date>2022-03-08T20:27:41Z</date>
 				<key>entry</key>
 				<dict>
 					<key>name</key>
@@ -484,7 +484,7 @@
 			<key>Ramda</key>
 			<dict>
 				<key>date</key>
-				<date>2021-02-20T19:57:35Z</date>
+				<date>2021-11-10T19:53:35Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -504,7 +504,7 @@
 			<key>date-fns</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-01T19:58:19Z</date>
+				<date>2021-11-10T19:53:43Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -524,7 +524,7 @@
 			<key>fish</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-01T19:28:52Z</date>
+				<date>2021-11-10T19:53:36Z</date>
 				<key>entry</key>
 				<dict>
 					<key>aliases</key>
@@ -630,42 +630,42 @@
 			<key>http://kapeli.com/feeds/CSS.xml</key>
 			<dict>
 				<key>date</key>
-				<date>2021-02-20T19:14:41Z</date>
+				<date>2021-11-10T19:54:16Z</date>
 			</dict>
 			<key>http://kapeli.com/feeds/HTML.xml</key>
 			<dict>
 				<key>date</key>
-				<date>2021-02-20T19:18:26Z</date>
+				<date>2021-11-10T19:55:12Z</date>
 			</dict>
 			<key>http://kapeli.com/feeds/JavaScript.xml</key>
 			<dict>
 				<key>date</key>
-				<date>2021-02-20T19:16:37Z</date>
+				<date>2021-11-10T19:55:24Z</date>
 			</dict>
 			<key>http://kapeli.com/feeds/Markdown.xml</key>
 			<dict>
 				<key>date</key>
-				<date>2021-02-20T19:15:49Z</date>
+				<date>2021-11-10T19:53:34Z</date>
 			</dict>
 			<key>http://kapeli.com/feeds/MongoDB.xml</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-01T19:30:13Z</date>
+				<date>2021-11-10T19:55:37Z</date>
 			</dict>
 			<key>http://kapeli.com/feeds/NodeJS.xml</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-01T19:54:19Z</date>
+				<date>2021-11-10T19:54:32Z</date>
 			</dict>
 			<key>http://kapeli.com/feeds/SVG.xml</key>
 			<dict>
 				<key>date</key>
-				<date>2021-02-20T19:17:00Z</date>
+				<date>2021-11-10T19:55:22Z</date>
 			</dict>
 			<key>http://kapeli.com/feeds/VueJS.xml</key>
 			<dict>
 				<key>date</key>
-				<date>2021-10-01T19:46:37Z</date>
+				<date>2021-11-10T19:54:40Z</date>
 			</dict>
 		</dict>
 		<key>uninstalled</key>
@@ -846,7 +846,7 @@
 				<key>4.1</key>
 				<dict>
 					<key>date</key>
-					<date>2021-02-20T19:17:41Z</date>
+					<date>2021-11-10T19:53:52Z</date>
 				</dict>
 			</dict>
 			<key>http://kapeli.com/feeds/VueJS.xml</key>
