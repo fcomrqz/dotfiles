@@ -3,16 +3,21 @@
   'cmd-[': 'custom-tree-view:toggle'
   'cmd-]': 'github:toggle-git-tab-focus'
 
+'.platform-darwin atom-workspace':
+  'shift-cmd-T r': 'wallaby:smart-start'
+
 'atom-text-editor':
-  'ctrl-shift-left': 'editor:move-selection-left',
-  'ctrl-shift-right': 'editor:move-selection-right',
+  'ctrl-shift-left': 'editor:move-selection-left'
+  'ctrl-shift-right': 'editor:move-selection-right'
   'ctrl-u': 'editor:delete-to-beginning-of-line'
+  'cmd-alt-down': 'git-diff:move-to-next-diff'
+  'cmd-alt-up': 'git-diff:move-to-previous-diff'
 
 'atom-text-editor:not([mini])':
-  'ctrl-left': 'editor:outdent-selected-rows',
-  'ctrl-right': 'editor:indent-selected-rows',
-  'ctrl-down': 'editor:move-line-down',
-  'ctrl-up': 'editor:move-line-up',
+  'ctrl-left': 'editor:outdent-selected-rows'
+  'ctrl-right': 'editor:indent-selected-rows'
+  'ctrl-down': 'editor:move-line-down'
+  'ctrl-up': 'editor:move-line-up'
   'alt-up': 'keyboard-scroll:scrollUpWithCursor'
   'alt-down': 'keyboard-scroll:scrollDownWithCursor'
   'ctrl-alt-up': 'keyboard-scroll:scrollUp'
@@ -26,3 +31,6 @@
 
 '.workspace':
   'cmd-backspace': 'tree-view:remove-project-folder'
+
+'.github-FilePatchView atom-text-editor:not([mini])':
+  'right': 'window:focus-pane-on-right'
