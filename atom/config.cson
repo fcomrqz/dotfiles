@@ -57,7 +57,7 @@
       "language-html"
     ]
     reopenProjectMenuCount: 3
-    restorePreviousWindowsOnStart: "always"
+    restorePreviousWindowsOnStart: "no"
     telemetryConsent: "limited"
     themes: [
       "one-light-ui"
