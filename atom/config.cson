@@ -24,9 +24,10 @@
       "background-tips"
       "bookmarks"
       "styleguide"
-      "grammar-selector"
       "deprecation-cop"
       "wrap-guide"
+      "autocomplete-snippets"
+      "grammar-selector"
     ]
     ignoredNames: [
       ".git"
