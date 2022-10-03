@@ -42,6 +42,8 @@
       ".vercel"
       ".nuxt"
       ".eslintcache"
+      "dist"
+      "tmp"
     ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: [
