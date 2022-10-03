@@ -56,3 +56,7 @@ osascript -e 'tell application "Terminal"
            set current settings of tabs of windows to settings set "dark" # Theme name
          end tell'
 end
+
+# tabtab source for packages
+# uninstall by removing these lines
+[ -f ~/.config/tabtab/fish/__tabtab.fish ]; and . ~/.config/tabtab/fish/__tabtab.fish; or true
