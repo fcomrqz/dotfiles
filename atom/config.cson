@@ -59,6 +59,10 @@
     reopenProjectMenuCount: 3
     restorePreviousWindowsOnStart: "always"
     telemetryConsent: "limited"
+    themes: [
+      "one-light-ui"
+      "one-light-syntax"
+    ]
     titleBar: "hidden"
     uriHandlerRegistration: "always"
   editor:
