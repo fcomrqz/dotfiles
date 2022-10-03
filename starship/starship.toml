@@ -21,7 +21,7 @@ $jobs$git_status$character
   staged = '⦿ '
 
 [git_commit]
-  format = '[$hash](bright-green)(:[$tag](bright-purple)) '
+  format = '[$hash](bright-green) '
   commit_hash_length = 7
   only_detached = false
   tag_disabled = false
