@@ -17,14 +17,31 @@ status-bar .github-ChangedFilesCount,
   display: none !important;
 }
 
-// Wallaby
-atom-text-editor .gutter-container > div {
-  flex-direction: row-reverse;
+// Git Gutter
+atom-text-editor .line-number .icon-right {
+  width: 1.4em;
+  padding: 0px;
 }
 
-atom-text-editor .line-number .icon-right {
-  width: 1.2em;
-  padding: 0;
+.git-line-modified {
+  color: @syntax-color-modified !important;
+  background-color: fade(@syntax-color-modified, 20%) !important;
+  border-left: 0.22em solid @syntax-color-modified !important;
+}
+
+.git-line-added {
+  color: @syntax-color-added !important;
+  background-color: fade(@syntax-color-added, 20%) !important;
+  border-left: 0.22em solid @syntax-color-added !important;
+}
+
+// Wallaby
+.wallaby-tests-view {
+  max-height: -webkit-fill-available;
+}
+
+atom-text-editor .gutter-container > div {
+  flex-direction: row-reverse;
 }
 
 atom-text-editor .line-number .icon-right::before {
@@ -32,22 +49,18 @@ atom-text-editor .line-number .icon-right::before {
   left: -0.4em !important;
 }
 
-atom-text-editor .gutter .line-number {
-  border-left-width: 0.2em !important;
-}
-
 atom-text-editor .gutter[gutter-name='quokka'],
 atom-text-editor .gutter[gutter-name='wallaby'] {
-  min-width: 0.8em;
+  min-width: 1em;
 }
 
 atom-text-editor .gutter[gutter-name='quokka'] .decoration,
 atom-text-editor .gutter[gutter-name='wallaby'] .decoration {
-  left: 0;
+  left: 0.4em;
   width: 0.2em;
   height: 1.2em !important;
   margin-top: 0.3em;
-  border-radius: 0.1em;
+  border-radius: 5em;
 }
 
 .modal.overlay.from-top {
@@ -61,7 +74,7 @@ atom-text-editor .gutter[gutter-name='wallaby'] .decoration {
 
 atom-text-editor.editor .linter-highlight {
   padding-bottom: 0.05em;
-  border-bottom-width: 0.15em;
+  border-bottom-width: 0.2em;
   border-bottom-style: solid;
   background: none;
 }
@@ -179,7 +192,7 @@ atom-text-editor.editor .linter-highlight.linter-warning {
 
 // Bracket Matcher
 atom-text-editor .bracket-matcher .region {
-  border-bottom: 0.15em solid @syntax-selection-color;
+  border-bottom: 0.2em solid @syntax-selection-color;
 }
 
 // Panels
