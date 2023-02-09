@@ -140,5 +140,6 @@
     focusOnReveal: false
     hiddenOnStartup: true
     hideIgnoredNames: true
+    hideVcsIgnoredFiles: true
   welcome:
     showOnStartup: false
