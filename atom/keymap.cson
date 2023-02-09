@@ -28,6 +28,7 @@
   'cmd-[': 'custom-tree-view:toggle'
   'cmd-]': 'github:toggle-git-tab-focus'
   'ctrl-c': 'github:view-unstaged-changes-for-current-file'
+  'ctrl-k': 'editor:delete-line'
 
 '.workspace':
   'cmd-backspace': 'tree-view:remove-project-folder'
