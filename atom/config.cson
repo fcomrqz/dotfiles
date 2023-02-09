@@ -42,6 +42,7 @@
       ".vercel"
       ".nuxt"
       ".eslintcache"
+      "globalConfig.json"
       "dist"
       "tmp"
     ]
