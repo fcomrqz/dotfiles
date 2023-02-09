@@ -12,16 +12,16 @@ _Internet speed will determine how long takes._
 
 ## Instructions
 
-1. Make a macOS clean install:
+1. Back up Raycast and Terminal.
 
-   1. Check if your backups are updated.
-   1. Shutdown your Mac.
-   1. Turn on your Mac and immediately press and hold **Command (⌘)-R** until you see an Apple logo.
-   1. Use Disk Utility to erase your disk.
-   1. Install macOS.
-   1. Finish the setup assistant process.
+1. Download macOS installer
+   `softwareupdate --fetch-full-installer --full-installer-version 13.0`
 
-2. Run the next command in your terminal to download this repo, install [all the apps I use](https://fcomrqz.com/tools#macOS) and setup my preferences.
+1. Create a disk volume.
+
+1. Install and finish the setup assistant process.
+
+1. Run the next command in your terminal to download this repo, install [all the apps I use](https://fcomrqz.com/tools#macOS) and setup my preferences.
    _You will be asked for your GitHub token and macOS login password._
 
 ```sh
