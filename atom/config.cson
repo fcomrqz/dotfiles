@@ -106,7 +106,7 @@
   "linter-ui-default":
     alwaysTakeMinimumSpace: true
     decorateOnTreeView: "None"
-    panelHeight: 422.5
+    panelHeight: 473.5
     statusBarClickBehavior: "Jump to next issue"
     statusBarRepresents: "Current File"
     tooltipFollows: "Mouse"
