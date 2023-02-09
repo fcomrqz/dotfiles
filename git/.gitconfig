@@ -4,7 +4,7 @@
 	name = Fran
 	email = fcomrqz@users.noreply.github.com
 [core]
-	editor = atom --wait
+	editor = zed --wait
 [blame]
 	date = relative
 [format]
@@ -50,3 +50,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/local/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/local/bin/gh auth git-credential
