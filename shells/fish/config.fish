@@ -1,4 +1,10 @@
+function starship_transient_prompt_func
+  echo ''
+  starship module character
+end
+
 starship init fish | source
+enable_transience
 
 set -Ux BAT_THEME ansi
 
