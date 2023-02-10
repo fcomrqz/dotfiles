@@ -77,6 +77,7 @@ ln -sF ~/dotfiles/git/.gitconfig ~/.gitconfig
 echo '  git: The stupid content tracker'
 
 brew install gh > /dev/null 2>&1
+mkdir ~/.config/gh
 ln -sF ~/dotfiles/gh/config.yml ~/.config/gh/config.yml
 echo '  gh: GitHub CLI'
 
