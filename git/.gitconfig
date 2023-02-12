@@ -5,6 +5,7 @@
 	email = fcomrqz@users.noreply.github.com
 [core]
 	editor = zed --wait
+	pager = delta
 [blame]
 	date = relative
 [format]
