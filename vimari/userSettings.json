@@ -1,0 +1,32 @@
+{
+  "excludedUrls": "whimsical.com",
+  "linkHintCharacters": "asdfjklqwerzxc",
+  "detectByCursorStyle": false,
+  "scrollSize": 150,
+  "openTabUrl": "https://www.youtube.com/",
+  "modifier": "",
+  "smoothScroll": true,
+  "scrollDuration": 25,
+  "transparentBindings": true,
+  "bindings": {
+    "hintToggle": "f",
+    "newTabHintToggle": "shift+f",
+    "scrollUp": "k",
+    "scrollDown": "j",
+    "scrollLeft": "",
+    "scrollRight": "",
+    "scrollUpHalfPage": "",
+    "scrollDownHalfPage": "",
+    "goToPageTop": "g g",
+    "goToPageBottom": "shift+g",
+    "goToFirstInput": "",
+    "goBack": "h",
+    "goForward": "l",
+    "reload": "",
+    "tabForward": "",
+    "tabBack": "",
+    "closeTab": "",
+    "openTab": "",
+    "duplicateTab": ""
+  }
+}
