@@ -1,5 +1,5 @@
 format = """
-$directory$package$git_state$git_branch$git_commit$cmd_duration
+$directory$git_state$git_branch$git_commit$cmd_duration
 $jobs$git_status$character
 """
 
@@ -8,17 +8,18 @@ $jobs$git_status$character
   error_symbol = '[✗](bold red)'
 
 [git_status]
-  format = '([$stashed](bold cyan))([$modified](bold yellow))([$untracked](bold green))([$deleted](bold red))([$staged](bold blue))([$conflicted](bold red))'
-  conflicted = '▸◂ '
-  ahead	= '↑ '
-  behind = '↓'
-  diverged = '◂▸ '
-  up_to_date = '✔︎ '
-  stashed	= '• '
-  modified = '* '
-  untracked	= '+ '
-  deleted	= '− '
-  staged = '• '
+  format = '$ahead_behind$stashed$untracked$deleted$modified$staged$conflicted'
+  conflicted = '[▸◂](bold red) '
+  ahead	= '[↑ $count](bold blue) '
+  behind = '[↓ $count](bold red) '
+  diverged = '[↓ $behind_count](bold red) [↑ $ahead_count](bold blue) '
+  up_to_date = ''
+  stashed	= '[•](bold red) '
+  modified = '[*](bold yellow) '
+  untracked	= '[+](bold green) '
+  renamed = '[=](bold cyan) '
+  deleted	= '[−](bold red) '
+  staged = '[•](bold blue) '
 
 [git_commit]
   format = '[$hash](bright-green) '
