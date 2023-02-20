@@ -1,0 +1,82 @@
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-]": "editor::GoToHunk",
+      "ctrl-k": "editor::DeleteLine",
+      "ctrl-u": "editor::CutToEndOfLine",
+      "ctrl-left": "editor::Outdent",
+      "ctrl-right": "editor::Indent",
+      "ctrl-up": "editor::MoveLineUp",
+      "ctrl-down": "editor::MoveLineDown",
+      "alt-shift-up": "editor::SelectLargerSyntaxNode",
+      "alt-shift-down": "editor::SelectSmallerSyntaxNode",
+      "alt-down": [
+        "editor::MovePageDown",
+        {
+          "center_cursor": true
+        }
+      ],
+      "alt-up": [
+        "editor::MovePageUp",
+        {
+          "center_cursor": true
+        }
+      ]
+    }
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "cmd-1": [
+        "pane::ActivateItem",
+        0
+      ],
+      "cmd-2": [
+        "pane::ActivateItem",
+        1
+      ],
+      "cmd-3": [
+        "pane::ActivateItem",
+        2
+      ],
+      "cmd-4": [
+        "pane::ActivateItem",
+        3
+      ],
+      "cmd-5": [
+        "pane::ActivateItem",
+        4
+      ],
+      "cmd-6": [
+        "pane::ActivateItem",
+        5
+      ],
+      "cmd-7": [
+        "pane::ActivateItem",
+        6
+      ],
+      "cmd-8": [
+        "pane::ActivateItem",
+        7
+      ],
+      "cmd-9": [
+        "pane::ActivateItem",
+        8
+      ],
+      "cmd-0": "pane::ActivateLastItem",
+      "cmd--": "pane::GoBack",
+      "cmd-_": "pane::GoForward",
+      "cmd-shift-t": "pane::ReopenClosedItem",
+      "cmd-shift-f": "project_search::ToggleFocus"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "cmd-n": "project_panel::AddFile",
+      "cmd-shift-n": "project_panel::AddDirectory",
+      "cmd-r": "project_panel::Rename"
+    }
+  }
+]

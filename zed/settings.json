@@ -1,0 +1,19 @@
+{
+  "theme": "Internal/Dracula",
+  "buffer_font_family": "SF Mono",
+  "buffer_font_size": 14,
+  "tab_size": 2,
+  "language_overrides": {
+    "JavaScript": {
+      "format_on_save": {
+        "external": {
+          "command": "prettier",
+          "arguments": [
+            "--stdin-filepath",
+            "{buffer_path}"
+          ]
+        }
+      }
+    }
+  }
+}
