@@ -1,0 +1,31 @@
+#!/bin/bash
+
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+yabai -m config layout bsp
+
+yabai -m config auto_balance on
+
+# Mouse support
+yabai -m config focus_follows_mouse off
+yabai -m config mouse_follows_focus on
+
+# Window modification
+# yabai -m config window_topmost on
+yabai -m config window_shadow float
+
+# Padding and gaps
+yabai -m config top_padding 8
+yabai -m config bottom_padding 8
+yabai -m config left_padding 8
+yabai -m config right_padding 8
+yabai -m config window_gap 8
+
+# Rules
+yabai -m rule --add app!="^(Terminal|Atom|Zed|Finder|Safari|Google Chrome|Notes|MongoDB Compass|MongoDB Compass 1.35.0)$" manage=off
+
+yabai -m rule --add app=Messages subrole=AXStandardWindow grid=8:8:2:0:4:6 manage=off
+yabai -m rule --add app=Twitter title=Twitter grid=8:8:2:0:4:8 manage=off
+yabai -m rule --add app=Things grid=8:8:2:0:4:8 manage=off
+yabai -m rule --add app=WhatsApp grid=10:10:1:0:8:7 manage=off
