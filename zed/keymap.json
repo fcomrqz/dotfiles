@@ -12,13 +12,13 @@
       "alt-shift-up": "editor::SelectLargerSyntaxNode",
       "alt-shift-down": "editor::SelectSmallerSyntaxNode",
       "alt-down": [
-        "editor::MovePageDown",
+        "editor::HalfPageDown",
         {
           "center_cursor": true
         }
       ],
       "alt-up": [
-        "editor::MovePageUp",
+        "editor::HalfPageUp",
         {
           "center_cursor": true
         }
