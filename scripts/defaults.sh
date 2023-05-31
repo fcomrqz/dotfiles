@@ -9,3 +9,6 @@ defaults write NSGlobalDomain _HIHideMenuBar -bool true
 defaults write com.apple.dock autohide -bool true && killall Dock
 defaults write com.apple.dock autohide-delay -float 1000 && killall Dock
 defaults write com.apple.dock no-bouncing -bool TRUE && killall Dock
+
+# Do not create `.DS_Store` files
+defaults write com.apple.desktopservices DSDontWriteNetworkStores true
