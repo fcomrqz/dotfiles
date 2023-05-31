@@ -6,6 +6,7 @@
 [core]
 	editor = zed --wait
 	pager = delta
+	quotepath = false
 [blame]
 	date = relative
 [format]
