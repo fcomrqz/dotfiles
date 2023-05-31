@@ -29,6 +29,7 @@
       "autocomplete-snippets"
       "grammar-selector"
     ]
+    excludeVcsIgnoredPaths: false
     ignoredNames: [
       ".git"
       ".hg"
@@ -68,8 +69,7 @@
     uriHandlerRegistration: "always"
   editor:
     autoIndentOnPaste: false
-    fontFamily: "SFMono-Semibold, Menlo, Consolas, DejaVu Sans Mono, monospace"
-    fontSize: 13
+    fontFamily: "SF Mono, Menlo, Consolas, DejaVu Sans Mono, monospace"
     lineHeight: 1.8
     multiCursorOnClick: false
     scrollPastEnd: true
@@ -140,6 +140,5 @@
     focusOnReveal: false
     hiddenOnStartup: true
     hideIgnoredNames: true
-    hideVcsIgnoredFiles: true
   welcome:
     showOnStartup: false

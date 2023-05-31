@@ -1,10 +1,9 @@
 '.platform-darwin':
-  'cmd-\\': 'custom:hide'
-  'cmd-[': 'custom-tree-view:toggle'
-  'cmd-]': 'github:toggle-git-tab-focus'
+  'cmd-b': 'custom:hide'
+  'shift-cmd-e': 'custom-tree-view:toggle'
 
-'.platform-darwin atom-workspace':
-  'shift-cmd-T r': 'wallaby:smart-start'
+'.platform-darwin atom-text-editor':
+  'shift-cmd-e': 'custom-tree-view:toggle'
 
 'atom-text-editor':
   'ctrl-shift-left': 'editor:move-selection-left'
@@ -24,8 +23,6 @@
   'ctrl-alt-down': 'keyboard-scroll:scrollDown'
   'alt-shift-down': 'editor:select-smaller-syntax-node'
   'alt-shift-up': 'editor:select-larger-syntax-node'
-  'cmd-.': 'custom:inline-comment'
-  'cmd-[': 'custom-tree-view:toggle'
   'cmd-]': 'github:toggle-git-tab-focus'
   'ctrl-c': 'github:view-unstaged-changes-for-current-file'
   'ctrl-k': 'editor:delete-line'
