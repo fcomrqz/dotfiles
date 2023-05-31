@@ -23,9 +23,9 @@ yabai -m config right_padding 8
 yabai -m config window_gap 8
 
 # Rules
-yabai -m rule --add app!="^(Terminal|Atom|Zed|Finder|Safari|Google Chrome|Notes|MongoDB Compass|MongoDB Compass 1.35.0)$" manage=off
+yabai -m rule --add app!="^(Terminal|Atom|Zed|Finder|Safari|Google Chrome|Notes|MongoDB Compass|MongoDB Compass 1.35.0|Gitfox|Books|Xcode)$" manage=off
 
-yabai -m rule --add app=Messages subrole=AXStandardWindow grid=8:8:2:0:4:6 manage=off
+yabai -m rule --add app=Messages subrole=AXStandardWindow grid=10:10:2:0:6:6 manage=off
 yabai -m rule --add app=Twitter title=Twitter grid=8:8:2:0:4:8 manage=off
-yabai -m rule --add app=Things grid=8:8:2:0:4:8 manage=off
+yabai -m rule --add app=Things subrole=AXStandardWindow grid=10:10:1:0:8:8 manage=off
 yabai -m rule --add app=WhatsApp grid=10:10:1:0:8:7 manage=off
