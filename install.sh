@@ -63,8 +63,6 @@ brew install cloc > /dev/null 2>&1
 echo '  cloc: Count Lines of Code'
 
 brew install node > /dev/null 2>&1
-brew install node@16 > /dev/null 2>&1
-brew install node@10 > /dev/null 2>&1
 echo "  node: A JavaScript runtime built on Chrome's V8 JavaScript engine"
 
 brew install dog > /dev/null 2>&1
@@ -90,6 +88,12 @@ echo '  gh: GitHub CLI'
 
 brew install git-delta > /dev/null 2>&1
 echo '  delta: A better diff'
+
+brew install gitui > /dev/null 2>&1
+echo '  gitui: Git graphical interface'
+
+brew install git-jump > /dev/null 2>&1
+echo '  git-jump: Improved navigation between Git branches'
 
 brew install htop > /dev/null 2>&1
 mkdir ~/.config/htop
@@ -120,6 +124,13 @@ echo '  trash: tool that moves files or folder to the trash'
 
 brew install tree > /dev/null 2>&1
 echo '  tree: Display directories as trees'
+
+brew install koekeishiya/formulae/yabai > /dev/null 2>&1
+yabai --start-service
+echo '  yabai: A tiling window manager'
+
+brew install koekeishiya/formulae/skhd > /dev/null 2>&1
+echo '  skhd: Simple hotkey daemon'
 
 echo ''
 echo ' [brew]: Installing Desktop Apps'
