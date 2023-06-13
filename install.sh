@@ -55,9 +55,9 @@ mkdir ~/.config/bat
 ln -sF ~/dotfiles/bat/.batrc ~/.config/bat/.batrc
 echo '  bat: A cat clone with syntax highlighting and Git integration'
 
-brew install screen > /dev/null 2>&1
-ln -sF ~/dotfiles/screen/.screenrc ~/.screenrc
-echo '  screen: screen manager with VT100/ANSI terminal emulation'
+# brew install screen > /dev/null 2>&1
+# ln -sF ~/dotfiles/screen/.screenrc ~/.screenrc
+# echo '  screen: screen manager with VT100/ANSI terminal emulation'
 
 brew install cloc > /dev/null 2>&1
 echo '  cloc: Count Lines of Code'
@@ -71,8 +71,8 @@ echo '  dog: DNS client'
 brew install httpstat > /dev/null 2>&1
 echo '  httpstat: Curl statistics made simple'
 
-brew install ripgrep > /dev/null 2>&1
-echo '  ripgrep: Better grep'
+# brew install ripgrep > /dev/null 2>&1
+# echo '  ripgrep: Better grep'
 
 brew install rename > /dev/null 2>&1
 echo '  rename: Rename multiple files'
@@ -138,8 +138,8 @@ echo ' [brew]: Installing Desktop Apps'
 brew install --cask google-chrome > /dev/null 2>&1
 echo "  Google Chrome: Google's Web Browser"
 
-brew install --cask loopback > /dev/null 2>&1
-echo '  Loopback: Cable-Free Audio Routing'
+# brew install --cask loopback > /dev/null 2>&1
+# echo '  Loopback: Cable-Free Audio Routing'
 
 brew install --cask raycast > /dev/null 2>&1
 echo '  Raycast: Better Spotlight'
