@@ -125,12 +125,12 @@ echo '  trash: tool that moves files or folder to the trash'
 brew install tree > /dev/null 2>&1
 echo '  tree: Display directories as trees'
 
-brew install koekeishiya/formulae/yabai > /dev/null 2>&1
-yabai --start-service
-echo '  yabai: A tiling window manager'
+# brew install koekeishiya/formulae/yabai > /dev/null 2>&1
+# yabai --start-service
+# echo '  yabai: A tiling window manager'
 
-brew install koekeishiya/formulae/skhd > /dev/null 2>&1
-echo '  skhd: Simple hotkey daemon'
+# brew install koekeishiya/formulae/skhd > /dev/null 2>&1
+# echo '  skhd: Simple hotkey daemon'
 
 echo ''
 echo ' [brew]: Installing Desktop Apps'
@@ -150,11 +150,11 @@ echo '  MongoDB Compass: GUI for MongoDB'
 brew install --cask proxyman > /dev/null 2>&1
 echo '  Proxyman: Apple Native Web Debugging Proxy'
 
-brew install --cask github > /dev/null 2>&1
-echo '  GitHub Desktop: Desktop client for GitHub repositories'
+# brew install --cask github > /dev/null 2>&1
+# echo '  GitHub Desktop: Desktop client for GitHub repositories'
 
-brew install --cask android-studio > /dev/null 2>&1
-echo '  Android Studio:  Integrated Development Environment for Android'
+# brew install --cask android-studio > /dev/null 2>&1
+# echo '  Android Studio:  Integrated Development Environment for Android'
 
 echo ''
 echo '[npm]: Installing Global Node Packages'
