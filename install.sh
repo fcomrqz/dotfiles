@@ -1,12 +1,5 @@
 #!/bin/bash
 
-mkdir ~/.atom
-ln -sF ~/dotfiles/atom/config.cson ~/.atom/config.cson
-ln -sF ~/dotfiles/atom/init.coffee ~/.atom/init.coffee
-ln -sF ~/dotfiles/atom/keymap.cson ~/.atom/keymap.cson
-ln -sF ~/dotfiles/atom/snippets.cson ~/.atom/snippets.cson
-ln -sF ~/dotfiles/atom/styles.less ~/.atom/styles.less
-
 echo ''
 read -p 'Enter your GitHub Token: ' GITHUB_TOKEN
 export GITHUB_TOKEN=$GITHUB_TOKEN
