@@ -33,12 +33,6 @@
 	minus-emph-style = red 224
 	plus-style = 28 194
 	plus-emph-style = 28 194
-  # minus-non-emph-style = red 224
-  # minus-empty-line-marker-style = red 224
-  # plus-non-emph-style = syntax 194
-	# plus-empty-line-marker-style = purple purple
-  # hyperlinks = true
-  # inspect-raw-lines = true
   line-numbers = true
 	line-numbers-minus-style = brightred bold
   line-numbers-plus-style = brightgreen bold
@@ -54,7 +48,7 @@
 	required = true
 [credential "https://github.com"]
 	helper = 
-	helper = !/usr/local/bin/gh auth git-credential
+	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
-	helper = !/usr/local/bin/gh auth git-credential
+	helper = !/opt/homebrew/bin/gh auth git-credential
