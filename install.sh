@@ -1,10 +1,6 @@
 #!/bin/bash
 
 echo ''
-read -p 'Enter your GitHub Token: ' GITHUB_TOKEN
-export GITHUB_TOKEN=$GITHUB_TOKEN
-
-echo ''
 echo 'Wait until Homebrew is installed to enter sudo mode'
 echo ''
 echo '[brew]: Installing Packages'
