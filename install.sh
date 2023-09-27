@@ -125,8 +125,16 @@ echo "  tree: Display directories as trees"
 echo ""
 echo "[brew]: Installing Desktop Apps"
 
+echo "  Zed: Code at the speed of thought"
+brew install --cask zed > /dev/null 2>&1
+
+mkdir ~/.config/zed
+ln -sF ~/dotfiles/zed/settings.json ~/.config/zed/settings.json
+ln -sF ~/dotfiles/zed/keymap.json ~/.config/zed/keymap.json
+
 brew install --cask adobe-creative-cloud > /dev/null 2>&1
 echo "  Adobe Creative Cloud: Adobe App Manager"
+
 brew install --cask google-chrome > /dev/null 2>&1
 echo "  Google Chrome: Google's Web Browser"
 
