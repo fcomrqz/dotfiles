@@ -1,13 +1,14 @@
 #!/bin/bash
-
 echo ""
 echo "Wait until Homebrew is installed to enter sudo mode..."
 echo ""
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash -s arg1 arg2  > /dev/null 2>&1
+
 echo "  Homebrew: macOS Package Manager"
 
 echo ""
 echo "[brew]: Installing Packages"
+
 brew install fish > /dev/null 2>&1
 echo "  Fish Shell: Finally, a command line shell for the 90s"
 
@@ -35,7 +36,6 @@ echo "    [sudo]: Fish shell is the default shell"
 touch ~/.hushlogin
 
 fish ~/dotfiles/tokens.fish
-
 echo "    [fish]: Tokens are exported"
 
 brew install bat > /dev/null 2>&1
@@ -79,6 +79,8 @@ echo "  delta: A better diff"
 
 brew install gitui > /dev/null 2>&1
 echo "  gitui: Git graphical interface"
+mkdir ~/.config/gitui
+ln -sF ~/dotfiles/gitui/theme.ron ~/.config/gitui/theme.ron
 
 brew install git-jump > /dev/null 2>&1
 echo "  git-jump: Improved navigation between Git branches"
