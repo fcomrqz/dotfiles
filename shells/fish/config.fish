@@ -13,14 +13,14 @@ set -U fish_greeting
 
 # Colors
 set -U fish_color_command normal
-set -U fish_color_param bryellow -b
-set -U fish_color_quote brgreen -b
-set -U fish_color_error brred -b
-set -U fish_color_cancel red -b
+set -U fish_color_param yellow
+set -U fish_color_quote green
+set -U fish_color_error red
+set -U fish_color_cancel red
 set -U fish_color_autosuggestion brblack
-set -U fish_color_redirection cyan -b
-set -U fish_color_end brmagenta -b
-set -U fish_color_operator brmagenta -b
+set -U fish_color_redirection cyan
+set -U fish_color_end magenta
+set -U fish_color_operator magenta
 set -U fish_color_escape cyan
 set -U fish_color_valid_path normal
 # matching parenthesis
@@ -57,12 +57,16 @@ set -U fish_pager_color_progress white -b --background=normal
 if [ -f '/Users/fran/google-cloud-sdk/path.fish.inc' ]; . '/Users/fran/google-cloud-sdk/path.fish.inc'; end
 
 # Select Terminal Appearance from hour
-if test (date '+%H') -lt 5; or test (date '+%H') -ge 18
-osascript -e 'tell application "Terminal"
-           set current settings of tabs of windows to settings set "dark" # Theme name
-         end tell'
-end
+# if test (date '+%H') -lt 5; or test (date '+%H') -ge 19
+# osascript -e 'tell application "Terminal"
+#           set current settings of tabs of windows to settings set "dark" # Theme name
+#         end tell'
+# end
 
 # tabtab source for packages
 # uninstall by removing these lines
 [ -f ~/.config/tabtab/fish/__tabtab.fish ]; and . ~/.config/tabtab/fish/__tabtab.fish; or true
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
