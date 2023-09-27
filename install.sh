@@ -144,6 +144,9 @@ echo "  Loopback: Cable-Free Audio Routing"
 brew install --cask raycast > /dev/null 2>&1
 echo "  Raycast: Better Spotlight"
 
+brew install --cask docker > /dev/null 2>&1
+echo "  Docker: App to build and share containerized applications and microservices"
+
 brew install --cask mongodb-compass > /dev/null 2>&1
 echo "  MongoDB Compass: GUI for MongoDB"
 
