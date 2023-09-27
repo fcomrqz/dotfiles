@@ -1,0 +1,32 @@
+{
+  "excludedUrls": "whimsical.com",
+  "linkHintCharacters": "asdfjklqwerzxc",
+  "detectByCursorStyle": false,
+  "scrollSize": 150,
+  "openTabUrl": "",
+  "modifier": "",
+  "smoothScroll": false,
+  "scrollDuration": 25,
+  "transparentBindings": true,
+  "bindings": {
+    "hintToggle": "f",
+    "newTabHintToggle": "shift+f",
+    "scrollUp": "",
+    "scrollDown": "",
+    "scrollLeft": "",
+    "scrollRight": "",
+    "scrollUpHalfPage": "",
+    "scrollDownHalfPage": "",
+    "goToPageTop": "",
+    "goToPageBottom": "",
+    "goToFirstInput": "",
+    "goBack": "",
+    "goForward": "",
+    "reload": "",
+    "tabForward": "",
+    "tabBack": "",
+    "closeTab": "",
+    "openTab": "",
+    "duplicateTab": ""
+  }
+}
