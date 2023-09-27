@@ -153,8 +153,6 @@ echo "  MongoDB Compass: GUI for MongoDB"
 brew install --cask proxyman > /dev/null 2>&1
 echo "  Proxyman: Apple Native Web Debugging Proxy"
 
-# brew install --cask github > /dev/null 2>&1
-# echo '  GitHub Desktop: Desktop client for GitHub repositories'
 brew install --cask alt-tab > /dev/null 2>&1
 echo "  AltTab: Windows alt-tab on macOS"
 
