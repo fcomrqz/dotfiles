@@ -171,6 +171,9 @@ echo "  ncu: npm check updates"
 npm i -g np > /dev/null 2>&1
 echo "  np: A better `npm publish`"
 
+npm i -g prettier > /dev/null 2>&1
+echo "  prettier: Opinionated code formatter"
+
 npm i -g lighthouse > /dev/null 2>&1
 echo "  lighthouse: Automated auditing, performance metrics, and best practices for the web."
 
