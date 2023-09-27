@@ -2,7 +2,8 @@
   {
     "context": "Editor",
     "bindings": {
-      "cmd-]": "editor::GoToHunk",
+      "cmd-alt-down": "editor::GoToHunk",
+      "cmd-alt-up": "editor::GoToPrevHunk",
       "ctrl-k": "editor::DeleteLine",
       "ctrl-u": "editor::CutToEndOfLine",
       "ctrl-left": "editor::Outdent",
@@ -64,19 +65,7 @@
         "pane::ActivateItem",
         8
       ],
-      "cmd-0": "pane::ActivateLastItem",
-      "cmd--": "pane::GoBack",
-      "cmd-_": "pane::GoForward",
-      "cmd-shift-t": "pane::ReopenClosedItem",
-      "cmd-shift-f": "project_search::ToggleFocus"
-    }
-  },
-  {
-    "context": "ProjectPanel",
-    "bindings": {
-      "cmd-n": "project_panel::AddFile",
-      "cmd-shift-n": "project_panel::AddDirectory",
-      "cmd-r": "project_panel::Rename"
+      "cmd-shift-t": "pane::ReopenClosedItem"
     }
   }
 ]

@@ -1,10 +1,33 @@
 {
-  "theme": "Internal/Dracula",
+  "features": {
+    "copilot": false
+  },
+  "project_panel": {
+    "dock": "right",
+    "file_icons": false,
+    "folder_icons": false
+  },
+  "tabs": {
+    "git_status": true
+  },
+  "theme": "One Light",
   "buffer_font_family": "SF Mono",
   "buffer_font_size": 14,
   "tab_size": 2,
+  "show_whitespaces": "none",
   "language_overrides": {
     "JavaScript": {
+      "format_on_save": {
+        "external": {
+          "command": "prettier",
+          "arguments": [
+            "--stdin-filepath",
+            "{buffer_path}"
+          ]
+        }
+      }
+    },
+    "HTML": {
       "format_on_save": {
         "external": {
           "command": "prettier",
