@@ -157,7 +157,7 @@ brew install --cask alt-tab > /dev/null 2>&1
 echo "  AltTab: Windows alt-tab on macOS"
 
 # brew install --cask android-studio > /dev/null 2>&1
-# echo '  Android Studio:  Integrated Development Environment for Android'
+# echo "  Android Studio:  Integrated Development Environment for Android"
 
 echo ""
 echo "[npm]: Installing Global Node Packages"
