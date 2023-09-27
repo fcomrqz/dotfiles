@@ -1,0 +1,11 @@
+(
+    selection_fg: Some(DarkGray),
+    selection_bg: Some(Blue),
+    command_fg: Some(DarkGray),
+    cmdbar_bg: Some(Reset),
+    cmdbar_extra_lines_bg: Some(Reset),
+    push_gauge_fg: Some(Blue),
+    push_gauge_bg: Some(Reset),
+    tag_fg: Some(DarkGray),
+    branch_fg: Some(DarkGray),
+)
