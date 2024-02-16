@@ -1,42 +1,83 @@
 {
+  "seed_search_query_from_cursor": "selection",
+  "collaboration_panel": {
+    "button": false
+  },
+  "chat_panel": {
+    "button": false
+  },
   "features": {
     "copilot": false
   },
+  "assistant": {
+    "dock": "bottom",
+    "button": false
+  },
   "project_panel": {
+    "default_width": 280,
     "dock": "right",
     "file_icons": false,
-    "folder_icons": false
+    "folder_icons": false,
+    "auto_reveal_entries": false
+  },
+  "toolbar": {
+    "breadcrumbs": false,
+    "quick_actions": false
   },
   "tabs": {
     "git_status": true
   },
-  "theme": "One Light",
+  "theme": "One Dark",
+  "terminal": {
+    "line_height": "standard",
+    "blinking": "on",
+    "option_as_meta": true
+  },
   "buffer_font_family": "SF Mono",
   "buffer_font_size": 14,
   "tab_size": 2,
   "show_whitespaces": "none",
+  "preferred_line_length": 100,
+  "format_on_save": "on",
+  "formatter": "prettier",
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 100,
+    "plugins": ["prettier-plugin-toml"]
+  },
   "language_overrides": {
-    "JavaScript": {
+    "Vue.js": {
       "format_on_save": {
         "external": {
           "command": "prettier",
-          "arguments": [
-            "--stdin-filepath",
-            "{buffer_path}"
-          ]
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
         }
       }
     },
-    "HTML": {
+    "TOML": {
       "format_on_save": {
         "external": {
           "command": "prettier",
-          "arguments": [
-            "--stdin-filepath",
-            "{buffer_path}"
-          ]
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
         }
       }
     }
-  }
+  },
+  "copilot": {
+    "disabled_globs": [".env", ".env.*"]
+  },
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.classpath",
+    "**/.settings",
+    "**/node_modules",
+    "**/.wrangler"
+  ]
 }
