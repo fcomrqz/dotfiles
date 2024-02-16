@@ -4,7 +4,7 @@ $jobs$git_status$character
 """
 
 [character]
-  success_symbol = '[→](bold green)'
+  success_symbol = '[→](green)'
   error_symbol = '[✗](bold red)'
 
 [git_status]
@@ -16,7 +16,7 @@ $jobs$git_status$character
   up_to_date = ''
   stashed	= '[•](bold red) '
   modified = '[*](bold yellow) '
-  untracked	= '[+](bold green) '
+  untracked	= '[+](green) '
   renamed = '[=](bold cyan) '
   deleted	= '[−](bold red) '
   staged = '[•](bold blue) '
