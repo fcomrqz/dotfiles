@@ -1,8 +1,5 @@
 #!/bin/bash
 
-yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-sudo yabai --load-sa
-
 yabai -m config layout bsp
 
 yabai -m config auto_balance on
@@ -12,20 +9,37 @@ yabai -m config focus_follows_mouse off
 yabai -m config mouse_follows_focus on
 
 # Window modification
-# yabai -m config window_topmost on
 yabai -m config window_shadow float
 
 # Padding and gaps
-yabai -m config top_padding 8
-yabai -m config bottom_padding 8
-yabai -m config left_padding 8
-yabai -m config right_padding 8
-yabai -m config window_gap 8
+yabai -m config top_padding 2
+yabai -m config bottom_padding 2
+yabai -m config left_padding 2
+yabai -m config right_padding 2
+yabai -m config window_gap 2
+
+yabai -m config window_origin_display focused
 
 # Rules
-yabai -m rule --add app!="^(Terminal|Atom|Zed|Finder|Safari|Google Chrome|Notes|MongoDB Compass|MongoDB Compass 1.35.0|Gitfox|Books|Xcode)$" manage=off
 
-yabai -m rule --add app=Messages subrole=AXStandardWindow grid=10:10:2:0:6:6 manage=off
-yabai -m rule --add app=Twitter title=Twitter grid=8:8:2:0:4:8 manage=off
-yabai -m rule --add app=Things subrole=AXStandardWindow grid=10:10:1:0:8:8 manage=off
-yabai -m rule --add app=WhatsApp grid=10:10:1:0:8:7 manage=off
+## Whitelist
+yabai -m rule --add app!="^(Terminal|Zed|Finder|Safari|Google Chrome|Notes|MongoDB Compass|Books|Xcode|Figma|Freeform)$" manage=off
+
+## Fixed positions
+yabai -m rule --add app=Messages grid=24:6:1:0:4:10 display=2
+yabai -m rule --add app=WhatsApp grid=24:10:1:11:8:12 display=2
+yabai -m rule --add app=Twitter title=Twitter grid=10:10:2:1:6:4 display=3
+yabai -m rule --add app=Things display=2
+
+# Signals
+yabai -m config split_type vertical
+
+## Custom split
+yabai -m signal --add event=window_created app!="^(Things|Messages|Twitter|WhatsApp)$" action='if [[ $(yabai -m query --displays --display | jq -r ".frame.w" | cut -d "." -f 1) -eq 1080 ]] && [[ $(yabai -m query --windows --window | jq -r ".[\"split-type\"]") == "none" || $(yabai -m query --windows --window | jq -r ".[\"split-type\"]") == "vertical" ]]; then yabai -m window --toggle split; fi'
+
+# Fixes open on fullscreen
+yabai -m signal --add event=window_created app=Things action='yabai -m window $(yabai -m query --windows | jq  ".[] | select(.app==\"Things\") | .id") --toggle native-fullscreen'
+
+## Fixes for focus on window creation
+yabai -m signal --add event=window_created app=Messages action='yabai -m window $(yabai -m query --windows | jq  ".[] | select(.app==\"Messages\") | .id") --focus'
+yabai -m signal --add event=window_created app=Twitter action='yabai -m window $(yabai -m query --windows | jq  ".[] | select(.app==\"Twitter\") | .id") --focus'
