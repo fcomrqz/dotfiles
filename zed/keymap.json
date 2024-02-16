@@ -67,5 +67,11 @@
       ],
       "cmd-shift-t": "pane::ReopenClosedItem"
     }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-\\": "workspace::ToggleRightDock"
+    }
   }
 ]
