@@ -1,6 +1,6 @@
 # Float and center window
-cmd + ctrl - t :  yabai -m window --toggle float;\
-                  yabai -m window --grid 1:6:1:0:4:1
+cmd + ctrl - return :  yabai -m window --toggle float;\
+                  yabai -m window --grid 1:8:2:0:4:1
 
 cmd + ctrl - left : \
     yabai -m window --resize left:-40:0; \
