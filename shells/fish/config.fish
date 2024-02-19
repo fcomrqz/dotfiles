@@ -56,12 +56,12 @@ set -U fish_pager_color_progress white -b --background=normal
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/fran/google-cloud-sdk/path.fish.inc' ]; . '/Users/fran/google-cloud-sdk/path.fish.inc'; end
 
-# Select Terminal Appearance from hour
-# if test (date '+%H') -lt 5; or test (date '+%H') -ge 19
-# osascript -e 'tell application "Terminal"
-#           set current settings of tabs of windows to settings set "dark" # Theme name
-#         end tell'
-# end
+# Toggle dark mode
+if osascript -e 'tell application "System Events" to tell appearance preferences to return dark mode' >/dev/null
+  osascript -e 'tell application "Terminal"
+    set current settings of tabs of windows to settings set "dark" # Theme name
+    end tell'
+end
 
 # tabtab source for packages
 # uninstall by removing these lines
