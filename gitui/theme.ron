@@ -6,4 +6,5 @@
     cmdbar_extra_lines_bg: Some(Reset),
     push_gauge_fg: Some(Reset),
     push_gauge_bg: Some(Reset),
+    line_break: Some("⏎")
 )
