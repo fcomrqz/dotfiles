@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Float and center window
+cmd + alt - space :  yabai -m window --toggle float;\
+                  yabai -m window --grid 1:8:2:0:4:1
+
+# Switch to another window from same app
+alt - 0x30 : ~/dotfiles/yabai/focus.sh
+
+# Move windows around
+cmd + alt - 0x2B : fish ~/dotfiles/yabai/move-prev.fish
+cmd + alt - 0x2F : fish ~/dotfiles/yabai/move-next.fish
+
+
+# Toggle Full Screen
+cmd - right: yabai -m window --toggle native-fullscreen
+
+ctrl - space  : osascript -e 'tell application "Shortcuts" to run the shortcut "Quick Entry"'
