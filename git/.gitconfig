@@ -4,7 +4,7 @@
 	name = Fran
 	email = fcomrqz@users.noreply.github.com
 [core]
-	editor = zed --wait
+	editor = zed
 	pager = delta
 	quotepath = false
 [blame]
@@ -47,8 +47,8 @@
 	process = git-lfs filter-process
 	required = true
 [credential "https://github.com"]
-	helper = 
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
