@@ -14,7 +14,7 @@ $jobs$git_status$character
   behind = '[↓ $count](bold red) '
   diverged = '[↓ $behind_count](bold red) [↑ $ahead_count](bold blue) '
   up_to_date = ''
-  stashed	= '[•](bold red) '
+  stashed	= '[✦](bold red) '
   modified = '[*](bold yellow) '
   untracked	= '[+](green) '
   renamed = '[=](bold cyan) '
