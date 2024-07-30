@@ -2,76 +2,65 @@
   {
     "context": "Editor",
     "bindings": {
-      "cmd-alt-down": "editor::GoToHunk",
-      "cmd-alt-up": "editor::GoToPrevHunk",
-      "ctrl-k": "editor::DeleteLine",
-      "ctrl-u": "editor::CutToEndOfLine",
-      "ctrl-left": "editor::Outdent",
-      "ctrl-right": "editor::Indent",
-      "ctrl-up": "editor::MoveLineUp",
-      "ctrl-down": "editor::MoveLineDown",
-      "alt-shift-up": "editor::SelectLargerSyntaxNode",
-      "alt-shift-down": "editor::SelectSmallerSyntaxNode",
-      "alt-down": [
-        "editor::HalfPageDown",
-        {
-          "center_cursor": true
-        }
-      ],
-      "alt-up": [
-        "editor::HalfPageUp",
-        {
-          "center_cursor": true
-        }
-      ]
+      "home": "editor::MoveToBeginning",
+      "end": "editor::MoveToEnd",
+      "pageup": "editor::MoveToStartOfParagraph",
+      "pagedown": "editor::MoveToEndOfParagraph",
+      "cmd-pageup": "editor::MoveLineUp",
+      "cmd-pagedown": "editor::MoveLineDown",
+      "cmd-alt-d": "editor::DuplicateLineDown",
+      "alt-enter": "editor::NewlineAbove",
+      "ctrl-alt-j": "editor::NewlineAbove",
+      "alt-j": "editor::NewlineBelow",
+      "alt-k": "editor::DeleteLine",
+      "alt-l": "editor::SelectLine",
+      "shift-down": "editor::SelectSmallerSyntaxNode",
+      "shift-up": "editor::SelectLargerSyntaxNode",
+      "alt-x": "editor::GoToPrevHunk",
+      "alt-c": "editor::GoToHunk",
+      "alt-z": "editor::RevertSelectedHunks",
+      "alt-v": "editor::ToggleHunkDiff",
+      "cmd-k cmd-j": ["workspace::ActivatePaneInDirection", "Left"],
+      "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
+      "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-cmd-alt-j": "editor::OpenExcerpts",
+      "cmd-alt-enter": "editor::OpenExcerpts",
+      "cmd-enter": "editor::OpenExcerpts",
+      "ctrl-v": null,
+      "ctrl-c": "editor::GoToDiagnostic",
+      "ctrl-x": "editor::GoToPrevDiagnostic"
     }
   },
   {
     "context": "Pane",
     "bindings": {
-      "cmd-1": [
-        "pane::ActivateItem",
-        0
-      ],
-      "cmd-2": [
-        "pane::ActivateItem",
-        1
-      ],
-      "cmd-3": [
-        "pane::ActivateItem",
-        2
-      ],
-      "cmd-4": [
-        "pane::ActivateItem",
-        3
-      ],
-      "cmd-5": [
-        "pane::ActivateItem",
-        4
-      ],
-      "cmd-6": [
-        "pane::ActivateItem",
-        5
-      ],
-      "cmd-7": [
-        "pane::ActivateItem",
-        6
-      ],
-      "cmd-8": [
-        "pane::ActivateItem",
-        7
-      ],
-      "cmd-9": [
-        "pane::ActivateItem",
-        8
-      ],
-      "cmd-shift-t": "pane::ReopenClosedItem"
+      "cmd-1": ["pane::ActivateItem", 0],
+      "cmd-2": ["pane::ActivateItem", 1],
+      "cmd-3": ["pane::ActivateItem", 2],
+      "cmd-4": ["pane::ActivateItem", 3],
+      "cmd-5": ["pane::ActivateItem", 4],
+      "cmd-6": ["pane::ActivateItem", 5],
+      "cmd-7": ["pane::ActivateItem", 6],
+      "cmd-8": ["pane::ActivateItem", 7],
+      "cmd-9": ["pane::ActivateItem", 8],
+      "cmd-k k": "pane::SplitDown",
+      "cmd-k j": "pane::SplitLeft",
+      "cmd-k l": "pane::SplitRight",
+      "cmd-k i": "pane::SplitUp",
+      "ctrl-tab": "pane::ActivateNextItem",
+      "ctrl-alt-tab": "pane::ActivatePrevItem"
     }
   },
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-\\": "workspace::ToggleRightDock"
+      "cmd-k cmd-j": ["workspace::ActivatePaneInDirection", "Left"],
+      "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
+      "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
+      // "cmd-b": "branches::OpenRecent",
+      "ctrl-alt-cmd-c": "workspace::ToggleCenteredLayout"
     }
   }
 ]
