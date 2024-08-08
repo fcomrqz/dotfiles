@@ -12,3 +12,6 @@ defaults write com.apple.dock no-bouncing -bool TRUE && killall Dock
 
 # Do not create `.DS_Store` files
 defaults write com.apple.desktopservices DSDontWriteNetworkStores true
+
+# Omit crash report dialog {none|basic|developer|server}
+defaults write com.apple.CrashReporter DialogType none
