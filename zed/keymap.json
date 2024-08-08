@@ -9,27 +9,27 @@
       "cmd-pageup": "editor::MoveLineUp",
       "cmd-pagedown": "editor::MoveLineDown",
       "cmd-alt-d": "editor::DuplicateLineDown",
-      "alt-enter": "editor::NewlineAbove",
-      "ctrl-alt-j": "editor::NewlineAbove",
+      "cmd-j": "editor::NewlineAbove",
       "alt-j": "editor::NewlineBelow",
       "alt-k": "editor::DeleteLine",
       "alt-l": "editor::SelectLine",
       "shift-down": "editor::SelectSmallerSyntaxNode",
       "shift-up": "editor::SelectLargerSyntaxNode",
-      "alt-x": "editor::GoToPrevHunk",
-      "alt-c": "editor::GoToHunk",
-      "alt-z": "editor::RevertSelectedHunks",
-      "alt-v": "editor::ToggleHunkDiff",
       "cmd-k cmd-j": ["workspace::ActivatePaneInDirection", "Left"],
       "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
       "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
       "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
-      "ctrl-cmd-alt-j": "editor::OpenExcerpts",
-      "cmd-alt-enter": "editor::OpenExcerpts",
-      "cmd-enter": "editor::OpenExcerpts",
-      "ctrl-v": null,
+      "cmd-e": "project_panel::ToggleFocus",
+      "cmd-i": "editor::OpenExcerpts",
+      "alt-z": "editor::RevertSelectedHunks",
+      "alt-x": "editor::GoToPrevHunk",
+      "alt-c": "editor::GoToHunk",
+      "alt-v": "editor::ToggleHunkDiff",
+      "ctrl-z": null,
+      "ctrl-x": "editor::GoToPrevDiagnostic",
       "ctrl-c": "editor::GoToDiagnostic",
-      "ctrl-x": "editor::GoToPrevDiagnostic"
+      "ctrl-v": null,
+      "ctrl-k": null
     }
   },
   {
@@ -59,8 +59,15 @@
       "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
       "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
       "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
-      // "cmd-b": "branches::OpenRecent",
-      "ctrl-alt-cmd-c": "workspace::ToggleCenteredLayout"
+      "ctrl-v": "workspace::ToggleCenteredLayout",
+      "cmd-e": "project_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "cmd-e": "project_panel::ToggleFocus",
+      "cmd-pagedown": "project_panel::NewDirectory"
     }
   }
 ]

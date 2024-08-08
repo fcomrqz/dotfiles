@@ -1,73 +1,4 @@
 {
-  "seed_search_query_from_cursor": "selection",
-  "collaboration_panel": {
-    "button": false
-  },
-  "chat_panel": {
-    "button": false
-  },
-  "features": {
-    "copilot": false
-  },
-  "assistant": {
-    "dock": "bottom",
-    "button": false
-  },
-  "project_panel": {
-    "default_width": 280,
-    "dock": "right",
-    "file_icons": false,
-    "folder_icons": false,
-    "auto_reveal_entries": false
-  },
-  "toolbar": {
-    "breadcrumbs": false,
-    "quick_actions": false
-  },
-  "tabs": {
-    "git_status": true
-  },
-  "theme": "One Dark",
-  "terminal": {
-    "line_height": "standard",
-    "blinking": "on",
-    "option_as_meta": true
-  },
-  "buffer_font_family": "SF Mono",
-  "buffer_font_size": 14,
-  "tab_size": 2,
-  "show_whitespaces": "none",
-  "preferred_line_length": 100,
-  "format_on_save": "on",
-  "formatter": "prettier",
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "printWidth": 100,
-    "plugins": ["prettier-plugin-toml"]
-  },
-  "language_overrides": {
-    "Vue.js": {
-      "format_on_save": {
-        "external": {
-          "command": "prettier",
-          "arguments": ["--stdin-filepath", "{buffer_path}"]
-        }
-      }
-    },
-    "TOML": {
-      "format_on_save": {
-        "external": {
-          "command": "prettier",
-          "arguments": ["--stdin-filepath", "{buffer_path}"]
-        }
-      }
-    }
-  },
-  "copilot": {
-    "disabled_globs": [".env", ".env.*"]
-  },
   "file_scan_exclusions": [
     "**/.git",
     "**/.svn",
@@ -78,6 +9,127 @@
     "**/.classpath",
     "**/.settings",
     "**/node_modules",
-    "**/.wrangler"
-  ]
+    "**/bun.lockb",
+    "**/package-lock.json",
+    "**/.wrangler",
+    "**/.vercel",
+    "**/.nuxt"
+  ],
+  "centered_layout": {
+    "left_padding": 0.24,
+    "right_padding": 0.24
+  },
+  "when_closing_with_no_tabs": "keep_window_open",
+  "seed_search_query_from_cursor": "selection",
+  "assistant": {
+    "version": "2",
+    "button": false,
+    "default_model": {
+      "provider": "openai",
+      "model": "gpt-4o-mini"
+    }
+  },
+  "project_panel": {
+    "default_width": 260,
+    "dock": "right",
+    "file_icons": false,
+    "folder_icons": false,
+    "auto_reveal_entries": false,
+    "auto_fold_dirs": false,
+    "button": false
+  },
+  "tabs": {
+    "git_status": true
+  },
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Vesper"
+  },
+  "terminal": {
+    "line_height": "standard",
+    "blinking": "on",
+    "option_as_meta": true,
+    "font_family": "SF Mono",
+    "font_size": 12,
+    "button": false
+  },
+  "ui_font_family": "SF Mono",
+  "buffer_font_family": "SF Mono",
+  "show_whitespaces": "none",
+  "preferred_line_length": 100,
+  "tab_size": 2,
+  "prettier": {
+    "allowed": true,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 100,
+    "plugins": ["prettier-plugin-toml"]
+  },
+  "file_types": {
+    "Dockerfile": ["containerfile"]
+    // "JSONC": ["**/.zed/**/*.json", "**/zed/**/*.json", "**/Zed/**/*.json", "tsconfig.json"]
+  },
+  "languages": {
+    "Swift": {
+      "format_on_save": {
+        "external": {
+          "command": "swift-format",
+          "arguments": [
+            //   "-i",
+            //   "{buffer_path}"
+          ]
+        }
+      }
+    },
+    "TOML": {
+      "prettier": {
+        "allowed": true,
+        "plugins": ["prettier-plugin-toml"]
+      }
+    }
+  },
+  // Deactivate unused paneles
+  "collaboration_panel": {
+    "button": false
+  },
+  "chat_panel": {
+    "button": false
+  },
+  "outline_panel": {
+    "button": false
+  },
+  "gutter": {
+    "line_numbers": true,
+    "folds": true,
+    "code_actions": false,
+    "runnables": false
+  },
+  "task": {
+    "show_status_indicator": false
+  },
+  "notification_panel": {
+    "button": false,
+    "dock": "right",
+    "default_width": 380
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": false
+    }
+  },
+  "scrollbar": {
+    "show": "never"
+  },
+  "features": {
+    "inline_completion_provider": "none" // Deactivate GitHub Copilot
+  },
+  "hover_popover_enabled": false,
+  "tab_bar": {
+    "show_nav_history_buttons": false
+  },
+  "toolbar": {
+    "quick_actions": false
+  }
 }
