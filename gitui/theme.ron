@@ -7,20 +7,8 @@
     push_gauge_fg: Some("Reset"),
     push_gauge_bg: Some("Reset"),
     line_break: Some("⏎"),
-		branch_fg: Some("Red"),
+    branch_fg: Some("Red"),
 )
 
-		// block_title_focused: Some(Blue),
-    // selected_tab: Some(Yellow),
-		// disabled_fg: Some("Reset"),
-		// diff_line_add: Some(Yellow),
-		// diff_line_delete: Some(Yellow),
-		// diff_file_added: Some(Green),
-		// diff_file_removed: Some(Red),
-		// diff_file_moved: Some(Yellow),
-		// diff_file_modified: Some(Yellow),
-		// commit_hash: Some(Yellow),
-		// commit_time: Some(Yellow),
-		// commit_author: Some(Yellow),
-		// danger_fg: Some(Yellow),
-		// tag_fg: Some(Yellow),
+// All options
+// https://github.com/extrawurst/gitui/blob/63a91fd281be03ae33b049af0f9e143bc496ad54/src/ui/style.rs#L330-L358
