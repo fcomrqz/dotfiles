@@ -50,6 +50,7 @@ $jobs$git_status$character
   format = '[$path]($style)[$read_only]($read_only_style) '
   style = 'bold yellow'
   truncate_to_repo = false
+  truncation_length = 2
 
 [battery]
   full_symbol = ''
