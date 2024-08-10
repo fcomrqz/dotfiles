@@ -25,9 +25,10 @@
       "alt-x": "editor::GoToPrevHunk",
       "alt-c": "editor::GoToHunk",
       "alt-v": "editor::ToggleHunkDiff",
-      "ctrl-z": null,
       "ctrl-x": "editor::GoToPrevDiagnostic",
       "ctrl-c": "editor::GoToDiagnostic",
+      "cmd-b": "outline::Toggle",
+      "ctrl-z": null,
       "ctrl-v": null,
       "ctrl-k": null
     }
