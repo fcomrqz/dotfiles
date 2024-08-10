@@ -89,6 +89,12 @@
       }
     }
   },
+  "jupyter": {
+    "kernel_selections": {
+      "typescript": "deno",
+      "javascript": "deno"
+    }
+  },
   // Deactivated features
   // "hover_popover_enabled": false,
   "show_whitespaces": "none",
