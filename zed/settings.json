@@ -56,8 +56,7 @@
   },
   "ui_font_family": "SF Mono",
   "buffer_font_family": "SF Mono",
-  "show_whitespaces": "none",
-  "soft_wrap": "none",
+
   "preferred_line_length": 100,
   "tab_size": 2,
   "prettier": {
@@ -70,7 +69,6 @@
   },
   "file_types": {
     "Dockerfile": ["containerfile"]
-    // "JSONC": ["**/.zed/**/*.json", "**/zed/**/*.json", "**/Zed/**/*.json", "tsconfig.json"]
   },
   "languages": {
     "Swift": {
@@ -91,7 +89,12 @@
       }
     }
   },
-  // Deactivate unused paneles
+  // Deactivated features
+  // "hover_popover_enabled": false,
+  "show_whitespaces": "none",
+  "soft_wrap": "none",
+  "show_signature_help_after_edits": false,
+  // Deactivated panels
   "collaboration_panel": {
     "button": false
   },
@@ -126,7 +129,6 @@
   "features": {
     "inline_completion_provider": "none" // Deactivate GitHub Copilot
   },
-  "hover_popover_enabled": false,
   "tab_bar": {
     "show_nav_history_buttons": false
   },
