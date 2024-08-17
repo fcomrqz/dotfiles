@@ -1,59 +1,56 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
 format = """
-$directory$git_branch$git_state$cmd_duration
+$directory$package$git_commit$git_branch$git_state$cmd_duration
 $jobs$git_status$character
 """
 
 [character]
-  success_symbol = '[→](green)'
-  error_symbol = '[✗](bold red)'
+success_symbol = '[→](green)'
+error_symbol = '[✗](red)'
 
 [git_status]
-  format = '$ahead_behind$stashed$untracked$deleted$modified$staged$conflicted'
-  conflicted = '[▸◂](bold red) '
-  ahead	= '[↑ $count](bold blue) '
-  behind = '[↓ $count](bold red) '
-  diverged = '[↓ $behind_count](bold red) [↑ $ahead_count](bold blue) '
-  up_to_date = ''
-  stashed	= '[✦](bold red) '
-  modified = '[*](bold yellow) '
-  untracked	= '[+](green) '
-  renamed = '[=](bold cyan) '
-  deleted	= '[−](bold red) '
-  staged = '[•](bold blue) '
+format = '$stashed$ahead_behind$untracked$deleted$modified$staged$conflicted'
+conflicted = '[▸◂](red) '
+ahead = '[↑ $count](blue) '
+behind = '[↓ $count](red) '
+diverged = '[↓ $behind_count](red) [↑ $ahead_count](blue) '
+up_to_date = ''
+stashed = '[···](red) '
+modified = '[*](yellow) '
+untracked = '[+](green) '
+renamed = '[=](cyan) '
+deleted = '[−](red) '
+staged = '[•](blue) '
 
 [git_commit]
-  format = '[$hash](bold green) '
-  commit_hash_length = 7
-  only_detached = false
-  tag_disabled = false
-  tag_symbol = ''
+format = '[($tag )](green)'
+commit_hash_length = 7
+only_detached = false
+tag_disabled = false
+tag_symbol = ''
 
 [git_state]
-  format = '$state( [$progress_current:$progress_total](bold yellow)) '
-  rebase = "[rebasing](bold cyan)"
-  merge = "[merging](bold yellow)"
-  cherry_pick = "[pick](bold red)"
+format = '$state([$progress_current:$progress_total](yellow)) '
+rebase = "[rebasing](cyan)"
+merge = "[merging](yellow)"
+cherry_pick = "[cherry-picking](red)"
+bisect = "[bisecting](red)"
 
 [git_branch]
-  format = '[$branch](bold purple) '
-  only_attached = true
+format = '[$branch](purple) '
+only_attached = true
 
 [package]
-  format = '[$version](bold blue) '
+format = '[$version](blue) '
 
 [jobs]
-  format ='[$symbol$number](bold red) '
-  symbol = '▸'
-  number_threshold = 2
+format = '[$symbol$number](bold red) '
+symbol = '▸'
+number_threshold = 2
 
 [directory]
-  format = '[$path]($style)[$read_only]($read_only_style) '
-  style = 'bold yellow'
-  truncate_to_repo = false
-  truncation_length = 2
-
-[battery]
-  full_symbol = ''
-  charging_symbol = ''
-  discharging_symbol = ''
-  empty_symbol = ''
+format = '[$path]($style) '
+style = 'yellow'
+truncate_to_repo = false
+truncation_length = 2

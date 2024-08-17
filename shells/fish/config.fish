@@ -4,6 +4,15 @@ if status --is-interactive
         starship module character
     end
 
+    function starship_transient_rprompt_func
+        echo ''
+        starship module directory
+        starship module package
+        starship module git_commit
+        starship module git_branch
+        starship module git_state
+    end
+
     starship init fish | source
     enable_transience
 
@@ -53,19 +62,14 @@ if status --is-interactive
     # Pager:  progress bar at the bottom left corner
     set -U fish_pager_color_progress white -b --background=normal
 
-    # The next line updates PATH for the Google Cloud SDK.
-    if [ -f '/Users/fran/google-cloud-sdk/path.fish.inc' ]
-        . '/Users/fran/google-cloud-sdk/path.fish.inc'
-    end
-
     # Toggle dark mode
     set is_dark_mode (osascript -e 'tell application "System Events" to tell appearance preferences to return dark mode' 2> /dev/null)
 
     if test $status -eq 0
         if $is_dark_mode
             osascript -e 'tell application "Terminal"
-      set current settings of tabs of windows to settings set "dark" # Theme name
-      end tell'
+              set current settings of tabs of windows to settings set "dark"
+            end tell'
         end
     end
 
