@@ -31,6 +31,8 @@
       "cmd-y": "editor::Redo",
       "ctrl-z": null,
       "ctrl-k": null,
+      "cmd-;": "editor::Fold",
+      "cmd-'": "editor::UnfoldLines",
       "ctrl-v": "workspace::ToggleCenteredLayout"
     }
   },
