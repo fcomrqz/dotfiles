@@ -15,3 +15,6 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores true
 
 # Omit crash report dialog {none|basic|developer|server}
 defaults write com.apple.CrashReporter DialogType none
+
+# Displays have separate Spaces
+defaults write com.apple.spaces spans-displays -bool true && killall SystemUIServer
