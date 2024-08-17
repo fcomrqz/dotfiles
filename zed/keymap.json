@@ -28,6 +28,7 @@
       "ctrl-x": "editor::GoToPrevDiagnostic",
       "ctrl-c": "editor::GoToDiagnostic",
       "cmd-b": "outline::Toggle",
+      "cmd-y": "editor::Redo",
       "ctrl-z": null,
       "ctrl-k": null,
       "ctrl-v": "workspace::ToggleCenteredLayout"
