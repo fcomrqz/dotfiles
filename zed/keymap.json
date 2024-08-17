@@ -29,8 +29,8 @@
       "ctrl-c": "editor::GoToDiagnostic",
       "cmd-b": "outline::Toggle",
       "ctrl-z": null,
-      "ctrl-v": null,
-      "ctrl-k": null
+      "ctrl-k": null,
+      "ctrl-v": "workspace::ToggleCenteredLayout"
     }
   },
   {
