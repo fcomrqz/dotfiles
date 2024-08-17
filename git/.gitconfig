@@ -4,7 +4,7 @@
 	name = Fran
 	email = fcomrqz@users.noreply.github.com
 [core]
-	editor = zed
+	editor = zed -w
 	pager = delta
 	quotepath = false
 [blame]
