@@ -72,13 +72,10 @@
   },
   "languages": {
     "Swift": {
-      "format_on_save": {
+      "formatter": {
         "external": {
           "command": "swift-format",
-          "arguments": [
-            //   "-i",
-            //   "{buffer_path}"
-          ]
+          "arguments": []
         }
       }
     },
@@ -87,6 +84,58 @@
         "allowed": true,
         "plugins": ["prettier-plugin-toml"]
       }
+    },
+    "Fish": {
+      "formatter": {
+        "external": {
+          "command": "fish_indent",
+          "arguments": []
+        }
+      }
+    },
+    "CSS": {
+      "formatter": [
+        {
+          "external": {
+            "command": "stylelint",
+            "arguments": [
+              "--config",
+              "config/stylelint.js",
+              "--stdin-filename",
+              "{buffer_path}",
+              "--fix"
+            ]
+          }
+        },
+        {
+          "external": {
+            "command": "prettier",
+            "arguments": ["--stdin-filepath", "{buffer_path}"]
+          }
+        }
+      ]
+    },
+    "Vue.js": {
+      "formatter": [
+        {
+          "external": {
+            "command": "stylelint",
+            "arguments": [
+              "--config",
+              "config/stylelint.js",
+              "--stdin-filename",
+              "{buffer_path}",
+              "--fix"
+            ]
+          }
+        },
+        {
+          "external": {
+            "command": "prettier",
+            "arguments": ["--stdin-filepath", "{buffer_path}"]
+          }
+        }
+      ]
     }
   },
   "jupyter": {
