@@ -39,8 +39,6 @@
 	line-numbers-right-format = "{np:^4} "
 	line-numbers-left-format = "{nm:^4} "
 	tabs = 2
-[alias]
-	s = status -s
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
