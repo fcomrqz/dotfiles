@@ -37,6 +37,12 @@
     }
   },
   {
+    "context": "Editor && jupyter && !ContextEditor",
+    "bindings": {
+      "ctrl-r": "repl::Run"
+    }
+  },
+  {
     "context": "Pane",
     "bindings": {
       "cmd-1": ["pane::ActivateItem", 0],
