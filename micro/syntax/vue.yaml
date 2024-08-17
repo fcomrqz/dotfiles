@@ -1,0 +1,41 @@
+filetype: vue
+
+detect:
+  filename: "\\.vue$"
+
+rules:
+  - default:
+      start: '<template.*?>'
+      end: '</template.*?>'
+      rules:
+        - constant.string: '"[^"]*"'
+        - constant.number: '(?i)#[0-9a-fA-F]{6,6}'
+        # Vue
+        - symbol.tag.extended: "(?i)<[/]?(component|transition|transition-group|keep-alive|slot)\\b"
+        - identifier: '(v-text|v-html|v-show|v-if|v-else|v-else-if|v-for|v-on|v-bind|v-model|v-slot|v-pre|v-cloak|v-once|key|ref|is|@click)='
+        - symbol: '[:=]'
+
+        # Vue-router
+        - symbol.tag.extended: "(?i)<[/]?(router-link|router-view|RouterLink|RouterView)\\b"
+        - identifier: '(to|v-slot)='
+        - symbol: '[:=]'
+
+        - include: 'html'
+
+  - default:
+      start: '<script(?:[ ]+setup)?>'
+      end: '</script>'
+      rules:
+        - include: 'javascript'
+
+  - default:
+      start: '<script(?:[ ]+setup)?[ ]+lang=("ts"|''ts'')>'
+      end: '</script>'
+      rules:
+        - include: 'typescript'
+
+  - default:
+      start: '<style(?:[ ]+scoped.*?)?>'
+      end: '</style.*?>'
+      rules:
+        - include: 'css'

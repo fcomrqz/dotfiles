@@ -1,0 +1,9 @@
+{
+  "CtrlUnderscore": "lua:comment.comment",
+  "Alt-/": "lua:comment.comment",
+  "Ctrl-t": "command:fzfinder",
+  "AltDown": "DiffNext|CursorEnd",
+  "AltUp": "DiffPrevious|CursorStart",
+  "CtrlDown": "MoveLinesDown",
+  "CtrlUp": "MoveLinesUp"
+}
