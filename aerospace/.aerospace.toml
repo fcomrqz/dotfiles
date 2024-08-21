@@ -6,7 +6,7 @@ default-root-container-layout = 'tiles'
 
 default-root-container-orientation = 'auto'
 
-on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+on-focus-changed = ['move-mouse window-lazy-center']
 
 [gaps]
 inner.horizontal = 7
@@ -35,16 +35,20 @@ if.app-id = 'com.adobe.xd'
 run = ['layout floating', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
-if.window-title-regex-substring = 'AI Chat'
-run = ['layout floating']
+if.app-id = 'com.raycast.macos'
+run = ['layout floating', 'move-node-to-workspace 1']
 
-# [[on-window-detected]]
-# if.app-id = 'com.apple.freeform'
-# run = []
+[[on-window-detected]]
+if.app-id = 'com.apple.freeform'
+run = ['layout floating', 'move-node-to-workspace 1']
 
-# [[on-window-detected]]
-# if.app-id = 'com.figma.Desktop'
-# run = []
+[[on-window-detected]]
+if.app-id = 'com.figma.Desktop'
+run = ['layout floating', 'move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.culturedcode.ThingsMac'
+run = ['layout floating', 'move-node-to-workspace 1']
 
 # Right Monitor
 [[on-window-detected]]
@@ -54,6 +58,18 @@ run = ['move-node-to-workspace 2']
 [[on-window-detected]]
 if.app-id = 'org.chromium.Chromium'
 run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.AddressBook'
+run = ['layout floating', 'move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.AddressBook'
+run = ['layout floating', 'move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Notes'
+run = ['layout floating', 'move-node-to-workspace 1']
 
 [mode.main.binding]
 
