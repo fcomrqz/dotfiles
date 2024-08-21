@@ -57,7 +57,7 @@
   },
   "ui_font_family": "SF Mono",
   "buffer_font_family": "SF Mono",
-
+  "buffer_font_size": 16,
   "preferred_line_length": 100,
   "tab_size": 2,
   "prettier": {
