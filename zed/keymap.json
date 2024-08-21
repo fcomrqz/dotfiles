@@ -27,13 +27,13 @@
       "alt-v": "editor::ToggleHunkDiff",
       "ctrl-x": "editor::GoToPrevDiagnostic",
       "ctrl-c": "editor::GoToDiagnostic",
-      "cmd-b": "outline::Toggle",
       "cmd-y": "editor::Redo",
       "ctrl-z": null,
       "ctrl-k": null,
       "cmd-;": "editor::Fold",
       "cmd-'": "editor::UnfoldLines",
-      "ctrl-v": "workspace::ToggleCenteredLayout"
+      "ctrl-v": "workspace::ToggleCenteredLayout",
+      "cmd-u": "outline::Toggle"
     }
   },
   {
