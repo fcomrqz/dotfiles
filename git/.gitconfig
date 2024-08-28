@@ -10,13 +10,14 @@
 [blame]
 	date = relative
 [format]
-	pretty = %C(brightgreen)%h%Creset %s %C(brightblue)%cr%Creset%C(brightmagenta)%d%Creset
+	pretty = %C(magenta)%h%Creset %s %C(brightblack)%cr%Creset%C(red)%d%Creset
 [pager]
   diff = delta
   log = delta
 	reflog = delta
 	show = delta
 [delta]
+  syntax-theme = none
 	commit-style = raw
   file-style = yellow
 	file-decoration-style = omit
@@ -24,18 +25,21 @@
 	file-copied-label = [==]
 	file-modified-label = [*]
 	file-removed-label = [-]
-	file-renamed-label = [->]
-  hunk-header-style = file line-number syntax
-	hunk-header-file-style = yellow
+	file-renamed-label = [→]
+	right-arrow  = →
+  hunk-header-style = omit
 	hunk-header-decoration-style = omit
 	zero-style = syntax
-	minus-style = red 224
-	minus-emph-style = red 224
-	plus-style = 28 194
-	plus-emph-style = 28 194
+	minus-style = red
+	minus-emph-style = red
+	minus-non-emph-style = brightred
+	plus-style = green
+	plus-emph-style = green
+	plus-non-emph-style = brightgreen
   line-numbers = true
-	line-numbers-minus-style = brightred bold
-  line-numbers-plus-style = brightgreen bold
+  line-numbers-zero-style = brightblack
+	line-numbers-minus-style = brightred
+  line-numbers-plus-style = brightgreen
 	line-numbers-right-format = "{np:^4} "
 	line-numbers-left-format = "{nm:^4} "
 	tabs = 2
@@ -50,3 +54,7 @@
 [credential "https://gist.github.com"]
 	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
+[push]
+	autoSetupRemote = true
+[rerere]
+	enabled = true

@@ -23,7 +23,7 @@ color-link special "yellow"
 color-link preproc "red"
 
 color-link underlined "#99D1DB"
-color-link error "bold "red"
+color-link error "bold red"
 color-link todo "bold #E5C890"
 
 color-link diff-added "green"
@@ -37,9 +37,9 @@ color-link statusline "brightblack"
 color-link tabbar "brightblack"
 color-link indent-char "red"
 color-link line-number "white"
-color-link current-line-number "black"
+color-link current-line-number "brightblack"
 
-color-link cursor-line "#F2F3F4"
+color-link cursor-line "#f5f5f5"
 color-link color-column "red"
 
 color-link divider "white,white"

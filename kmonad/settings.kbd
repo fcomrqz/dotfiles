@@ -11,58 +11,77 @@
 )
 
 (defalias
-  ralt (layer-toggle right-option)
-  lalt (layer-toggle left-option)
-  hralt (tap-hold-next 100 XX (layer-toggle right-option) :timeout-button ralt)
-  hlalt (tap-hold-next 100 XX (layer-toggle left-option) :timeout-button lalt)
-  rctl (layer-toggle right-control)
-  lctl (layer-toggle left-control)
-  lasft (layer-toggle left-option+shift)
-  rasft (layer-toggle right-option+shift)
-
-  ;; Select lines
-  slined (tap-macro S-down)
-  slineu (tap-macro S-up)
-  sliner (tap-macro A-S-rght)
-  slinel (tap-macro A-S-left)
-
-  ;; Delete to beginning of line
-  ctlu (multi-tap 200 (around rmet bspc) (around ctl u))
-
-  ;; Delete word backwards
-  ctlw (around ralt bspc)
-
-  ;; Delete word forwards
-  altd (around ralt del)
-
-  ;; Move word forward
-  wf (around alt rght)
-
-  ;; Move word backwards
-  wb (around alt left)
-
-  ;; Spanish special characters
-  n (tap-hold 260 n (tap-macro A-n n))
-
   ;; Home row mods
-  ca (tap-hold-next-release 200 a @lctl)
-  as (tap-hold-next-release 200 s @lalt)
-  gd (tap-hold-next-release 200 d lmet)
+  ;; a (tap-hold-next-release 190 (around a (cmd-button "echo 'a' >> /Users/fran/Downloads/keystrokes.txt")) (around (tap-macro-release (around (layer-rem left-control) (around (layer-rem left-control-option) (layer-rem left-control-meta)))) (layer-add left-control)))
+  a (tap-hold-next-release 190 a (around (tap-macro-release (around (layer-rem left-control) (around (layer-rem left-control-option) (layer-rem left-control-meta)))) (layer-add left-control)))
+  s (tap-hold-next-release 190 s (around lalt (around (tap-macro-release (around (layer-rem left-control-option) (around (layer-rem left-option-meta) (layer-rem left-option)))) (layer-add left-option))))
+  d (tap-hold-next-release 190 d (around lmet (around (tap-macro-release (around (layer-rem left-control-meta) (around (layer-rem left-option-meta) (layer-rem left-meta)))) (layer-add left-meta))))
+  f (tap-hold-next-release 190 f (around lsft (layer-toggle left-shift)))
 
-  gk (tap-hold-next-release 200 k rmet)
-  al (tap-hold-next-release 200 l @ralt)
-  c; (tap-hold-next-release 200 ; @rctl)
+  LCMC (tap-hold-next-release 200 a (around (tap-macro-release (around (layer-rem left-control-meta) (layer-rem left-control))) (around (layer-add left-control) (layer-add left-control-meta))))
+  LCMM (tap-hold-next-release 200 d (around (tap-macro-release (around (layer-rem left-control-meta) (layer-rem left-meta))) (around (layer-add left-meta) (layer-add left-control-meta))))
 
-  ;; Home row mods held combos
-  hmet (tap-next XX met)
-  halt (tap-next XX alt)
+  LMOM (tap-hold-next-release 200 A-d (around (tap-macro-release (around (layer-rem left-option-meta) (layer-rem left-meta))) (around (layer-add left-meta) (layer-add left-option-meta))))
+  LMOO (tap-hold-next-release 200 M-s (around (tap-macro-release (around (layer-rem left-option-meta) (layer-rem left-option))) (around (layer-add left-option) (layer-add left-option-meta))))
+
+  LCAA (around lalt (around lctl (around (tap-macro-release (around (layer-rem left-control-option) (layer-rem left-option))) (around (layer-add left-option) (layer-add left-control-option)))))
+  LCAC (around lalt (around lctl (around (tap-macro-release (around (layer-rem left-control-option) (layer-rem left-control))) (around (layer-add left-control) (layer-add left-control-option)))))
+
+  j (tap-hold-next-release 190 j rsft)
+  k (tap-hold-next-release 190 k rmet)
+  l (tap-hold-next-release 190 l (around ralt (layer-toggle right-option)))
+  ; (tap-hold-next-release 190 ; (around rctl (layer-toggle right-control)))
+
+  Ck (tap-hold-next-release 200 C-k rmet)
+
+  bspc (around (release-only lalt) bspc)
+  ret (around (release-only lalt) ret)
+  pgup (around (release-only lalt) pgup)
+  pgdn (around (release-only lalt) pgdn)
+  ] (around (release-only lalt) ])
+  M] (around (around (release-only lalt) lmet) ])
+
+  del (around (release-only rctl) del)
+  rght (around (release-only rctl) rght)
+  left (around (release-only rctl) left)
+
+  down (around (release-only lctl) down)
+  up (around (release-only lctl) up)
+
+  LMS (around lmet (around lsft (layer-toggle left-meta-shift)))
+  LAS (around lalt (around lsft (layer-toggle left-option-shift)))
+
+  RAC (around ralt (around rctl (layer-toggle right-control-option)))
+
+  LMOS (around lmet (around lalt (around lsft (layer-toggle left-option-meta-shift))))
+
+  A (tap-hold-next-release 200 A (layer-toggle caps-control))
+  S (tap-hold-next-release 200 S (around lalt (layer-toggle caps-option)))
+
+  L (tap-hold-next-release 200 L (around lalt (layer-toggle caps-option)))
+  ;b (tap-hold-next-release 200 (around ; (layer-switch base)) (layer-toggle caps-control))
 
   ;; Shifts
-  s` (tap-hold-next 200 ` (layer-toggle left-shift) :timeout-button lsft)
-  s= (tap-hold-next 200 = (layer-toggle right-shift) :timeout-button rsft)
+  s` (tap-hold-next-release 200 ` (around lsft (layer-toggle shift)))
+  s= (tap-hold-next-release 200 = (around rsft (layer-toggle shift)))
 
-  ;; Space bar layer
+  ;; Space bar Layer
   spc (tap-hold-next-release 200 spc (layer-toggle space))
+  Mspc (tap-hold-next-release 200 M-spc (layer-toggle space))
+
+  ;; Automated Caps Lock
+  gobase (layer-switch base)
+  gocaps (layer-switch caps-lock)
+  space-caps (tap-hold-next-release 200 (around (layer-switch base) spc) (layer-toggle space-caps-lock))
+
+  ;; Spanish special characters
+  n (tap-hold 200 n (tap-macro A-n n))
+  ! (tap-hold 200 ! (tap-macro-release A-1 P0))
+
+  ;; Hyper key
+  esc (tap-hold-next-release 200 esc (around lctl (around lalt (around lmet lsft))))
+
+  things (cmd-button "osascript -e 'tell application  \"Things3\" to show quick entry panel'")
 )
 
 (defsrc
@@ -78,88 +97,179 @@ fn      lctl    lalt    lmet               spc                  rmet    ralt    
 XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX
 XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX
 tab     q       w       e       r       t       y       u       i       o       p       [       XX      XX
-esc     @ca     @as     @gd     f       g       h       j       @gk     @al     @c;     '       XX
+@esc    @a      @s      @d      @f      g       h       @j      @k      @l      @;      '       XX
 @s`     z       x       c       v       b       @n      m       ,       .       /       @s=     XX
-XX      esc     @hlalt  lmet               @spc                 rmet    @hralt  XX      XX      XX
+XX      @esc    lalt    lmet               @spc                 rmet    ralt    XX      XX      XX
 )
 
 (deflayer left-control
 _       _       _       _       _       _       _       _       _       _       _       _       _
 _       _       _       _       _       _       _       _       _       _       _       _       _       _
-_       XX      XX      XX      XX      XX      #(C-y)  @ctlu   #(C-i)  #(C-o)  up      #(C-[)  _       _
-_       XX      lalt    lmet    XX      XX      bspc    ret     #(C-k)  #(C-l)  #(C-;)  #(C-')  _
-_       XX      XX      XX      XX      XX      down    #(C-m)  #(C-,)  #(C-.)  #(C-/)  _       _
-_       _       _       _               #(C-spc)                _       _       _       _       _
-)
-
-(deflayer right-control
-_       _       _       _       _       _       _       _       _       _       _       _       _
-_       _       _       _       _       _       _       _       _       _       _       _       _       _
-#(C-tab)#(C-q)  @ctlw   #(C-e)  #(C-r)  #(C-t)  XX      XX      XX      XX      XX      XX      _       _
-_       #(C-a)  #(C-s)  del     rght    #(C-g)  XX      XX      rmet    ralt    XX      XX      _
-_       #(C-z)  #(C-x)  #(C-c)  #(C-v)  left    XX      XX      XX      XX      XX      XX      _
-_       _       _       _               #(C-spc)                _       _       _       _       _
+XX      XX      XX      XX      XX      XX      #(C-y)  #(C-u)  #(C-i)  #(C-o)  up      #(C-[)  _       _
+XX      XX      @LCAA   @LCMM   rsft    XX      bspc    ret     @Ck     #(C-l)  #(C-;)  #(C-')  _
+XX      XX      XX      XX      XX      XX      down    #(C-m)  #(C-,)  #(C-.)  #(C-/)  _       _
+_       XX      XX      XX              #(C-spc)                XX      XX      _       _       _
 )
 
 (deflayer left-option
-_       _       _       _       _       _       _       _       _       _       _       _       _
-_       _       _       _       _       _       _       _       _       _       _       _       _       _
-_       XX      XX      XX      XX      XX      #(A-y)  #(A-u)  #(A-i)  #(A-o)  pgup    #(A-[)  _       _
-_       lctl    _       lmet    XX      XX      @ctlw   #(A-j)  #(A-k)  #(A-l)  #(A-;)  #(A-')  _
-@lasft   XX      XX      XX      XX      XX      pgdn    #(A-m)  #(A-,)  #(A-.)  #(A-/)  _       _
-_       _       lalt    _                #(A-spc)               _       _       _       _       _
+_       _       _       _       _       _       _         _        _       _       _       _       _
+_       _       _       _       _       _       _         _        _       _       _       _       _       _
+XX      XX      XX      XX      XX      XX      #(A-y)    #(A-u)   #(A-i)  #(A-o)  @pgup   @]      _       _
+XX      @LCAC   XX      @LMOM   lsft    XX      #(A-bspc) #(A-ret) #(A-k)  #(A-l)  #(A-;)  #(A-')   _
+XX      XX      XX      XX      XX      XX      @pgdn     #(A-m)   #(A-,)  #(A-.)  #(A-/)  #(A-=)  _
+_       XX      XX      XX               #(A-spc)                  XX      XX      _       _       _
 )
 
-(deflayer right-option
-_       _       _       _       _       _       _       _       _       _       _       _       _
-_       _       _       _       _       _       _       _       _       _       _       _       _       _
-#(A-tab)#(A-q)  #(A-w)  #(A-e)  #(A-r)  #(A-t)  XX      XX      XX      XX      XX      XX      _       _
-_       #(A-a)  #(A-s)  #(A-d)  @wf     #(A-g)  XX      XX      rmet    _       rctl    _       _
-_       #(A-z)  #(A-x)  #(A-c)  #(A-v)  @wb     XX      XX      XX      XX      XX      @rasft   _
-_       _       _       _                #(A-spc)               _       _       _       _       _
+(deflayer left-meta
+_       _       _       _       _       _    _         _        _       _       _       _       _
+_       _       _       _       _       _    _         _        _       _       _       _       _       _
+XX      XX      XX      XX      XX      XX   #(M-y)    #(M-u)   #(M-i)  #(M-o)  #(M-p)  #(M-[)  _       _
+XX      @LCMC   @LMOO   XX      @LMS    XX   #(M-bspc) #(M-ret) #(M-k)  #(M-l)  #(M-;)  #(M-')  _
+XX      XX      XX      XX      XX      XX   #(M-n)    #(M-m)   #(M-,)  #(M-.)  #(M-/)  #(M-=)  _
+_       XX      XX      XX                  @Mspc               XX      XX      _       _       _
+)
+
+(deflayer left-option-meta
+_       _       _       _       _     _    _           _          _        _        _         _        _
+_       _       _       _       _     _    _           _          _        _        _         _        _    _
+_       XX      XX      XX      XX    XX   #(A-M-y)    #(A-M-u)   #(A-M-i) #(A-M-o) #(A-M-up) @M]      _    _
+_       lctl    XX      XX      @LMOS XX   #(A-M-h)    #(A-M-j)   #(A-M-k) #(A-M-l) #(A-M-;)  #(A-M-') _
+_       XX      XX      XX      XX    XX   #(A-M-down) #(A-M-m)   #(A-M-,) #(A-M-.) #(A-M-/)  #(A-M-=) _
+_       _       _       _                #(A-M-spc)               _        _        _         _        _
 )
 
 (deflayer left-shift
 _       _       _       _       _       _       _       _       _       _       _       _       _
 _       _       _       _       _       _       _       _       _       _       _       _       _       _
-_       XX      XX      XX      XX      XX      #(S-y)  #(S-u)  #(S-i)  #(S-o)  #(S-p)  #(S-[)  _       _
-_       XX      XX      XX      XX      XX      #(S-h)  #(S-j)  #(S-k)  #(S-l)  #(S-;)  #(S-')  _
-lsft    XX      XX      XX      XX      XX      #(S-n)  #(S-m)  #(S-,)  #(S-.)  #(S-/)  +       _
-_       _       @lasft   _                   _                   _       _       _       _       _
+XX      XX      XX      XX      XX      XX      Y       U       I       O       P       {       _       _
+XX      lctl    @LAS    @LMS    XX      XX      H       J       K       L       :       "       _
+XX      XX      XX      XX      XX      XX      N       M       <       >       ?       +       _
+_       XX      XX      XX                @spc                  XX      XX      _       _       _
 )
 
-(deflayer right-shift
+(deflayer left-control-option
 _       _       _       _       _       _       _       _       _       _       _       _       _
 _       _       _       _       _       _       _       _       _       _       _       _       _       _
-_       #(S-q)  #(S-w)  #(S-e)  #(S-r)  #(S-t)  XX      XX      XX      XX      XX      XX      _       _
-_       #(S-a)  #(S-s)  #(S-d)  #(S-f)  #(S-g)  XX      XX      XX      XX      XX      XX      _
-~       #(S-z)  #(S-x)  #(S-c)  #(S-v)  #(S-b)  XX      XX      XX      XX      XX      rsft    _
-_       _       _       _                   _                   _       @rasft   _       _       _
+XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      @up     [       _       _
+XX      XX      XX      lmet    lsft    XX      bspc    ret     XX      XX      ;       '       _
+XX      XX      XX      XX      XX      XX      @down   m       ,       .       /       =       _
+_       XX      XX      XX               @spc                   XX      XX      _       _       _
 )
 
-(deflayer left-option+shift
-_       _       _       _       _       _       _       _       _       _       _       _       _
-_       _       _       _       _       _       _       _       _       _       _       _       _       _
-_       XX      XX      XX      XX      XX      #(A-S-y)#(A-S-u)#(A-S-i)#(A-S-o)@slineu #(A-S-[)_       _
-_       XX      XX      XX      XX      XX      #(A-S-h)#(A-S-j)#(A-S-k)#(A-S-l)#(A-S-;)#(A-S-')_
-_       XX      XX      XX      XX      XX      @slined #(A-S-m)#(A-S-,)#(A-S-.)#(A-S-/)_       _
-_       _       _       _                #(A-S-spc)             _       _       _       _       _
+(deflayer left-control-meta
+_       _       _       _       _       _     _         _          _        _        _        _        _
+_       _       _       _       _       _     _         _          _        _        _        _        _       _
+_       XX      XX      XX      XX      XX    #(C-M-y)  #(C-M-u)   #(C-M-i) #(C-M-o) #(M-up)  #(C-M-[)  _       _
+_       XX      lalt    XX      lsft    XX    #(C-M-h)  #(C-M-ret) #(C-M-k) #(C-M-l) #(C-M-;) #(C-M-') _
+_       XX      XX      XX      XX      XX    #(M-down) #(C-M-m)   #(C-M-,) #(C-M-.) #(C-M-/) #(C-M-=) _
+_       _       _       _                #(C-M-spc)                _        _        _        _        _
 )
 
-(deflayer right-option+shift
+
+(deflayer left-option-shift
 _       _       _       _       _       _       _       _       _       _       _       _       _
 _       _       _       _       _       _       _       _       _       _       _       _       _       _
-_       #(A-S-q)#(A-S-w)#(A-S-e)#(A-S-r)#(A-S-t)XX      XX      XX      XX      XX      XX      _       _
-_       #(A-S-a)#(A-S-s)#(A-S-d)@sliner #(A-S-g)XX      XX      XX      XX      XX      XX      _
-_       #(A-S-z)#(A-S-x)#(A-S-c)#(A-S-v)@slinel XX      XX      XX      XX      XX      XX      _
-_       _       _       _                #(A-S-spc)             _       _       _       _       _
+_       XX      XX      XX      XX      XX      _       _       _       _       @pgup   @]      _       _
+_       lctl    XX      @LMOS   XX      XX      h       ret     _       _       _       _       _
+_       XX      XX      XX      XX      XX      @pgdn   _       _       _       _       _       _
+_       _       _       _                 @spc                  _       _       _       _       _
+)
+
+(deflayer left-option-meta-shift
+_    _    _    _    _    _    _    _    _    _    _    _    _
+_    _    _    _    _    _    _    _    _    _    _    _    _    _
+XX   XX   XX   XX   XX   XX   _    _    _    _    up   _    _    _
+XX   XX   XX   XX   XX   XX   _    _    _    _    _    _    _
+XX   XX   XX   XX   XX   XX   down _    _    _    _    _    _
+_    XX   XX   XX          spc          _    _    _    _    _
+)
+
+(deflayer left-meta-shift
+_       _       _       _       _       _       _       _       _       _       _       _       _
+_       _       _       _       _       _       _       _       _       _       _       _       _       _
+_       XX      XX      XX      XX      XX      _       _       _       _       _       _       _       _
+_       XX      @LMOS   XX      XX      XX      h       ret     _       _       _       _       _
+_       XX      XX      XX      XX      XX      _       _       _       _       _       _       _
+_       _       _       _                 @things               _       _       _       _       _
+)
+
+(deflayer shift
+_       _       _       _       _       _       _       _       _       _       _       _       _
+_       _       _       _       _       _       _       _       _       _       _       _       _       _
+_       q       w       e       r       t       y       u       i       o       p       [       _       _
+_       a       s       d       f       g       h       j       k       l       ;       '       _
+~       z       x       c       v       b       n       m       ,       .       /       +       _
+_       @gocaps _       _                   _                   _       _       _       _       _
+)
+
+(deflayer right-control
+_       _       _       _       _       _       _       _       _       _       _       _       _
+_       _       _       _       _       _       _       _       _       _       _       _       _       _
+tab     q       w       e       r       t       XX      XX      XX      XX      XX      XX      _       _
+_       a       s       @del    @rght   g       XX      rsft    rmet    @RAC    rctl    XX      _
+_       z       x       c       v       @left   XX      XX      XX      XX      XX      XX      _
+_       _       _       _                  spc                  _       _       _       _       _
+)
+
+(deflayer right-control-option
+_       _       _       _       _       _       _       _       _       _       _       _       _
+_       _       _       _       _       _       _       _       _       _       _       _       _       _
+_       XX      XX      XX      r       XX      XX      XX      XX      XX      XX      XX      _       _
+XX      XX      XX      del     rght    XX      XX      rsft    rmet    ralt    rctl    XX      _
+_       XX      XX      XX      XX      left    XX      XX      XX      XX      XX      XX      _
+_       XX      _       _                  spc                  _       _       _       _       _
+)
+
+(deflayer right-option
+_       _       _       _       _       _       _       _        _       _       _       _       _
+_       _       _       _       _       _       _       _        _       _       _       _       _       _
+_       _       _       _       _       _       XX      XX       XX      XX      XX      XX      _       _
+_       _       _       del     rght    _       XX      rsft     rmet    ralt    @RAC    _       _
+_       _       _       _       _       left    XX      XX       XX      XX      XX      _       _
+_       _       _       _                   spc                  _       _       _       _       _
 )
 
 (deflayer space
 _       _       _       _       _       _       _       _       _       _       _       _       _
 _       _       _       _       _       _       _       _       _       _       _       _       _       _
-_       !       @       #       $       %       ^       &       *       \(      \)      \_      _       _
+_       @!      @       #       $       %       ^       &       *       \(      \)      \_      _       _
 _       1       2       3       4       5       6       7       8       9       0       -       _
-_       \       ]       }       |       _       brup    brdn    vold    volu    pp      _       _
+_       \       _       _       |       _       _       mute    vold    volu    pp      _       _
 _       _       _       _                   _                   _       _       _       _       _
+)
+
+(deflayer caps-lock
+_       _       _       _       _       _       _       _       _       _       _       _       _
+_       _       _       _       _       _       _       _       _       _       _       _       _       _
+@gobase Q       W       E       R       T       Y       U       I       O       P       @gobase _       _
+@gobase @A      @S      D       F       G       H       J       K       @L      @;b     @gobase _
+@gobase Z       X       C       V       B       N       M       @gobase @gobase @gobase @gobase _
+_       @gobase @gobase @gobase            @space-caps          @gobase @gobase _       _       _
+)
+
+(deflayer space-caps-lock
+_       _       _       _       _       _       _       _       _       _       _       _       _
+_       _       _       _       _       _       _       _       _       _       _       _       _       _
+XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      \_      _       _
+XX      1       2       3       4       5       6       7       8       9       0       -       _
+XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      _
+_       XX      XX      XX                  XX                  XX      XX      _       _       _
+)
+
+(deflayer caps-control
+_       _       _       _       _       _       _       _       _       _       _       _       _
+_       _       _       _       _       _       _       _       _       _       _       _       _       _
+XX      XX      XX      #(C-e)  XX      #(C-t)  XX      #(C-u)  XX      XX      XX      XX      _       _
+XX      #(C-a)  XX      del     rght    XX      bspc    XX      XX      XX      XX      XX      _
+XX      XX      XX      #(C-c)  XX      left    XX      XX      XX      XX      XX      XX      _
+_       XX      XX      XX                 XX                   XX      XX      _       _       _
+)
+
+(deflayer caps-option
+_       _       _       _        _         _         _         _       _       _       _       _       _
+_       _       _       _        _         _         _         _       _       _       _       _       _       _
+XX      XX      XX      XX       XX        XX        XX        #(A-u)  XX      XX      _       _       _       _
+XX      XX      XX      #(A-del) #(A-rght) XX        #(A-bspc) XX      XX      XX      _       _       _
+XX      XX      XX      #(A-c)   XX        #(A-left) XX        XX      XX      XX      _       _       _
+_       XX      XX      XX                 XX                  XX      XX      _       _       _
 )

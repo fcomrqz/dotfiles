@@ -2,44 +2,106 @@
   {
     "context": "Editor",
     "bindings": {
+      "alt-l": "editor::SelectLine",
+      "cmd-l": null,
+
+      "ctrl-l": "editor::ScrollCursorCenterTopBottom",
+
+      "shift-pageup": "editor::SelectLargerSyntaxNode",
+      "shift-pagedown": "editor::SelectSmallerSyntaxNode",
+
       "home": "editor::MoveToBeginning",
       "end": "editor::MoveToEnd",
-      "pageup": "editor::MoveToStartOfParagraph",
-      "pagedown": "editor::MoveToEndOfParagraph",
-      "cmd-pageup": "editor::MoveLineUp",
-      "cmd-pagedown": "editor::MoveLineDown",
-      "cmd-alt-d": "editor::DuplicateLineDown",
-      "cmd-j": "editor::NewlineAbove",
-      "alt-j": "editor::NewlineBelow",
+
+      "cmd-alt-up": "editor::MoveLineUp",
+      "cmd-alt-down": "editor::MoveLineDown",
+
+      "alt-up": "editor::MoveToStartOfParagraph",
+      "alt-down": "editor::MoveToEndOfParagraph",
+
+      "pageup": ["editor::MovePageUp", { "center_cursor": true }],
+      "pagedown": ["editor::MovePageDown", { "center_cursor": true }],
+
+      "cmd-[": "pane::GoBack",
+      "cmd-]": "pane::GoForward",
+
+      "alt-r": "editor::Rename",
+
+      "alt-enter": "editor::GoToImplementation",
+
+      "alt-o": "editor::OpenExcerpts",
+
       "alt-k": "editor::DeleteLine",
-      "alt-l": "editor::SelectLine",
-      "shift-down": "editor::SelectSmallerSyntaxNode",
-      "shift-up": "editor::SelectLargerSyntaxNode",
+
+      "cmd-alt-shift-up": "editor::DuplicateLineUp",
+      "cmd-alt-shift-down": "editor::DuplicateLineDown",
+
       "cmd-k cmd-j": ["workspace::ActivatePaneInDirection", "Left"],
       "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
       "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
       "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
+
       "cmd-e": "project_panel::ToggleFocus",
-      "cmd-i": "editor::OpenExcerpts",
+
       "alt-z": "editor::RevertSelectedHunks",
-      "alt-x": "editor::GoToPrevHunk",
-      "alt-c": "editor::GoToHunk",
+      "alt-,": "editor::GoToPrevHunk",
+      "alt-.": "editor::GoToHunk",
       "alt-v": "editor::ToggleHunkDiff",
-      "ctrl-x": "editor::GoToPrevDiagnostic",
-      "ctrl-c": "editor::GoToDiagnostic",
-      "cmd-y": "editor::Redo",
-      "ctrl-z": null,
-      "ctrl-k": null,
+
+      "ctrl-,": "editor::GoToPrevDiagnostic",
+      "ctrl-.": "editor::GoToDiagnostic",
+
       "cmd-;": "editor::Fold",
       "cmd-'": "editor::UnfoldLines",
-      "ctrl-v": "workspace::ToggleCenteredLayout",
-      "cmd-u": "outline::Toggle"
+
+      "cmd-shift-b": "editor::ToggleGitBlameInline",
+
+      "alt-c": "editor::ConvertToTitleCase",
+      "alt-u": "editor::ConvertToUpperCase",
+
+      "ctrl-alt-enter": "assistant::InlineAssist"
     }
   },
   {
-    "context": "Editor && jupyter && !ContextEditor",
     "bindings": {
-      "ctrl-r": "repl::Run"
+      "cmd-o": [
+        "projects::OpenRecent",
+        {
+          "create_new_window": false
+        }
+      ],
+      "cmd-alt-o": [
+        "projects::OpenRecent",
+        {
+          "create_new_window": false
+        }
+      ],
+      "cmd-shift-t": "project_symbols::Toggle",
+      "cmd-t": "outline::Toggle",
+      "cmd-shift-b": "editor::ToggleGitBlameInline",
+      "ctrl-v": null,
+      "ctrl-shift-;": null
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-k cmd-enter": ["workspace::ActivatePaneInDirection", "Left"],
+      "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
+      "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
+      // "ctrl-v": "workspace::ToggleCenteredLayout",
+      "cmd-e": "project_panel::ToggleFocus",
+      "cmd-b": "branches::OpenRecent",
+      "cmd-n": "workspace::NewWindow",
+      "cmd-t": null,
+      "ctrl-tab": "tab_switcher::Toggle",
+      "ctrl-shift-tab": [
+        "tab_switcher::Toggle",
+        {
+          "select_last": true
+        }
+      ]
     }
   },
   {
@@ -57,27 +119,60 @@
       "cmd-k k": "pane::SplitDown",
       "cmd-k j": "pane::SplitLeft",
       "cmd-k l": "pane::SplitRight",
-      "cmd-k i": "pane::SplitUp",
-      "ctrl-tab": "pane::ActivateNextItem",
-      "ctrl-alt-tab": "pane::ActivatePrevItem"
-    }
-  },
-  {
-    "context": "Workspace",
-    "bindings": {
-      "cmd-k cmd-j": ["workspace::ActivatePaneInDirection", "Left"],
-      "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
-      "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
-      "ctrl-v": "workspace::ToggleCenteredLayout",
-      "cmd-e": "project_panel::ToggleFocus"
+      "cmd-k i": "pane::SplitUp"
     }
   },
   {
     "context": "ProjectPanel",
     "bindings": {
       "cmd-e": "project_panel::ToggleFocus",
-      "cmd-pagedown": "project_panel::NewDirectory"
+      "cmd-alt-down": "project_panel::NewDirectory",
+      "cmd-shift-b": "editor::ToggleGitBlameInline",
+      "cmd-enter": "project_panel::OpenPermanent"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "cmd-t": "workspace::NewTerminal"
+    }
+  },
+  {
+    "context": "Editor && jupyter && !ContextEditor",
+    "bindings": {
+      "ctrl-r": "repl::RunInPlace",
+      "ctrl-alt-r": "repl::ClearOutputs"
+    }
+  },
+  {
+    "context": "TabSwitcher",
+    "bindings": {
+      "ctrl-w": "tab_switcher::CloseSelectedItem"
+    }
+  },
+
+  {
+    "context": "FileFinder && !menu_open",
+    "bindings": {
+      "cmd-enter": "pane::SplitDown",
+      "cmd-i": "pane::SplitUp",
+      "cmd-j": "pane::SplitLeft",
+      "cmd-l": "pane::SplitRight"
+    }
+  },
+  {
+    "context": "FileFinder && menu_open",
+    "bindings": {
+      "k": "pane::SplitDown",
+      "i": "pane::SplitUp",
+      "j": "pane::SplitLeft",
+      "l": "pane::SplitRight"
+    }
+  },
+  {
+    "context": "AssistantPanel",
+    "bindings": {
+      "cmd-y": "assistant::DeployHistory"
     }
   }
 ]

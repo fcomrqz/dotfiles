@@ -1,77 +1,111 @@
 start-at-login = true
-
-accordion-padding = 30
-
 default-root-container-layout = 'tiles'
-
 default-root-container-orientation = 'auto'
-
 on-focus-changed = ['move-mouse window-lazy-center']
 
+accordion-padding = 0
+
 [gaps]
-inner.horizontal = 7
-inner.vertical = 7
+inner.horizontal = 0
+inner.vertical = 6
+outer.top = 0
+outer.bottom = 0
+outer.left = 0
+outer.right = 0
 
-# Left Monitor
-[[on-window-detected]]
-if.app-id = 'org.webkit.Playwright'
-run = ['move-node-to-workspace 3']
-
-# Center Monitor
-[[on-window-detected]]
-if.app-id = 'com.apple.MobileSMS'
-run = ['layout floating', 'move-node-to-workspace 1']
+# Main monitor
 
 [[on-window-detected]]
-if.app-id = 'net.whatsapp.WhatsApp'
-run = ['layout floating', 'move-node-to-workspace 1']
+if.app-id = 'dev.zed.Zed'
+run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
-if.app-id = 'com.apple.iphonesimulator'
-run = ['layout floating', 'move-node-to-workspace 1']
+if.app-id = 'com.figma.Desktop'
+run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
-if.app-id = 'com.adobe.xd'
-run = ['layout floating', 'move-node-to-workspace 1']
+if.app-id = 'com.apple.freeform'
+run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id = 'com.raycast.macos'
 run = ['layout floating', 'move-node-to-workspace 1']
 
-[[on-window-detected]]
-if.app-id = 'com.apple.freeform'
-run = ['layout floating', 'move-node-to-workspace 1']
+# Left monitor
 
 [[on-window-detected]]
-if.app-id = 'com.figma.Desktop'
-run = ['layout floating', 'move-node-to-workspace 1']
+if.app-id = 'com.apple.Safari'
+run = ['move-node-to-workspace 2']
 
 [[on-window-detected]]
-if.app-id = 'com.culturedcode.ThingsMac'
-run = ['layout floating', 'move-node-to-workspace 1']
+if.app-id = 'com.google.Chrome'
+run = ['move-node-to-workspace 2']
 
-# Right Monitor
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = ['layout floating', 'move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'net.whatsapp.WhatsApp'
+run = ['layout floating', 'move-node-to-workspace 2']
+
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
 run = ['move-node-to-workspace 2']
 
 [[on-window-detected]]
-if.app-id = 'org.chromium.Chromium'
+if.app-id = 'com.apple.iphonesimulator'
+run = ['layout floating', 'move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'org.webkit.Playwright'
 run = ['move-node-to-workspace 2']
 
 [[on-window-detected]]
-if.app-id = 'com.apple.AddressBook'
+if.app-id = 'com.openai.chat'
 run = ['layout floating', 'move-node-to-workspace 2']
 
 [[on-window-detected]]
-if.app-id = 'com.apple.AddressBook'
+if.app-id = 'com.anthropic.claudefordesktop'
 run = ['layout floating', 'move-node-to-workspace 2']
+
+# Right monitor
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Terminal'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.Notes'
-run = ['layout floating', 'move-node-to-workspace 1']
+run = ['layout floating', 'move-node-to-workspace 3']
 
-[mode.main.binding]
+[[on-window-detected]]
+if.app-id = 'com.culturedcode.ThingsMac'
+run = ['layout floating', 'move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Passwords'
+run = ['layout floating', 'move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'org.chromium.Chromium'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Home'
+run = ['layout floating', 'move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.findmy'
+run = ['layout floating', 'move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.AddressBook'
+run = ['layout floating', 'move-node-to-workspace 3']
 
 # All possible keys:
 # - Letters.        a, b, c, ..., z
@@ -86,7 +120,25 @@ run = ['layout floating', 'move-node-to-workspace 1']
 
 # All possible modifiers: cmd, alt, ctrl, shift
 
-cmd-alt-m = ['move-node-to-monitor 1', 'focus-monitor 1']
-cmd-alt-comma = ['move-node-to-monitor 2', 'focus-monitor 2']
-cmd-alt-period = ['move-node-to-monitor 3', 'focus-monitor 3']
-cmd-alt-slash = ['fullscreen']
+[mode.main.binding]
+
+cmd-alt-m = ['move up']
+cmd-alt-comma = ['move-node-to-monitor prev --wrap-around', 'focus-monitor prev --wrap-around']
+cmd-alt-period = ['move-node-to-monitor next --wrap-around', 'focus-monitor next --wrap-around']
+cmd-alt-slash = ['layout tiles accordion']
+cmd-alt-space = ['resize smart +160']
+
+cmd-alt-j = [
+  "exec-and-forget aerospace list-monitors --focused | grep -q '^1 | LG UltraFine (1)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(1)'",
+
+]
+cmd-alt-k = [
+  "exec-and-forget aerospace list-monitors --focused | grep -q '^2 | LG UltraFine (2)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(2)'",
+
+]
+
+cmd-alt-l = [
+  "exec-and-forget aerospace list-monitors --focused | grep -q '^3 | LG UltraFine (3)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(3)'",
+]
+
+# cmd-alt-l = ["exec-and-forget aerospace list-monitors --focused >> ~/aero.txt"]

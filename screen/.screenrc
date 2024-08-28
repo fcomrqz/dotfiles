@@ -1,7 +1,29 @@
-shell /usr/local/bin/fish
-
 startup_message off
-hardstatus off
 
-caption always "%3n %h%?"
-defscrollback 1024
+caption always '%{.;15} %?%F*%: %? %x %=%?%P%{.;.} [copy/paste] %:%?'
+
+windowlist string '%3n  %x %=%f'
+
+defscrollback 900
+
+# Keys to kill or resurrect a zombie
+zombie kr
+
+# Seconds to restart a dead zombie
+zombie_timeout 1
+
+# Minimize message display times for faster response
+msgminwait 0
+msgwait 0
+
+# Support mouse scroll
+termcapinfo xterm* ti@:te@
+
+# Infinite time to enter keybindings
+maptimeout 0
+
+# Keybindings
+bind f screen -t screen-windows fish -c screen-windows
+
+autodetach off
+lockscreen off

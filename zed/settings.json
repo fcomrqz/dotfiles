@@ -1,4 +1,19 @@
 {
+  "auto_install_extensions": {
+    "html": true,
+    "dokerfile": true,
+    "toml": true,
+    "git_firefly": true,
+    "sql": true,
+    "vue": true,
+    "make": true,
+    "xml": true,
+    "swift": true,
+    "fish": true,
+    "elisp": true,
+    "vesper": true,
+    "pug": true
+  },
   "file_scan_exclusions": [
     "**/.git",
     "**/.svn",
@@ -14,33 +29,32 @@
     "**/.wrangler",
     "**/.vercel",
     "**/.nuxt",
-    "**/.jump"
+    "**/test-results",
+    "**/dist"
   ],
-  "centered_layout": {
-    "left_padding": 0.24,
-    "right_padding": 0.24
-  },
+  "vertical_scroll_margin": 3,
   "when_closing_with_no_tabs": "keep_window_open",
   "seed_search_query_from_cursor": "selection",
   "assistant": {
+    "enable_experimental_live_diffs": true,
     "version": "2",
     "button": false,
     "default_model": {
-      "provider": "openai",
-      "model": "gpt-4o-mini"
+      "provider": "zed.dev",
+      "model": "claude-3-5-sonnet-latest"
     }
   },
   "project_panel": {
-    "default_width": 260,
+    "default_width": 280,
     "dock": "right",
     "file_icons": false,
     "folder_icons": false,
-    "auto_reveal_entries": false,
+    // "auto_reveal_entries": true,
     "auto_fold_dirs": false,
-    "button": false
-  },
-  "tabs": {
-    "git_status": true
+    "button": false,
+    "indent_guides": {
+      "show": "never"
+    }
   },
   "theme": {
     "mode": "system",
@@ -50,18 +64,21 @@
   "terminal": {
     "line_height": "standard",
     "blinking": "on",
-    "option_as_meta": true,
     "font_family": "SF Mono",
-    "font_size": 12,
-    "button": false
+    "font_size": 13,
+    "button": false,
+    "detect_venv": "off"
   },
   "ui_font_family": "SF Mono",
+  "ui_font_size": 17,
   "buffer_font_family": "SF Mono",
-  "buffer_font_size": 16,
+  "buffer_font_size": 17,
+  "buffer_line_height": {
+    "custom": 1.7
+  },
   "preferred_line_length": 100,
   "tab_size": 2,
   "prettier": {
-    "allowed": true,
     "semi": false,
     "singleQuote": true,
     "trailingComma": "all",
@@ -69,9 +86,46 @@
     "plugins": ["prettier-plugin-toml"]
   },
   "file_types": {
-    "Dockerfile": ["containerfile"]
+    "Dockerfile": ["containerfile"],
+    "Elisp": ["kbd"]
   },
+  // "lsp": {
+  //   "biome": {
+  //     "settings": {
+  //       "config_path": "config/biome.json"
+  //     }
+  //   }
+  // },
+  // "code_actions_on_format": {
+  //   "source.fixAll.biome": true,
+  //   "source.organizeImports.biome": true
+  // },
   "languages": {
+    "HTML": {
+      "prettier": {
+        "allowed": true
+      }
+    },
+    "JavaScript": {
+      "prettier": {
+        "allowed": true
+      }
+    },
+    "TypeScript": {
+      "prettier": {
+        "allowed": true
+      }
+    },
+    "JSON": {
+      "prettier": {
+        "allowed": true
+      }
+    },
+    "JSONC": {
+      "prettier": {
+        "allowed": true
+      }
+    },
     "Swift": {
       "formatter": {
         "external": {
@@ -101,7 +155,7 @@
             "command": "stylelint",
             "arguments": [
               "--config",
-              "config/stylelint.js",
+              "config/stylelint.config.js",
               "--stdin-filename",
               "{buffer_path}",
               "--fix"
@@ -123,7 +177,7 @@
             "command": "stylelint",
             "arguments": [
               "--config",
-              "config/stylelint.js",
+              "config/stylelint.config.js",
               "--stdin-filename",
               "{buffer_path}",
               "--fix"
@@ -146,7 +200,9 @@
     }
   },
   // Deactivated features
-  // "hover_popover_enabled": false,
+  "show_user_picture": false,
+  "load_direnv": "shell_hook",
+  "hover_popover_enabled": false,
   "show_whitespaces": "none",
   "soft_wrap": "none",
   "show_signature_help_after_edits": false,
@@ -180,15 +236,21 @@
     }
   },
   "scrollbar": {
-    "show": "never"
+    "show": "system",
+    "git_diff": false
   },
   "features": {
     "inline_completion_provider": "none" // Deactivate GitHub Copilot
   },
   "tab_bar": {
+    "show": false,
     "show_nav_history_buttons": false
   },
   "toolbar": {
-    "quick_actions": false
+    "quick_actions": false,
+    "selections_menu": false
+  },
+  "file_finder": {
+    "file_icons": false
   }
 }
