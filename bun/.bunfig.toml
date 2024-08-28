@@ -1,0 +1,5 @@
+[install.scopes]
+fcomrqz = { url = "https://npm.pkg.github.com", token = "$(gh auth token)" }
+mondraco = { url = "https://npm.pkg.github.com", token = "$(gh auth token)" }
+habive = { url = "https://npm.pkg.github.com", token = "$(gh auth token)" }
+getbookip = { url = "https://npm.pkg.github.com", token = "$(gh auth token)" }

@@ -1,8 +1,8 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-$directory$package$git_commit$git_branch$git_state$cmd_duration
-$jobs$git_status$character
+$direnv$directory$git_branch$git_status${custom.git_status}${custom.git_staged}$package$git_commit$git_state $fill $cmd_duration
+$jobs$character
 """
 
 [character]
@@ -10,18 +10,21 @@ success_symbol = '[→](green)'
 error_symbol = '[✗](red)'
 
 [git_status]
-format = '$stashed$ahead_behind$untracked$deleted$modified$staged$conflicted'
-conflicted = '[▸◂](red) '
-ahead = '[↑ $count](blue) '
-behind = '[↓ $count](red) '
-diverged = '[↓ $behind_count](red) [↑ $ahead_count](blue) '
-up_to_date = ''
-stashed = '[···](red) '
-modified = '[*](yellow) '
-untracked = '[+](green) '
-renamed = '[=](cyan) '
-deleted = '[−](red) '
-staged = '[•](blue) '
+format = '$ahead_behind$conflicted'
+ahead = '[↑](blue) '
+behind = '[↓](red) '
+diverged = '[↓](red) [↑](blue) '
+conflicted = '[!](red) '
+
+[custom.git_status]
+when = 'git rev-parse --is-inside-work-tree >/dev/null 2>&1 && ! git diff --quiet --exit-code || [ -n "$(git ls-files --exclude-standard --others)" ]'
+symbol = '* '
+style = 'yellow'
+
+[custom.git_staged]
+when = 'git rev-parse --is-inside-work-tree && ! git diff --cached --quiet --exit-code'
+symbol = '✓ '
+style = 'blue'
 
 [git_commit]
 format = '[($tag )](green)'
@@ -34,7 +37,7 @@ tag_symbol = ''
 format = '$state([$progress_current:$progress_total](yellow)) '
 rebase = "[rebasing](cyan)"
 merge = "[merging](yellow)"
-cherry_pick = "[cherry-picking](red)"
+cherry_pick = "[cherry picking](red)"
 bisect = "[bisecting](red)"
 
 [git_branch]
@@ -45,7 +48,7 @@ only_attached = true
 format = '[$version](blue) '
 
 [jobs]
-format = '[$symbol$number](bold red) '
+format = '[$symbol](red) '
 symbol = '▸'
 number_threshold = 2
 
@@ -54,3 +57,20 @@ format = '[$path]($style) '
 style = 'yellow'
 truncate_to_repo = false
 truncation_length = 2
+
+[direnv]
+format = '[$allowed]($style)'
+style = 'yellow'
+allowed_msg = '*'
+not_allowed_msg = ''
+disabled = false
+detect_files = ['.env']
+
+[cmd_duration]
+show_milliseconds = true
+min_time = 100
+format = '[$duration](bright-black)'
+
+[fill]
+symbol = ' '
+style = 'bold green'

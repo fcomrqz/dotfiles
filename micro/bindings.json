@@ -1,9 +1,16 @@
 {
-  "CtrlUnderscore": "lua:comment.comment",
   "Alt-/": "lua:comment.comment",
-  "Ctrl-t": "command:fzfinder",
-  "AltDown": "DiffNext|CursorEnd",
-  "AltUp": "DiffPrevious|CursorStart",
+  "Alt-,": "DiffPrevious",
+  "Alt-.": "DiffNext",
   "CtrlDown": "MoveLinesDown",
-  "CtrlUp": "MoveLinesUp"
+  "CtrlUnderscore": "lua:comment.comment",
+  "CtrlUp": "MoveLinesUp",
+  "Ctrl-g": "command-edit:goto ",
+  "AltShiftRight": "SelectWordRight",
+  "AltShiftLeft": "SelectWordLeft",
+  "AltUp": "ParagraphPrevious",
+  "AltDown": "ParagraphNext",
+  "Alt-s": "FindLiteral",
+  "Ctrl-,": "PreviousTab",
+  "Ctrl-.": "NextTab"
 }

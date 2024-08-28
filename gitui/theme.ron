@@ -8,6 +8,9 @@
     push_gauge_bg: Some("Reset"),
     line_break: Some("⏎"),
     branch_fg: Some("Red"),
+    diff_file_added: Some("Green"),
+		diff_file_removed: Some("Red"),
+		diff_file_moved: Some("Magenta"),
 )
 
 // All options

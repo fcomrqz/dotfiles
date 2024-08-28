@@ -1,15 +1,13 @@
 {
-  "colorscheme": "atom-paper",
-  "diffgutter": true,
-  "divchars": " ",
-  "fzfopen": "newtab",
-  "pluginrepos": [
-    "https://raw.githubusercontent.com/gamemaker1/micro-plugin-prettier/main/repo.json",
-    "https://raw.githubusercontent.com/MuratovAS/micro-fzfinder/main/repo.json"
-  ],
-  "reload": "auto",
-  "statusformatl": "",
-  "statusformatr": "",
-  "tabsize": 2,
-  "tabstospaces": true
+    "colorscheme": "simple",
+    "diffgutter": true,
+    "divchars": " ",
+    "pluginrepos": [
+        "https://raw.githubusercontent.com/gamemaker1/micro-plugin-prettier/main/repo.json"
+    ],
+    "reload": "auto",
+    "statusformatl": "",
+    "statusformatr": "",
+    "tabsize": 2,
+    "tabstospaces": true
 }
