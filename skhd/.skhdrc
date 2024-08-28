@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Open Things Quick Entry
+ctrl - space : osascript -e 'tell application "Things3" to show quick entry panel'
