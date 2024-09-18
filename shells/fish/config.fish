@@ -1,4 +1,6 @@
 if status --is-interactive
+    direnv hook fish | source
+
     fish_add_path /opt/homebrew/bin
 
     function starship_transient_prompt_func
@@ -9,6 +11,7 @@ if status --is-interactive
     function starship_transient_rprompt_func
         echo ''
         starship module directory
+        starship module git_status
         starship module package
         starship module git_commit
         starship module git_branch
@@ -80,7 +83,12 @@ if status --is-interactive
     set --export PATH $BUN_INSTALL/bin $PATH
 
     bind \cO open_project
-    bind \a open_gitui
-    bind \cS open_htop
     bind \cR open_history_search
+
+    bind \ea git-add
+    bind \ec git-commit
+    bind \es git-amend-no-edit
+    bind \em git-amend
+    bind \eg open_gitui
+    # bind \cS open_htop
 end

@@ -9,8 +9,12 @@ default-root-container-orientation = 'auto'
 on-focus-changed = ['move-mouse window-lazy-center']
 
 [gaps]
-inner.horizontal = 7
-inner.vertical = 7
+inner.horizontal = 8
+inner.vertical = 8
+outer.left = 8
+outer.bottom = 8
+outer.top = 8
+outer.right = 8
 
 # Left Monitor
 [[on-window-detected]]
@@ -89,4 +93,4 @@ run = ['layout floating', 'move-node-to-workspace 1']
 cmd-alt-m = ['move-node-to-monitor 1', 'focus-monitor 1']
 cmd-alt-comma = ['move-node-to-monitor 2', 'focus-monitor 2']
 cmd-alt-period = ['move-node-to-monitor 3', 'focus-monitor 3']
-cmd-alt-slash = ['fullscreen']
+cmd-alt-space = ['resize height +80']

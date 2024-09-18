@@ -1,6 +1,6 @@
 (
-    selection_fg: Some("Reset"),
-    selection_bg: Some("White"),
+    selection_fg: Some("Blue"),
+    selection_bg: Some("Reset"),
     command_fg: Some("Reset"),
     cmdbar_bg: Some("Reset"),
     cmdbar_extra_lines_bg: Some("Reset"),

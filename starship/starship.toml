@@ -1,8 +1,8 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-$directory$package$git_commit$git_branch$git_state$cmd_duration
-$jobs$git_status$character
+$direnv$directory$git_status$package$git_commit$git_branch$git_state$cmd_duration
+$jobs$character
 """
 
 [character]
@@ -10,11 +10,11 @@ success_symbol = '[→](green)'
 error_symbol = '[✗](red)'
 
 [git_status]
-format = '$stashed$ahead_behind$untracked$deleted$modified$staged$conflicted'
+format = '$staged$modified$untracked$deleted$stashed$ahead_behind$conflicted'
 conflicted = '[▸◂](red) '
-ahead = '[↑ $count](blue) '
-behind = '[↓ $count](red) '
-diverged = '[↓ $behind_count](red) [↑ $ahead_count](blue) '
+ahead = '[↑](blue) '
+behind = '[↓](red) '
+diverged = '[↓](red) [↑](blue) '
 up_to_date = ''
 stashed = '[···](red) '
 modified = '[*](yellow) '
@@ -54,3 +54,11 @@ format = '[$path]($style) '
 style = 'yellow'
 truncate_to_repo = false
 truncation_length = 2
+
+[direnv]
+format = '[$allowed]($style)'
+style = 'yellow'
+allowed_msg = '*'
+not_allowed_msg = ''
+disabled = false
+detect_files = ['.env']

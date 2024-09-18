@@ -14,13 +14,13 @@
     "**/.wrangler",
     "**/.vercel",
     "**/.nuxt",
-    "**/.jump"
+    "**/test-results"
   ],
   "centered_layout": {
     "left_padding": 0.24,
     "right_padding": 0.24
   },
-  "vertical_scroll_margin": 16,
+  "vertical_scroll_margin": 6,
   "when_closing_with_no_tabs": "keep_window_open",
   "seed_search_query_from_cursor": "selection",
   "assistant": {
@@ -49,16 +49,20 @@
     "dark": "Vesper"
   },
   "terminal": {
+    "working_directory": "first_project_directory",
     "line_height": "standard",
     "blinking": "on",
-    "option_as_meta": true,
     "font_family": "SF Mono",
-    "font_size": 12,
-    "button": false
+    "font_size": 13,
+    "button": false,
+    "detect_venv": "off"
   },
   "ui_font_family": "SF Mono",
   "buffer_font_family": "SF Mono",
-  "buffer_font_size": 16,
+  "buffer_font_size": 15,
+  "buffer_line_height": {
+    "custom": 1.7
+  },
   "preferred_line_length": 100,
   "tab_size": 2,
   "prettier": {
@@ -147,7 +151,7 @@
     }
   },
   // Deactivated features
-  // "hover_popover_enabled": false,
+  "hover_popover_enabled": false,
   "show_whitespaces": "none",
   "soft_wrap": "none",
   "show_signature_help_after_edits": false,
@@ -181,7 +185,8 @@
     }
   },
   "scrollbar": {
-    "show": "never"
+    "show": "system",
+    "git_diff": false
   },
   "features": {
     "inline_completion_provider": "none" // Deactivate GitHub Copilot

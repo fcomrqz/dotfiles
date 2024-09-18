@@ -1,45 +1,27 @@
 [
   {
-    "context": "Editor",
     "bindings": {
-      "home": "editor::MoveToBeginning",
-      "end": "editor::MoveToEnd",
-      "pageup": "editor::MoveToStartOfParagraph",
-      "pagedown": "editor::MoveToEndOfParagraph",
-      "cmd-pageup": "editor::MoveLineUp",
-      "cmd-pagedown": "editor::MoveLineDown",
-      "cmd-alt-d": "editor::DuplicateLineDown",
-      "cmd-j": "editor::NewlineAbove",
-      "alt-j": "editor::NewlineBelow",
-      "alt-k": "editor::DeleteLine",
-      "alt-l": "editor::SelectLine",
-      "shift-down": "editor::SelectSmallerSyntaxNode",
-      "shift-up": "editor::SelectLargerSyntaxNode",
-      "cmd-k cmd-j": ["workspace::ActivatePaneInDirection", "Left"],
-      "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
-      "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
-      "cmd-e": "project_panel::ToggleFocus",
-      "cmd-i": "editor::OpenExcerpts",
-      "alt-z": "editor::RevertSelectedHunks",
-      "alt-x": "editor::GoToPrevHunk",
-      "alt-c": "editor::GoToHunk",
-      "alt-v": "editor::ToggleHunkDiff",
-      "ctrl-x": "editor::GoToPrevDiagnostic",
-      "ctrl-c": "editor::GoToDiagnostic",
-      "cmd-y": "editor::Redo",
-      "ctrl-z": null,
-      "ctrl-k": null,
-      "cmd-;": "editor::Fold",
-      "cmd-'": "editor::UnfoldLines",
-      "ctrl-v": "workspace::ToggleCenteredLayout",
-      "cmd-u": "outline::Toggle"
+      "cmd-o": ["projects::OpenRecent", { "create_new_window": false }],
+      "cmd-alt-o": ["projects::OpenRecent", { "create_new_window": false }],
+      "cmd-escape": "terminal_panel::ToggleFocus",
+      "cmd-shift-t": "project_symbols::Toggle",
+      "cmd-t": "outline::Toggle"
     }
   },
   {
-    "context": "Editor && jupyter && !ContextEditor",
+    "context": "Workspace",
     "bindings": {
-      "ctrl-r": "repl::Run"
+      "cmd-k cmd-enter": ["workspace::ActivatePaneInDirection", "Left"],
+      "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
+      "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
+
+      "ctrl-v": "workspace::ToggleCenteredLayout",
+
+      "cmd-e": "project_panel::ToggleFocus",
+      "cmd-b": "branches::OpenRecent",
+
+      "cmd-n": "workspace::NewWindow"
     }
   },
   {
@@ -59,18 +41,7 @@
       "cmd-k l": "pane::SplitRight",
       "cmd-k i": "pane::SplitUp",
       "ctrl-tab": "pane::ActivateNextItem",
-      "ctrl-alt-tab": "pane::ActivatePrevItem"
-    }
-  },
-  {
-    "context": "Workspace",
-    "bindings": {
-      "cmd-k cmd-j": ["workspace::ActivatePaneInDirection", "Left"],
-      "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
-      "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
-      "ctrl-v": "workspace::ToggleCenteredLayout",
-      "cmd-e": "project_panel::ToggleFocus"
+      "ctrl-shift-tab": "pane::ActivatePrevItem"
     }
   },
   {
@@ -78,6 +49,63 @@
     "bindings": {
       "cmd-e": "project_panel::ToggleFocus",
       "cmd-pagedown": "project_panel::NewDirectory"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "alt-l": "editor::SelectLine",
+      "alt-shift-up": "editor::SelectLargerSyntaxNode",
+      "alt-shift-down": "editor::SelectSmallerSyntaxNode",
+
+      "home": "editor::MoveToBeginning",
+      "end": "editor::MoveToEnd",
+
+      "ctrl-alt-up": "editor::MoveLineUp",
+      "ctrl-alt-down": "editor::MoveLineDown",
+
+      "cmd-pageup": "editor::DuplicateLineUp",
+      "cmd-pagedown": "editor::DuplicateLineDown",
+
+      "pageup": "editor::PageUp",
+      "pagedown": "editor::PageDown",
+
+      "alt-r": "editor::Rename",
+      "alt-enter": "editor::GoToDefinition",
+      "alt-o": "editor::OpenExcerpts",
+      "alt-k": "editor::DeleteLine",
+
+      "cmd-k cmd-j": ["workspace::ActivatePaneInDirection", "Left"],
+      "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
+      "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
+
+      "cmd-e": "project_panel::ToggleFocus",
+
+      "alt-z": "editor::RevertSelectedHunks",
+      "alt-x": "editor::GoToPrevHunk",
+      "alt-c": "editor::GoToHunk",
+      "alt-v": "editor::ToggleHunkDiff",
+
+      "ctrl-x": "editor::GoToPrevDiagnostic",
+      "ctrl-c": "editor::GoToDiagnostic",
+
+      "cmd-;": "editor::Fold",
+      "cmd-'": "editor::UnfoldLines",
+
+      "ctrl-v": "workspace::ToggleCenteredLayout"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "cmd-t": "workspace::NewTerminal"
+    }
+  },
+  {
+    "context": "Editor && jupyter && !ContextEditor",
+    "bindings": {
+      "ctrl-r": "repl::Run"
     }
   }
 ]
