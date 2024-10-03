@@ -10,7 +10,7 @@
 [blame]
 	date = relative
 [format]
-	pretty = %C(brightgreen)%h%Creset %s %C(brightblue)%cr%Creset%C(brightmagenta)%d%Creset
+	pretty = %C(magenta)%h%Creset %s %C(brightblack)%cr%Creset%C(red)%d%Creset
 [pager]
   diff = delta
   log = delta
@@ -30,11 +30,14 @@
   hunk-header-style = omit
 	hunk-header-decoration-style = omit
 	zero-style = syntax
-	minus-style = brightred
-	minus-emph-style = black brightred
-	plus-style = brightgreen
-	plus-emph-style = black brightgreen
+	minus-style = red
+	minus-emph-style = red
+	minus-non-emph-style = brightred
+	plus-style = green
+	plus-emph-style = green
+	plus-non-emph-style = brightgreen
   line-numbers = true
+  line-numbers-zero-style = brightblack
 	line-numbers-minus-style = brightred
   line-numbers-plus-style = brightgreen
 	line-numbers-right-format = "{np:^4} "
@@ -53,3 +56,5 @@
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [push]
 	autoSetupRemote = true
+[rerere]
+	enabled = true

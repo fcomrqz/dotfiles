@@ -1,8 +1,7 @@
 function git-commit
-    # First, check if .git folder exists in the current or parent directories
-    if not git rev-parse --git-dir >/dev/null 2>&1
-        commandline -f repaint
-        return 1
+    if not git rev-parse --is-inside-work-tree >/dev/null 2>&1
+        promptError "Not git directory"
+        return 0
     end
 
     set -l staged_changes (git diff --cached --name-only)
@@ -11,20 +10,20 @@ function git-commit
         return 1
     end
 
-    set type (gum filter "fix" "feat" "test" "refactor" "perf" "build" "ci" "dx" "style" "workflow" "chore" "types" "release" "docs" "wip" --placeholder="" --prompt="→ " --height 6 --prompt.foreground 2 --indicator.foreground 12 --match.foreground 12)
+    set type (gum filter "fix" "feat" "test" "refactor" "perf" "build" "ci" "dx" "style" "workflow" "chore" "types" "release" "docs" "wip" --placeholder="" --prompt="→ " --height 6 --prompt.foreground 2 --indicator.foreground 4 --match.foreground 4)
 
     if test -z "$type"
         commandline -f repaint
         return 1
     end
 
-    set scope (gum input --placeholder "scope" --prompt "→ " --prompt.foreground 2 --no-show-help --cursor.foreground 15)
+    set scope (gum input --placeholder "scope" --prompt "→ " --prompt.foreground 2 --no-show-help --cursor.background 0 --cursor.foreground 15)
 
     if test -n "$scope"
         set scope "($scope)"
     end
 
-    set summary (gum input --value "$type$scope: " --prompt "→ " --prompt.foreground 2 --no-show-help --cursor.foreground 15)
+    set summary (gum input --value "$type$scope: " --prompt "→ " --prompt.foreground 2 --no-show-help --cursor.background 0 --cursor.foreground 15)
 
     if test -z "$summary"
         commandline -f repaint

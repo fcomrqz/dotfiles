@@ -1,7 +1,10 @@
-shell /usr/local/bin/fish
+shell /opt/homebrew/bin/fish
 
 startup_message off
-hardstatus off
+hardstatus on
 
-caption always "%3n %h%?"
+caption always "%{kw}%t"
+
 defscrollback 1024
+
+escape ^Ss

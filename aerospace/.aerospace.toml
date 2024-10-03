@@ -1,24 +1,25 @@
 start-at-login = true
-
-accordion-padding = 30
-
 default-root-container-layout = 'tiles'
-
 default-root-container-orientation = 'auto'
-
 on-focus-changed = ['move-mouse window-lazy-center']
 
-[gaps]
-inner.horizontal = 8
-inner.vertical = 8
-outer.left = 8
-outer.bottom = 8
-outer.top = 8
-outer.right = 8
+accordion-padding = 0
 
-# Left Monitor
+[gaps]
+inner.horizontal = 0
+inner.vertical = 6
+outer.top = 0
+outer.bottom = 0
+outer.left = 0
+outer.right = 0
+
+# Playwright
 [[on-window-detected]]
 if.app-id = 'org.webkit.Playwright'
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'org.chromium.Chromium'
 run = ['move-node-to-workspace 3']
 
 # Center Monitor
@@ -60,10 +61,6 @@ if.app-id = 'com.apple.mail'
 run = ['move-node-to-workspace 2']
 
 [[on-window-detected]]
-if.app-id = 'org.chromium.Chromium'
-run = ['move-node-to-workspace 2']
-
-[[on-window-detected]]
 if.app-id = 'com.apple.AddressBook'
 run = ['layout floating', 'move-node-to-workspace 2']
 
@@ -74,6 +71,18 @@ run = ['layout floating', 'move-node-to-workspace 2']
 [[on-window-detected]]
 if.app-id = 'com.apple.Notes'
 run = ['layout floating', 'move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'dev.zed.Zed'
+run = ['move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Safari'
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Terminal'
+run = ['move-node-to-workspace 3']
 
 [mode.main.binding]
 
@@ -90,7 +99,12 @@ run = ['layout floating', 'move-node-to-workspace 1']
 
 # All possible modifiers: cmd, alt, ctrl, shift
 
-cmd-alt-m = ['move-node-to-monitor 1', 'focus-monitor 1']
-cmd-alt-comma = ['move-node-to-monitor 2', 'focus-monitor 2']
-cmd-alt-period = ['move-node-to-monitor 3', 'focus-monitor 3']
-cmd-alt-space = ['resize height +80']
+cmd-alt-m = ['move up']
+cmd-alt-comma = ['move-node-to-monitor prev --wrap-around', 'focus-monitor prev --wrap-around']
+cmd-alt-period = ['move-node-to-monitor next --wrap-around', 'focus-monitor next --wrap-around']
+cmd-alt-slash = ['layout tiles accordion']
+cmd-alt-space = ['resize height +160']
+cmd-h = []
+cmd-alt-h = []
+
+# cmd-alt-slash = ['fullscreen']

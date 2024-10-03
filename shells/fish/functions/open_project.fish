@@ -1,3 +1,5 @@
+# TODO: Check all branches to represent repository status and print if is synced
+
 function open_project
     set projects (command find ~/Developer -type d -maxdepth 2 -mindepth 2 -exec test -d '{}/.git' ';' -print)
     set formatted_projects (
@@ -38,7 +40,7 @@ function open_project
         printf "%s\n" $formatted_projects | sort -r | sed 's/^[01]//'
     )
 
-    set selected_project (printf "%s\n" $sorted_projects | gum filter --height 6 --placeholder "" --prompt "→ " --prompt.foreground 2 --indicator.foreground 12 --match.foreground 12)
+    set selected_project (printf "%s\n" $sorted_projects | gum filter --height 6 --placeholder "" --prompt "→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4)
 
     if test -n "$selected_project"
         # Remove color codes and status indicators

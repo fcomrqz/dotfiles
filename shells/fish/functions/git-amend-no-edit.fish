@@ -1,7 +1,7 @@
 function git-amend-no-edit
-    if not git rev-parse --git-dir >/dev/null 2>&1
-        commandline -f repaint
-        return 1
+    if not git rev-parse --is-inside-work-tree >/dev/null 2>&1
+        promptError "Not git directory"
+        return 0
     end
 
     set -l staged_changes (git diff --cached --name-only)
@@ -10,6 +10,9 @@ function git-amend-no-edit
         return 1
     end
 
-    command git commit --amend --no-edit
+    if promptConfirmation "git commit --amend --no-edit"
+        git commit --amend --no-edit
+    end
+
     commandline -f repaint
 end

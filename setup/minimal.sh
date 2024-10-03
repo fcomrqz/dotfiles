@@ -20,6 +20,7 @@ gum spin --title "fish: Finally, a command line shell for the 90s" -- brew insta
 gum spin --title "starship: The minimal, blazing-fast, and infinitely customizable prompt for any shell" -- brew install starship && ln -sF ~/Developer/fcomrqz/dotfiles/starship/starship.toml ~/.config/starship.toml && ln -sF ~/Developer/fcomrqz/dotfiles/shells/.bashrc ~/.bashrc && ln -sF ~/Developer/fcomrqz/dotfiles/shells/.zshrc ~/.zshrc
 gum spin --title "node: JavaScript Runtime built on Google V8" -- brew install node
 gum spin --title "bun: JavaScript Runtime built on Apple JavaScriptCore" -- curl -fsSL https://bun.sh/install | bash > /dev/null 2>&1
+gum spin --title "deno: Runtime for JavaScript, TypeScript, and WebAssembly built on Google V8 and Rust" -- curl -fsSL https://deno.land/install.sh | sh > /dev/null 2>&1
 gum spin --title "git: The stupid content tracker" -- brew install git && ln -sF ~/Developer/fcomrqz/dotfiles/git/.gitconfig ~/
 gum spin --title "direnv: Load/unload environment variables based on \$PWD" -- brew install direnv && ln -sF ~/Developer/fcomrqz/dotfiles/direnv/direnv.toml ~/.config/direnv/
 gum spin --title "gh: GitHub CLI" -- brew install gh && mkdir ~/.config/gh && ln -sF ~/Developer/fcomrqz/dotfiles/gh/config.yml ~/.config/gh/
@@ -45,8 +46,6 @@ clear
 
 gum log --prefix Installing "Desktop Apps"
 gum spin --title "Zed: Code at the speed of thought" -- brew install --cask zed && mkdir ~/.config/zed && ln -sF ~/Developer/fcomrqz/dotfiles/zed/settings.json ~/.config/zed/ && ln -sF ~/Developer/fcomrqz/dotfiles/zed/keymap.json ~/.config/zed/
-# Zed's JavaScript REPL engine
-gum spin --title "deno: Runtime for JavaScript, TypeScript, and WebAssembly built on Google V8 and Rust" brew install deno
 # Jupyter is Zed's REPL engine
 gum spin --title "jupyter: Documents that combine live code, equations, visualizations, and narrative text" -- deno jupyter --install
 clear

@@ -1,11 +1,21 @@
 [
   {
     "bindings": {
-      "cmd-o": ["projects::OpenRecent", { "create_new_window": false }],
-      "cmd-alt-o": ["projects::OpenRecent", { "create_new_window": false }],
-      "cmd-escape": "terminal_panel::ToggleFocus",
+      "cmd-o": [
+        "projects::OpenRecent",
+        {
+          "create_new_window": false
+        }
+      ],
+      "cmd-alt-o": [
+        "projects::OpenRecent",
+        {
+          "create_new_window": false
+        }
+      ],
       "cmd-shift-t": "project_symbols::Toggle",
-      "cmd-t": "outline::Toggle"
+      "cmd-t": "outline::Toggle",
+      "cmd-shift-b": "editor::ToggleGitBlameInline"
     }
   },
   {
@@ -15,13 +25,11 @@
       "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
       "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
       "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
-
-      "ctrl-v": "workspace::ToggleCenteredLayout",
-
+      // "ctrl-v": "workspace::ToggleCenteredLayout",
       "cmd-e": "project_panel::ToggleFocus",
       "cmd-b": "branches::OpenRecent",
-
-      "cmd-n": "workspace::NewWindow"
+      "cmd-n": "workspace::NewWindow",
+      "cmd-t": null
     }
   },
   {
@@ -36,10 +44,12 @@
       "cmd-7": ["pane::ActivateItem", 6],
       "cmd-8": ["pane::ActivateItem", 7],
       "cmd-9": ["pane::ActivateItem", 8],
+
       "cmd-k k": "pane::SplitDown",
       "cmd-k j": "pane::SplitLeft",
       "cmd-k l": "pane::SplitRight",
       "cmd-k i": "pane::SplitUp",
+
       "ctrl-tab": "pane::ActivateNextItem",
       "ctrl-shift-tab": "pane::ActivatePrevItem"
     }
@@ -48,13 +58,16 @@
     "context": "ProjectPanel",
     "bindings": {
       "cmd-e": "project_panel::ToggleFocus",
-      "cmd-pagedown": "project_panel::NewDirectory"
+      "cmd-pagedown": "project_panel::NewDirectory",
+      "cmd-shift-b": "editor::ToggleGitBlameInline",
+      "cmd-enter": "project_panel::OpenPermanent"
     }
   },
   {
     "context": "Editor",
     "bindings": {
       "alt-l": "editor::SelectLine",
+
       "alt-shift-up": "editor::SelectLargerSyntaxNode",
       "alt-shift-down": "editor::SelectSmallerSyntaxNode",
 
@@ -67,12 +80,18 @@
       "cmd-pageup": "editor::DuplicateLineUp",
       "cmd-pagedown": "editor::DuplicateLineDown",
 
-      "pageup": "editor::PageUp",
-      "pagedown": "editor::PageDown",
+      // "pageup": "editor::PageUp",
+      // "pagedown": "editor::PageDown",
+
+      "pageup": ["editor::MovePageUp", { "center_cursor": true }],
+      "pagedown": ["editor::MovePageDown", { "center_cursor": true }],
 
       "alt-r": "editor::Rename",
+
       "alt-enter": "editor::GoToDefinition",
+
       "alt-o": "editor::OpenExcerpts",
+
       "alt-k": "editor::DeleteLine",
 
       "cmd-k cmd-j": ["workspace::ActivatePaneInDirection", "Left"],
@@ -87,13 +106,17 @@
       "alt-c": "editor::GoToHunk",
       "alt-v": "editor::ToggleHunkDiff",
 
-      "ctrl-x": "editor::GoToPrevDiagnostic",
-      "ctrl-c": "editor::GoToDiagnostic",
+      "ctrl-,": "editor::GoToPrevDiagnostic",
+      "ctrl-.": "editor::GoToDiagnostic",
 
       "cmd-;": "editor::Fold",
       "cmd-'": "editor::UnfoldLines",
 
-      "ctrl-v": "workspace::ToggleCenteredLayout"
+      // "ctrl-v": "workspace::ToggleCenteredLayout",
+
+      "cmd-shift-b": "editor::ToggleGitBlameInline",
+
+      "alt-a": "assistant::ToggleFocus"
     }
   },
   {
@@ -105,7 +128,8 @@
   {
     "context": "Editor && jupyter && !ContextEditor",
     "bindings": {
-      "ctrl-r": "repl::Run"
+      "ctrl-r": "repl::RunInPlace",
+      "ctrl-alt-r": "repl::ClearOutputs"
     }
   }
 ]

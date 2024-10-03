@@ -71,3 +71,4 @@ bindkey '^O' openProject
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+. "/Users/fran/.deno/env"
