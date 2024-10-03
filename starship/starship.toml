@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-$direnv$directory$git_status$package$git_commit$git_branch$git_state$cmd_duration
+$direnv$directory$git_branch$git_status$package$git_commit$git_state $fill $cmd_duration
 $jobs$character
 """
 
@@ -10,7 +10,7 @@ success_symbol = '[→](green)'
 error_symbol = '[✗](red)'
 
 [git_status]
-format = '$staged$modified$untracked$deleted$stashed$ahead_behind$conflicted'
+format = '$ahead_behind$modified$untracked$deleted$stashed$staged$conflicted'
 conflicted = '[▸◂](red) '
 ahead = '[↑](blue) '
 behind = '[↓](red) '
@@ -21,7 +21,7 @@ modified = '[*](yellow) '
 untracked = '[+](green) '
 renamed = '[=](cyan) '
 deleted = '[−](red) '
-staged = '[•](blue) '
+staged = '[⚑](blue) '
 
 [git_commit]
 format = '[($tag )](green)'
@@ -34,7 +34,7 @@ tag_symbol = ''
 format = '$state([$progress_current:$progress_total](yellow)) '
 rebase = "[rebasing](cyan)"
 merge = "[merging](yellow)"
-cherry_pick = "[cherry-picking](red)"
+cherry_pick = "[cherry picking](red)"
 bisect = "[bisecting](red)"
 
 [git_branch]
@@ -45,7 +45,7 @@ only_attached = true
 format = '[$version](blue) '
 
 [jobs]
-format = '[$symbol$number](bold red) '
+format = '[$symbol$number](red) '
 symbol = '▸'
 number_threshold = 2
 
@@ -62,3 +62,12 @@ allowed_msg = '*'
 not_allowed_msg = ''
 disabled = false
 detect_files = ['.env']
+
+[cmd_duration]
+show_milliseconds = true
+min_time = 100
+format = '[$duration](bright-black)'
+
+[fill]
+symbol = ' '
+style = 'bold green'

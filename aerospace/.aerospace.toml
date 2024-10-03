@@ -16,9 +16,13 @@ outer.bottom = 8
 outer.top = 8
 outer.right = 8
 
-# Left Monitor
+# Playwright
 [[on-window-detected]]
 if.app-id = 'org.webkit.Playwright'
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'org.chromium.Chromium'
 run = ['move-node-to-workspace 3']
 
 # Center Monitor
@@ -60,10 +64,6 @@ if.app-id = 'com.apple.mail'
 run = ['move-node-to-workspace 2']
 
 [[on-window-detected]]
-if.app-id = 'org.chromium.Chromium'
-run = ['move-node-to-workspace 2']
-
-[[on-window-detected]]
 if.app-id = 'com.apple.AddressBook'
 run = ['layout floating', 'move-node-to-workspace 2']
 
@@ -93,4 +93,5 @@ run = ['layout floating', 'move-node-to-workspace 1']
 cmd-alt-m = ['move-node-to-monitor 1', 'focus-monitor 1']
 cmd-alt-comma = ['move-node-to-monitor 2', 'focus-monitor 2']
 cmd-alt-period = ['move-node-to-monitor 3', 'focus-monitor 3']
+cmd-alt-slash = ['fullscreen']
 cmd-alt-space = ['resize height +80']

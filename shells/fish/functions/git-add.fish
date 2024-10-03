@@ -13,7 +13,7 @@ function git-add
     end
 
     # Get the status, replace M with yellow *, A with green +, D with red -, and pass to gum choose
-    set -l files (git status -s | grep '^.[M?RCDU]' | sed 's/^ M/\x1b[33m*\x1b[0m/;s/^MM/\x1b[33m*\x1b[0m/;s/^AM/\x1b[33m*\x1b[0m/;s/^UU/\x1b[33m*\x1b[0m/;s/^??/\x1b[32m+\x1b[0m/;s/^ D/\x1b[31m-\x1b[0m/' | gum choose --no-limit --cursor="→ " --unselected-prefix="  " --header="" --cursor.foreground 2 --no-show-help --selected.foreground 12 --height 9)
+    set -l files (git status -s | grep '^.[M?RCDU]' | sed 's/^ M/\x1b[33m*\x1b[0m/;s/^MM/\x1b[33m*\x1b[0m/;s/^AM/\x1b[33m*\x1b[0m/;s/^UU/\x1b[33m*\x1b[0m/;s/^??/\x1b[32m+\x1b[0m/;s/^ D/\x1b[31m-\x1b[0m/' | gum choose --no-limit --cursor="→ " --unselected-prefix="  " --header="" --cursor.foreground 2 --no-show-help --selected.foreground 4 --height 9)
 
     # If no files were selected, exit
     if test -z "$files"

@@ -27,8 +27,8 @@
     "version": "2",
     "button": false,
     "default_model": {
-      "provider": "openai",
-      "model": "gpt-4o-mini"
+      "provider": "zed.dev",
+      "model": "claude-3-5-sonnet-20240620"
     }
   },
   "project_panel": {
