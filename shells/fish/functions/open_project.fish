@@ -64,7 +64,7 @@ function open_project
         cut -d'|' -f3- # Remove the sorting fields from output
     )
 
-    set selected_project (printf "%s\n" $sorted_projects | gum filter --height 6 --placeholder "" --prompt "→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4)
+    set selected_project (printf "%s\n" $sorted_projects | gum filter --height 7 --placeholder "" --prompt "→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4 --no-strip-ansi)
 
     if test -n "$selected_project"
         set clean_project (echo $selected_project | sed -E 's/\x1B\[[0-9;]*[mK]//g' | sed 's/[*↑↓]//g' | string trim)
@@ -74,6 +74,9 @@ function open_project
         else
             echo "Directory not found: $full_path"
         end
+    else
+        echo -en "\033[6A"
+        commandline -f repaint
     end
 
     commandline -f repaint
