@@ -25,7 +25,7 @@ function git-add
     # Ensure gum_height is at least 1 and at most term_height_total - 1
     set gum_height (math "max(1, min($gum_height, $term_height_total - 2))")
 
-    set -l files (printf '%s\n' $dirty_files | sed 's/^ M/\x1b[33m*\x1b[0m/;s/^MM/\x1b[33m*\x1b[0m/;s/^AM/\x1b[33m*\x1b[0m/;s/^UU/\x1b[33m*\x1b[0m/;s/^??/\x1b[32m+\x1b[0m/;s/^ D/\x1b[31m-\x1b[0m/;s/^MD/\x1b[31m-\x1b[0m/;s/^R[M ]/\x1b[36m*\x1b[0m/;s/^AD/\x1b[32m+\x1b[0m/;s/^RD/\x1b[36m*\x1b[0m/;s/ -> /\x1b[36m → \x1b[0m/' | gum choose --no-limit --cursor="→ " --unselected-prefix="  " --header="" --cursor.foreground 2 --no-show-help --selected.foreground 4 --height $gum_height)
+    set -l files (printf '%s\n' $dirty_files | sed 's/^ M/\x1b[33m*\x1b[0m/;s/^MM/\x1b[33m*\x1b[0m/;s/^AM/\x1b[33m*\x1b[0m/;s/^UU/\x1b[33m*\x1b[0m/;s/^??/\x1b[32m+\x1b[0m/;s/^ D/\x1b[31m-\x1b[0m/;s/^MD/\x1b[31m-\x1b[0m/;s/^R[M ]/\x1b[36m*\x1b[0m/;s/^AD/\x1b[32m+\x1b[0m/;s/^RD/\x1b[36m*\x1b[0m/;s/ -> /\x1b[36m → \x1b[0m/' | gum choose --no-limit --cursor="→ " --cursor-prefix="  " --unselected-prefix="  " --header="" --cursor.foreground 2 --no-show-help --selected.foreground 4 --no-strip-ansi --height $gum_height)
 
     if test -z "$files"
         commandline -f repaint

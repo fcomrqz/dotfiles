@@ -76,6 +76,10 @@ if.app-id = 'com.apple.Terminal'
 run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
 if.app-id = 'com.apple.finder'
 run = ['move-node-to-workspace 3']
 
