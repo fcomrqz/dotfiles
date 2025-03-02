@@ -46,6 +46,10 @@ if.app-id = 'com.apple.MobileSMS'
 run = ['layout floating', 'move-node-to-workspace 2']
 
 [[on-window-detected]]
+if.app-id = 'com.apple.FaceTime'
+run = ['layout floating', 'move-node-to-workspace 2']
+
+[[on-window-detected]]
 if.app-id = 'net.whatsapp.WhatsApp'
 run = ['layout floating', 'move-node-to-workspace 2']
 
@@ -109,6 +113,10 @@ run = ['layout floating', 'move-node-to-workspace 3']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.AddressBook'
+run = ['layout floating', 'move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ScreenSharing'
 run = ['layout floating', 'move-node-to-workspace 3']
 
 # All possible keys:

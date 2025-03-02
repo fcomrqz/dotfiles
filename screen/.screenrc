@@ -1,5 +1,7 @@
 startup_message off
 
+termcapinfo xterm* ti@:te@
+
 caption always '%{.;15} %?%F*%: %? %x %=%?%P%{.;.} [copy/paste] %:%?'
 
 windowlist string '%3n  %x %=%f'
