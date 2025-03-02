@@ -36,19 +36,19 @@
       "cmd-alt-shift-up": "editor::DuplicateLineUp",
       "cmd-alt-shift-down": "editor::DuplicateLineDown",
 
-      "cmd-k cmd-j": ["workspace::ActivatePaneInDirection", "Left"],
-      "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
-      "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
+      "cmd-k cmd-j": "workspace::ActivatePaneLeft",
+      "cmd-k cmd-l": "workspace::ActivatePaneRight",
+      "cmd-k cmd-i": "workspace::ActivatePaneUp",
+      "cmd-k cmd-k": "workspace::ActivatePaneDown",
 
       "cmd-e": "project_panel::ToggleFocus",
 
-      "alt-z": "editor::RevertSelectedHunks",
-      "alt-,": "editor::GoToPrevHunk",
+      "alt-z": "git::Restore",
+      "alt-,": "editor::GoToPreviousHunk",
       "alt-.": "editor::GoToHunk",
-      "alt-v": "editor::ToggleHunkDiff",
+      "alt-v": "editor::ToggleSelectedDiffHunks",
 
-      "ctrl-,": "editor::GoToPrevDiagnostic",
+      "ctrl-,": "editor::GoToPreviousDiagnostic",
       "ctrl-.": "editor::GoToDiagnostic",
 
       "cmd-;": "editor::Fold",
@@ -86,13 +86,13 @@
   {
     "context": "Workspace",
     "bindings": {
-      "cmd-k cmd-enter": ["workspace::ActivatePaneInDirection", "Left"],
-      "cmd-k cmd-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "cmd-k cmd-i": ["workspace::ActivatePaneInDirection", "Up"],
-      "cmd-k cmd-k": ["workspace::ActivatePaneInDirection", "Down"],
+      "cmd-k cmd-enter": "workspace::ActivatePaneLeft",
+      "cmd-k cmd-l": "workspace::ActivatePaneRight",
+      "cmd-k cmd-i": "workspace::ActivatePaneUp",
+      "cmd-k cmd-k": "workspace::ActivatePaneDown",
       // "ctrl-v": "workspace::ToggleCenteredLayout",
       "cmd-e": "project_panel::ToggleFocus",
-      "cmd-b": "branches::OpenRecent",
+      "cmd-b": "git::Branch",
       "cmd-n": "workspace::NewWindow",
       "cmd-t": null,
       "ctrl-tab": "tab_switcher::Toggle",
@@ -173,6 +173,35 @@
     "context": "AssistantPanel",
     "bindings": {
       "cmd-y": "assistant::DeployHistory"
+    }
+  },
+  {
+    "context": "Editor && mode == full",
+    "bindings": {
+      "ctrl-:": null
+    }
+  },
+  {
+    "context": "Editor && edit_prediction",
+    "bindings": {
+      "alt-enter": "editor::AcceptEditPrediction"
+    }
+  },
+  {
+    "context": "Editor && edit_prediction_conflict",
+    "use_key_equivalents": true,
+    "bindings": {
+      "alt-enter": "editor::AcceptEditPrediction"
+    }
+  },
+  {
+    "context": "FileFinder || (FileFinder > Picker > Editor) || (FileFinder > Picker > menu)",
+    "use_key_equivalents": true,
+    "bindings": {
+      "cmd-i": "pane::SplitUp",
+      "cmd-k": "pane::SplitDown",
+      "cmd-enter": "pane::SplitLeft",
+      "cmd-l": "pane::SplitRight"
     }
   }
 ]

@@ -1,4 +1,17 @@
 {
+  "git": {
+    "inline_blame": {
+      "enabled": false
+    }
+  },
+  "git_panel": {
+    "button": false,
+    "dock": "right",
+    "status_style": "label_color",
+    "scrollbar": {
+      "show": null
+    }
+  },
   "auto_install_extensions": {
     "html": true,
     "dokerfile": true,
@@ -25,6 +38,7 @@
     "**/.settings",
     "**/node_modules",
     "**/bun.lockb",
+    "**/bun.lock",
     "**/package-lock.json",
     "**/.wrangler",
     "**/.vercel",
@@ -32,6 +46,7 @@
     "**/test-results",
     "**/dist"
   ],
+  "pane_split_direction_horizontal": "down",
   "vertical_scroll_margin": 3,
   "when_closing_with_no_tabs": "keep_window_open",
   "seed_search_query_from_cursor": "selection",
@@ -41,7 +56,7 @@
     "button": false,
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-latest"
+      "model": "claude-3-7-sonnet-latest"
     }
   },
   "project_panel": {
@@ -49,7 +64,6 @@
     "dock": "right",
     "file_icons": false,
     "folder_icons": false,
-    // "auto_reveal_entries": true,
     "auto_fold_dirs": false,
     "button": false,
     "indent_guides": {
@@ -71,8 +85,8 @@
   },
   "ui_font_family": "SF Mono",
   "ui_font_size": 17,
-  "buffer_font_family": "SF Mono",
-  "buffer_font_size": 17,
+  // "buffer_font_family": "SF Mono",
+  "buffer_font_size": null,
   "buffer_line_height": {
     "custom": 1.7
   },
@@ -89,26 +103,55 @@
     "Dockerfile": ["containerfile"],
     "Elisp": ["kbd"]
   },
-  // "lsp": {
-  //   "biome": {
-  //     "settings": {
-  //       "config_path": "config/biome.json"
-  //     }
-  //   }
-  // },
-  // "code_actions_on_format": {
-  //   "source.fixAll.biome": true,
-  //   "source.organizeImports.biome": true
-  // },
+  "lsp": {
+    "stylelint-lsp": {
+      "settings": {
+        "stylelint": {
+          "configFile": "./config/stylelint.config.js",
+          "configBasedir": ".",
+          "snippet": ["css", "postcss"],
+          "validate": ["css", "postcss", "vue.js"]
+        }
+      }
+    }
+    //   "biome": {
+    //     "settings": {
+    //       "config_path": "config/biome.json"
+    //     }
+    //   }
+    // },
+    // "code_actions_on_format": {
+    //   "source.fixAll.biome": true,
+    //   "source.organizeImports.biome": true
+  },
   "languages": {
     "HTML": {
       "prettier": {
         "allowed": true
       }
     },
+    "CSS": {
+      "prettier": {
+        "allowed": true
+      },
+      "code_actions_on_format": {
+        "source.fixAll.stylelint": true
+      }
+    },
+    "Vue.js": {
+      "prettier": {
+        "allowed": true
+      },
+      "code_actions_on_format": {
+        "source.fixAll.stylelint": true
+      }
+    },
     "JavaScript": {
       "prettier": {
         "allowed": true
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true
       }
     },
     "TypeScript": {
@@ -147,50 +190,6 @@
           "arguments": []
         }
       }
-    },
-    "CSS": {
-      "formatter": [
-        {
-          "external": {
-            "command": "stylelint",
-            "arguments": [
-              "--config",
-              "config/stylelint.config.js",
-              "--stdin-filename",
-              "{buffer_path}",
-              "--fix"
-            ]
-          }
-        },
-        {
-          "external": {
-            "command": "prettier",
-            "arguments": ["--stdin-filepath", "{buffer_path}"]
-          }
-        }
-      ]
-    },
-    "Vue.js": {
-      "formatter": [
-        {
-          "external": {
-            "command": "stylelint",
-            "arguments": [
-              "--config",
-              "config/stylelint.config.js",
-              "--stdin-filename",
-              "{buffer_path}",
-              "--fix"
-            ]
-          }
-        },
-        {
-          "external": {
-            "command": "prettier",
-            "arguments": ["--stdin-filepath", "{buffer_path}"]
-          }
-        }
-      ]
     }
   },
   "jupyter": {
@@ -210,9 +209,6 @@
   "collaboration_panel": {
     "button": false
   },
-  "chat_panel": {
-    "button": false
-  },
   "outline_panel": {
     "button": false
   },
@@ -230,17 +226,12 @@
     "dock": "right",
     "default_width": 380
   },
-  "git": {
-    "inline_blame": {
-      "enabled": false
-    }
-  },
   "scrollbar": {
     "show": "system",
     "git_diff": false
   },
   "features": {
-    "inline_completion_provider": "none" // Deactivate GitHub Copilot
+    "edit_prediction_provider": "zed" // Deactivate GitHub Copilot
   },
   "tab_bar": {
     "show": false,
