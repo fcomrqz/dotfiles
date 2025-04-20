@@ -75,7 +75,7 @@ function open_project
             echo "Directory not found: $full_path"
         end
     else
-        echo -en "\033[6A"
+        echo -en "\033[7A"
         commandline -f repaint
     end
 
