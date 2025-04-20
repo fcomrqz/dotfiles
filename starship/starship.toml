@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-$direnv$directory$git_branch$git_status${custom.git_status}${custom.git_staged}$package$git_commit$git_state $fill $cmd_duration
+$direnv$directory$git_status${custom.git_status}${custom.git_staged}$package$git_commit$git_state $fill $cmd_duration
 $jobs$character
 """
 
