@@ -1,0 +1,33 @@
+[user]
+name = "Fran"
+email = "fcomrqz@users.noreply.github.com"
+
+[ui]
+default-command = ["log", "-n", "12"]
+
+[template-aliases]
+builtin_log_compact = '''
+if(root,
+  format_root_commit(self),
+  label(if(current_working_copy, "working_copy"),
+    concat(
+      separate(" ",
+        if(conflict, label("conflict", "conflict")),
+        format_short_change_id_with_hidden_and_divergent_info(self),
+        tags,
+        working_copies,
+        bookmarks,
+        if(description, description.first_line(), ""),
+        if(empty, "", commit_timestamp(self).ago()),
+      ) ++ "\n",
+    ),
+  )
+)
+'''
+
+[revset-aliases]
+"immutable_heads()" = "(trunk().. & ~mine())"
+
+[colors]
+bookmarks = { fg = "blue", "bold" = true }
+timestamp = { fg = "bright black" }
