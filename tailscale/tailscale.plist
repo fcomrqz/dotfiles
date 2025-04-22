@@ -8,7 +8,7 @@
 
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/local/bin/tailscaled</string>
+    <string>/opt/homebrew/bin/tailscaled</string>
   </array>
 
   <key>RunAtLoad</key>
@@ -19,6 +19,7 @@
 
   <key>StandardOutPath</key>
   <string>/tmp/tailscale.log</string>
+
   <key>StandardErrorPath</key>
   <string>/tmp/tailscale.log</string>
 
@@ -31,8 +32,6 @@
   <key>ProcessType</key>
   <string>Background</string>
 
-  <key>Disabled</key>
-  <false/>
   <key>ThrottleInterval</key>
   <integer>5</integer>
 
