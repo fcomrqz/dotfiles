@@ -3,7 +3,7 @@ name = "Fran"
 email = "fcomrqz@users.noreply.github.com"
 
 [ui]
-default-command = ["log", "-n", "12"]
+default-command = ["log", "-n", "12", "--no-graph"]
 
 [template-aliases]
 builtin_log_compact = '''
