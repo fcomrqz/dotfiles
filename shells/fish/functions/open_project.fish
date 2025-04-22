@@ -6,9 +6,6 @@ function open_project
         for project in $projects
             set relative_path (string replace -r '/Users/fran/Developer/' '' $project)
             set git_status (git -C $project status -s)
-            set git_ahead_behind (git -C $project rev-list --left-right --count HEAD...@{u} 2>/dev/null)
-            set ahead (echo $git_ahead_behind | awk '{print $1}' | string trim)
-            set behind (echo $git_ahead_behind | awk '{print $2}' | string trim)
 
             # Get last modified timestamp
             set modified_time (
@@ -31,30 +28,15 @@ function open_project
                 end
             )
 
-            if not string match -q '[0-9]*' $ahead
-                set ahead 0
-            end
-            if not string match -q '[0-9]*' $behind
-                set behind 0
-            end
-
             set status_indicator ""
             set is_dirty "0" # Default to clean
             if test -n "$git_status"
                 set status_indicator (set_color yellow)"*"(set_color normal)" "
                 set is_dirty "1" # Mark as dirty
             end
-            set direction_indicator ""
-            if test "$ahead" -gt 0
-                set direction_indicator (set_color blue)"↑"(set_color normal)" "
-                set is_dirty "1" # Consider ahead/behind as dirty
-            else if test "$behind" -gt 0
-                set direction_indicator (set_color red)"↓"(set_color normal)" "
-                set is_dirty "1" # Consider ahead/behind as dirty
-            end
 
             # Format: dirty_flag|timestamp|project_path_with_indicators
-            echo "$is_dirty|$modified_time|$relative_path $status_indicator$direction_indicator"
+            echo "$is_dirty|$modified_time|$relative_path $status_indicator"
         end
     )
 
@@ -67,7 +49,7 @@ function open_project
     set selected_project (printf "%s\n" $sorted_projects | gum filter --height 8 --placeholder "" --prompt "→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4 --no-strip-ansi)
 
     if test -n "$selected_project"
-        set clean_project (echo $selected_project | sed -E 's/\x1B\[[0-9;]*[mK]//g' | sed 's/[*↑↓]//g' | string trim)
+        set clean_project (echo $selected_project | sed -E 's/\x1B\[[0-9;]*[mK]//g' | sed 's/[*]//g' | string trim)
         set full_path ~/Developer/$clean_project
         if test -d $full_path
             cd $full_path
@@ -75,7 +57,7 @@ function open_project
             echo "Directory not found: $full_path"
         end
     else
-        echo -en "\033[7A"
+        echo -en "\033[7A\033[J"
         commandline -f repaint
     end
 

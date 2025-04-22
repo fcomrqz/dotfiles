@@ -4,7 +4,7 @@ function fish_title
         if string match -q '~' "$cwd"
             echo '~'
         else if string match -q '~*' "$cwd"
-            echo (basename (dirname $cwd))/(basename $cwd)
+            echo (basename $cwd)
         else
             echo $cwd
         end

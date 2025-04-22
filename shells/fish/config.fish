@@ -4,23 +4,22 @@ if status --is-interactive
 
     fish_add_path /opt/homebrew/bin
 
-    function starship_transient_prompt_func
-        echo ''
-        starship module character
-    end
+    # function starship_transient_prompt_func
+    #     echo ''
+    #     starship module character
+    # end
 
-    function starship_transient_rprompt_func
-        echo ''
-        starship module directory
-        starship module git_branch
-    end
+    # function starship_transient_rprompt_func
+    #     echo ''
+    #     starship module directory
+    #     starship module git_branch
+    # end
 
-    starship init fish | source
-    enable_transience
+    # starship init fish | source
+    # enable_transience
 
     set -Ux BAT_THEME ansi
 
-    set -U fish_prompt_pwd_dir_length 0
     set -U fish_greeting
 
     set -Ux GH_TOKEN (gh auth token)
