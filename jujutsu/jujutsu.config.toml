@@ -12,13 +12,12 @@ if(root,
   label(if(current_working_copy, "working_copy"),
     concat(
       separate(" ",
-        if(conflict, label("conflict", "conflict")),
         format_short_change_id_with_hidden_and_divergent_info(self),
+        if(conflict, label("conflict", "×")),
         tags,
-        working_copies,
         bookmarks,
-        if(description, description.first_line(), ""),
-        if(empty, "", commit_timestamp(self).ago()),
+        if(description, description.first_line(), label("description_missing", "missing description")),
+        if(empty, label("empty", "empty"), commit_timestamp(self).ago()),
       ) ++ "\n",
     ),
   )
@@ -29,5 +28,6 @@ if(root,
 "immutable_heads()" = "(trunk().. & ~mine())"
 
 [colors]
-change_id = { fg = "bright blue", "bold" = true }
+change_id = { fg = "blue", "bold" = true }
 timestamp = { fg = "bright black" }
+description_missing = { fg = "bright red", "bold" = true }
