@@ -29,5 +29,5 @@ if(root,
 "immutable_heads()" = "(trunk().. & ~mine())"
 
 [colors]
-bookmarks = { fg = "blue", "bold" = true }
+change_id = { fg = "bright blue", "bold" = true }
 timestamp = { fg = "bright black" }

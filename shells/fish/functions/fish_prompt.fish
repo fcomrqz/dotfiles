@@ -12,12 +12,12 @@ function fish_prompt
     printf "%s%s %s" $direnv_prompt $cwd_basename
 
     if jj root --quiet >/dev/null 2>&1
-        jj log --ignore-working-copy --no-graph --color always -r @ -T "separate(
+        jj log --no-graph --color always -r @ -T "separate(
             ' ',
-            if(empty, label('empty', 'empty')),
             if(bookmarks, label('bookmarks', bookmarks)),
             if(conflict, label('conflict', '×')),
-            if(description, label('timestamp', description.first_line()), label('conflict', 'missing description'))
+            if(description, label('timestamp', description.first_line()), label('working_copy conflict', 'missing description')),
+            if(empty, label('working_copy empty', 'empty'), label('working_copy change_id', commit_timestamp(self).ago()))
           )"
     end
 
