@@ -4,10 +4,8 @@ function promptError
 
     echo -en "\033[2A"
     commandline -f repaint
-    commandline -f repaint
 
     if test -n "$user_input"
-        echo here
         commandline -r $user_input
     end
 end
