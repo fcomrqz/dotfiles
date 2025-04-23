@@ -18,6 +18,8 @@ if status --is-interactive
     # starship init fish | source
     # enable_transience
 
+    set -Ux EDITOR 'zed -w'
+
     set -Ux BAT_THEME ansi
 
     set -U fish_greeting
@@ -85,12 +87,19 @@ if status --is-interactive
     bind \cO open_project
     bind \cR open_history_search
 
-    bind \ea git-add
-    # bind \ec git-commit
-    bind \es git-amend-no-edit
-    bind \em git-amend
-    # bind \et git-switch
-    bind \er git-revert
-    bind \eg open_gitui
+    bind \ec jj-describe
+
+    bind \es jj-split
+    bind \ea jj-squash
+
+    # bind \ep jj-prev
+    # bind \en jj-next
+
+    bind \em jj-edit
+
+    bind \eu jj-undo
+
+    bind \er jj-revert
+
     bind \e\( kill-word
 end

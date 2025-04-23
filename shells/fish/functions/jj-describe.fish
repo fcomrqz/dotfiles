@@ -4,10 +4,11 @@ function jj-describe
         return 1
     end
 
-    set type (gum filter "fix" "feat" "test" "refactor" "perf" "build" "ci" "dx" "style" "workflow" "chore" "types" "release" "docs" "wip" --placeholder="" --prompt="→ " --height 6 --prompt.foreground 2 --indicator.foreground 4 --match.foreground 4)
+    set type (gum filter "fix" "feat" "test" "clean" "perf" "build" "ci" "dx" "style" "workflow" "chore" "types" "release" "docs" --placeholder="" --prompt="→ " --height 6 --prompt.foreground 2 --indicator.foreground 4 --match.foreground 4)
 
     if test -z "$type"
-        commandline -f repaint
+        echo -en "\033[5A\033[J"
+        promptError "Describe aborted"
         return 1
     end
 
@@ -20,14 +21,16 @@ function jj-describe
         set scope "($scope)"
     end
 
+    echo -en "\033[1A\r\033[K"
     read -P "$type$scope$prompt" summary
 
-    if test -z "$summary"
-        commandline -f repaint
-        return 1
+    if test -n "$summary"
+        jj describe -m "$type$scope: $summary"
+        echo -en "\033[5A\033[J"
+    else
+        echo -en "\033[1A\r\033[K"
+        promptError "Describe aborted"
     end
-
-    jj describe -m "$type$scope: $summary"
 
     commandline -f repaint
 end

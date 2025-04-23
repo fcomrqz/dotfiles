@@ -12,7 +12,7 @@ function fish_prompt
     printf "%s%s %s" $direnv_prompt $cwd_basename
 
     if jj root --quiet >/dev/null 2>&1
-        jj log --no-graph --color always -r @ -T "separate(
+        jj log --quiet --no-graph --color always -r @ -T "separate(
             ' ',
             if(bookmarks, label('bookmarks', bookmarks)),
             if(conflict, label('conflict', '×')),

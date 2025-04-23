@@ -28,7 +28,11 @@
     "printWidth": 100,
     "plugins": ["prettier-plugin-toml"]
   },
-  "file_types": { "Dockerfile": ["containerfile"], "Elisp": ["kbd"] },
+  "file_types": {
+    "Dockerfile": ["containerfile"],
+    "Elisp": ["kbd"],
+    "Git Commit": ["*.jjdescription"]
+  },
   "lsp": {
     "stylelint-lsp": {
       "settings": {
