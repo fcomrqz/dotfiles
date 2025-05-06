@@ -5,16 +5,17 @@ gum spin --title "mongodb-community: MongoDB server" -- brew tap mongodb/brew
 gum spin --title "mongodb-community: MongoDB server" -- brew install mongodb-community
 gum spin --title "mongodb-database-tools: standard utilities" -- brew install mongodb-database-tools
 gum spin --title "mongosh: MongoDB Shell" -- brew install mongosh
-gum spin --title "displayplacer: Utility to configure multi-display resolutions and arrangements" -- brew install displayplacer
 gum spin --title "httpie: HTTP client for the API era" -- brew install httpie
 gum spin --title "httpstat: Curl statistics made simple" -- brew install httpstat
-# gum spin --title "dog: DNS client" -- brew install dog
+gum spin --title "dog: DNS client" -- brew install dog
 gum spin --title "jq: Lightweight and flexible command-line JSON processor" -- brew install jq
 gum spin --title "ripgrep: Better grep" -- brew install ripgrep
 gum spin --title "rename: Rename multiple files" -- brew install rename
 gum spin --title "trash: tool that moves files or folder to the trash" -- brew install trash
-gum spin --title "cloc: Count Lines of Code" -- brew install cloc
+gum spin --title "scc: Fast and accurate code counter with complexity and COCOMO estimates" -- brew install scc
 gum spin --title "mas: AppStore CLI" -- brew install mas
+gum spin --title "ollama: Create, run, and share large language models (LLMs)" -- brew install ollama
+gum spin --title "cloudflared: Cloudflare Tunnel client" -- brew install cloudflared
 clear
 
 gum log --prefix Installing "Desktop Apps"
@@ -318,7 +319,6 @@ gum spin --title "Notes" -- defaults write com.apple.Notes "NSToolbar Configurat
 
 # By default on macOS the local hostname is your computer’s name with “.local” appended, with any spaces replaced with hyphens, and invalid characters omitted.
 
-
 # system.defaults.".GlobalPreferences"."com.apple.sound.beep.sound"
 # Sets the system-wide alert sound. Found under “Sound Effects” in the “Sound” section of “System Preferences”. Look in “/System/Library/Sounds” for possible candidates.
 
@@ -336,8 +336,6 @@ gum spin --title "Notes" -- defaults write com.apple.Notes "NSToolbar Configurat
 
 #   system.defaults.trackpad.TrackpadRightClick
 #   Whether to enable trackpad right click. The default is false.
-
-
 
 #   Set Safari’s home page to `about:blank` for faster loading
 #  defaults write com.apple.Safari HomePage -string "about:blank"

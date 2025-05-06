@@ -13,8 +13,16 @@ outer.bottom = 0
 outer.left = 0
 outer.right = 0
 
-# Main monitor
+# Float
+[[on-window-detected]]
+if.app-id = 'com.openai.chat'
+run = ['layout floating']
 
+[[on-window-detected]]
+if.app-id = 'com.apple.Passwords'
+run = ['layout floating']
+
+# Main monitor
 [[on-window-detected]]
 if.app-id = 'dev.zed.Zed'
 run = ['move-node-to-workspace 1']
@@ -31,8 +39,15 @@ run = ['move-node-to-workspace 1']
 if.app-id = 'com.raycast.macos'
 run = ['layout floating', 'move-node-to-workspace 1']
 
-# Left monitor
+[[on-window-detected]]
+if.app-id = 'com.apple.Notes'
+run = ['move-node-to-workspace 1']
 
+[[on-window-detected]]
+if.app-id = 'com.culturedcode.ThingsMac'
+run = ['layout floating', 'move-node-to-workspace 1']
+
+# Left monitor
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
 run = ['move-node-to-workspace 2']
@@ -65,16 +80,7 @@ run = ['layout floating', 'move-node-to-workspace 2']
 if.app-id = 'org.webkit.Playwright'
 run = ['move-node-to-workspace 2']
 
-[[on-window-detected]]
-if.app-id = 'com.openai.chat'
-run = ['layout floating']
-
-[[on-window-detected]]
-if.app-id = 'com.anthropic.claudefordesktop'
-run = ['layout floating', 'move-node-to-workspace 2']
-
 # Right monitor
-
 [[on-window-detected]]
 if.app-id = 'com.apple.Terminal'
 run = ['move-node-to-workspace 3']
@@ -88,16 +94,12 @@ if.app-id = 'com.apple.finder'
 run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
-if.app-id = 'com.apple.Notes'
-run = ['layout floating', 'move-node-to-workspace 3']
+if.app-id = 'com.apple.Terminal'
+run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
-if.app-id = 'com.culturedcode.ThingsMac'
-run = ['layout floating', 'move-node-to-workspace 3']
-
-[[on-window-detected]]
-if.app-id = 'com.apple.Passwords'
-run = ['layout floating', 'move-node-to-workspace 3']
+if.app-name-regex-substring = 'YouTube'
+run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
 if.app-id = 'org.chromium.Chromium'

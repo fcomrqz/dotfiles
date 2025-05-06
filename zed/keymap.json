@@ -1,5 +1,16 @@
 [
   {
+    "bindings": {
+      "cmd-o": ["projects::OpenRecent", { "create_new_window": false }],
+      "cmd-alt-o": ["projects::OpenRecent", { "create_new_window": true }],
+      "cmd-shift-t": "project_symbols::Toggle",
+      "cmd-t": "outline::Toggle",
+      "cmd-shift-b": "editor::ToggleGitBlameInline",
+      "ctrl-v": null,
+      "ctrl-shift-;": null
+    }
+  },
+  {
     "context": "Editor",
     "bindings": {
       "alt-l": "editor::SelectLine",
@@ -27,10 +38,6 @@
 
       "alt-r": "editor::Rename",
 
-      "alt-enter": "editor::GoToImplementation",
-
-      "alt-o": "editor::OpenExcerpts",
-
       "alt-k": "editor::DeleteLine",
 
       "cmd-alt-shift-up": "editor::DuplicateLineUp",
@@ -54,33 +61,25 @@
       "cmd-;": "editor::Fold",
       "cmd-'": "editor::UnfoldLines",
 
-      "cmd-shift-b": "editor::ToggleGitBlameInline",
-
       "alt-c": "editor::ConvertToTitleCase",
       "alt-u": "editor::ConvertToUpperCase",
 
-      "ctrl-alt-enter": "assistant::InlineAssist"
+      "ctrl-alt-enter": "assistant::InlineAssist",
+
+      "cmd-alt-delete": "git::Diff"
     }
   },
   {
+    "context": "Editor && mode == full",
     "bindings": {
-      "cmd-o": [
-        "projects::OpenRecent",
-        {
-          "create_new_window": false
-        }
-      ],
-      "cmd-alt-o": [
-        "projects::OpenRecent",
-        {
-          "create_new_window": false
-        }
-      ],
-      "cmd-shift-t": "project_symbols::Toggle",
-      "cmd-t": "outline::Toggle",
-      "cmd-shift-b": "editor::ToggleGitBlameInline",
-      "ctrl-v": null,
-      "ctrl-shift-;": null
+      "ctrl-:": null,
+      "alt-enter": null
+    }
+  },
+  {
+    "context": "Editor && mode == full",
+    "bindings": {
+      "alt-enter": "editor::OpenExcerpts"
     }
   },
   {
@@ -90,18 +89,13 @@
       "cmd-k cmd-l": "workspace::ActivatePaneRight",
       "cmd-k cmd-i": "workspace::ActivatePaneUp",
       "cmd-k cmd-k": "workspace::ActivatePaneDown",
-      // "ctrl-v": "workspace::ToggleCenteredLayout",
       "cmd-e": "project_panel::ToggleFocus",
-      "cmd-b": "git::Branch",
+      "cmd-b": "workspace::ToggleBottomDock",
       "cmd-n": "workspace::NewWindow",
       "cmd-t": null,
       "ctrl-tab": "tab_switcher::Toggle",
-      "ctrl-shift-tab": [
-        "tab_switcher::Toggle",
-        {
-          "select_last": true
-        }
-      ]
+      "ctrl-shift-tab": ["tab_switcher::Toggle", { "select_last": true }],
+      "cmd-alt-delete": "git::Diff"
     }
   },
   {
@@ -167,18 +161,6 @@
       "i": "pane::SplitUp",
       "j": "pane::SplitLeft",
       "l": "pane::SplitRight"
-    }
-  },
-  {
-    "context": "AssistantPanel",
-    "bindings": {
-      "cmd-y": "assistant::DeployHistory"
-    }
-  },
-  {
-    "context": "Editor && mode == full",
-    "bindings": {
-      "ctrl-:": null
     }
   },
   {

@@ -17,7 +17,7 @@ mkdir ~/.config
 
 gum log --prefix Installing "Command Line Tools"
 gum spin --title "fish: Finally, a command line shell for the 90s" -- brew install fish && mkdir ~/.config/fish && ln -sF ~/Developer/fcomrqz/dotfiles/shells/fish/functions ~/.config/fish && ln -sF ~/Developer/fcomrqz/dotfiles/shells/fish/config.fish ~/.config/fish/config.fish
-gum spin --title "starship: The minimal, blazing-fast, and infinitely customizable prompt for any shell" -- brew install starship && ln -sF ~/Developer/fcomrqz/dotfiles/starship/starship.toml ~/.config/starship.toml && ln -sF ~/Developer/fcomrqz/dotfiles/shells/.bashrc ~/.bashrc && ln -sF ~/Developer/fcomrqz/dotfiles/shells/.zshrc ~/.zshrc
+# gum spin --title "starship: The minimal, blazing-fast, and infinitely customizable prompt for any shell" -- brew install starship && ln -sF ~/Developer/fcomrqz/dotfiles/starship/starship.toml ~/.config/starship.toml && ln -sF ~/Developer/fcomrqz/dotfiles/shells/.bashrc ~/.bashrc && ln -sF ~/Developer/fcomrqz/dotfiles/shells/.zshrc ~/.zshrc
 gum spin --title "node: JavaScript Runtime built on Google V8" -- brew install node
 gum spin --title "bun: JavaScript Runtime built on Apple JavaScriptCore" -- curl -fsSL https://bun.sh/install | bash > /dev/null 2>&1
 gum spin --title "deno: Runtime for JavaScript, TypeScript, and WebAssembly built on Google V8 and Rust" -- curl -fsSL https://deno.land/install.sh | sh > /dev/null 2>&1

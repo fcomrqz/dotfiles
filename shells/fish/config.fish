@@ -18,7 +18,7 @@ if status --is-interactive
     # starship init fish | source
     # enable_transience
 
-    set -Ux EDITOR 'zed -w'
+    set -Ux EDITOR micro
 
     set -Ux BAT_THEME ansi
 

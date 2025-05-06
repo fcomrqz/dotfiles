@@ -22,10 +22,7 @@ function clean --on-event fish_preexec
     echo -en "\033[2A\r\033[K"
 
     set -l cwd_basename (basename (string replace -r "^$HOME" "~" (pwd)))
-    set -l width (tput cols)
-    set -l padding (math "$width - "(string length "$cmd")" - 2 - "(string length "$cwd_basename")"")
-
-    printf "\n%s %s%s%s\n" (set_color green)"→"(set_color normal) $cmd (string repeat -n "$padding" " ") (set_color yellow)"$cwd_basename"(set_color normal)
+    printf "\n%s %s%s%s\n" (set_color green)"→"(set_color normal) $cmd (set_color brblack)" $cwd_basename"(set_color normal)
 end
 
 function empty --on-event fish_prompt
