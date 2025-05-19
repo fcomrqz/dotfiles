@@ -29,8 +29,8 @@ gum spin --title "Proxyman: Apple Native Web Debugging Proxy" -- brew install --
 gum spin --title "OrbStack: Fast, light, powerful way to run containers" -- brew install --cask orbstack
 gum spin --title "Keycastr: Mesh VPN based on WireGuard" -- brew install --cask keycastr
 gum spin --title "Figma: The collaborative interface design tool" -- brew install --cask figma
-# # gum spin --title "Tailscale: Mesh VPN based on WireGuard" brew install --cask tailscale
 # # gum spin --title "  Android Studio:  Integrated Development Environment for Android" brew install --cask android-studio
+gum spin --title "Tailscale: Mesh VPN based on WireGuard" brew install --cask tailscale
 clear
 
 gum log --prefix Installing "Desktop Apps from AppStore"
