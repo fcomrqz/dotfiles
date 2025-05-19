@@ -16,11 +16,12 @@ gum spin --title "scc: Fast and accurate code counter with complexity and COCOMO
 gum spin --title "mas: AppStore CLI" -- brew install mas
 gum spin --title "ollama: Create, run, and share large language models (LLMs)" -- brew install ollama
 gum spin --title "cloudflared: Cloudflare Tunnel client" -- brew install cloudflared
+gum spin --title "micro: A modern and intuitive terminal-based text editor" -- brew install micro
 clear
 
 gum log --prefix Installing "Desktop Apps"
 gum spin --title "Aerospace: Tiling Window Manager for macOS" -- brew install --cask nikitabobko/tap/aerospace
-gum spin --title "Aerospace: Tiling Window Manager for macOS" -- ln -sF ~/Developer/fcomrqz/dotfiles/aerospace/.aerospace.toml ~/
+gum spin --title "Aerospace: Tiling Window Manager for macOS" -- ln -sF ~/Developer/fcomrqz/dotfiles/aerospace/.aerospace.toml ~/.aerospace.toml
 gum spin --title "Google Chrome: Google's Web Browser" -- brew install --cask google-chrome
 gum spin --title "Loopback: Cable-Free Audio Routing" -- brew install --cask loopback
 gum spin --title "Raycast: Better Spotlight" -- brew install --cask raycast
@@ -29,8 +30,8 @@ gum spin --title "Proxyman: Apple Native Web Debugging Proxy" -- brew install --
 gum spin --title "OrbStack: Fast, light, powerful way to run containers" -- brew install --cask orbstack
 gum spin --title "Keycastr: Mesh VPN based on WireGuard" -- brew install --cask keycastr
 gum spin --title "Figma: The collaborative interface design tool" -- brew install --cask figma
-# # gum spin --title "  Android Studio:  Integrated Development Environment for Android" brew install --cask android-studio
 gum spin --title "Tailscale: Mesh VPN based on WireGuard" brew install --cask tailscale
+gum spin --title "Android Studio: Integrated Development Environment for Android" brew install --cask android-studio
 clear
 
 gum log --prefix Installing "Desktop Apps from AppStore"
@@ -46,7 +47,7 @@ gum spin --title "Spotlight" -- defaults write com.apple.symbolichotkeys AppleSy
 gum spin --title "Desktop" -- defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
 
 gum spin --title "Dock" -- defaults write com.apple.dock persistent-apps -array
-gum spin --title "Dock" -- defaults write com.apple.dock persistent-others -array
+gum spin --title "Dock" -- defaults write com.apple.dock persistent-others -array
 gum spin --title "Dock" -- defaults write com.apple.dock static-only -bool true
 gum spin --title "Dock" -- defaults write com.apple.dock show-recents -bool false
 gum spin --title "Dock" -- defaults write com.apple.dock show-process-indicators -bool false
@@ -296,8 +297,8 @@ gum spin --title "Safari" -- defaults write com.apple.Safari IncludeDevelopMenu 
 gum spin --title "Safari" -- defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -int 1
 gum spin --title "Safari" -- defaults write com.apple.Safari "WebKitPreferences.developerExtrasEnabled" -int 1
 
-gum spin --title "Notes" -- defaults write com.apple.Notes "NSToolbar Configuration MainWindowToolbar" -dict-add "TB Default Item Identifiers" "('FoldersToolbarItem', 'NSToolbarSidebarTrackingSeparatorItemIdentifier', 'ViewModeToolbarItem', 'NoteGridBackToolbarItem', 'NSToolbarFlexibleSpaceItem', 'DeleteToolbarItem', 'NewNoteToolbarItem', 'NSToolbarFlexibleSpaceItem', 'FormatToolbarItem', 'ChecklistToolbarItem', 'TableToolbarItem', 'RecordAudioToolbarItem', 'MediaToolbarItem', 'NSToolbarFlexibleSpaceItem', 'LinkToolbarItem', 'LockToolbarItem', 'CollaborationToolbarItem', 'SearchToolbarItem')"
-gum spin --title "Notes" -- defaults write com.apple.Notes "NSToolbar Configuration MainWindowToolbar" -dict-add "TB Item Identifiers" "('NSToolbarSidebarTrackingSeparatorItemIdentifier', 'NoteGridBackToolbarItem', 'NSToolbarFlexibleSpaceItem', 'CollaborationToolbarItem')"
+# gum spin --title "Notes" -- defaults write com.apple.Notes "NSToolbar Configuration MainWindowToolbar" -dict-add "TB Default Item Identifiers" "('FoldersToolbarItem', 'NSToolbarSidebarTrackingSeparatorItemIdentifier', 'ViewModeToolbarItem', 'NoteGridBackToolbarItem', 'NSToolbarFlexibleSpaceItem', 'DeleteToolbarItem', 'NewNoteToolbarItem', 'NSToolbarFlexibleSpaceItem', 'FormatToolbarItem', 'ChecklistToolbarItem', 'TableToolbarItem', 'RecordAudioToolbarItem', 'MediaToolbarItem', 'NSToolbarFlexibleSpaceItem', 'LinkToolbarItem', 'LockToolbarItem', 'CollaborationToolbarItem', 'SearchToolbarItem')"
+# gum spin --title "Notes" -- defaults write com.apple.Notes "NSToolbar Configuration MainWindowToolbar" -dict-add "TB Item Identifiers" "('NSToolbarSidebarTrackingSeparatorItemIdentifier', 'NoteGridBackToolbarItem', 'NSToolbarFlexibleSpaceItem', 'CollaborationToolbarItem')"
 
 # # Omit crash report dialog {none|basic|developer|server}
 # # defaults write com.apple.CrashReporter DialogType none
