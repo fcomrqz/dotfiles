@@ -13,6 +13,11 @@ outer.bottom = 0
 outer.left = 0
 outer.right = 0
 
+[workspace-to-monitor-force-assignment]
+1 = '(1)'
+2 = '(3)'
+3 = '(2)'
+
 # Float
 [[on-window-detected]]
 if.app-id = 'com.openai.chat'
@@ -149,16 +154,14 @@ cmd-alt-slash = ['layout tiles accordion']
 cmd-alt-space = ['resize smart +160']
 
 cmd-alt-j = [
-  "exec-and-forget aerospace list-monitors --focused | grep -q '^1 | LG UltraFine (1)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(1)'",
-
+  "exec-and-forget aerospace list-monitors --focused | grep -q '^1 | LG UltraFine (3)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(3)'",
 ]
 cmd-alt-k = [
-  "exec-and-forget aerospace list-monitors --focused | grep -q '^2 | LG UltraFine (2)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(2)'",
-
+  "exec-and-forget aerospace list-monitors --focused | grep -q '^2 | LG UltraFine (1)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(1)'",
 ]
 
 cmd-alt-l = [
-  "exec-and-forget aerospace list-monitors --focused | grep -q '^3 | LG UltraFine (3)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(3)'",
+  "exec-and-forget aerospace list-monitors --focused | grep -q '^3 | LG UltraFine (2)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(2)'",
 ]
 
 # cmd-alt-l = ["exec-and-forget aerospace list-monitors --focused >> ~/aero.txt"]
