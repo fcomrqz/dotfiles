@@ -1,14 +1,23 @@
 {
-  "edit_predictions": { "mode": "eager", "enabled_in_assistant": true },
+  "edit_predictions": { "mode": "eager", "enabled_in_text_threads": true },
   "git": { "inline_blame": { "enabled": false } },
   "git_panel": { "button": false, "dock": "right" },
   "vertical_scroll_margin": 2,
   "when_closing_with_no_tabs": "keep_window_open",
-  "assistant": { "default_model": {
-                         "provider": "zed.dev",
-                         "model": "claude-3-7-sonnet-latest"
-                 },
-                 "version": "2", "button": false, "dock": "bottom", "default_height": 1360 },
+  "agent": {
+    "play_sound_when_agent_done": true,
+    "single_file_review": true,
+    "always_allow_tool_actions": false,
+    "default_profile": "ask",
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4"
+    },
+    "version": "2",
+    "button": false,
+    "dock": "bottom",
+    "default_height": 1360
+  },
   "project_panel": {
     "dock": "right",
     "file_icons": false,
@@ -78,12 +87,14 @@
   },
   "jupyter": { "kernel_selections": { "typescript": "deno", "javascript": "deno" } },
   // Deactivated features
+  "title_bar": { "show_user_picture": false, "show_branch_name": false },
   "show_user_picture": false,
   "load_direnv": "shell_hook",
   "hover_popover_enabled": false,
   "show_whitespaces": "none",
   "soft_wrap": "none",
   "show_signature_help_after_edits": false,
+  "search": { "button": false },
   // Deactivated panels
   "collaboration_panel": { "button": false },
   "outline_panel": { "button": false },
