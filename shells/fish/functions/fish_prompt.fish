@@ -19,10 +19,13 @@ end
 
 function clean --on-event fish_preexec
     set -l cmd $argv[1]
-    echo -en "\033[2A\r\033[K"
+    set -l cwd (string replace -r "^$HOME" "~" (pwd))
+    set -l cwd_basename (basename $cwd)
 
-    set -l cwd_basename (basename (string replace -r "^$HOME" "~" (pwd)))
-    printf "\n%s %s%s%s\n" (set_color green)"→"(set_color normal) $cmd (set_color brblack)" $cwd_basename"(set_color normal)
+    set -l offset (math (string length -- $cmd) + 3)
+
+    printf "\033[2A\r\033[K\033[1B\r\033[%dC%s\033[1B\r" \
+        $offset (set_color brblack)$cwd_basename(set_color normal)
 end
 
 function empty --on-event fish_prompt
