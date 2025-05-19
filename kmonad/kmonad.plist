@@ -2,24 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
 "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-    <key>Label</key>
-    <string>com.fcomrqz.kmonad</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/usr/bin/sudo</string>
-        <string>/Users/fran/.local/bin/kmonad</string>
-        <string>/Users/fran/Developer/fcomrqz/dotfiles/kmonad/settings.kbd</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>KeepAlive</key>
-    <true/>
-    <key>StandardOutPath</key>
-    <string>/tmp/kmonad.stdout</string>
-    <key>StandardErrorPath</key>
-    <string>/tmp/kmonad.stderr</string>
-    <key>ProcessType</key>
-    <string>Interactive</string>
-</dict>
+  <dict>
+      <key>Label</key>
+      <string>com.fcomrqz.kmonad</string>
+      <key>ProgramArguments</key>
+      <array>
+          <string>/usr/bin/sudo</string>
+          <string>/Users/fran/.local/bin/kmonad</string>
+          <string>/Users/fran/Developer/fcomrqz/dotfiles/kmonad/settings.kbd</string>
+      </array>
+      <key>RunAtLoad</key>
+      <true/>
+      <key>KeepAlive</key>
+      <true/>
+      <key>StandardOutPath</key>
+      <string>/tmp/kmonad.stdout</string>
+      <key>StandardErrorPath</key>
+      <string>/tmp/kmonad.stderr</string>
+      <key>ProcessType</key>
+      <string>Interactive</string>
+  </dict>
 </plist>
