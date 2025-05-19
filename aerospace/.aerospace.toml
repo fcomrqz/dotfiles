@@ -76,10 +76,6 @@ run = ['move-node-to-workspace 2']
 if.app-id = 'com.apple.iphonesimulator'
 run = ['layout floating', 'move-node-to-workspace 2']
 
-[[on-window-detected]]
-if.app-id = 'org.webkit.Playwright'
-run = ['move-node-to-workspace 2']
-
 # Right monitor
 [[on-window-detected]]
 if.app-id = 'com.apple.Terminal'
@@ -102,10 +98,6 @@ if.app-name-regex-substring = 'YouTube'
 run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
-if.app-id = 'org.chromium.Chromium'
-run = ['move-node-to-workspace 3']
-
-[[on-window-detected]]
 if.app-id = 'com.apple.Home'
 run = ['layout floating', 'move-node-to-workspace 3']
 
@@ -120,6 +112,20 @@ run = ['layout floating', 'move-node-to-workspace 3']
 [[on-window-detected]]
 if.app-id = 'com.apple.ScreenSharing'
 run = ['layout floating', 'move-node-to-workspace 3']
+
+# Playwright
+[[on-window-detected]]
+if.app-id = 'org.chromium.Chromium'
+if.window-title-regex-substring = '^Playwright.*$'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'org.chromium.Chromium'
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'org.webkit.Playwright'
+run = ['move-node-to-workspace 2']
 
 # All possible keys:
 # - Letters.        a, b, c, ..., z
