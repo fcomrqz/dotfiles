@@ -64,8 +64,6 @@
       "alt-c": "editor::ConvertToTitleCase",
       "alt-u": "editor::ConvertToUpperCase",
 
-      "ctrl-alt-enter": "assistant::InlineAssist",
-
       "cmd-alt-delete": "git::Diff"
     }
   },
@@ -73,7 +71,8 @@
     "context": "Editor && mode == full",
     "bindings": {
       "ctrl-:": null,
-      "alt-enter": null
+      "alt-enter": null,
+      "ctrl-alt-enter": "assistant::InlineAssist"
     }
   },
   {
@@ -184,6 +183,13 @@
       "cmd-k": "pane::SplitDown",
       "cmd-enter": "pane::SplitLeft",
       "cmd-l": "pane::SplitRight"
+    }
+  },
+  {
+    "context": "Editor && mode == auto_height",
+    "use_key_equivalents": true,
+    "bindings": {
+      "alt-enter": "editor::Newline"
     }
   }
 ]

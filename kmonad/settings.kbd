@@ -82,6 +82,9 @@
   esc (tap-hold-next-release 200 esc (around lctl (around lalt (around lmet lsft))))
 
   things (cmd-button "osascript -e 'tell application  \"Things3\" to show quick entry panel'")
+
+  brup (cmd-button "/opt/homebrew/bin/fish -c 'brup'")
+  brdn (cmd-button "/opt/homebrew/bin/fish -c 'brdn'")
 )
 
 (defsrc
@@ -108,7 +111,7 @@ _       _       _       _       _       _       _       _       _       _       
 XX      XX      XX      XX      XX      XX      #(C-y)  #(C-u)  #(C-i)  #(C-o)  up      #(C-[)  _       _
 XX      XX      @LCAA   @LCMM   rsft    XX      bspc    ret     @Ck     #(C-l)  #(C-;)  #(C-')  _
 XX      XX      XX      XX      XX      XX      down    #(C-m)  #(C-,)  #(C-.)  #(C-/)  _       _
-_       XX      XX      XX              #(C-spc)                XX      XX      _       _       _
+_       XX      XX      XX              @things                 XX      XX      _       _       _
 )
 
 (deflayer left-option
@@ -190,7 +193,7 @@ _       _       _       _       _       _       _       _       _       _       
 _       XX      XX      XX      XX      XX      _       _       _       _       _       _       _       _
 _       XX      @LMOS   XX      XX      XX      h       ret     _       _       _       _       _
 _       XX      XX      XX      XX      XX      _       _       _       _       _       _       _
-_       _       _       _                 @things               _       _       _       _       _
+_       _       _       _                    _                  _       _       _       _       _
 )
 
 (deflayer shift
@@ -208,7 +211,7 @@ _       _       _       _       _       _       _       _       _       _       
 tab     q       w       e       r       t       XX      XX      XX      XX      XX      XX      _       _
 _       a       s       @del    @rght   g       XX      rsft    rmet    @RAC    rctl    XX      _
 _       z       x       c       v       @left   XX      XX      XX      XX      XX      XX      _
-_       _       _       _                  spc                  _       _       _       _       _
+_       _       _       _                @things                _       _       _       _       _
 )
 
 (deflayer right-control-option
@@ -234,7 +237,7 @@ _       _       _       _       _       _       _       _       _       _       
 _       _       _       _       _       _       _       _       _       _       _       _       _       _
 _       @!      @       #       $       %       ^       &       *       \(      \)      \_      _       _
 _       1       2       3       4       5       6       7       8       9       0       -       _
-_       \       _       _       |       _       _       mute    vold    volu    pp      _       _
+_       \       @brdn   @brup   |       _       _       mute    vold    volu    pp      _       _
 _       _       _       _                   _                   _       _       _       _       _
 )
 

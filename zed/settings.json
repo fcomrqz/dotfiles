@@ -15,7 +15,7 @@
     },
     "version": "2",
     "button": false,
-    "dock": "bottom",
+    "dock": "right",
     "default_height": 1360
   },
   "project_panel": {
@@ -32,14 +32,14 @@
   "buffer_font_family": "SF Mono",
   "buffer_font_size": 16,
   "buffer_line_height": { "custom": 1.7 },
-  "preferred_line_length": 100,
+  "preferred_line_length": 80,
   "tab_size": 2,
   "prettier": {
     "semi": false,
     "singleQuote": true,
     "trailingComma": "all",
-    "printWidth": 100,
-    "plugins": ["prettier-plugin-toml"]
+    "printWidth": 80,
+    "plugins": ["prettier-plugin-toml", "@prettier/plugin-pug"]
   },
   "file_types": {
     "Dockerfile": ["containerfile"],
@@ -82,12 +82,13 @@
     "Fish": { "formatter": { "external": { "command": "fish_indent", "arguments": [] } } },
     "Swift": { "formatter": { "external": { "command": "swift-format", "arguments": [] } } },
     "TOML": { "prettier": { "allowed": true, "plugins": ["prettier-plugin-toml"] } },
+    "Pug": { "prettier": { "allowed": true, "plugins": ["@prettier/plugin-pug"] } },
     "JSON": { "prettier": { "allowed": true } },
     "JSONC": { "prettier": { "allowed": true } }
   },
   "jupyter": { "kernel_selections": { "typescript": "deno", "javascript": "deno" } },
   // Deactivated features
-  "title_bar": { "show_user_picture": false, "show_branch_name": false },
+  "title_bar": { "show_user_picture": false, "show_branch_name": false, "show_sign_in": false },
   "show_user_picture": false,
   "load_direnv": "shell_hook",
   "hover_popover_enabled": false,
