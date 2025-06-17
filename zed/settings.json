@@ -16,7 +16,7 @@
     "version": "2",
     "button": false,
     "dock": "right",
-    "default_height": 1360
+    "default_width": 720
   },
   "project_panel": {
     "dock": "right",
@@ -30,15 +30,13 @@
   "ui_font_family": "SF Mono",
   "ui_font_size": 17,
   "buffer_font_family": "SF Mono",
-  "buffer_font_size": 16,
+  "buffer_font_size": 15,
   "buffer_line_height": { "custom": 1.7 },
-  "preferred_line_length": 80,
   "tab_size": 2,
   "prettier": {
     "semi": false,
     "singleQuote": true,
     "trailingComma": "all",
-    "printWidth": 80,
     "plugins": ["prettier-plugin-toml", "@prettier/plugin-pug"]
   },
   "file_types": {
@@ -88,6 +86,7 @@
   },
   "jupyter": { "kernel_selections": { "typescript": "deno", "javascript": "deno" } },
   // Deactivated features
+  "inline_code_actions": false,
   "title_bar": { "show_user_picture": false, "show_branch_name": false, "show_sign_in": false },
   "show_user_picture": false,
   "load_direnv": "shell_hook",
@@ -99,7 +98,7 @@
   // Deactivated panels
   "collaboration_panel": { "button": false },
   "outline_panel": { "button": false },
-  "gutter": { "line_numbers": true, "folds": true, "code_actions": false, "runnables": false },
+  "gutter": { "code_actions": false, "runnables": false, "breakpoints": false, "folds": false },
   "task": { "show_status_indicator": false },
   "notification_panel": { "button": false, "dock": "right" },
   "scrollbar": { "show": "system", "git_diff": false },
