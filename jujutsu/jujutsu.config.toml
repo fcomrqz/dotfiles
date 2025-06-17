@@ -4,7 +4,10 @@ email = "fcomrqz@users.noreply.github.com"
 
 [ui]
 default-command = ["log", "-n", "12", "--no-graph"]
+pager = "delta"
 diff-editor = ":builtin"
+
+diff-formatter = ":git"
 
 [template-aliases]
 builtin_log_compact = '''
