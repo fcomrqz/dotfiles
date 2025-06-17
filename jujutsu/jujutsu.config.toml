@@ -1,3 +1,5 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
 [user]
 name = "Fran"
 email = "fcomrqz@users.noreply.github.com"
@@ -6,8 +8,10 @@ email = "fcomrqz@users.noreply.github.com"
 default-command = ["log", "-n", "12", "--no-graph"]
 pager = "delta"
 diff-editor = ":builtin"
-
 diff-formatter = ":git"
+
+[ui.movement]
+edit = true
 
 [templates]
 revert_description = '''
