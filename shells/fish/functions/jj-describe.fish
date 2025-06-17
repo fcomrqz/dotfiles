@@ -29,7 +29,7 @@ function jj-describe
         echo -en "\033[5A\033[J"
     else
         echo -en "\033[1A\r\033[K"
-        promptError "description missing"
+        promptError "missing description"
     end
 
     commandline -f repaint

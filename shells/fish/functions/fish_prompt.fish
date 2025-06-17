@@ -9,7 +9,7 @@ function fish_prompt
             ' ',
             if(bookmarks, label('bookmarks', bookmarks)),
             if(conflict, label('conflict', '×')),
-            if(description, label('timestamp', description.first_line()), label('description_missing', 'description missing')),
+            if(description, label('timestamp', description.first_line()), label('description_missing', 'missing description')),
             if(empty, label('working_copy empty', 'empty'), label('working_copy change_id', commit_timestamp(self).ago()))
           )"
     end
