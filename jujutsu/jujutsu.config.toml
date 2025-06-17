@@ -9,6 +9,15 @@ diff-editor = ":builtin"
 
 diff-formatter = ":git"
 
+[templates]
+revert_description = '''
+concat(
+  'revert: ' ++ description.first_line() ++ "\n",
+  "\n",
+  "This reverts commit " ++ commit_id ++ ".\n",
+)
+'''
+
 [template-aliases]
 builtin_log_compact = '''
 if(root,
