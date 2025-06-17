@@ -86,6 +86,7 @@
   },
   "jupyter": { "kernel_selections": { "typescript": "deno", "javascript": "deno" } },
   // Deactivated features
+  "debugger": { "button": false },
   "inline_code_actions": false,
   "title_bar": { "show_user_picture": false, "show_branch_name": false, "show_sign_in": false },
   "show_user_picture": false,
@@ -98,7 +99,13 @@
   // Deactivated panels
   "collaboration_panel": { "button": false },
   "outline_panel": { "button": false },
-  "gutter": { "code_actions": false, "runnables": false, "breakpoints": false, "folds": false },
+  "gutter": {
+    "code_actions": false,
+    "runnables": false,
+    "breakpoints": false,
+    "folds": false,
+    "min_line_number_digits": 3
+  },
   "task": { "show_status_indicator": false },
   "notification_panel": { "button": false, "dock": "right" },
   "scrollbar": { "show": "system", "git_diff": false },
@@ -140,7 +147,8 @@
     "**/.vercel",
     "**/.nuxt",
     "**/test-results",
-    "**/dist"
+    "**/dist",
+    "**/tmp"
   ],
   "terminal": {
     "dock": "left",
