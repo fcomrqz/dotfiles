@@ -7,10 +7,16 @@ function fish_prompt
     if command -sq jj && jj root --quiet >/dev/null 2>&1
         jj log --quiet --no-graph --color always -r @ -T "separate(
             ' ',
-            if(bookmarks, label('bookmarks', bookmarks)),
-            if(conflict, label('conflict', '×')),
-            if(description, label('timestamp', description.first_line()), label('description_missing', 'missing description')),
-            if(empty, label('working_copy empty', 'empty'), label('working_copy change_id', commit_timestamp(self).ago()))
+            if(
+              conflict,
+              label('conflict', '×'),
+              coalesce(
+                remote_bookmarks.filter(|bookmark| bookmark.name().contains('main')).filter(|bookmark| bookmark.remote().contains('origin')).map(|bookmark| label('empty', '✓')),
+                remote_bookmarks.filter(|bookmark| bookmark.name().contains('main')).filter(|bookmark| bookmark.remote().contains('git')).map(|bookmark| label('working_copy change_id', '!'))
+              )
+            ),
+            if(description, description.first_line()),
+            if(empty, label('empty', 'empty'), commit_timestamp(self).ago())
           )"
     end
 

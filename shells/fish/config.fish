@@ -4,21 +4,7 @@ if status --is-interactive
 
     fish_add_path /opt/homebrew/bin
 
-    # function starship_transient_prompt_func
-    #     echo ''
-    #     starship module character
-    # end
-
-    # function starship_transient_rprompt_func
-    #     echo ''
-    #     starship module directory
-    #     starship module git_branch
-    # end
-
-    # starship init fish | source
-    # enable_transience
-
-    set -Ux EDITOR micro
+    set -Ux EDITOR nano
 
     set -Ux BAT_THEME ansi
 
@@ -87,19 +73,14 @@ if status --is-interactive
     bind \cO open_project
     bind \cR open_history_search
 
-    bind \ec jj-describe
+    # bind \ec jj-describe
 
-    bind \es jj-split
-    bind \ea jj-squash
+    # bind \es jj-split
+    # bind \ea jj-squash
 
-    # bind \ep jj-prev
-    # bind \en jj-next
+    # bind \em jj-edit
 
-    bind \em jj-edit
-
-    bind \eu jj-undo
-
-    bind \er jj-revert
+    # bind \er jj-revert
 
     bind \e\( kill-word
 end

@@ -5,10 +5,11 @@ name = "Fran"
 email = "fcomrqz@users.noreply.github.com"
 
 [ui]
-default-command = ["log", "-n", "12", "--no-graph"]
+default-command = ["log", "-r", "main@origin::", "--no-graph"]
 pager = "delta"
 diff-editor = ":builtin"
 diff-formatter = ":git"
+conflict-marker-style = "git"
 
 [ui.movement]
 edit = true
@@ -24,20 +25,46 @@ concat(
 
 [template-aliases]
 builtin_log_compact = '''
-if(root,
-  format_root_commit(self),
-  label(if(current_working_copy, "working_copy"),
+if(
+  current_working_copy,
+  label("working_copy",
     concat(
       separate(" ",
-        format_short_change_id_with_hidden_and_divergent_info(self),
-        if(conflict, label("conflict", "×")),
+        pad_start(1,
+          if(
+            conflict,
+            label("conflict", "×"),
+            coalesce(
+              remote_bookmarks.filter(|bookmark| bookmark.name().contains("main")).filter(|bookmark| bookmark.remote().contains("origin")).map(|bookmark| label("empty", "✓")),
+              remote_bookmarks.filter(|bookmark| bookmark.name().contains("main")).filter(|bookmark| bookmark.remote().contains("git")).map(|bookmark| label("working_copy change_id", "!"))
+            )
+          )
+        ),
+        label("current_working_copy", change_id.shortest(3)),
+        if(description, description.first_line()),
         tags,
-        bookmarks,
-        if(description, description.first_line(), label("description_missing", "missing description")),
-        if(empty, label("empty", "empty"), commit_timestamp(self).ago()),
-      ) ++ "\n",
-    ),
-  )
+        if(empty, label("empty", "empty"), commit_timestamp(self).ago())
+      ),
+    ) ++ "\n"
+  ),
+  concat(
+    separate(" ",
+      pad_start(1,
+        if(
+          conflict,
+          label("conflict", "×"),
+          coalesce(
+            remote_bookmarks.filter(|bookmark| bookmark.name().contains("main")).filter(|bookmark| bookmark.remote().contains("origin")).map(|bookmark| label("empty", "✓")),
+            remote_bookmarks.filter(|bookmark| bookmark.name().contains("main")).filter(|bookmark| bookmark.remote().contains("git")).map(|bookmark| label("working_copy change_id", "!"))
+          )
+        )
+      ),
+      change_id.shortest(3),
+      if(description, description.first_line()),
+      tags,
+      if(empty, label("empty", "empty"), commit_timestamp(self).ago())
+    )
+  ) ++ "\n"
 )
 '''
 
@@ -45,6 +72,10 @@ if(root,
 "immutable_heads()" = "(trunk().. & ~mine())"
 
 [colors]
-change_id = { fg = "blue", "bold" = true }
+bookmarks = { fg = "green" }
+change_id = { fg = "blue" }
 timestamp = { fg = "bright black" }
-description_missing = { fg = "bright red", "bold" = true }
+
+"working_copy bookmarks" = { fg = "green" }
+"working_copy change_id" = { fg = "magenta" }
+"working_copy timestamp" = { fg = "bright black" }
