@@ -1,19 +1,22 @@
 {
+  "features": {
+    "edit_prediction_provider": "zed"
+  },
   "edit_predictions": { "mode": "eager", "enabled_in_text_threads": true },
   "git": { "inline_blame": { "enabled": false } },
   "git_panel": { "button": false, "dock": "right" },
   "vertical_scroll_margin": 2,
   "when_closing_with_no_tabs": "keep_window_open",
   "agent": {
+    "notify_when_agent_waiting": "never",
     "play_sound_when_agent_done": true,
     "single_file_review": true,
-    "always_allow_tool_actions": false,
+    "always_allow_tool_actions": true,
     "default_profile": "ask",
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-sonnet-4"
+      "model": "claude-opus-4"
     },
-    "version": "2",
     "button": false,
     "dock": "right",
     "default_width": 720
@@ -28,6 +31,7 @@
   },
   "theme": { "mode": "system", "light": "One Light", "dark": "Vesper" },
   "ui_font_family": "SF Mono",
+  "agent_font_size": 17,
   "ui_font_size": 17,
   "buffer_font_family": "SF Mono",
   "buffer_font_size": 15,
@@ -49,8 +53,6 @@
       "settings": {
         "stylelint": {
           "configFile": "./config/stylelint.config.js",
-          "configBasedir": ".",
-          "snippet": ["css", "postcss"],
           "validate": ["css", "postcss", "vue.js"]
         }
       }
@@ -84,12 +86,11 @@
     "JSON": { "prettier": { "allowed": true } },
     "JSONC": { "prettier": { "allowed": true } }
   },
-  "jupyter": { "kernel_selections": { "typescript": "deno", "javascript": "deno" } },
+  // "jupyter": { "kernel_selections": { "typescript": "deno", "javascript": "deno" } },
   // Deactivated features
   "debugger": { "button": false },
   "inline_code_actions": false,
   "title_bar": { "show_user_picture": false, "show_branch_name": false, "show_sign_in": false },
-  "show_user_picture": false,
   "load_direnv": "shell_hook",
   "hover_popover_enabled": false,
   "show_whitespaces": "none",
@@ -100,18 +101,16 @@
   "collaboration_panel": { "button": false },
   "outline_panel": { "button": false },
   "gutter": {
-    "code_actions": false,
     "runnables": false,
     "breakpoints": false,
     "folds": false,
     "min_line_number_digits": 3
   },
-  "task": { "show_status_indicator": false },
   "notification_panel": { "button": false, "dock": "right" },
   "scrollbar": { "show": "system", "git_diff": false },
   "tab_bar": { "show": false, "show_nav_history_buttons": false },
   "toolbar": { "quick_actions": false, "selections_menu": false },
-  "file_finder": { "file_icons": false },
+  "file_finder": { "file_icons": false, "modal_max_width": "medium" },
   "auto_install_extensions": {
     "html": true,
     "toml": true,
@@ -151,12 +150,15 @@
     "**/tmp"
   ],
   "terminal": {
-    "dock": "left",
+    "dock": "bottom",
     "line_height": "standard",
     "blinking": "on",
     "font_family": "SF Mono",
     "font_size": 13,
     "button": false,
     "detect_venv": "off"
+  },
+  "global_lsp_settings": {
+    "button": false
   }
 }
