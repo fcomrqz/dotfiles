@@ -18,8 +18,8 @@
 
       "ctrl-l": "editor::ScrollCursorCenterTopBottom",
 
-      "shift-pageup": "editor::SelectLargerSyntaxNode",
-      "shift-pagedown": "editor::SelectSmallerSyntaxNode",
+      "alt-shift-up": "editor::SelectLargerSyntaxNode",
+      "alt-shift-down": "editor::SelectSmallerSyntaxNode",
 
       "home": "editor::MoveToBeginning",
       "end": "editor::MoveToEnd",
@@ -30,6 +30,9 @@
       "alt-up": "editor::MoveToStartOfParagraph",
       "alt-down": "editor::MoveToEndOfParagraph",
 
+      "ctrl-alt-up": "editor::MoveToStartOfParagraph",
+      "ctrl-alt-down": "editor::MoveToEndOfParagraph",
+
       "pageup": ["editor::MovePageUp", { "center_cursor": true }],
       "pagedown": ["editor::MovePageDown", { "center_cursor": true }],
 
@@ -39,9 +42,6 @@
       "alt-r": "editor::Rename",
 
       "alt-k": "editor::DeleteLine",
-
-      "cmd-alt-shift-up": "editor::DuplicateLineUp",
-      "cmd-alt-shift-down": "editor::DuplicateLineDown",
 
       "cmd-k cmd-j": "workspace::ActivatePaneLeft",
       "cmd-k cmd-l": "workspace::ActivatePaneRight",
@@ -71,7 +71,6 @@
     "context": "Editor && mode == full",
     "bindings": {
       "ctrl-:": null,
-      "alt-enter": null,
       "ctrl-alt-enter": "assistant::InlineAssist"
     }
   },
@@ -165,14 +164,16 @@
   {
     "context": "Editor && edit_prediction",
     "bindings": {
-      "alt-enter": "editor::AcceptEditPrediction"
+      "tab": "editor::AcceptEditPrediction",
+      "alt-tab": null
     }
   },
   {
     "context": "Editor && edit_prediction_conflict",
     "use_key_equivalents": true,
     "bindings": {
-      "alt-enter": "editor::AcceptEditPrediction"
+      "tab": "editor::AcceptEditPrediction",
+      "alt-tab": null
     }
   },
   {
@@ -190,6 +191,18 @@
     "use_key_equivalents": true,
     "bindings": {
       "alt-enter": "editor::Newline"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-pageup": "editor::DuplicateLineUp"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-pagedown": "editor::DuplicateLineDown"
     }
   }
 ]

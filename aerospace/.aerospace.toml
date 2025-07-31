@@ -20,10 +20,6 @@ outer.right = 0
 
 # Float
 [[on-window-detected]]
-if.app-id = 'com.openai.chat'
-run = ['layout floating']
-
-[[on-window-detected]]
 if.app-id = 'com.apple.Passwords'
 run = ['layout floating']
 
@@ -51,6 +47,10 @@ run = ['move-node-to-workspace 1']
 [[on-window-detected]]
 if.app-id = 'com.culturedcode.ThingsMac'
 run = ['layout floating', 'move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+run = ['move-node-to-workspace 1']
 
 # Left monitor
 [[on-window-detected]]
@@ -153,9 +153,10 @@ cmd-alt-period = ['move-node-to-monitor next --wrap-around', 'focus-monitor next
 cmd-alt-slash = ['layout tiles accordion']
 cmd-alt-space = ['resize smart +160']
 
-cmd-alt-j = [
+cmd-alt-enter = [
   "exec-and-forget aerospace list-monitors --focused | grep -q '^1 | LG UltraFine (3)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(3)'",
 ]
+
 cmd-alt-k = [
   "exec-and-forget aerospace list-monitors --focused | grep -q '^2 | LG UltraFine (1)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(1)'",
 ]
@@ -163,5 +164,12 @@ cmd-alt-k = [
 cmd-alt-l = [
   "exec-and-forget aerospace list-monitors --focused | grep -q '^3 | LG UltraFine (2)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(2)'",
 ]
+
+ctrl-space = [
+  "exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'",
+]
+
+# brup (cmd-button "/opt/homebrew/bin/fish -c 'brup'")
+# brdn (cmd-button "/opt/homebrew/bin/fish -c 'brdn'")
 
 # cmd-alt-l = ["exec-and-forget aerospace list-monitors --focused >> ~/aero.txt"]

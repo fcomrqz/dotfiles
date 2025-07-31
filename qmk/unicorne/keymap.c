@@ -1,5 +1,22 @@
 #include QMK_KEYBOARD_H
 
+enum custom_keycodes {
+  ALT_NN = SAFE_RANGE,
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case ALT_NN:
+      if (record->event.pressed) {
+        tap_code16(A(KC_N));   // Option/Alt + n  (dead key for tilde)
+        tap_code(KC_N);        // then n  => ñ
+        // If needed, add a small delay: wait_ms(10);
+      }
+      return false;            // Don't let QMK send anything else for this key
+  }
+  return true;
+}
+
 // Control
 const key_override_t up_key_override = ko_make_basic(MOD_BIT_LCTRL, KC_P, KC_UP);
 const key_override_t down_key_override = ko_make_basic(MOD_BIT_LCTRL, KC_N, KC_DOWN);
@@ -43,6 +60,7 @@ const key_override_t opt_shift_delete_key_override = ko_make_basic(MOD_BIT_RSHIF
 
 // Command
 const key_override_t cmd_enter_key_override = ko_make_basic(MOD_BIT_LGUI, RSFT_T(KC_J), G(KC_ENT));
+const key_override_t cmd_backspace_key_override = ko_make_basic(MOD_BIT_LGUI, KC_H, G(KC_BSPC));
 
 bool duplicate_line(bool key_down, void *layer) {
     if(key_down) {
@@ -122,39 +140,32 @@ const key_override_t *key_overrides[] = {
   &pagedown_key_override,
   &right_bracket_key_override,
   &cmd_enter_key_override,
+  &cmd_backspace_key_override,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  // BASE
-	[0] = LAYOUT_all(
-		KC_NO,          KC_NO,        KC_NO,        KC_NO,        KC_NO,        KC_NO,        KC_NO, KC_NO,        KC_NO,        KC_NO,        KC_NO,           KC_NO,         KC_NO, KC_NO, KC_NO,
-		KC_TAB,         KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,  KC_U,         KC_I,         KC_O,         KC_P,            KC_LBRC,       KC_NO, KC_NO,
-		HYPR_T(KC_ESC), LCTL_T(KC_A), LOPT_T(KC_S), LCMD_T(KC_D), LSFT_T(KC_F), KC_G,         KC_H,  RSFT_T(KC_J), RCMD_T(KC_K), ROPT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,       KC_NO,
-		LT(5, KC_GRV),  KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,  KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         LT(6, KC_EQL), KC_NO,
-		KC_NO,          KC_LOPT,      KC_LGUI,                                  LT(9, KC_SPC),                                   KC_RGUI,      KC_ROPT,         KC_NO,         KC_NO),
+  // BASE LAYER
+  [0] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_LBRC,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+HYPR_T(KC_ESC), LCTL_T(KC_A), LOPT_T(KC_S), LCMD_T(KC_D), LSFT_T(KC_F), KC_G,       KC_H, RSFT_T(KC_J), RCMD_T(KC_K), ROPT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_GRV,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_EQL,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_NO, LT(9, KC_SPC), KC_NO, KC_NO, LT(9, KC_SPC), KC_NO
+  ),
 
-	// SHIFT
-	[5] = LAYOUT_all(
-		KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,      KC_NO,     KC_NO,      KC_NO,      KC_NO,  KC_NO, KC_NO,
-		KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, S(KC_Y), S(KC_U), S(KC_I),    S(KC_O),   S(KC_P),    S(KC_LBRC), KC_NO,  KC_NO,
-		CW_TOGG, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, S(KC_H), S(KC_J), S(KC_K),    S(KC_L),   S(KC_SCLN), S(KC_QUOT), KC_NO,
-		KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, S(KC_N), S(KC_M), S(KC_COMM), S(KC_DOT), S(KC_SLSH), KC_PPLS,    KC_NO,
-		KC_NO,   MO(7), KC_LGUI,             KC_NO,                               KC_NO,     KC_NO,      KC_NO,      KC_NO),
-	[6] = LAYOUT_all(
-		KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-		KC_NO,    S(KC_Q), S(KC_W), S(KC_E), S(KC_R), S(KC_T), KC_NO, KC_NO, KC_NO, KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO,
-		CW_TOGG,  S(KC_A), S(KC_S), S(KC_D), S(KC_F), S(KC_G), KC_NO, KC_NO, KC_NO, KC_NO,   KC_NO, KC_NO, KC_NO,
-		KC_TILDE, S(KC_Z), S(KC_X), S(KC_C), S(KC_V), S(KC_B), KC_NO, KC_NO, KC_NO, KC_NO,   KC_NO, KC_NO, KC_NO,
-		KC_NO,    KC_NO,   KC_NO,                     KC_NO,                        KC_RGUI, MO(8), KC_NO, KC_NO),
-
-	// BACKSPACE
-	[9] = LAYOUT_all(
-		KC_NO, KC_NO,   KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,  KC_NO, KC_NO,
-		KC_NO, KC_EXLM, KC_AT, KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS,  KC_NO,  KC_NO,
-		KC_NO, KC_P1,   KC_P2, KC_P3,   KC_P4,   KC_P5,   KC_P6,   KC_P7,   KC_P8,   KC_P9,   KC_P0,   KC_MINUS, KC_NO,
-		KC_NO, KC_BSLS, KC_NO, KC_NO,   KC_PIPE, KC_BRIU, KC_BRID, KC_MUTE, KC_VOLD, KC_VOLU, KC_MPLY, KC_NO,    KC_NO,
-		KC_NO, KC_LALT, KC_LGUI,                 KC_SPC,                             KC_RGUI, KC_RALT, KC_NO,    KC_NO),
-
+  [9] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      CW_TOGG,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_MINUS,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+       KC_PWR, KC_BSLS, KC_SCRL, KC_PAUS, KC_PIPE, KC_MPRV,                       ALT_NN, KC_MUTE, KC_VOLD, KC_VOLU, KC_MPLY, KC_MNXT,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_NO, LT(9, KC_SPC), KC_NO, KC_NO, LT(9, KC_SPC), KC_NO
+  ),
 };
 
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
@@ -163,16 +174,5 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
             return 0;
         default:
             return QUICK_TAP_TERM;
-    }
-}
-
-bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LT(5, KC_GRV):
-            return true;
-        case LT(6, KC_EQL):
-            return true;
-        default:
-            return false;
     }
 }

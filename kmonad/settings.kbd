@@ -1,6 +1,6 @@
 (defcfg
   ;; For MacOS
-  input  (iokit-name)
+  input  (iokit-name "HHKB-Classic")
   output (kext)
 
   ;; Comment this if you want unhandled events not to be emitted
@@ -12,11 +12,11 @@
 
 (defalias
   ;; Home row mods
-  ;; a (tap-hold-next-release 190 (around a (cmd-button "echo 'a' >> /Users/fran/Downloads/keystrokes.txt")) (around (tap-macro-release (around (layer-rem left-control) (around (layer-rem left-control-option) (layer-rem left-control-meta)))) (layer-add left-control)))
-  a (tap-hold-next-release 190 a (around (tap-macro-release (around (layer-rem left-control) (around (layer-rem left-control-option) (layer-rem left-control-meta)))) (layer-add left-control)))
-  s (tap-hold-next-release 190 s (around lalt (around (tap-macro-release (around (layer-rem left-control-option) (around (layer-rem left-option-meta) (layer-rem left-option)))) (layer-add left-option))))
-  d (tap-hold-next-release 190 d (around lmet (around (tap-macro-release (around (layer-rem left-control-meta) (around (layer-rem left-option-meta) (layer-rem left-meta)))) (layer-add left-meta))))
-  f (tap-hold-next-release 190 f (around lsft (layer-toggle left-shift)))
+  ;; a (tap-hold-next-release 200 (around a (cmd-button "echo 'a' >> /Users/fran/Downloads/keystrokes.txt")) (around (tap-macro-release (around (layer-rem left-control) (around (layer-rem left-control-option) (layer-rem left-control-meta)))) (layer-add left-control)))
+  a (tap-hold-next-release 200 a (around (tap-macro-release (around (layer-rem left-control) (around (layer-rem left-control-option) (layer-rem left-control-meta)))) (layer-add left-control)))
+  s (tap-hold-next-release 200 s (around lalt (around (tap-macro-release (around (layer-rem left-control-option) (around (layer-rem left-option-meta) (layer-rem left-option)))) (layer-add left-option))))
+  d (tap-hold-next-release 200 d (around lmet (around (tap-macro-release (around (layer-rem left-control-meta) (around (layer-rem left-option-meta) (layer-rem left-meta)))) (layer-add left-meta))))
+  f (tap-hold-next-release 200 f (around lsft (layer-toggle left-shift)))
 
   LCMC (tap-hold-next-release 200 a (around (tap-macro-release (around (layer-rem left-control-meta) (layer-rem left-control))) (around (layer-add left-control) (layer-add left-control-meta))))
   LCMM (tap-hold-next-release 200 d (around (tap-macro-release (around (layer-rem left-control-meta) (layer-rem left-meta))) (around (layer-add left-meta) (layer-add left-control-meta))))
@@ -27,10 +27,10 @@
   LCAA (around lalt (around lctl (around (tap-macro-release (around (layer-rem left-control-option) (layer-rem left-option))) (around (layer-add left-option) (layer-add left-control-option)))))
   LCAC (around lalt (around lctl (around (tap-macro-release (around (layer-rem left-control-option) (layer-rem left-control))) (around (layer-add left-control) (layer-add left-control-option)))))
 
-  j (tap-hold-next-release 190 j rsft)
-  k (tap-hold-next-release 190 k rmet)
-  l (tap-hold-next-release 190 l (around ralt (layer-toggle right-option)))
-  ; (tap-hold-next-release 190 ; (around rctl (layer-toggle right-control)))
+  j (tap-hold-next-release 200 j rsft)
+  k (tap-hold-next-release 200 k rmet)
+  l (tap-hold-next-release 200 l (around ralt (layer-toggle right-option)))
+  semi (tap-hold-next-release 200 ; (around rctl (layer-toggle right-control)))
 
   Ck (tap-hold-next-release 200 C-k rmet)
 
@@ -55,15 +55,19 @@
 
   LMOS (around lmet (around lalt (around lsft (layer-toggle left-option-meta-shift))))
 
-  A (tap-hold-next-release 200 A (layer-toggle caps-control))
-  S (tap-hold-next-release 200 S (around lalt (layer-toggle caps-option)))
+  ;; A (tap-hold-next-release 200 A (layer-toggle caps-control))
+  ;; S (tap-hold-next-release 200 S (around lalt (layer-toggle caps-option)))
+  A (tap-hold-next-release 200 A (around (tap-macro-release (around (layer-rem left-control) (around (layer-rem left-control-option) (layer-rem left-control-meta)))) (layer-add left-control)))
+  S (tap-hold-next-release 200 S (around lalt (around (tap-macro-release (around (layer-rem left-control-option) (around (layer-rem left-option-meta) (layer-rem left-option)))) (layer-add left-option))))
+  D (tap-hold-next-release 200 D (around lmet (around (tap-macro-release (around (layer-rem left-control-meta) (around (layer-rem left-option-meta) (layer-rem left-meta)))) (layer-add left-meta))))
+  F (tap-hold-next-release 200 F (around lsft (layer-toggle left-shift)))
 
-  L (tap-hold-next-release 200 L (around lalt (layer-toggle caps-option)))
-  ;b (tap-hold-next-release 200 (around ; (layer-switch base)) (layer-toggle caps-control))
-
-  ;; Shifts
-  s` (tap-hold-next-release 200 ` (around lsft (layer-toggle shift)))
-  s= (tap-hold-next-release 200 = (around rsft (layer-toggle shift)))
+  ;; L (tap-hold-next-release 200 L (around lalt (layer-toggle caps-option)))
+  ;; SEMI (tap-hold-next-release 200 (around ; (layer-switch base)) (layer-toggle caps-control))
+  J (tap-hold-next-release 200 J rsft)
+  K (tap-hold-next-release 200 K rmet)
+  L (tap-hold-next-release 200 L (around ralt (layer-toggle right-option)))
+  SEMI (tap-hold-next-release 200 ; (around rctl (layer-toggle right-control)))
 
   ;; Space bar Layer
   spc (tap-hold-next-release 200 spc (layer-toggle space))
@@ -100,9 +104,9 @@ fn      lctl    lalt    lmet               spc                  rmet    ralt    
 XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX
 XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX
 tab     q       w       e       r       t       y       u       i       o       p       [       XX      XX
-@esc    @a      @s      @d      @f      g       h       @j      @k      @l      @;      '       XX
-@s`     z       x       c       v       b       @n      m       ,       .       /       @s=     XX
-XX      @esc    lalt    lmet               @spc                 rmet    ralt    XX      XX      XX
+@esc    @a      @s      @d      @f      g       h       @j      @k      @l      @semi   '       XX
+`       z       x       c       v       b       @n      m       ,       .       /       =       XX
+XX      @esc    XX      XX                 @spc                 XX      XX      XX      XX      XX
 )
 
 (deflayer left-control
@@ -202,7 +206,7 @@ _       _       _       _       _       _       _       _       _       _       
 _       q       w       e       r       t       y       u       i       o       p       [       _       _
 _       a       s       d       f       g       h       j       k       l       ;       '       _
 ~       z       x       c       v       b       n       m       ,       .       /       +       _
-_       @gocaps _       _                   _                   _       _       _       _       _
+_       _       _       _                   _                   _       _       _       _       _
 )
 
 (deflayer right-control
@@ -238,16 +242,16 @@ _       _       _       _       _       _       _       _       _       _       
 _       @!      @       #       $       %       ^       &       *       \(      \)      \_      _       _
 _       1       2       3       4       5       6       7       8       9       0       -       _
 _       \       @brdn   @brup   |       _       _       mute    vold    volu    pp      _       _
-_       _       _       _                   _                   _       _       _       _       _
+_       @gocaps _       _                   _                   _       _       _       _       _
 )
 
 (deflayer caps-lock
 _       _       _       _       _       _       _       _       _       _       _       _       _
 _       _       _       _       _       _       _       _       _       _       _       _       _       _
 @gobase Q       W       E       R       T       Y       U       I       O       P       @gobase _       _
-@gobase @A      @S      D       F       G       H       J       K       @L      @;b     @gobase _
+@gobase @A      @S      @D      @F      G       H       @J      @K      @L      @SEMI   @gobase _
 @gobase Z       X       C       V       B       N       M       @gobase @gobase @gobase @gobase _
-_       @gobase @gobase @gobase            @space-caps          @gobase @gobase _       _       _
+_       @gobase _       _            @space-caps        _       _       _       _       _
 )
 
 (deflayer space-caps-lock
