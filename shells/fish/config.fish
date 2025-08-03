@@ -4,7 +4,7 @@ if status --is-interactive
 
     fish_add_path /opt/homebrew/bin
 
-    set -Ux EDITOR nano
+    set -Ux EDITOR micro
 
     set -Ux BAT_THEME ansi
 

@@ -17,6 +17,10 @@ gum spin --title "mas: AppStore CLI" -- brew install mas
 gum spin --title "ollama: Create, run, and share large language models (LLMs)" -- brew install ollama
 gum spin --title "cloudflared: Cloudflare Tunnel client" -- brew install cloudflared
 gum spin --title "micro: A modern and intuitive terminal-based text editor" -- brew install micro
+gum spin --title "micro: A modern and intuitive terminal-based text editor" -- ln -sF ~/Developer/fcomrqz/dotfiles/micro/settings.json ~/.config/micro/settings.json
+gum spin --title "micro: A modern and intuitive terminal-based text editor" -- ln -sF ~/Developer/fcomrqz/dotfiles/micro/bindings.json ~/.config/micro/bindings.json
+gum spin --title "micro: A modern and intuitive terminal-based text editor" -- ln -sF ~/Developer/fcomrqz/dotfiles/micro/syntax ~/.config/micro/syntax
+gum spin --title "micro: A modern and intuitive terminal-based text editor" -- ln -sF ~/Developer/fcomrqz/dotfiles/micro/colorschemes ~/.config/micro/colorschemes
 clear
 
 gum log --prefix Installing "Desktop Apps"
