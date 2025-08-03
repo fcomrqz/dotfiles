@@ -108,8 +108,14 @@
   },
   "notification_panel": { "button": false, "dock": "right" },
   "scrollbar": { "show": "system", "git_diff": false },
-  "tab_bar": { "show": false, "show_nav_history_buttons": false },
-  "toolbar": { "quick_actions": false, "selections_menu": false },
+  "tab_bar": { "show": false, "show_nav_history_buttons": false, "show_tab_bar_buttons": false },
+  "toolbar": {
+    "breadcrumbs": false,
+    "quick_actions": false,
+    "selections_menu": false,
+    "agent_review": false,
+    "code_actions": false
+  },
   "file_finder": { "file_icons": false, "modal_max_width": "medium" },
   "auto_install_extensions": {
     "html": true,

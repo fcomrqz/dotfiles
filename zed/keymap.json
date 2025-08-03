@@ -2,7 +2,6 @@
   {
     "bindings": {
       "cmd-o": ["projects::OpenRecent", { "create_new_window": false }],
-      "cmd-alt-o": ["projects::OpenRecent", { "create_new_window": true }],
       "cmd-shift-t": "project_symbols::Toggle",
       "cmd-t": "outline::Toggle",
       "cmd-shift-b": "editor::ToggleGitBlameInline",
@@ -24,8 +23,11 @@
       "home": "editor::MoveToBeginning",
       "end": "editor::MoveToEnd",
 
-      "cmd-alt-up": "editor::MoveLineUp",
-      "cmd-alt-down": "editor::MoveLineDown",
+      "cmd-pageup": "editor::MoveLineUp",
+      "cmd-pagedown": "editor::MoveLineDown",
+
+      "alt-cmd-shift-up": "editor::DuplicateLineUp",
+      "alt-cmd-shift-down": "editor::DuplicateLineDown",
 
       "alt-up": "editor::MoveToStartOfParagraph",
       "alt-down": "editor::MoveToEndOfParagraph",
@@ -191,18 +193,6 @@
     "use_key_equivalents": true,
     "bindings": {
       "alt-enter": "editor::Newline"
-    }
-  },
-  {
-    "context": "Editor",
-    "bindings": {
-      "cmd-pageup": "editor::DuplicateLineUp"
-    }
-  },
-  {
-    "context": "Editor",
-    "bindings": {
-      "cmd-pagedown": "editor::DuplicateLineDown"
     }
   }
 ]
