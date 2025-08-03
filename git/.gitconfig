@@ -4,7 +4,7 @@
 	name = Fran
 	email = fcomrqz@users.noreply.github.com
 [core]
-	editor = zed -w
+	editor = micro
 	pager = delta
 	quotepath = false
 [blame]
@@ -58,3 +58,5 @@
 	autoSetupRemote = true
 [rerere]
 	enabled = true
+[pull]
+  rebase = true

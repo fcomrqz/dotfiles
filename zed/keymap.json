@@ -2,21 +2,14 @@
   {
     "bindings": {
       "cmd-o": ["projects::OpenRecent", { "create_new_window": false }],
-      "cmd-alt-o": ["projects::OpenRecent", { "create_new_window": true }],
       "cmd-shift-t": "project_symbols::Toggle",
-      "cmd-t": "outline::Toggle",
-      "cmd-shift-b": "editor::ToggleGitBlameInline",
-      "ctrl-v": null,
-      "ctrl-shift-;": null
+      "cmd-t": "outline::Toggle"
     }
   },
   {
     "context": "Editor",
     "bindings": {
       "alt-l": "editor::SelectLine",
-      "cmd-l": null,
-
-      "ctrl-l": "editor::ScrollCursorCenterTopBottom",
 
       "alt-shift-up": "editor::SelectLargerSyntaxNode",
       "alt-shift-down": "editor::SelectSmallerSyntaxNode",
@@ -24,8 +17,11 @@
       "home": "editor::MoveToBeginning",
       "end": "editor::MoveToEnd",
 
-      "cmd-alt-up": "editor::MoveLineUp",
-      "cmd-alt-down": "editor::MoveLineDown",
+      "alt-cmd-p": "editor::MoveLineUp",
+      "alt-cmd-n": "editor::MoveLineDown",
+
+      "alt-cmd-shift-p": "editor::DuplicateLineUp",
+      "alt-cmd-shift-n": "editor::DuplicateLineDown",
 
       "alt-up": "editor::MoveToStartOfParagraph",
       "alt-down": "editor::MoveToEndOfParagraph",
@@ -35,9 +31,6 @@
 
       "pageup": ["editor::MovePageUp", { "center_cursor": true }],
       "pagedown": ["editor::MovePageDown", { "center_cursor": true }],
-
-      "cmd-[": "pane::GoBack",
-      "cmd-]": "pane::GoForward",
 
       "alt-r": "editor::Rename",
 
@@ -62,37 +55,25 @@
       "cmd-'": "editor::UnfoldLines",
 
       "alt-c": "editor::ConvertToTitleCase",
-      "alt-u": "editor::ConvertToUpperCase",
-
-      "cmd-alt-delete": "git::Diff"
-    }
-  },
-  {
-    "context": "Editor && mode == full",
-    "bindings": {
-      "ctrl-:": null,
-      "ctrl-alt-enter": "assistant::InlineAssist"
-    }
-  },
-  {
-    "context": "Editor && mode == full",
-    "bindings": {
-      "alt-enter": "editor::OpenExcerpts"
+      "alt-u": "editor::ConvertToUpperCase"
     }
   },
   {
     "context": "Workspace",
     "bindings": {
+      "cmd-t": null,
+
       "cmd-k cmd-enter": "workspace::ActivatePaneLeft",
       "cmd-k cmd-l": "workspace::ActivatePaneRight",
       "cmd-k cmd-i": "workspace::ActivatePaneUp",
       "cmd-k cmd-k": "workspace::ActivatePaneDown",
+
       "cmd-e": "project_panel::ToggleFocus",
       "cmd-b": "workspace::ToggleBottomDock",
-      "cmd-n": "workspace::NewWindow",
-      "cmd-t": null,
+
       "ctrl-tab": "tab_switcher::Toggle",
       "ctrl-shift-tab": ["tab_switcher::Toggle", { "select_last": true }],
+
       "cmd-alt-delete": "git::Diff"
     }
   },
@@ -108,6 +89,7 @@
       "cmd-7": ["pane::ActivateItem", 6],
       "cmd-8": ["pane::ActivateItem", 7],
       "cmd-9": ["pane::ActivateItem", 8],
+
       "cmd-k k": "pane::SplitDown",
       "cmd-k j": "pane::SplitLeft",
       "cmd-k l": "pane::SplitRight",
@@ -117,9 +99,6 @@
   {
     "context": "ProjectPanel",
     "bindings": {
-      "cmd-e": "project_panel::ToggleFocus",
-      "cmd-alt-down": "project_panel::NewDirectory",
-      "cmd-shift-b": "editor::ToggleGitBlameInline",
       "cmd-enter": "project_panel::OpenPermanent"
     }
   },
@@ -142,7 +121,6 @@
       "ctrl-w": "tab_switcher::CloseSelectedItem"
     }
   },
-
   {
     "context": "FileFinder && !menu_open",
     "bindings": {
@@ -162,21 +140,6 @@
     }
   },
   {
-    "context": "Editor && edit_prediction",
-    "bindings": {
-      "tab": "editor::AcceptEditPrediction",
-      "alt-tab": null
-    }
-  },
-  {
-    "context": "Editor && edit_prediction_conflict",
-    "use_key_equivalents": true,
-    "bindings": {
-      "tab": "editor::AcceptEditPrediction",
-      "alt-tab": null
-    }
-  },
-  {
     "context": "FileFinder || (FileFinder > Picker > Editor) || (FileFinder > Picker > menu)",
     "use_key_equivalents": true,
     "bindings": {
@@ -187,22 +150,32 @@
     }
   },
   {
-    "context": "Editor && mode == auto_height",
-    "use_key_equivalents": true,
+    "context": "MessageEditor",
     "bindings": {
       "alt-enter": "editor::Newline"
     }
   },
   {
-    "context": "Editor",
     "bindings": {
-      "cmd-pageup": "editor::DuplicateLineUp"
-    }
-  },
-  {
-    "context": "Editor",
-    "bindings": {
-      "cmd-pagedown": "editor::DuplicateLineDown"
+      "cmd-shift-o": "workspace::Open"
     }
   }
+  // {
+  //   "context": "((Editor && mode == full) && edit_prediction)",
+  //   "bindings": {
+  //     "alt-enter": "editor::NextEditPrediction"
+  //   }
+  // },
+  // {
+  //   "context": "(Editor && edit_prediction_conflict)",
+  //   "bindings": {
+  //     "alt-enter": "editor::AcceptEditPrediction"
+  //   }
+  // },
+  // {
+  //   "context": "(Editor && edit_prediction)",
+  //   "bindings": {
+  //     "alt-enter": "editor::AcceptEditPrediction"
+  //   }
+  // }
 ]

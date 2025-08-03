@@ -49,7 +49,7 @@ function open_project
         cut -d'|' -f3- # Remove the sorting fields from output
     )
 
-    set selected_project (printf "%s\n" $sorted_projects | gum filter --height 6 --placeholder "" --prompt "→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4 --no-strip-ansi)
+    set selected_project (printf "%s\n" $sorted_projects | gum filter --placeholder "" --prompt "→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4 --no-strip-ansi --no-show-help)
 
     set gum_status $status
 

@@ -3,7 +3,7 @@ function brup
     set current (brightness -l | grep brightness | head -n 1 | awk '{print $4}')
 
     # Calculate the new brightness
-    set bright (math "$current + 0.03")
+    set bright (math "$current + 0.06")
 
     # Max 1
     if test $bright -gt 1
@@ -12,5 +12,5 @@ function brup
 
     brightness -d 0 $bright
     brightness -d 1 (math "$bright - 0.06")
-    brightness -d 2 (math "$bright - 0.06")
+    brightness -d 0x3 (math "$bright - 0.06")
 end

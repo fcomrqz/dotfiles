@@ -79,13 +79,15 @@
   space-caps (tap-hold-next-release 200 (around (layer-switch base) spc) (layer-toggle space-caps-lock))
 
   ;; Spanish special characters
-  n (tap-hold 200 n (tap-macro A-n n))
-  ! (tap-hold 200 ! (tap-macro-release A-1 P0))
+  n (tap-hold 300 n (tap-macro A-n n))
+  u (tap-hold 300 u (tap-macro A-u u))
+  o (tap-hold 300 o (tap-macro A-u o))
+  ! (tap-hold 300 ! (tap-macro-release A-1 P0))
 
   ;; Hyper key
   esc (tap-hold-next-release 200 esc (around lctl (around lalt (around lmet lsft))))
 
-  things (cmd-button "osascript -e 'tell application  \"Things3\" to show quick entry panel'")
+  ;; things (cmd-button "osascript -e 'tell application  \"Things3\" to show quick entry panel'")
 
   brup (cmd-button "/opt/homebrew/bin/fish -c 'brup'")
   brdn (cmd-button "/opt/homebrew/bin/fish -c 'brdn'")
@@ -103,7 +105,7 @@ fn      lctl    lalt    lmet               spc                  rmet    ralt    
 (deflayer base
 XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX
 XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX      XX
-tab     q       w       e       r       t       y       u       i       o       p       [       XX      XX
+tab     q       w       e       r       t       y       @u      i       @o      p       [       XX      XX
 @esc    @a      @s      @d      @f      g       h       @j      @k      @l      @semi   '       XX
 `       z       x       c       v       b       @n      m       ,       .       /       =       XX
 XX      @esc    XX      XX                 @spc                 XX      XX      XX      XX      XX
@@ -115,7 +117,7 @@ _       _       _       _       _       _       _       _       _       _       
 XX      XX      XX      XX      XX      XX      #(C-y)  #(C-u)  #(C-i)  #(C-o)  up      #(C-[)  _       _
 XX      XX      @LCAA   @LCMM   rsft    XX      bspc    ret     @Ck     #(C-l)  #(C-;)  #(C-')  _
 XX      XX      XX      XX      XX      XX      down    #(C-m)  #(C-,)  #(C-.)  #(C-/)  _       _
-_       XX      XX      XX              @things                 XX      XX      _       _       _
+_       XX      XX      XX              #(C-spc)                XX      XX      _       _       _
 )
 
 (deflayer left-option
@@ -215,7 +217,7 @@ _       _       _       _       _       _       _       _       _       _       
 tab     q       w       e       r       t       XX      XX      XX      XX      XX      XX      _       _
 _       a       s       @del    @rght   g       XX      rsft    rmet    @RAC    rctl    XX      _
 _       z       x       c       v       @left   XX      XX      XX      XX      XX      XX      _
-_       _       _       _                @things                _       _       _       _       _
+_       _       _       _               #(C-spc)                _       _       _       _       _
 )
 
 (deflayer right-control-option
