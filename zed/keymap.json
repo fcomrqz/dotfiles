@@ -13,15 +13,21 @@
 
       "alt-shift-up": "editor::SelectLargerSyntaxNode",
       "alt-shift-down": "editor::SelectSmallerSyntaxNode",
+      "shift-pageup": "editor::SelectLargerSyntaxNode",
+      "shift-pagedown": "editor::SelectSmallerSyntaxNode",
 
       "home": "editor::MoveToBeginning",
       "end": "editor::MoveToEnd",
 
       "alt-cmd-p": "editor::MoveLineUp",
       "alt-cmd-n": "editor::MoveLineDown",
+      "alt-cmd-up": "editor::MoveLineUp",
+      "alt-cmd-down": "editor::MoveLineDown",
 
       "alt-cmd-shift-p": "editor::DuplicateLineUp",
       "alt-cmd-shift-n": "editor::DuplicateLineDown",
+      "alt-cmd-shift-up": "editor::DuplicateLineUp",
+      "alt-cmd-shift-down": "editor::DuplicateLineDown",
 
       "alt-up": "editor::MoveToStartOfParagraph",
       "alt-down": "editor::MoveToEndOfParagraph",
@@ -159,7 +165,7 @@
     "bindings": {
       "cmd-shift-o": "workspace::Open"
     }
-  }
+  },
   // {
   //   "context": "((Editor && mode == full) && edit_prediction)",
   //   "bindings": {
@@ -178,4 +184,10 @@
   //     "alt-enter": "editor::AcceptEditPrediction"
   //   }
   // }
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-l": "editor::ScrollCursorTop"
+    }
+  }
 ]
