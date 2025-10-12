@@ -1,15 +1,15 @@
 # Finder
-defaults write NSGlobalDomain "AppleShowAllExtensions" -bool "true"
+# defaults write NSGlobalDomain "AppleShowAllExtensions" -bool "false"
 
 # Hide Menu Bar
-defaults write NSGlobalDomain _HIHideMenuBar -bool true
+# defaults write NSGlobalDomain _HIHideMenuBar -bool true
 
 # Auto hide Dock
-defaults write com.apple.dock autohide -bool true
-defaults write com.apple.dock no-bouncing -bool TRUE && killall Dock
+# defaults write com.apple.dock autohide -bool true
+# defaults write com.apple.dock no-bouncing -bool TRUE && killall Dock
 
 # Do not create `.DS_Store` files in Network Drives
-defaults write com.apple.desktopservices DSDontWriteNetworkStores true
+# defaults write com.apple.desktopservices DSDontWriteNetworkStores true
 
 # Omit crash report dialog {none|basic|developer|server}
 # defaults write com.apple.CrashReporter DialogType none
