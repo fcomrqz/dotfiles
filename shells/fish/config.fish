@@ -55,14 +55,16 @@ if status --is-interactive
     # Pager:  progress bar at the bottom left corner
     set -U fish_pager_color_progress white -b --background=normal
 
-    # Toggle dark mode
-    set is_dark_mode (osascript -e 'tell application "System Events" to tell appearance preferences to return dark mode' 2> /dev/null)
+    # Toggle dark mode (only in Apple Terminal)
+    if test "$TERM_PROGRAM" = Apple_Terminal
+        set is_dark_mode (osascript -e 'tell application "System Events" to tell appearance preferences to return dark mode' 2> /dev/null)
 
-    if test $status -eq 0
-        if $is_dark_mode
-            osascript -e 'tell application "Terminal"
-              set current settings of tabs of windows to settings set "dark"
-            end tell'
+        if test $status -eq 0
+            if $is_dark_mode
+                osascript -e 'tell application "Terminal"
+                  set current settings of tabs of windows to settings set "dark"
+                end tell'
+            end
         end
     end
 
