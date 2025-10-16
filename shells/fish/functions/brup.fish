@@ -1,9 +1,9 @@
 function brup
-    # Get current brightness from the main display (display 0)
-    set current (brightness -l | grep "brightness" | head -n 1 | awk '{print $4}')
+    # Get current brightness from the main display (the one marked as "main")
+    set current (brightness -l | grep -A1 "main" | grep "brightness" | awk '{print $4}')
 
     if test -z "$current"
-        echo "Could not get current brightness"
+        echo "Could not get current brightness from main display"
         return 1
     end
 
@@ -23,22 +23,28 @@ function brup
         set side_bright 0
     end
 
-    # Get all display numbers
-    set display_nums (brightness -l | grep "^display" | awk '{print $2}' | tr -d ':')
+    # Get display IDs (not numbers) for more reliable identification
+    set main_display_id (brightness -l | grep "main" | grep -o "ID 0x[0-9a-fA-F]*" | awk '{print $2}')
+    set all_display_ids (brightness -l | grep "ID 0x" | grep -o "ID 0x[0-9a-fA-F]*" | awk '{print $2}')
 
-    if test (count $display_nums) -eq 0
-        echo "No displays found"
+    if test -z "$main_display_id"
+        echo "Could not find main display ID"
         return 1
     end
 
-    # Apply brightness to all displays
-    for num in $display_nums
-        if test $num -eq 0
+    if test (count $all_display_ids) -eq 0
+        echo "No display IDs found"
+        return 1
+    end
+
+    # Apply brightness to all displays using their actual IDs
+    for id in $all_display_ids
+        if test "$id" = "$main_display_id"
             # Main display (center) - higher brightness
-            brightness -d $num $main_bright
+            brightness -d $id $main_bright
         else
             # Side displays - lower brightness
-            brightness -d $num $side_bright
+            brightness -d $id $side_bright
         end
     end
 
