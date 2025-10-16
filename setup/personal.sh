@@ -70,6 +70,8 @@ gum spin --title "Android Studio: Integrated Development Environment for Android
 
 gum spin --title "ChatGPT: OpenAI's official desktop app" brew install --cask chatgpt
 
+gum spin --title "SF Symbols: System font for Apple platforms" brew install --cask sf-symbols
+
 clear
 
 gum log --prefix Installing "Desktop Apps from AppStore"
