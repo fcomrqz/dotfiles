@@ -5,9 +5,6 @@ default-root-container-orientation = 'auto'
 
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-enable-normalization-flatten-containers = true
-enable-normalization-opposite-orientation-for-nested-containers = true
-
 accordion-padding = 0
 
 [gaps]
@@ -151,28 +148,24 @@ cmd-alt-slash = ['layout tiles accordion']
 cmd-alt-space = ['resize smart +160']
 
 cmd-alt-enter = [
-  "exec-and-forget aerospace list-monitors --focused | grep -q '^1 | LG UltraFine (3)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(3)'",
-  # "move-mouse monitor-lazy-center",
+  "exec-and-forget aerospace list-monitors --focused | grep -q '^1 | LG UltraFine (3)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(3)' && aerospace move-mouse window-lazy-center",
 ]
 
 cmd-alt-j = [
-  "exec-and-forget aerospace list-monitors --focused | grep -q '^1 | LG UltraFine (3)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(3)'",
-  # "move-mouse monitor-lazy-center",
+  "exec-and-forget aerospace list-monitors --focused | grep -q '^1 | LG UltraFine (3)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(3)' && aerospace move-mouse window-lazy-center",
 ]
 
 cmd-alt-k = [
-  "exec-and-forget aerospace list-monitors --focused | grep -q '^2 | LG UltraFine (1)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(1)'",
-  # "move-mouse monitor-lazy-center",
+  "exec-and-forget aerospace list-monitors --focused | grep -q '^2 | LG UltraFine (1)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(1)' && aerospace move-mouse window-lazy-center",
 ]
 
 cmd-alt-l = [
-  "exec-and-forget aerospace list-monitors --focused | grep -q '^3 | LG UltraFine (2)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(2)'",
-  # "move-mouse monitor-lazy-center",
+  "exec-and-forget aerospace list-monitors --focused | grep -q '^3 | LG UltraFine (2)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(2)' && aerospace move-mouse window-lazy-center",
 ]
 
-# ctrl-space = [
-#   "exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'",
-# ]
+ctrl-space = [
+  "exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'",
+]
 
 f14 = ["exec-and-forget /opt/homebrew/bin/fish -c 'brdn'"]
 f15 = ["exec-and-forget /opt/homebrew/bin/fish -c 'brup'"]
