@@ -64,6 +64,8 @@ gum spin --title "swift-format: Formatting technology for Swift source code" -- 
 
 gum spin --title "flyctl: Command Line Tools for fly.io services" -- brew install flyctl
 
+gum spin --title "stripe: Command Line Tools for Stripe services" -- brew install stripe/stripe-cli/stripe
+
 clear
 
 gum log --prefix Installing "npm global packages"
