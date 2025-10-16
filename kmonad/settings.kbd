@@ -243,7 +243,7 @@ _       _       _       _       _       _       _       _       _       _       
 _       _       _       _       _       _       _       _       _       _       _       _       _       _
 _       @!      @       #       $       %       ^       &       *       \(      \)      \_      _       _
 _       1       2       3       4       5       6       7       8       9       0       -       _
-_       \       @brdn   @brup   |       _       _       mute    vold    volu    pp      _       _
+_       \       @brdn   @brup   |       prev    next    mute    vold    volu    pp      mctl    _
 _       @gocaps _       _                   _                   _       _       _       _       _
 )
 
