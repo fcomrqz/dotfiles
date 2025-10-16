@@ -1,4 +1,5 @@
 {
+  "close_on_file_delete": true,
   "multi_cursor_modifier": "cmd_or_ctrl",
   "base_keymap": "VSCode",
   "drag_and_drop_selection": {
@@ -76,43 +77,33 @@
   },
   "languages": {
     "HTML": {
-      "formatter": [
-        {
-          "code_action": "source.fixAll.stylelint"
-        }
-      ],
+      "code_actions_on_format": {
+        "source.fixAll.stylelint": true
+      },
       "prettier": { "allowed": true }
     },
     "CSS": {
-      "formatter": [
-        {
-          "code_action": "source.fixAll.stylelint"
-        }
-      ],
+      "code_actions_on_format": {
+        "source.fixAll.stylelint": true
+      },
       "prettier": { "allowed": true }
     },
     "JavaScript": {
-      "formatter": [
-        {
-          "code_action": "source.fixAll.eslint"
-        }
-      ],
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true
+      },
       "prettier": { "allowed": true }
     },
     "TypeScript": {
-      "formatter": [
-        {
-          "code_action": "source.fixAll.eslint"
-        }
-      ],
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true
+      },
       "prettier": { "allowed": true }
     },
     "Vue.js": {
-      "formatter": [
-        {
-          "code_action": "source.fixAll.stylelint"
-        }
-      ],
+      "code_actions_on_format": {
+        "source.fixAll.stylelint": true
+      },
       "prettier": { "allowed": true }
     },
     "Fish": { "formatter": { "external": { "command": "fish_indent", "arguments": [] } } },
@@ -160,7 +151,7 @@
     "agent_review": false,
     "code_actions": false
   },
-  "file_finder": { "file_icons": false, "modal_max_width": "medium" },
+  "file_finder": { "file_icons": false, "modal_max_width": "small" },
   "auto_install_extensions": {
     "html": true,
     "toml": true,
