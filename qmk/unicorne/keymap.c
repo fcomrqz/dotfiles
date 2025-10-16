@@ -170,7 +170,7 @@ HYPR_T(KC_ESC), LCTL_T(KC_A), LOPT_T(KC_S), LCMD_T(KC_D), LSFT_T(KC_F), KC_G,   
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       CW_TOGG,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_MINUS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_PWR, KC_BSLS, KC_SCRL, KC_PAUS, KC_PIPE, KC_MPRV,                       ALT_NN, KC_MUTE, KC_VOLD, KC_VOLU, KC_MPLY, KC_MNXT,
+       KC_PWR, KC_BSLS, KC_SCRL, KC_PAUS, KC_PIPE, KC_MPRV,                      KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_MPLY, KC_MCTL,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_NO, LT(9, KC_SPC), KC_NO, KC_NO, LT(9, KC_SPC), KC_NO
   ),
