@@ -80,7 +80,8 @@
       "ctrl-tab": "tab_switcher::Toggle",
       "ctrl-shift-tab": ["tab_switcher::Toggle", { "select_last": true }],
 
-      "cmd-alt-delete": "git::Diff"
+      "cmd-alt-delete": "git::Diff",
+      "cmd-alt-d": "git::Diff"
     }
   },
   {

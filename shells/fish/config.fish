@@ -12,6 +12,8 @@ if status --is-interactive
 
     set -Ux GH_TOKEN (gh auth token)
 
+    set -x GEMINI_SANDBOX true
+
     # Colors
     set -U fish_color_command normal
     set -U fish_color_param normal

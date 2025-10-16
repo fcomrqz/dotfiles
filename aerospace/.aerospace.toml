@@ -47,6 +47,18 @@ if.app-id = 'com.culturedcode.ThingsMac'
 run = ['layout floating', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
+if.app-id = 'com.openai.chat'
+run = ['layout floating', 'move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.anthropic.claudefordesktop'
+run = ['layout floating', 'move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'Gemini'
+run = ['layout floating', 'move-node-to-workspace 1']
+
+[[on-window-detected]]
 if.app-id = 'com.apple.Music'
 run = ['move-node-to-workspace 1']
 
@@ -163,7 +175,7 @@ cmd-alt-l = [
   "exec-and-forget aerospace list-monitors --focused | grep -q '^3 | LG UltraFine (2)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(2)' && aerospace move-mouse window-lazy-center",
 ]
 
-ctrl-space = [
+cmd-alt-ctrl-shift-tab = [
   "exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'",
 ]
 

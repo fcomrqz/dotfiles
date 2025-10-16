@@ -18,7 +18,7 @@
   "features": {
     "edit_prediction_provider": "zed"
   },
-  "edit_predictions": { "mode": "subtle", "enabled_in_text_threads": true },
+  "edit_predictions": { "mode": "eager", "enabled_in_text_threads": true },
   "git": { "inline_blame": { "enabled": false } },
   "git_panel": { "button": false, "dock": "right" },
   "vertical_scroll_margin": 12.0,
