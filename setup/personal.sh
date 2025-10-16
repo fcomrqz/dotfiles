@@ -72,6 +72,8 @@ gum spin --title "ChatGPT: OpenAI's official desktop app" brew install --cask ch
 
 gum spin --title "SF Symbols: System font for Apple platforms" brew install --cask sf-symbols
 
+gum spin --title "Parallels Desktop: Run Windows on Mac" brew install --cask parallels
+
 clear
 
 gum log --prefix Installing "Desktop Apps from AppStore"
