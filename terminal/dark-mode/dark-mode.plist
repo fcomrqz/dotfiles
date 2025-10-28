@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
     <key>Label</key>
     <string>com.fcomrqz.dark-mode</string>
-    <key>KeepAlive</key>
-    <true/>
-    <key>StandardErrorPath</key>
-    <string>/tmp/dark-mode-stderr.log</string>
-    <key>StandardOutPath</key>
-    <string>/tmp/dark-mode-stdout.log</string>
     <key>ProgramArguments</key>
     <array>
-       <string>/usr/local/bin/dark-mode</string>
-       <string>/Users/fran/Developer/fcomrqz/dotfiles/scripts/theme.sh</string>
+        <string>/Users/fran/Developer/fcomrqz/dotfiles/dark-mode/dark-mode</string>
     </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
 </dict>
 </plist>

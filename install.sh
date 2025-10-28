@@ -128,6 +128,8 @@ mkdir ~/.config
 ~/.gum/gum spin --title "keytics: Keyboard Analytics" -- ln ~/Developer/fcomrqz/dotfiles/keytics/keytics.plist ~/Library/LaunchAgents/com.fcomrqz.keytics.plist
 ~/.gum/gum spin --title "keytics: Keyboard Analytics" -- launchctl load ~/Library/LaunchAgents/com.fcomrqz.keytics.plist
 
+~/.gum/gum spin --title "dark-mode: Toggle Apple Terminal theme based in macOS dark mode" -- ln ~/Developer/fcomrqz/dotfiles/terminal/dark-mode/dark-mode.plist ~/Library/LaunchAgents/com.fcomrqz.dark-mode.plist
+~/.gum/gum spin --title "dark-mode: Toggle Apple Terminal theme based in macOS dark mode" -- launchctl load ~/Library/LaunchAgents/com.fcomrqz.dark-mode.plist
 clear
 
 ~/.gum/gum log --prefix Installing "npm global packages"
