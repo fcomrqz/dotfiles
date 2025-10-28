@@ -1,0 +1,89 @@
+(defcfg
+  macos-dev-names-include ("HHKB-Classic" "Apple")
+)
+
+(defsrc
+  esc   1     2     3     4     5     6     7     8     9     0     -     =     \     grv
+  tab   q     w     e     r     t     y     u     i     o     p     [     ]     bspc
+  lctl  a     s     d     f     g     h     j     k     l     ;     '     ret
+  lsft  z     x     c     v     b     n     m     ,     .     /     rsft  fn
+        lmet  lalt                spc                   ralt  rmet
+)
+
+(deflayer base
+  XX    XX    XX    XX    XX    XX     XX    XX    XX    XX    XX    XX    XX    XX    XX
+  tab   q     w     e     r     t      y     @u    i     @o    p     [     XX    XX
+  @esc  @a    @s    @d    @f    g      h     @j    @k    @l    @sc   '     XX
+  grv   z     x     c     v     b      @n    m     ,     .     /     =     XX
+        XX    XX                  @spc                   XX    XX
+)
+
+(deflayer space
+  XX    XX    XX    XX    XX    XX     XX    XX    XX    XX    XX    XX    XX    XX    XX
+  tab   @S-1  @S-2  @S-3  @S-4  @S-5   @S-6  @S-7  @S-8  @S-9  @S-0  @S--  XX    XX
+  @caps 1     2     3     4     5      6     7     8     9     0     -     XX
+  XX    \     f14   f15   S-\   prev  next   mute  vold  volu  pp    mctl  XX
+        XX    XX                    XX                   XX    XX
+)
+
+(defalias
+  a (tap-hold-release 200 200 a lctl)
+  s (tap-hold-release 200 200 s lalt)
+  d (fork (tap-hold-release 200 200 d lmet) d (rmet ralt rctl))
+  f (fork (tap-hold-release 200 200 f lsft) f (ralt rctl))
+
+  j (tap-hold-release 200 200 j rsft)
+  k (tap-hold-release 200 200 k rmet)
+  l (tap-hold-release 200 200 l ralt)
+  sc (tap-hold-release 200 200 ; rctl)
+
+  esc (tap-hold 200 200 esc (multi lctl lalt lmet lsft))
+
+  spc (tap-hold-release 200 300 spc (layer-toggle space))
+
+  caps (caps-word 3000)
+
+  n (fork (tap-hold 200 300 n (unicode ñ)) n (lsft lmet lalt lctl))
+  u (tap-hold 200 300 u (unicode ü))
+  o (tap-hold 200 300 o (unicode ö))
+
+  S-1 (tap-hold 200 300 S-1 (macro A-1))
+  S-2 (macro S-2)
+  S-3 (macro S-3)
+  S-4 (tap-hold 200 300 S-4 (macro S-A-2))
+  S-5 (macro S-5)
+  S-6 (macro S-6)
+  S-7 (macro S-7)
+  S-8 (macro S-8)
+  S-9 (macro S-9)
+  S-0 (macro S-0)
+  S-- (macro S--)
+)
+
+(defoverrides
+  (rctl f) (right)
+  (rctl b) (left)
+  (rctl d) (del)
+
+  (ralt f) (ralt right)
+  (ralt b) (ralt left)
+  (ralt d) (ralt del)
+
+  (lctl p) (up)
+  (lctl n) (down)
+  (lctl j) (ret)
+  (lctl h) (bspc)
+
+  (lalt p) (lalt up)
+  (lalt n) (lalt down)
+  (lalt j) (lalt ret)
+  (lalt h) (lalt bspc)
+  (lalt [) (])
+
+  (lmet j) (lmet ret)
+  (lmet h) (lmet bspc)
+
+  (rmet tab) (f20)
+
+  (lsft lmet h) (lsft lmet h)
+)

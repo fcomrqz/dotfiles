@@ -4,21 +4,23 @@
 <plist version="1.0">
   <dict>
       <key>Label</key>
-      <string>com.fcomrqz.kmonad</string>
+      <string>com.fcomrqz.kanata</string>
       <key>ProgramArguments</key>
       <array>
           <string>/usr/bin/sudo</string>
-          <string>/Users/fran/.local/bin/kmonad</string>
-          <string>/Users/fran/Developer/fcomrqz/dotfiles/kmonad/settings.kbd</string>
+          <string>/opt/homebrew/bin/kanata</string>
+          <string>-q</string>
+          <string>-c</string>
+          <string>/Users/fran/Developer/fcomrqz/dotfiles/kanata/kanata.kbd</string>
       </array>
       <key>RunAtLoad</key>
       <true/>
       <key>KeepAlive</key>
       <true/>
       <key>StandardOutPath</key>
-      <string>/tmp/kmonad.stdout</string>
+      <string>/tmp/kanata.stdout</string>
       <key>StandardErrorPath</key>
-      <string>/tmp/kmonad.stderr</string>
+      <string>/tmp/kanata.stderr</string>
       <key>ProcessType</key>
       <string>Interactive</string>
   </dict>
