@@ -1,20 +1,39 @@
 if status --is-interactive
+    # ------
+    # direnv
+    # ------
     set -x DIRENV_LOG_FORMAT ""
     direnv hook fish | source
 
+    # --------
+    # homebrew
+    # --------
     fish_add_path /opt/homebrew/bin
 
-    set -Ux EDITOR micro
+    # ---
+    # bun
+    # ---
+    set --export BUN_INSTALL "$HOME/.bun"
+    set --export PATH $BUN_INSTALL/bin $PATH
 
+    # --------
+    # Orbstack
+    # --------
+    source ~/.orbstack/shell/init2.fish 2>/dev/null || :
+
+    # --------
+    # env vars
+    # --------
+    set -Ux GH_TOKEN (gh auth token)
+    set -Ux EDITOR micro
     set -Ux BAT_THEME ansi
+    set -Ux GEMINI_SANDBOX true
 
     set -U fish_greeting
 
-    set -Ux GH_TOKEN (gh auth token)
-
-    set -x GEMINI_SANDBOX true
-
+    # ------
     # Colors
+    # ------
     set -U fish_color_command normal
     set -U fish_color_param normal
     set -U fish_color_option yellow
@@ -57,7 +76,9 @@ if status --is-interactive
     # Pager:  progress bar at the bottom left corner
     set -U fish_pager_color_progress white -b --background=normal
 
-    # Toggle dark mode (only in Apple Terminal)
+    # --------------------------
+    # Dark mode (Apple Terminal)
+    # --------------------------
     if test "$TERM_PROGRAM" = Apple_Terminal
         set is_dark_mode (osascript -e 'tell application "System Events" to tell appearance preferences to return dark mode' 2> /dev/null)
 
@@ -70,25 +91,11 @@ if status --is-interactive
         end
     end
 
-    # bun
-    set --export BUN_INSTALL "$HOME/.bun"
-    set --export PATH $BUN_INSTALL/bin $PATH
+    # -----------
+    # Keybindings
+    # -----------
 
     bind \cO open_project
     bind \cR open_history_search
-
-    # bind \ec jj-describe
-
-    # bind \es jj-split
-    # bind \ea jj-squash
-
-    # bind \em jj-edit
-
-    # bind \er jj-revert
-
     bind \e\( kill-word
 end
-
-# Added by OrbStack: command-line tools and integration
-# This won't be added again if you remove it.
-source ~/.orbstack/shell/init2.fish 2>/dev/null || :

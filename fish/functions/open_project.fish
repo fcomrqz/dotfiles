@@ -49,21 +49,15 @@ function open_project
         cut -d'|' -f3- # Remove the sorting fields from output
     )
 
-    set selected_project (printf "%s\n" $sorted_projects | gum filter --placeholder "" --prompt "→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4 --no-strip-ansi --no-show-help)
+    set selected_project (printf "%s\n" $sorted_projects | ~/.gum/gum filter --placeholder "" --prompt "→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4 --height 12)
 
-    set gum_status $status
-
-    if test $gum_status -eq 130
-        echo -en "\033[5A\033[J"
-    else if test -n "$selected_project"
+    if test -n "$selected_project"
         # A project was selected
         set clean_project (echo $selected_project | sed -E 's/\x1B\[[0-9;]*[mK]//g' | sed 's/[*]//g' | string trim)
         set full_path ~/Developer/$clean_project
         if test -d $full_path
             cd $full_path
         end
-    else
-        echo -en "\033[1A\033[J"
     end
 
     commandline -f repaint

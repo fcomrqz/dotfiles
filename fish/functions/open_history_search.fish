@@ -13,7 +13,7 @@ function open_history_search
 
     set gum_lines (math "max(1, min($gum_lines, $term_lines - 3))")
 
-    set -l selected_command (printf '%s\n' $history | fish_indent --ansi | gum filter --placeholder="" --prompt="→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4 --height $gum_lines)
+    set -l selected_command (printf '%s\n' $history | fish_indent --ansi | ~/.gum/gum filter --placeholder="" --prompt="→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4 --height $gum_lines)
 
     if test -n "$selected_command"
         commandline -r $selected_command
