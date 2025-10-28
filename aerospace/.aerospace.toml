@@ -1,31 +1,25 @@
+# --------
+# Settings
+# --------
 start-at-login = true
-
 default-root-container-layout = 'tiles'
 default-root-container-orientation = 'auto'
-
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
-
 accordion-padding = 0
-
-[gaps]
-inner.horizontal = 8
-inner.vertical = 8
-outer.top = 8
-outer.bottom = 8
-outer.left = 8
-outer.right = 8
-
+gaps.outer.top = [{ monitor."(1)" = 30 }, 16]
+gaps.outer.right = 16
+gaps.outer.bottom = 16
+gaps.outer.left = 16
+gaps.inner.vertical = 16
+gaps.inner.horizontal = 16
 [workspace-to-monitor-force-assignment]
 1 = '(1)'
 2 = '(3)'
 3 = '(2)'
 
-# Float
-[[on-window-detected]]
-if.app-id = 'com.apple.Passwords'
-run = ['layout floating', 'move-node-to-workspace 1']
-
+# ------------
 # Main monitor
+# ------------
 [[on-window-detected]]
 if.app-id = 'dev.zed.Zed'
 run = ['move-node-to-workspace 1']
@@ -35,13 +29,20 @@ if.app-id = 'com.figma.Desktop'
 run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
-if.app-id = 'com.apple.freeform'
+if.app-id = 'com.apple.finder'
 run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.Notes'
 run = ['move-node-to-workspace 1']
 
+[[on-window-detected]]
+if.app-id = 'com.apple.freeform'
+run = ['move-node-to-workspace 1']
+
+## ---------------------
+## Main monitor floating
+## ---------------------
 [[on-window-detected]]
 if.app-id = 'com.culturedcode.ThingsMac'
 run = ['layout floating', 'move-node-to-workspace 1']
@@ -59,8 +60,8 @@ if.app-name-regex-substring = 'Gemini'
 run = ['layout floating', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
-if.app-id = 'com.apple.Music'
-run = ['move-node-to-workspace 1']
+if.app-id = 'net.whatsapp.WhatsApp'
+run = ['layout floating', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.MobileSMS'
@@ -71,7 +72,19 @@ if.app-id = 'com.apple.FaceTime'
 run = ['layout floating', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
-if.app-id = 'net.whatsapp.WhatsApp'
+if.app-name-regex-substring = 'YouTube'
+run = ['layout floating', 'move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+run = ['layout floating', 'move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Passwords'
+run = ['layout floating', 'move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.findmy'
 run = ['layout floating', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
@@ -79,14 +92,12 @@ if.app-id = 'com.apple.reminders'
 run = ['layout floating', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
-if.app-id = 'com.apple.finder'
-run = ['move-node-to-workspace 1']
+if.app-id = 'com.apple.AddressBook'
+run = ['layout floating', 'move-node-to-workspace 1']
 
-[[on-window-detected]]
-if.app-name-regex-substring = 'YouTube'
-run = ['move-node-to-workspace 1']
-
+# ------------
 # Left monitor
+# ------------
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
 run = ['move-node-to-workspace 2']
@@ -99,58 +110,50 @@ run = ['move-node-to-workspace 2']
 if.app-id = 'com.apple.mail'
 run = ['move-node-to-workspace 2']
 
+## ---------------------
+## Left monitor floating
+## ---------------------
 [[on-window-detected]]
 if.app-id = 'com.apple.iphonesimulator'
 run = ['layout floating', 'move-node-to-workspace 2']
 
+# -------------
 # Right monitor
+# -------------
 [[on-window-detected]]
 if.app-id = 'com.apple.Terminal'
 run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
+if.app-id = 'com.apple.ScreenSharing'
+run = ['move-node-to-workspace 3']
+
+## ----------------------
+## Right monitor floating
+## ----------------------
+[[on-window-detected]]
 if.app-id = 'com.apple.Home'
 run = ['layout floating', 'move-node-to-workspace 3']
 
-[[on-window-detected]]
-if.app-id = 'com.apple.findmy'
-run = ['layout floating', 'move-node-to-workspace 3']
-
-[[on-window-detected]]
-if.app-id = 'com.apple.AddressBook'
-run = ['layout floating', 'move-node-to-workspace 3']
-
-[[on-window-detected]]
-if.app-id = 'com.apple.ScreenSharing'
-run = ['layout floating', 'move-node-to-workspace 3']
-
+# ----------
 # Playwright
+# ----------
 [[on-window-detected]]
 if.app-id = 'org.chromium.Chromium'
 if.window-title-regex-substring = '^Playwright.*$'
-run = ['move-node-to-workspace 3']
+run = ['layout floating', 'move-node-to-workspace 3']
 
 [[on-window-detected]]
 if.app-id = 'org.chromium.Chromium'
-run = ['move-node-to-workspace 2']
+run = ['layout floating', 'move-node-to-workspace 2']
 
 [[on-window-detected]]
 if.app-id = 'org.webkit.Playwright'
-run = ['move-node-to-workspace 2']
+run = ['layout floating', 'move-node-to-workspace 2']
 
-# All possible keys:
-# - Letters.        a, b, c, ..., z
-# - Numbers.        0, 1, 2, ..., 9
-# - Keypad numbers. keypad0, keypad1, keypad2, ..., keypad9
-# - F-keys.         f1, f2, ..., f20
-# - Special keys.   minus, equal, period, comma, slash, backslash, quote, semicolon, backtick,
-#                   leftSquareBracket, rightSquareBracket, space, enter, esc, backspace, tab
-# - Keypad special. keypadClear, keypadDecimalMark, keypadDivide, keypadEnter, keypadEqual,
-#                   keypadMinus, keypadMultiply, keypadPlus
-# - Arrows.         left, down, up, right
-
-# All possible modifiers: cmd, alt, ctrl, shift
-
+# -----------
+# Keybindings
+# -----------
 [mode.main.binding]
 
 cmd-alt-m = ['move up']
@@ -175,9 +178,25 @@ cmd-alt-l = [
   "exec-and-forget aerospace list-monitors --focused | grep -q '^3 | LG UltraFine (2)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(2)' && aerospace move-mouse window-lazy-center",
 ]
 
-cmd-alt-ctrl-shift-tab = [
-  "exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'",
+cmd-alt-quote = [
+  "exec-and-forget osascript '/Users/fran/Library/Mobile Documents/com~apple~ScriptEditor2/Documents/Cameras.scpt'",
 ]
+
+f20 = ["exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'"]
 
 f14 = ["exec-and-forget /opt/homebrew/bin/fish -c 'brdn'"]
 f15 = ["exec-and-forget /opt/homebrew/bin/fish -c 'brup'"]
+
+## -----------------
+## All possible keys
+## -----------------
+## - Modifiers        cmd, alt, ctrl, shift
+## - Letters          a, b, c, ..., z
+## - Numbers          0, 1, 2, ..., 9
+## - Keypad numbers   keypad0, keypad1, keypad2, ..., keypad9
+## - F-keys           f1, f2, ..., f20
+## - Special keys     minus, equal, period, comma, slash, backslash, quote, semicolon, backtick,
+##                    leftSquareBracket, rightSquareBracket, space, enter, esc, backspace, tab
+## - Keypad special   keypadClear, keypadDecimalMark, keypadDivide, keypadEnter, keypadEqual,
+##                    keypadMinus, keypadMultiply, keypadPlus
+## - Arrows           left, down, up, right
