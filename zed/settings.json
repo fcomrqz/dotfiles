@@ -1,23 +1,11 @@
 {
   "close_on_file_delete": true,
   "multi_cursor_modifier": "cmd_or_ctrl",
-  "base_keymap": "VSCode",
-  "drag_and_drop_selection": {
-    "enabled": false
-  },
-  "status_bar": {
-    "active_language_button": false,
-    "cursor_position_button": false
-  },
-  "diagnostics": {
-    "button": true
-  },
-  "tabs": {
-    "git_status": false
-  },
-  "features": {
-    "edit_prediction_provider": "zed"
-  },
+  "drag_and_drop_selection": { "enabled": false },
+  "status_bar": { "active_language_button": false, "cursor_position_button": false },
+  "diagnostics": { "button": true },
+  "tabs": { "git_status": false },
+  "features": { "edit_prediction_provider": "zed" },
   "edit_predictions": { "mode": "eager", "enabled_in_text_threads": true },
   "git": { "inline_blame": { "enabled": false } },
   "git_panel": { "button": false, "dock": "right" },
@@ -29,10 +17,7 @@
     "single_file_review": true,
     "always_allow_tool_actions": true,
     "default_profile": "write",
-    "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4"
-    },
+    "default_model": { "provider": "zed.dev", "model": "claude-sonnet-4" },
     "button": false,
     "dock": "right",
     "default_width": 720
@@ -61,49 +46,29 @@
     "trailingComma": "all",
     "plugins": ["prettier-plugin-toml", "@prettier/plugin-pug"]
   },
-  "file_types": {
-    "Dockerfile": ["containerfile"],
-    "Elisp": ["kbd"],
-    "Git Commit": ["*.jjdescription"]
-  },
+  "file_types": { "Dockerfile": ["containerfile"], "Elisp": ["kbd"] },
   "lsp": {
-    "stylelint-lsp": {
-      "settings": {
-        "stylelint": {
-          "validate": ["css", "postcss", "vue.js"]
-        }
-      }
-    }
+    "stylelint-lsp": { "settings": { "stylelint": { "validate": ["css", "postcss", "vue.js"] } } }
   },
   "languages": {
     "HTML": {
-      "code_actions_on_format": {
-        "source.fixAll.stylelint": true
-      },
+      "code_actions_on_format": { "source.fixAll.stylelint": true },
       "prettier": { "allowed": true }
     },
     "CSS": {
-      "code_actions_on_format": {
-        "source.fixAll.stylelint": true
-      },
+      "code_actions_on_format": { "source.fixAll.stylelint": true },
       "prettier": { "allowed": true }
     },
     "JavaScript": {
-      "code_actions_on_format": {
-        "source.fixAll.eslint": true
-      },
+      "code_actions_on_format": { "source.fixAll.eslint": true },
       "prettier": { "allowed": true }
     },
     "TypeScript": {
-      "code_actions_on_format": {
-        "source.fixAll.eslint": true
-      },
+      "code_actions_on_format": { "source.fixAll.eslint": true },
       "prettier": { "allowed": true }
     },
     "Vue.js": {
-      "code_actions_on_format": {
-        "source.fixAll.stylelint": true
-      },
+      "code_actions_on_format": { "source.fixAll.stylelint": true },
       "prettier": { "allowed": true }
     },
     "Fish": { "formatter": { "external": { "command": "fish_indent", "arguments": [] } } },
@@ -113,8 +78,6 @@
     "JSON": { "prettier": { "allowed": true } },
     "JSONC": { "prettier": { "allowed": true } }
   },
-  // "jupyter": { "kernel_selections": { "typescript": "deno", "javascript": "deno" } },
-  // Deactivated features
   "debugger": { "button": false },
   "inline_code_actions": false,
   "title_bar": {
@@ -199,7 +162,5 @@
     "button": false,
     "detect_venv": "off"
   },
-  "global_lsp_settings": {
-    "button": false
-  }
+  "global_lsp_settings": { "button": false }
 }
