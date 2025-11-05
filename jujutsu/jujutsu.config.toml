@@ -40,7 +40,7 @@ if(
             )
           )
         ),
-        label("current_working_copy", change_id.shortest(3)),
+        label("current_working_copy", change_id.shortest(4)),
         if(description, description.first_line()),
         tags,
         if(empty, label("empty", "empty"), commit_timestamp(self).ago())
@@ -59,7 +59,7 @@ if(
           )
         )
       ),
-      change_id.shortest(3),
+      change_id.shortest(4),
       if(description, description.first_line()),
       tags,
       if(empty, label("empty", "empty"), commit_timestamp(self).ago())
