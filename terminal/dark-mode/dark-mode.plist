@@ -6,7 +6,7 @@
     <string>com.fcomrqz.dark-mode</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/fran/Developer/fcomrqz/dotfiles/dark-mode/dark-mode</string>
+        <string>/Users/fran/Developer/fcomrqz/dotfiles/terminal/dark-mode/dark-mode</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
