@@ -6,7 +6,7 @@ set -euo pipefail
 mkdir ~/.gum
 curl -sfL https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_Darwin_arm64.tar.gz | tar -xz --strip-components=1 -C ~/.gum
 
-~/.gum/gum log --prefix Authorizing "Give sudo permission to install Command Line Tools"
+~/.gum/gum log --prefix Authorizing "Required sudo permissions to install Command Line Tools"
 sudo -v
 
 ~/.gum/gum spin --title "Accepting Xcode License" -- sudo xcodebuild -license accept
@@ -14,6 +14,12 @@ sudo -v
 ~/.gum/gum spin --title "Creating Homebrew folder" -- sudo mkdir -p /opt/homebrew/bin
 
 USER_NAME="${SUDO_USER:-$(id -un)}"
+
+ENTRY="$USER_NAME ALL=(ALL) NOPASSWD: /Library/Application\ Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/Applications/Karabiner-VirtualHIDDevice-Daemon.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Daemon"
+TMP="$(mktemp)"; trap 'rm -f "$TMP"' EXIT
+echo "$ENTRY" > "$TMP"
+~/.gum/gum spin --title "Creating Karabiner DriverKit VirtualHIDDevice sudoers entry" -- sudo install -o root -g wheel -m 440 "$TMP" /etc/sudoers.d/karabiner
+
 ENTRY="$USER_NAME ALL=(ALL) NOPASSWD: /opt/homebrew/bin/kanata"
 TMP="$(mktemp)"; trap 'rm -f "$TMP"' EXIT
 echo "$ENTRY" > "$TMP"
@@ -117,6 +123,9 @@ mkdir ~/.config
 ~/.gum/gum spin --title "kanata: Keyboard remapper" -- brew install kanata
 ~/.gum/gum spin --title "kanata: Keyboard remapper" -- ln ~/Developer/fcomrqz/dotfiles/kanata/kanata.plist ~/Library/LaunchAgents/com.fcomrqz.kanata.plist
 ~/.gum/gum spin --title "kanata: Keyboard remapper" -- launchctl load ~/Library/LaunchAgents/com.fcomrqz.kanata.plist
+~/.gum/gum spin --title "kanata: Keyboard remapper" -- ln ~/Developer/fcomrqz/dotfiles/kanata/karabiner.plist ~/Library/LaunchAgents/com.fcomrqz.karabiner.plist
+~/.gum/gum spin --title "kanata: Keyboard remapper" -- launchctl load ~/Library/LaunchAgents/com.fcomrqz.karabiner.plist
+
 
 ~/.gum/gum spin --title "micro: A modern and intuitive terminal-based text editor" -- brew install micro
 ~/.gum/gum spin --title "micro: A modern and intuitive terminal-based text editor" -- mkdir ~/.config/micro

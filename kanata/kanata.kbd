@@ -1,5 +1,5 @@
 (defcfg
-  macos-dev-names-include ("HHKB-Classic" "Apple")
+  macos-dev-names-include ("HHKB-Classic")
 )
 
 (defsrc

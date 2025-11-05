@@ -28,7 +28,9 @@ Previously, this process was manual and time-consuming, taking up to a full day.
     xcode-select --install
     ```
 
-6. Run the following commands in your terminal to download this repo, install [all my preferred apps](https://fcomrqz.com/tools#macOS), and set up my custom preferences:
+6. Install [Karabiner DriverKit VirtualHIDDevice](https://github.com/pqrs-org/Karabiner-DriverKit-VirtualHIDDevice/tree/main) following the instructions provided in the repository.
+
+7. Run the following commands in your terminal to download this repo, install [all my preferred apps](https://fcomrqz.com/tools#macOS), and set up my custom preferences:
     ```sh
     mkdir -p ~/Developer/fcomrqz
     cd ~/Developer/fcomrqz
