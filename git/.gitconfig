@@ -7,6 +7,7 @@
 	editor = micro
 	pager = delta
 	quotepath = false
+	attributesFile = ~/Developer/fcomrqz/dotfiles/git/attributes
 [blame]
 	date = relative
 [format]
