@@ -27,19 +27,19 @@
 )
 
 (defalias
-  a (tap-hold-release 200 200 a lctl)
-  s (tap-hold-release 200 200 s lalt)
-  d (fork (tap-hold-release 200 200 d lmet) d (rmet ralt rctl))
-  f (fork (tap-hold-release 200 200 f lsft) f (ralt rctl))
+  a (tap-hold 200 200 a lctl)
+  s (tap-hold 200 200 s lalt)
+  d (fork (tap-hold 200 200 d lmet) d (rmet ralt rctl))
+  f (fork (tap-hold 200 200 f lsft) f (ralt rctl))
 
-  j (tap-hold-release 200 200 j rsft)
-  k (tap-hold-release 200 200 k rmet)
-  l (tap-hold-release 200 200 l ralt)
-  sc (tap-hold-release 200 200 ; rctl)
+  j (tap-hold 200 200 j rsft)
+  k (fork (tap-hold 200 200 k rmet) k (lalt))
+  l (fork (tap-hold 200 200 l ralt) l (lmet lalt))
+  sc (tap-hold 200 200 ; rctl)
 
   esc (tap-hold 200 200 esc (multi lctl lalt lmet lsft))
 
-  spc (tap-hold-release 200 300 spc (layer-toggle space))
+  spc (tap-hold 200 200 spc (layer-toggle space))
 
   caps (caps-word 3000)
 
