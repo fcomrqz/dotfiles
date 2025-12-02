@@ -35,9 +35,95 @@ function fish_prompt
             description.first_line(),
             if(empty, label('empty', 'empty'), commit_timestamp(self).ago())
         )"
+    else
+        # Git repository detection and status
+        if git rev-parse --is-inside-work-tree >/dev/null 2>&1
+            __fish_prompt_git_status
+        end
     end
 
     printf "\n%s " (test $last_status -eq 0 && printf "%s" (set_color green)"→"(set_color normal) || printf "%s" (set_color red)"×"(set_color normal))
+end
+
+function __fish_prompt_git_status
+    set -l git_status_output ""
+    set -l is_synced 1  # Assume synced until proven otherwise
+
+    # Check for git state (rebase, merge, etc.)
+    set -l git_dir (git rev-parse --git-dir 2>/dev/null)
+    if test -n "$git_dir"
+        if test -d "$git_dir/rebase-merge"
+            set git_status_output (set_color cyan)"rebasing "(set_color normal)
+            set is_synced 0
+        else if test -d "$git_dir/rebase-apply"
+            set git_status_output (set_color cyan)"rebasing "(set_color normal)
+            set is_synced 0
+        else if test -f "$git_dir/MERGE_HEAD"
+            set git_status_output (set_color yellow)"merging "(set_color normal)
+            set is_synced 0
+        else if test -f "$git_dir/CHERRY_PICK_HEAD"
+            set git_status_output (set_color red)"cherry picking "(set_color normal)
+            set is_synced 0
+        else if test -f "$git_dir/BISECT_LOG"
+            set git_status_output (set_color red)"bisecting "(set_color normal)
+            set is_synced 0
+        end
+    end
+
+    # Get ahead/behind status
+    set -l has_upstream 0
+    set -l ahead_behind (git rev-list --left-right --count HEAD...@{upstream} 2>/dev/null)
+    if test -n "$ahead_behind"
+        set has_upstream 1
+        set -l behind (echo $ahead_behind | awk '{print $1}')
+        set -l ahead (echo $ahead_behind | awk '{print $2}')
+
+        if test "$behind" -gt 0
+            set git_status_output "$git_status_output"(set_color red)"↓ "(set_color normal)
+            set is_synced 0
+        end
+        if test "$ahead" -gt 0
+            set git_status_output "$git_status_output"(set_color blue)"↑ "(set_color normal)
+            set is_synced 0
+        end
+    else
+        # No upstream branch
+        set is_synced 0
+    end
+
+    # Check for conflicts
+    if git ls-files --unmerged | grep -q '^'
+        set git_status_output "$git_status_output"(set_color red)"! "(set_color normal)
+        set is_synced 0
+    end
+
+    # Check for unstaged/untracked changes (dirty)
+    if not git diff --quiet --exit-code 2>/dev/null; or test -n "$(git ls-files --exclude-standard --others 2>/dev/null)"
+        set git_status_output "$git_status_output"(set_color yellow)"* "(set_color normal)
+        set is_synced 0
+    end
+
+    # Check for staged changes
+    if not git diff --cached --quiet --exit-code 2>/dev/null
+        set git_status_output "$git_status_output"(set_color blue)"✓ "(set_color normal)
+        set is_synced 0
+    end
+
+    # Show green checkmark if in sync with origin
+    if test $is_synced -eq 1 -a $has_upstream -eq 1
+        set git_status_output "$git_status_output"(set_color green)"✓ "(set_color normal)
+    end
+
+    # Get tag if on one
+    set -l tag (git describe --exact-match --tags 2>/dev/null)
+    if test -n "$tag"
+        set git_status_output "$git_status_output"(set_color green)"$tag "(set_color normal)
+    end
+
+    # Print the git status
+    if test -n "$git_status_output"
+        printf "%s" $git_status_output
+    end
 end
 
 function getCursorRow --description 'Print cursor row (1-based), empty on timeout'
