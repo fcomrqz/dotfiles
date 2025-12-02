@@ -6,7 +6,7 @@
   "diagnostics": { "button": true },
   "tabs": { "git_status": false },
   "features": { "edit_prediction_provider": "zed" },
-  "edit_predictions": { "mode": "eager", "enabled_in_text_threads": true },
+  "edit_predictions": { "mode": "subtle", "enabled_in_text_threads": true },
   "git": { "inline_blame": { "enabled": false } },
   "git_panel": { "button": false, "dock": "right" },
   "vertical_scroll_margin": 12.0,
@@ -17,7 +17,7 @@
     "single_file_review": true,
     "always_allow_tool_actions": true,
     "default_profile": "write",
-    "default_model": { "provider": "zed.dev", "model": "claude-opus-4-1" },
+    "default_model": { "provider": "zed.dev", "model": "claude-sonnet-4" },
     "button": false,
     "dock": "right",
     "default_width": 720
@@ -86,7 +86,7 @@
     "show_onboarding_banner": true,
     "show_project_items": true,
     "show_user_picture": false,
-    "show_branch_name": false,
+    "show_branch_name": true,
     "show_sign_in": false
   },
   "load_direnv": "shell_hook",

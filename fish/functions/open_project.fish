@@ -1,41 +1,38 @@
 # TODO: Check all branches to represent repository status and print if is synced
 
 function open_project
-    set projects (command find ~/Developer -type d -maxdepth 2 -mindepth 2 -exec test -d '{}/.git' ';' -print)
+    # Find git repos efficiently by locating .git directories/files and getting their parent
+    set projects (command find ~/Developer -maxdepth 3 -mindepth 3 -name .git \( -type d -o -type f \) -print0 2>/dev/null | xargs -0 -n1 dirname | sort -u)
 
     set formatted_projects (
         for project in $projects
-            set relative_path (string replace -r '/Users/fran/Developer/' '' $project)
+            set relative_path (string replace -r '^/Users/fran/Developer/' '' $project)
 
             # Get git status once
             set git_status (git -C $project status --porcelain 2>/dev/null)
 
             # Get last modified timestamp
-            set modified_time (
-                if test -n "$git_status"
-                    # For dirty repos: get modification times from changed files
+            if test -n "$git_status"
+                # For dirty repos: use the newest mtime from git status files (single stat call)
+                set modified_time (
                     echo "$git_status" |
-                    cut -c4- |  # Remove status codes
-                    head -10 |  # Limit to first 10 files for performance
-                    while read -l file
-                        test -f "$project/$file" && stat -f %m "$project/$file" 2>/dev/null
-                    end |
+                    cut -c4- |
+                    head -10 |
+                    sed "s|^|$project/|" |
+                    xargs stat -f %m 2>/dev/null |
                     sort -nr |
                     head -1
-                else
-                    # For clean repos: use last commit timestamp
-                    git -C $project log -1 --format=%ct 2>/dev/null
-                end
-            )
-
-            # Default timestamp if none found
-            test -z "$modified_time" && set modified_time (stat -f %m $project 2>/dev/null || echo 0)
-
-            set status_indicator ""
-            set is_dirty "0" # Default to clean
-            if test -n "$git_status"
+                )
+                # Fallback to repo mtime if stat fails
+                test -z "$modified_time" && set modified_time (stat -f %m $project 2>/dev/null || echo 0)
                 set status_indicator (set_color yellow)"*"(set_color normal)" "
-                set is_dirty "1" # Mark as dirty
+                set is_dirty "1"
+            else
+                # For clean repos: use last commit timestamp
+                set modified_time (git -C $project log -1 --format=%ct 2>/dev/null)
+                test -z "$modified_time" && set modified_time (stat -f %m $project 2>/dev/null || echo 0)
+                set status_indicator ""
+                set is_dirty "0"
             end
 
             # Format: dirty_flag|timestamp|project_path_with_indicators
@@ -52,8 +49,8 @@ function open_project
     set selected_project (printf "%s\n" $sorted_projects | ~/.gum/gum filter --placeholder "" --prompt "→ " --prompt.foreground 2 --indicator '▌' --indicator.foreground 4 --match.foreground 4 --height 12)
 
     if test -n "$selected_project"
-        # A project was selected
-        set clean_project (echo $selected_project | sed -E 's/\x1B\[[0-9;]*[mK]//g' | sed 's/[*]//g' | string trim)
+        # Clean project name efficiently using fish string functions
+        set clean_project (string replace -ra '\x1B\[[0-9;]*[mK]|\*' '' -- $selected_project | string trim)
         set full_path ~/Developer/$clean_project
         if test -d $full_path
             cd $full_path
