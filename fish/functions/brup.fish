@@ -16,7 +16,7 @@ function brup
     end
 
     # Calculate brightness for side displays (slightly lower)
-    set side_bright (math "$main_bright - 0.08")
+    set side_bright (math "$main_bright - 0.07")
 
     # Min 0 for side displays
     if test $side_bright -lt 0
