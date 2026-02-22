@@ -1,0 +1,452 @@
+{
+  "scopes": [
+    {
+      "name": "comment",
+      "fontStyle": "regular",
+      "color": "#757575",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "attribute",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "boolean",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "conditional",
+      "fontStyle": "regular",
+      "color": "#666666",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "constant",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "constant.builtin",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "constructor",
+      "fontWeight": "regular",
+      "color": "#C66011",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "delimiter",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "embedded",
+      "fontWeight": "regular",
+      "color": "#101010",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "escape",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "field",
+      "color": "#101010",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "float",
+      "fontStyle": "regular",
+      "color": "#C66011",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "function",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "function.builtin",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "function.call",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "function.method",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "include",
+      "fontStyle": "regular",
+      "color": "#666666",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "keyword",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "keyword.conditional",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "keyword.import",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "keyword.operator",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "keyword.repeat",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "keyword.return",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "label",
+      "fontWeight": "regular",
+      "color": "#C66011",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "method",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "none",
+      "fontWeight": "regular",
+      "fontStyle": "regular",
+      "color": "#101010"
+    },
+    {
+      "name": "number",
+      "fontStyle": "regular",
+      "color": "#C66011",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "operator",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "parameter",
+      "fontWeight": "regular",
+      "color": "#101010",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "property",
+      "color": "#101010",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "property.definition",
+      "color": "#101010",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "property.json",
+      "fontWeight": "regular",
+      "color": "#101010",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "punctuation",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "punctuation.bracket",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "punctuation.delimiter",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "punctuation.special",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "repeat",
+      "fontStyle": "regular",
+      "color": "#666666",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "string",
+      "color": "#00A396",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "string.escape",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "string.key",
+      "fontWeight": "regular",
+      "color": "#101010",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "string.property",
+      "fontWeight": "regular",
+      "color": "#101010",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "string.special",
+      "fontWeight": "regular",
+      "color": "#101010",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "tag",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "type",
+      "fontStyle": "regular",
+      "color": "#C66011",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "type.builtin",
+      "fontStyle": "regular",
+      "color": "#C66011",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "variable",
+      "fontWeight": "regular",
+      "color": "#101010",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "variable.builtin",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "variable.parameter",
+      "fontWeight": "regular",
+      "color": "#101010",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "variable.special",
+      "fontWeight": "regular",
+      "color": "#666666",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "text.danger",
+      "color": "#CC0000",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "text.emphasis",
+      "color": "#101010",
+      "fontWeight": "regular",
+      "fontStyle": "italic"
+    },
+    {
+      "name": "text.environment",
+      "color": "#666666",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "text.environment.name",
+      "color": "#101010",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "text.literal",
+      "color": "#00A396",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "text.math",
+      "color": "#101010",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "text.property",
+      "color": "#666666",
+      "fontStyle": "regular",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "text.reference",
+      "color": "#00A396",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "text.strong",
+      "color": "#101010",
+      "fontStyle": "regular",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "text.title",
+      "color": "#101010",
+      "fontStyle": "regular",
+      "fontWeight": "regular"
+    },
+    {
+      "name": "text.uri",
+      "color": "#00A396",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    },
+    {
+      "name": "text.warning",
+      "color": "#C66011",
+      "fontWeight": "regular",
+      "fontStyle": "regular"
+    }
+  ],
+  "appearance": "light",
+  "editor": {
+    "text": "#101010",
+    "invisibleCharacters": "#CCCCCC",
+    "gutter": {
+      "selectedLinesBackground": "#E8E8E8",
+      "lineNumber": "#999999",
+      "background": "#F5F5F5",
+      "hairline": "#E0E0E0",
+      "selectedLinesLineNumber": "#666666"
+    },
+    "scrollIndicatorStyle": "default",
+    "caret": "#101010",
+    "removedTextBackground": "#FFCCCC",
+    "background": "#FFFFFF",
+    "highlightedTextBackground": "#FFF8DC",
+    "selectedLineBackground": "#F0F0F0",
+    "pageGuide": {
+      "background": "#FAFAFA",
+      "hairline": "#E0E0E0"
+    },
+    "insertedTextBackground": "#CCFFEE"
+  },
+  "interface": {
+    "keyboardAppearance": "light",
+    "header": {
+      "background": "system",
+      "filename": "#101010",
+      "unsavedChangesIndicator": "#C66011",
+      "tint": "#101010",
+      "chevron": "#10101040",
+      "hairline": "#E0E0E0"
+    },
+    "leadingHairline": "#E0E0E0",
+    "trailingHairline": "#E0E0E0",
+    "cursorPosition": {
+      "stroke": "system",
+      "text": "system",
+      "background": "system"
+    },
+    "drawer": {
+      "wellHairline": "#E0E0E0",
+      "wellBackground": "#F5F5F5",
+      "shadow": "#00000026",
+      "stroke": "system",
+      "grabber": "system",
+      "background": "system"
+    },
+    "statusBarStyle": "default",
+    "search": {
+      "inputs": {
+        "queryInputBackground": "system",
+        "inputStroke": "system",
+        "queryInputText": "system",
+        "queryInputClear": "system",
+        "queryInputPlaceholder": "system",
+        "replaceInputText": "system",
+        "menu": "system",
+        "queryInputIcon": "system",
+        "replaceInputClear": "system",
+        "replaceInputPlaceholder": "system",
+        "replaceInputBackground": "system",
+        "menuActive": "system",
+        "replaceInputIcon": "system"
+      },
+      "results": {
+        "topHairline": "system",
+        "lineNumber": "system",
+        "emptyStateTitle": "system",
+        "selection": "system",
+        "bottomHairline": "system",
+        "textPreviewStroke": "system"
+      },
+      "toolbar": {
+        "replaceAll": "system",
+        "previousResult": "system",
+        "nextResult": "system",
+        "done": "system",
+        "resultCount": "system"
+      }
+    }
+  }
+}
