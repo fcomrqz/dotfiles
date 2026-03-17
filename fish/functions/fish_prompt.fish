@@ -47,25 +47,33 @@ end
 
 function __fish_prompt_git_status
     set -l git_status_output ""
-    set -l is_synced 1  # Assume synced until proven otherwise
+    set -l is_synced 1 # Assume synced until proven otherwise
+
+    # Get current branch name and add it to output in magenta
+    if not test -f .git
+        set -l branch_name (git symbolic-ref --short HEAD 2>/dev/null; or git describe --contains --all HEAD 2>/dev/null)
+        if test -n "$branch_name"
+            set git_status_output (set_color magenta)"$branch_name "(set_color normal)
+        end
+    end
 
     # Check for git state (rebase, merge, etc.)
     set -l git_dir (git rev-parse --git-dir 2>/dev/null)
     if test -n "$git_dir"
         if test -d "$git_dir/rebase-merge"
-            set git_status_output (set_color cyan)"rebasing "(set_color normal)
+            set git_status_output "$git_status_output"(set_color cyan)"rebasing "(set_color normal)
             set is_synced 0
         else if test -d "$git_dir/rebase-apply"
-            set git_status_output (set_color cyan)"rebasing "(set_color normal)
+            set git_status_output "$git_status_output"(set_color cyan)"rebasing "(set_color normal)
             set is_synced 0
         else if test -f "$git_dir/MERGE_HEAD"
-            set git_status_output (set_color yellow)"merging "(set_color normal)
+            set git_status_output "$git_status_output"(set_color yellow)"merging "(set_color normal)
             set is_synced 0
         else if test -f "$git_dir/CHERRY_PICK_HEAD"
-            set git_status_output (set_color red)"cherry picking "(set_color normal)
+            set git_status_output "$git_status_output"(set_color red)"cherry picking "(set_color normal)
             set is_synced 0
         else if test -f "$git_dir/BISECT_LOG"
-            set git_status_output (set_color red)"bisecting "(set_color normal)
+            set git_status_output "$git_status_output"(set_color red)"bisecting "(set_color normal)
             set is_synced 0
         end
     end
@@ -79,11 +87,11 @@ function __fish_prompt_git_status
         set -l ahead (echo $ahead_behind | awk '{print $2}')
 
         if test "$behind" -gt 0
-            set git_status_output "$git_status_output"(set_color red)"↓ "(set_color normal)
+            set git_status_output "$git_status_output"(set_color green)"↑ "(set_color normal)
             set is_synced 0
         end
         if test "$ahead" -gt 0
-            set git_status_output "$git_status_output"(set_color blue)"↑ "(set_color normal)
+            set git_status_output "$git_status_output"(set_color red)"↓ "(set_color normal)
             set is_synced 0
         end
     else
@@ -105,7 +113,7 @@ function __fish_prompt_git_status
 
     # Check for staged changes
     if not git diff --cached --quiet --exit-code 2>/dev/null
-        set git_status_output "$git_status_output"(set_color blue)"✓ "(set_color normal)
+        set git_status_output "$git_status_output"(set_color blue)"* "(set_color normal)
         set is_synced 0
     end
 
