@@ -1,6 +1,7 @@
 # --------
 # Settings
 # --------
+config-version = 2
 start-at-login = true
 default-root-container-layout = 'tiles'
 default-root-container-orientation = 'auto'
@@ -182,6 +183,17 @@ cmd-alt-quote = [
   "exec-and-forget osascript '/Users/fran/Library/Mobile Documents/com~apple~ScriptEditor2/Documents/Cameras.scpt'",
 ]
 
+cmd-alt-o = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Safari Safari']
+cmd-alt-z = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh dev.zed.Zed Zed']
+cmd-alt-t = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Terminal Terminal']
+cmd-alt-right = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.finder Finder']
+cmd-alt-backtick = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.mail Mail']
+cmd-alt-a = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.MobileSMS Messages']
+cmd-alt-q = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh net.whatsapp.WhatsApp WhatsApp']
+alt-f20 = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.culturedcode.ThingsMac Things3']
+cmd-alt-x = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.dt.Xcode Xcode']
+cmd-alt-u = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Music Music']
+cmd-alt-g = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.figma.Desktop Figma']
 f20 = ["exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'"]
 
 f14 = ["exec-and-forget /opt/homebrew/bin/fish -c 'brdn'"]
