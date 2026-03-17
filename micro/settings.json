@@ -1,5 +1,6 @@
 {
   "colorscheme": "ansi",
+  "diff": true,
   "diffgutter": true,
   "divchars": " ",
   "pluginrepos": [
