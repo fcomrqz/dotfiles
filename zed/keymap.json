@@ -49,7 +49,6 @@
 
       "cmd-e": "project_panel::ToggleFocus",
 
-      "alt-z": "git::Restore",
       "alt-,": "editor::GoToPreviousHunk",
       "alt-.": "editor::GoToHunk",
       "alt-v": "editor::ToggleSelectedDiffHunks",
@@ -64,6 +63,38 @@
       "alt-u": "editor::ConvertToUpperCase"
     }
   },
+  {
+    "context": "Editor && !agent_diff && !AgentPanel",
+    "use_key_equivalents": true,
+    "bindings": {
+      "alt-z": "git::Restore",
+      "alt-y": "git::ToggleStaged",
+      "cmd-y": "git::StageAndNext",
+      "cmd-shift-y": "git::UnstageAndNext",
+    },
+  },
+  {
+    "context": "AgentDiff",
+    "use_key_equivalents": true,
+    "bindings": {
+      "alt-y": "agent::Keep",
+      "alt-z": "agent::Reject",
+      "shift-alt-y": "agent::KeepAll",
+      "shift-alt-z": "agent::RejectAll",
+    },
+  },
+  {
+    "context": "Editor && editor_agent_diff",
+    "use_key_equivalents": true,
+    "bindings": {
+      "alt-y": "agent::Keep",
+      "alt-z": "agent::Reject",
+      "shift-alt-y": "agent::KeepAll",
+      "shift-alt-z": "agent::RejectAll",
+      "shift-ctrl-r": "agent::OpenAgentDiff",
+    },
+  },
+
   {
     "context": "Workspace",
     "bindings": {
@@ -106,7 +137,8 @@
   {
     "context": "ProjectPanel",
     "bindings": {
-      "cmd-enter": "project_panel::OpenPermanent"
+      "cmd-enter": "project_panel::OpenPermanent",
+      "alt-cmd-down": "project_panel::NewDirectory"
     }
   },
   {
