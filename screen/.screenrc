@@ -27,5 +27,11 @@ maptimeout 0
 # Keybindings
 bind f screen -t screen-windows fish -c screen-windows
 
+# Scroll bindings for copy mode
+bindkey -m p stuff ^u    # Scroll up half screen
+bindkey -m n stuff ^d    # Scroll down half screen
+bindkey -m P stuff ^b    # Scroll up full screen
+bindkey -m N stuff ^f    # Scroll down full screen
+
 autodetach off
 lockscreen off
