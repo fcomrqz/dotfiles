@@ -1,0 +1,12 @@
+{
+  "apps": {
+    "http": {
+      "servers": {
+        "local": {
+          "listen": [":443"],
+          "routes": []
+        }
+      }
+    }
+  }
+}
