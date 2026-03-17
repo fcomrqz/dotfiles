@@ -4,7 +4,7 @@ function fish_prompt
 
     printf "%s%s " (test -n "$DIRENV_DIR" && printf "%s" (set_color yellow)"*") $cwd_basename
 
-    # Cache jj repository status
+    # Cache jj repository status.
     if not set -q __jj_repo_cache_pwd
         set -g __jj_repo_cache_pwd ""
         set -g __jj_repo_cache_result 0
@@ -13,7 +13,7 @@ function fish_prompt
     set -l current_pwd (pwd)
     if test "$current_pwd" != "$__jj_repo_cache_pwd"
         set -g __jj_repo_cache_pwd $current_pwd
-        if command -sq jj && jj root --quiet >/dev/null 2>&1
+        if command -sq jj; and jj root --quiet >/dev/null 2>&1
             set -g __jj_repo_cache_result 1
         else
             set -g __jj_repo_cache_result 0
@@ -21,7 +21,6 @@ function fish_prompt
     end
 
     if test $__jj_repo_cache_result -eq 1
-        # Simplified jj template for better performance
         jj log --quiet --no-graph --color always -r @ -T "separate(
             ' ',
             if(conflict, label('conflict', '×'),
@@ -36,7 +35,6 @@ function fish_prompt
             if(empty, label('empty', 'empty'), commit_timestamp(self).ago())
         )"
     else
-        # Git repository detection and status
         if git rev-parse --is-inside-work-tree >/dev/null 2>&1
             __fish_prompt_git_status
         end
@@ -47,17 +45,69 @@ end
 
 function __fish_prompt_git_status
     set -l git_status_output ""
-    set -l is_synced 1 # Assume synced until proven otherwise
+    set -l is_synced 1
+    set -l has_upstream 0
+    set -l branch_name ""
+    set -l ahead 0
+    set -l behind 0
+    set -l has_conflicts 0
+    set -l has_dirty 0
+    set -l has_staged 0
 
-    # Get current branch name and add it to output in magenta
-    if not test -f .git
-        set -l branch_name (git symbolic-ref --short HEAD 2>/dev/null; or git describe --contains --all HEAD 2>/dev/null)
-        if test -n "$branch_name"
-            set git_status_output (set_color magenta)"$branch_name "(set_color normal)
+    set -l status_lines (git status --porcelain=v2 --branch 2>/dev/null)
+    or return
+
+    for line in $status_lines
+        switch $line
+            case '# branch.head *'
+                set branch_name (string replace '# branch.head ' '' -- $line)
+            case '# branch.oid *'
+                if test "$branch_name" = "(detached)"
+                    set branch_name "@"(string sub -s 1 -l 7 -- (string replace '# branch.oid ' '' -- $line))
+                end
+            case '# branch.ab *'
+                set has_upstream 1
+                set -l counts (string match -r '# branch.ab \+([0-9]+) -([0-9]+)' -- $line)
+                if test (count $counts) -ge 3
+                    set ahead $counts[2]
+                    set behind $counts[3]
+                end
+            case 'u *'
+                set has_conflicts 1
+                set is_synced 0
+            case '? *'
+                set has_dirty 1
+                set is_synced 0
+            case '1 *' '2 *'
+                set -l fields (string split ' ' -- $line)
+                set -l xy $fields[2]
+                set -l index_status (string sub -s 1 -l 1 -- $xy)
+                set -l worktree_status (string sub -s 2 -l 1 -- $xy)
+
+                if test "$worktree_status" != "."
+                    set has_dirty 1
+                    set is_synced 0
+                end
+
+                if test "$index_status" != "."
+                    set has_staged 1
+                    set is_synced 0
+                end
         end
     end
 
-    # Check for git state (rebase, merge, etc.)
+    if test -n "$branch_name"; and test "$branch_name" != "(initial)"
+        set git_status_output (set_color magenta)"$branch_name "(set_color normal)"$git_status_output"
+    end
+
+    if test "$behind" -gt 0
+        set git_status_output "$git_status_output"(set_color red)"↓ "(set_color normal)
+    end
+
+    if test "$ahead" -gt 0
+        set git_status_output "$git_status_output"(set_color green)"↑ "(set_color normal)
+    end
+
     set -l git_dir (git rev-parse --git-dir 2>/dev/null)
     if test -n "$git_dir"
         if test -d "$git_dir/rebase-merge"
@@ -78,78 +128,72 @@ function __fish_prompt_git_status
         end
     end
 
-    # Get ahead/behind status
-    set -l has_upstream 0
-    set -l ahead_behind (git rev-list --left-right --count HEAD...@{upstream} 2>/dev/null)
-    if test -n "$ahead_behind"
-        set has_upstream 1
-        set -l behind (echo $ahead_behind | awk '{print $1}')
-        set -l ahead (echo $ahead_behind | awk '{print $2}')
-
-        if test "$behind" -gt 0
-            set git_status_output "$git_status_output"(set_color green)"↑ "(set_color normal)
-            set is_synced 0
-        end
-        if test "$ahead" -gt 0
-            set git_status_output "$git_status_output"(set_color red)"↓ "(set_color normal)
-            set is_synced 0
-        end
-    else
-        # No upstream branch
-        set is_synced 0
-    end
-
-    # Check for conflicts
-    if git ls-files --unmerged | grep -q '^'
+    if test $has_conflicts -eq 1
         set git_status_output "$git_status_output"(set_color red)"! "(set_color normal)
-        set is_synced 0
     end
 
-    # Check for unstaged/untracked changes (dirty)
-    if not git diff --quiet --exit-code 2>/dev/null; or test -n "$(git ls-files --exclude-standard --others 2>/dev/null)"
+    if test $has_dirty -eq 1
         set git_status_output "$git_status_output"(set_color yellow)"* "(set_color normal)
-        set is_synced 0
     end
 
-    # Check for staged changes
-    if not git diff --cached --quiet --exit-code 2>/dev/null
+    if test $has_staged -eq 1
         set git_status_output "$git_status_output"(set_color blue)"* "(set_color normal)
-        set is_synced 0
     end
 
-    # Show green checkmark if in sync with origin
-    if test $is_synced -eq 1 -a $has_upstream -eq 1
+    if test $is_synced -eq 1; and test $has_upstream -eq 1
         set git_status_output "$git_status_output"(set_color green)"✓ "(set_color normal)
     end
 
-    # Get tag if on one
     set -l tag (git describe --exact-match --tags 2>/dev/null)
     if test -n "$tag"
         set git_status_output "$git_status_output"(set_color green)"$tag "(set_color normal)
     end
 
-    # Print the git status
     if test -n "$git_status_output"
         printf "%s" $git_status_output
     end
 end
 
 function getCursorRow --description 'Print cursor row (1-based), empty on timeout'
-    set -l old (stty -g </dev/tty)
-    stty -icanon -echo min 0 time 5 </dev/tty # ~0.5s timeout
-    printf '\e[6n' >/dev/tty # ask for position
+    if set -q __fish_prompt_cursor_query_supported; and test $__fish_prompt_cursor_query_supported -eq 0
+        return
+    end
+
+    set -l old (stty -g </dev/tty 2>/dev/null)
+    or begin
+        set -g __fish_prompt_cursor_query_supported 0
+        return
+    end
+
+    stty -icanon -echo min 0 time 1 </dev/tty 2>/dev/null
+    or begin
+        stty $old </dev/tty 2>/dev/null
+        set -g __fish_prompt_cursor_query_supported 0
+        return
+    end
+
+    printf '\e[6n' >/dev/tty
+
     set -l buf ''
     while true
-        set -l ch (dd bs=1 count=1 status=none < /dev/tty)
+        set -l ch (dd bs=1 count=1 status=none < /dev/tty 2>/dev/null)
         test -z "$ch"; and break
         set buf "$buf$ch"
         test "$ch" = R; and break
     end
-    stty $old </dev/tty
+
+    stty $old </dev/tty 2>/dev/null
+
+    if test -z "$buf"
+        set -g __fish_prompt_cursor_query_supported 0
+        return
+    end
+
+    set -g __fish_prompt_cursor_query_supported 1
 
     set -l cleaned (string replace -ra '[^0-9;]+' '' -- $buf)
     set -l parts (string split ';' -- $cleaned)
-    test (count $parts) -ge 1; and echo $parts[1] # row
+    test (count $parts) -ge 1; and echo $parts[1]
 end
 
 function clean --on-event fish_preexec
@@ -170,18 +214,29 @@ function clean --on-event fish_preexec
     end
 end
 
-function empty --on-event fish_prompt
-    set -l cmd $argv[1]
-    if test -z "$cmd"
-        echo -en "\033[2A\r\033[K\n"
+function __fish_prompt_accept_line
+    if test -z (string trim -- (commandline))
+        set -g __fish_prompt_empty_submit 1
+    else
+        set -e __fish_prompt_empty_submit
     end
+
+    commandline -f execute
+end
+
+function __fish_prompt_compact_empty --on-event fish_prompt
+    if not set -q __fish_prompt_empty_submit
+        return
+    end
+
+    set -e __fish_prompt_empty_submit
+    printf "\033[2A\r\033[K\n"
 end
 
 function space --on-event fish_postexec
     printf "\n\n"
 end
 
-# Clear cache when changing directories
 function __clear_jj_cache --on-variable PWD
     set -e __jj_repo_cache_pwd
     set -e __jj_repo_cache_result
