@@ -22,6 +22,17 @@ if status --is-interactive
     source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
     # --------
+    # Android
+    # --------
+    set -x ANDROID_HOME $HOME/Library/Android/sdk
+    set -x JAVA_HOME (/usr/libexec/java_home -v 17)
+
+    fish_add_path $ANDROID_HOME/platform-tools
+    fish_add_path $ANDROID_HOME/cmdline-tools/latest/bin
+    fish_add_path $ANDROID_HOME/emulator
+    fish_add_path $JAVA_HOME/bin
+
+    # --------
     # env vars
     # --------
     set -Ux GH_TOKEN (gh auth token)
