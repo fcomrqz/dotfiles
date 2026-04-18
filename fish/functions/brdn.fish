@@ -1,4 +1,7 @@
 function brdn
+    set step 0.0225
+    set side_offset 0.02625
+
     # Get current brightness from the main display (the one marked as "main")
     set current (brightness -l | grep -A1 "main" | grep "brightness" | awk '{print $4}')
 
@@ -8,7 +11,7 @@ function brdn
     end
 
     # Calculate the new brightness for main display
-    set main_bright (math "$current - 0.06")
+    set main_bright (math "$current - $step")
 
     # Min 0 for main display
     if test $main_bright -lt 0
@@ -16,7 +19,7 @@ function brdn
     end
 
     # Calculate brightness for side displays (slightly lower)
-    set side_bright (math "$main_bright - 0.07")
+    set side_bright (math "$main_bright - $side_offset")
 
     # Min 0 for side displays
     if test $side_bright -lt 0
