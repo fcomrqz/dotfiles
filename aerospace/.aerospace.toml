@@ -101,15 +101,15 @@ run = ['layout floating', 'move-node-to-workspace 1']
 # ------------
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
-run = ['move-node-to-workspace 2']
+run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
-run = ['move-node-to-workspace 2']
+run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
-run = ['move-node-to-workspace 2']
+run = ['move-node-to-workspace 1']
 
 ## ---------------------
 ## Left monitor floating
@@ -123,18 +123,18 @@ run = ['layout floating', 'move-node-to-workspace 2']
 # -------------
 [[on-window-detected]]
 if.app-id = 'com.apple.Terminal'
-run = ['move-node-to-workspace 3']
+run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.ScreenSharing'
-run = ['move-node-to-workspace 3']
+run = ['move-node-to-workspace 1']
 
 ## ----------------------
 ## Right monitor floating
 ## ----------------------
 [[on-window-detected]]
 if.app-id = 'com.apple.Home'
-run = ['layout floating', 'move-node-to-workspace 3']
+run = ['layout floating', 'move-node-to-workspace 1']
 
 # ----------
 # Playwright
