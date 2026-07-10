@@ -26,6 +26,10 @@ if.app-id = 'dev.zed.Zed'
 run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
+if.app-id = 'com.openai.codex'
+run = ['move-node-to-workspace 1']
+
+[[on-window-detected]]
 if.app-id = 'com.figma.Desktop'
 run = ['move-node-to-workspace 1']
 
@@ -192,6 +196,7 @@ cmd-alt-a = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/c
 cmd-alt-q = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh net.whatsapp.WhatsApp WhatsApp']
 alt-f20 = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.culturedcode.ThingsMac Things3']
 cmd-alt-x = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.dt.Xcode Xcode']
+cmd-alt-semicolon = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.openai.codex']
 cmd-alt-u = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Music Music']
 cmd-alt-g = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.figma.Desktop Figma']
 f20 = ["exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'"]
