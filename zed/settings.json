@@ -2,6 +2,8 @@
   "agent_servers": {
     "codex-acp": {
       "default_config_options": {
+        "mode": "agent",
+        "model": "gpt-5.5",
         "reasoning_effort": "high",
       },
       "type": "registry",
@@ -65,11 +67,13 @@
     "single_file_review": true,
     "default_profile": "ask",
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4",
+      "effort": "high",
+      "enable_thinking": true,
+      "provider": "openai-subscribed",
+      "model": "gpt-5.5",
     },
     "button": false,
-    "dock": "right",
+    "dock": "left",
     "default_width": 720,
   },
   "project_panel": {
@@ -239,9 +243,11 @@
   },
   // Deactivated panels
   "collaboration_panel": {
+    "dock": "right",
     "button": false,
   },
   "outline_panel": {
+    "dock": "right",
     "button": false,
   },
   "gutter": {
