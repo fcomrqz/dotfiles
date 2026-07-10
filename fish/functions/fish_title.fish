@@ -1,12 +1,12 @@
 function fish_title
     if not set -q INSIDE_EMACS; or string match -vq '*,term:*' -- $INSIDE_EMACS
-        set -l cwd (string replace -r '^'"$HOME"'($|/)' '~$1' "$PWD")
+        set -l cwd (prompt_pwd --dir-length=0)
         set -l title_text ""
 
         if string match -q '~' "$cwd"
             set title_text '~'
         else if string match -q '~*' "$cwd"
-            set title_text (basename $cwd)
+            set title_text (path basename $cwd)
         else
             set title_text $cwd
         end

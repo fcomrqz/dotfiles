@@ -12,5 +12,9 @@
     <true/>
     <key>KeepAlive</key>
     <true/>
+    <key>StandardErrorPath</key>
+    <string>/tmp/com.fcomrqz.dark-mode.stderr.log</string>
+    <key>StandardOutPath</key>
+    <string>/tmp/com.fcomrqz.dark-mode.stdout.log</string>
 </dict>
 </plist>

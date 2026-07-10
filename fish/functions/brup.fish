@@ -3,7 +3,18 @@ function brup
     set side_offset 0.02625
 
     # Get current brightness from the main display (the one marked as "main")
-    set current (brightness -l | grep -A1 "main" | grep "brightness" | awk '{print $4}')
+    set -l displays (brightness -l)
+    set -l main_line (string match '*main*' $displays)[1]
+    if test -z "$main_line"
+        echo "Could not get current brightness from main display"
+        return 1
+    end
+
+    set -l main_line_index (contains -i -- "$main_line" $displays)
+    set -l current
+    if test -n "$main_line_index"; and test $main_line_index -lt (count $displays)
+        set current (string match -rg 'brightness ([0-9.]+)' -- $displays[(math $main_line_index + 1)])
+    end
 
     if test -z "$current"
         echo "Could not get current brightness from main display"
@@ -27,8 +38,8 @@ function brup
     end
 
     # Get display IDs (not numbers) for more reliable identification
-    set main_display_id (brightness -l | grep "main" | grep -o "ID 0x[0-9a-fA-F]*" | awk '{print $2}')
-    set all_display_ids (brightness -l | grep "ID 0x" | grep -o "ID 0x[0-9a-fA-F]*" | awk '{print $2}')
+    set main_display_id (string match -rg 'ID (0x[0-9a-fA-F]+)' -- $main_line)
+    set all_display_ids (string match -rg 'ID (0x[0-9a-fA-F]+)' -- $displays)
 
     if test -z "$main_display_id"
         echo "Could not find main display ID"

@@ -1,6 +1,6 @@
 function fish_user_key_bindings
-    bind \r __fish_prompt_accept_line
-    bind \n __fish_prompt_accept_line
-    bind -M insert \r __fish_prompt_accept_line
-    bind -M insert \n __fish_prompt_accept_line
+    bind enter __fish_prompt_accept_line
+    bind ctrl-j __fish_prompt_accept_line
+    bind -M insert enter __fish_prompt_accept_line
+    bind -M insert ctrl-j __fish_prompt_accept_line
 end

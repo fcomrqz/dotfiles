@@ -37,6 +37,8 @@ mkdir ~/.config
 ~/.gum/gum spin --title "fish: Finally, a command line shell for the 90s" -- mkdir ~/.config/fish
 ~/.gum/gum spin --title "fish: Finally, a command line shell for the 90s" -- ln -sF ~/Developer/fcomrqz/dotfiles/fish/functions ~/.config/fish/functions
 ~/.gum/gum spin --title "fish: Finally, a command line shell for the 90s" -- ln -sF ~/Developer/fcomrqz/dotfiles/fish/config.fish ~/.config/fish/config.fish
+~/.gum/gum spin --title "fish: Finally, a command line shell for the 90s" -- mkdir -p ~/.config/fish/themes
+~/.gum/gum spin --title "fish: Finally, a command line shell for the 90s" -- ln -sF ~/Developer/fcomrqz/dotfiles/fish/themes/alavesper.theme ~/.config/fish/themes/alavesper.theme
 
 ~/.gum/gum spin --title "node: JavaScript Runtime built on Google V8" -- brew install node
 ~/.gum/gum spin --title "node: JavaScript Runtime built on Google V8" -- ln -sF ~/Developer/fcomrqz/dotfiles/npm/.npmrc ~/.npmrc

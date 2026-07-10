@@ -4,29 +4,30 @@ func applyTheme() {
   let isDark = UserDefaults.standard.string(forKey: "AppleInterfaceStyle") == "Dark"
   let theme = isDark ? "dark" : "light"
 
-  // Check if Terminal is running
-  let checkScript = NSAppleScript(
-    source: """
-        tell application "System Events"
-          count (every process whose bundle identifier is "com.apple.Terminal")
-        end tell
-      """)
-
-  guard let result = checkScript?.executeAndReturnError(nil),
-    result.int32Value > 0
-  else {
-    return  // Terminal is not running
+  // Do not use System Events for this check: doing so adds a second Automation
+  // permission that can prevent the theme update before Terminal is contacted.
+  guard !NSRunningApplication.runningApplications(
+    withBundleIdentifier: "com.apple.Terminal"
+  ).isEmpty else {
+    return
   }
 
   // Apply the theme
   let themeScript = NSAppleScript(
     source: """
         tell application "Terminal"
-          set current settings of tabs of windows to settings set "\(theme)"
+          set themeSettings to settings set "\(theme)"
+          set default settings to themeSettings
+          set startup settings to themeSettings
+          set current settings of tabs of windows to themeSettings
         end tell
       """)
 
-  themeScript?.executeAndReturnError(nil)
+  var error: NSDictionary?
+  themeScript?.executeAndReturnError(&error)
+  if let error {
+    fputs("dark-mode: failed to apply \(theme) Terminal theme: \(error)\n", stderr)
+  }
 }
 
 var signalSources: [DispatchSourceSignal] = []
@@ -53,6 +54,22 @@ NSWorkspace.shared.notificationCenter.addObserver(
   object: nil,
   queue: nil
 ) { _ in applyTheme() }
+
+NSWorkspace.shared.notificationCenter.addObserver(
+  forName: NSWorkspace.didLaunchApplicationNotification,
+  object: nil,
+  queue: nil
+) { notification in
+  guard
+    let application = notification.userInfo?[NSWorkspace.applicationUserInfoKey]
+      as? NSRunningApplication,
+    application.bundleIdentifier == "com.apple.Terminal"
+  else {
+    return
+  }
+
+  applyTheme()
+}
 
 setupTerminationHandlers()
 NSApplication.shared.run()

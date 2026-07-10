@@ -1,18 +1,24 @@
 function fish_prompt
     set -l last_status $status
-    set -l cwd_basename (set_color yellow)(basename (string replace -r "^$HOME" "~" (pwd)))(set_color normal)
-
-    printf "%s%s " (test -n "$DIRENV_DIR" && printf "%s" (set_color yellow)"*") $cwd_basename
-
-    # Cache jj repository status.
-    if not set -q __jj_repo_cache_pwd
-        set -g __jj_repo_cache_pwd ""
-        set -g __jj_repo_cache_result 0
+    set -l cwd_basename
+    if test "$PWD" = "$HOME"
+        set cwd_basename "~"
+    else
+        set cwd_basename (string join ' ' -- (path basename $PWD | string replace -ra '[[:cntrl:]]' ''))
     end
 
-    set -l current_pwd (pwd)
-    if test "$current_pwd" != "$__jj_repo_cache_pwd"
-        set -g __jj_repo_cache_pwd $current_pwd
+    if test -n "$DIRENV_DIR"
+        set_color yellow
+        printf "%s" "*"
+    end
+    set_color yellow
+    printf "%s" $cwd_basename
+    set_color normal
+    printf " "
+
+    # Cache jj repository status.
+    if not set -q __jj_repo_cache_pwd; or test "$PWD" != "$__jj_repo_cache_pwd"
+        set -g __jj_repo_cache_pwd $PWD
         if command -sq jj; and jj root --quiet >/dev/null 2>&1
             set -g __jj_repo_cache_result 1
         else
@@ -35,16 +41,22 @@ function fish_prompt
             if(empty, label('empty', 'empty'), commit_timestamp(self).ago())
         )"
     else
-        if git rev-parse --is-inside-work-tree >/dev/null 2>&1
-            __fish_prompt_git_status
-        end
+        __fish_prompt_git_status
     end
 
-    printf "\n%s " (test $last_status -eq 0 && printf "%s" (set_color green)"→"(set_color normal) || printf "%s" (set_color red)"×"(set_color normal))
+    printf "\n"
+    if test $last_status -eq 0
+        set_color green
+        printf "%s" "→"
+    else
+        set_color red
+        printf "%s" "×"
+    end
+    set_color normal
+    printf " "
 end
 
 function __fish_prompt_git_status
-    set -l git_status_output ""
     set -l is_synced 1
     set -l has_upstream 0
     set -l branch_name ""
@@ -53,6 +65,9 @@ function __fish_prompt_git_status
     set -l has_conflicts 0
     set -l has_dirty 0
     set -l has_staged 0
+    set -l git_head ""
+    set -l operation ""
+    set -l operation_color ""
 
     set -l status_lines (git status --porcelain=v2 --branch 2>/dev/null)
     or return
@@ -62,9 +77,7 @@ function __fish_prompt_git_status
             case '# branch.head *'
                 set branch_name (string replace '# branch.head ' '' -- $line)
             case '# branch.oid *'
-                if test "$branch_name" = "(detached)"
-                    set branch_name "@"(string sub -s 1 -l 7 -- (string replace '# branch.oid ' '' -- $line))
-                end
+                set git_head (string replace '# branch.oid ' '' -- $line)
             case '# branch.ab *'
                 set has_upstream 1
                 set -l counts (string match -r '# branch.ab \+([0-9]+) -([0-9]+)' -- $line)
@@ -79,8 +92,7 @@ function __fish_prompt_git_status
                 set has_dirty 1
                 set is_synced 0
             case '1 *' '2 *'
-                set -l fields (string split ' ' -- $line)
-                set -l xy $fields[2]
+                set -l xy (string sub -s 3 -l 2 -- $line)
                 set -l index_status (string sub -s 1 -l 1 -- $xy)
                 set -l worktree_status (string sub -s 2 -l 1 -- $xy)
 
@@ -96,61 +108,93 @@ function __fish_prompt_git_status
         end
     end
 
-    if test -n "$branch_name"; and test "$branch_name" != "(initial)"
-        set git_status_output (set_color magenta)"$branch_name "(set_color normal)"$git_status_output"
+    if test "$branch_name" = "(detached)"; and test -n "$git_head"
+        set branch_name "@"(string sub -s 1 -l 7 -- $git_head)
     end
 
-    if test "$behind" -gt 0
-        set git_status_output "$git_status_output"(set_color red)"↓ "(set_color normal)
+    if not set -q __git_dir_cache_pwd; or test "$PWD" != "$__git_dir_cache_pwd"; or not set -q __git_dir_cache_value[1]
+        set -g __git_dir_cache_pwd $PWD
+        set -g __git_dir_cache_value (git rev-parse --git-dir 2>/dev/null)
     end
 
-    if test "$ahead" -gt 0
-        set git_status_output "$git_status_output"(set_color green)"↑ "(set_color normal)
-    end
-
-    set -l git_dir (git rev-parse --git-dir 2>/dev/null)
+    set -l git_dir $__git_dir_cache_value
     if test -n "$git_dir"
-        if test -d "$git_dir/rebase-merge"
-            set git_status_output "$git_status_output"(set_color cyan)"rebasing "(set_color normal)
-            set is_synced 0
-        else if test -d "$git_dir/rebase-apply"
-            set git_status_output "$git_status_output"(set_color cyan)"rebasing "(set_color normal)
+        if test -d "$git_dir/rebase-merge"; or test -d "$git_dir/rebase-apply"
+            set operation rebasing
+            set operation_color cyan
             set is_synced 0
         else if test -f "$git_dir/MERGE_HEAD"
-            set git_status_output "$git_status_output"(set_color yellow)"merging "(set_color normal)
+            set operation merging
+            set operation_color yellow
             set is_synced 0
         else if test -f "$git_dir/CHERRY_PICK_HEAD"
-            set git_status_output "$git_status_output"(set_color red)"cherry picking "(set_color normal)
+            set operation "cherry picking"
+            set operation_color red
             set is_synced 0
         else if test -f "$git_dir/BISECT_LOG"
-            set git_status_output "$git_status_output"(set_color red)"bisecting "(set_color normal)
+            set operation bisecting
+            set operation_color red
             set is_synced 0
         end
     end
 
+    set -l tag
+    if test "$git_head" != "(initial)"
+        set tag (git describe --exact-match --tags 2>/dev/null)
+    end
+
+    if test -n "$branch_name"; and test "$branch_name" != "(initial)"
+        set_color magenta
+        printf "%s " "$branch_name"
+        set_color normal
+    end
+
+    if test "$behind" -gt 0
+        set_color red
+        printf "↓ "
+        set_color normal
+    end
+
+    if test "$ahead" -gt 0
+        set_color green
+        printf "↑ "
+        set_color normal
+    end
+
+    if test -n "$operation"
+        set_color $operation_color
+        printf "%s " "$operation"
+        set_color normal
+    end
+
     if test $has_conflicts -eq 1
-        set git_status_output "$git_status_output"(set_color red)"! "(set_color normal)
+        set_color red
+        printf "! "
+        set_color normal
     end
 
     if test $has_dirty -eq 1
-        set git_status_output "$git_status_output"(set_color yellow)"* "(set_color normal)
+        set_color yellow
+        printf "* "
+        set_color normal
     end
 
     if test $has_staged -eq 1
-        set git_status_output "$git_status_output"(set_color blue)"* "(set_color normal)
+        set_color blue
+        printf "* "
+        set_color normal
     end
 
     if test $is_synced -eq 1; and test $has_upstream -eq 1
-        set git_status_output "$git_status_output"(set_color green)"✓ "(set_color normal)
+        set_color green
+        printf "✓ "
+        set_color normal
     end
 
-    set -l tag (git describe --exact-match --tags 2>/dev/null)
     if test -n "$tag"
-        set git_status_output "$git_status_output"(set_color green)"$tag "(set_color normal)
-    end
-
-    if test -n "$git_status_output"
-        printf "%s" $git_status_output
+        set_color green
+        printf "%s " "$tag"
+        set_color normal
     end
 end
 
@@ -175,9 +219,7 @@ function getCursorRow --description 'Print cursor row (1-based), empty on timeou
     printf '\e[6n' >/dev/tty
 
     set -l buf ''
-    while true
-        set -l ch (dd bs=1 count=1 status=none < /dev/tty 2>/dev/null)
-        test -z "$ch"; and break
+    while read --null --nchars 1 ch </dev/tty 2>/dev/null
         set buf "$buf$ch"
         test "$ch" = R; and break
     end
@@ -200,8 +242,14 @@ function clean --on-event fish_preexec
     set -l cmd $argv[1]
     set -l offset (math (string length -- $cmd) + 3)
 
-    set -l cwd (string replace -r "^$HOME" "~" (pwd))
-    set -l cwd_basename (basename $cwd)
+    set -l cwd (string replace -r "^$HOME" "~" $PWD)
+    set -l cwd_basename
+    if test (count $cwd) -eq 1
+        set cwd_basename (path basename $cwd)
+    else
+        # Preserve basename's multi-argument behavior for paths containing newlines.
+        set cwd_basename (basename $cwd)
+    end
 
     set -l row (getCursorRow)
 
@@ -240,4 +288,6 @@ end
 function __clear_jj_cache --on-variable PWD
     set -e __jj_repo_cache_pwd
     set -e __jj_repo_cache_result
+    set -e __git_dir_cache_pwd
+    set -e __git_dir_cache_value
 end
