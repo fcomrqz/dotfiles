@@ -123,6 +123,7 @@ mkdir ~/.config
 ~/.gum/gum spin --title "sox: SOund eXchange universal sound sample translator (rec, play)" -- brew install sox
 
 ~/.gum/gum spin --title "kanata: Keyboard remapper" -- brew install kanata
+~/.gum/gum spin --title "kanata: Validating configuration" -- kanata --check -c ~/Developer/fcomrqz/dotfiles/kanata/kanata.kbd
 ~/.gum/gum spin --title "kanata: Keyboard remapper" -- ln ~/Developer/fcomrqz/dotfiles/kanata/kanata.plist ~/Library/LaunchAgents/com.fcomrqz.kanata.plist
 ~/.gum/gum spin --title "kanata: Keyboard remapper" -- launchctl load ~/Library/LaunchAgents/com.fcomrqz.kanata.plist
 ~/.gum/gum spin --title "kanata: Keyboard remapper" -- ln ~/Developer/fcomrqz/dotfiles/kanata/karabiner.plist ~/Library/LaunchAgents/com.fcomrqz.karabiner.plist

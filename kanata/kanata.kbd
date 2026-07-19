@@ -1,5 +1,13 @@
 (defcfg
+  process-unmapped-keys no
   macos-dev-names-include ("HHKB-Classic")
+)
+
+(defvar
+  tap-repress-timeout 200
+  hold-timeout 200
+  alternate-hold-timeout 300
+  caps-word-timeout 3000
 )
 
 (defsrc
@@ -11,6 +19,7 @@
 )
 
 (defhands
+  ;; Physical sides used to resolve opposite-hand home-row modifiers.
   (left  tab q w e r t lctl a s d f g lsft z x c v b)
   (right y u i o p [ h j k l ; ' n m , . / rsft)
 )
@@ -32,30 +41,37 @@
 )
 
 (defalias
-  a (tap-hold-opposite-hand-release 200 a lctl (same-hand tap) (timeout hold))
-  s (tap-hold-opposite-hand-release 200 s lalt (same-hand tap) (timeout hold))
-  d (tap-hold-opposite-hand-release 200 d lmet (same-hand tap) (timeout hold))
-  f (tap-hold-opposite-hand-release 200 f lsft (same-hand tap) (timeout hold))
+  ;; Same-hand rolls tap; an opposite-hand key becomes a modified chord
+  ;; when that key is released first.
+  a (tap-hold-opposite-hand-release $hold-timeout a lctl (same-hand tap) (timeout hold))
+  s (tap-hold-opposite-hand-release $hold-timeout s lalt (same-hand tap) (timeout hold))
+  d (tap-hold-opposite-hand-release $hold-timeout d lmet (same-hand tap) (timeout hold))
+  f (tap-hold-opposite-hand-release $hold-timeout f lsft (same-hand tap) (timeout hold))
 
-  j (tap-hold-opposite-hand-release 200 j rsft (same-hand tap) (timeout hold))
-  k (tap-hold-opposite-hand-release 200 k rmet (same-hand tap) (timeout hold))
-  l (tap-hold-opposite-hand-release 200 l ralt (same-hand tap) (timeout hold))
-  sc (tap-hold-opposite-hand-release 200 ; rctl (same-hand tap) (timeout hold))
+  j (tap-hold-opposite-hand-release $hold-timeout j rsft (same-hand tap) (timeout hold))
+  k (tap-hold-opposite-hand-release $hold-timeout k rmet (same-hand tap) (timeout hold))
+  l (tap-hold-opposite-hand-release $hold-timeout l ralt (same-hand tap) (timeout hold))
+  sc (tap-hold-opposite-hand-release $hold-timeout ; rctl (same-hand tap) (timeout hold))
 
-  esc (tap-hold 200 200 esc (multi lctl lalt lmet lsft))
+  ;; Tap Escape; hold all four modifiers as Hyper.
+  esc (tap-hold $tap-repress-timeout $hold-timeout esc (multi lctl lalt lmet lsft))
 
-  spc (tap-hold 200 200 spc (layer-toggle space))
+  ;; Tap Space; hold the numeric and media layer.
+  spc (tap-hold $tap-repress-timeout $hold-timeout spc (layer-toggle space))
 
-  caps (caps-word 3000)
+  caps (caps-word $caps-word-timeout)
 
-  n (fork (tap-hold 200 300 n (unicode ñ)) n (lsft lmet lalt lctl))
-  u (tap-hold 200 300 u (unicode ü))
-  o (tap-hold 200 300 o (unicode ö))
+  ;; Long holds intentionally emit accented lowercase characters.
+  ;; N remains a normal shortcut key while a left-side modifier is held.
+  n (fork (tap-hold $tap-repress-timeout $alternate-hold-timeout n (unicode ñ)) n (lsft lmet lalt lctl))
+  u (tap-hold $tap-repress-timeout $alternate-hold-timeout u (unicode ü))
+  o (tap-hold $tap-repress-timeout $alternate-hold-timeout o (unicode ö))
 
-  S-1 (tap-hold 200 300 S-1 (macro A-1))
+  ;; Symbol macros are intentional; holding ! or $ emits its alternate chord.
+  S-1 (tap-hold $tap-repress-timeout $alternate-hold-timeout S-1 (macro A-1))
   S-2 (macro S-2)
   S-3 (macro S-3)
-  S-4 (tap-hold 200 300 S-4 (macro S-A-2))
+  S-4 (tap-hold $tap-repress-timeout $alternate-hold-timeout S-4 (macro S-A-2))
   S-5 (macro S-5)
   S-6 (macro S-6)
   S-7 (macro S-7)
@@ -66,6 +82,7 @@
 )
 
 (defoverrides
+  ;; Right-side modifiers navigate with left-hand keys.
   (rctl f) (right)
   (rctl b) (left)
   (rctl d) (del)
@@ -74,6 +91,7 @@
   (ralt b) (ralt left)
   (ralt d) (ralt del)
 
+  ;; Left-side modifiers navigate with right-hand keys.
   (lctl p) (up)
   (lctl n) (down)
   (lctl j) (ret)
@@ -88,7 +106,9 @@
   (lmet j) (lmet ret)
   (lmet h) (lmet bspc)
 
+  ;; Expose Right Command+Tab as an application-level function key.
   (rmet tab) (f20)
 
+  ;; Preserve native Shift+Command+H instead of remapping H to Backspace.
   (lsft lmet h) (lsft lmet h)
 )

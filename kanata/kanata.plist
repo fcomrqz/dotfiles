@@ -10,6 +10,7 @@
           <string>/usr/bin/sudo</string>
           <string>/opt/homebrew/bin/kanata</string>
           <string>-q</string>
+          <string>--no-wait</string>
           <string>-c</string>
           <string>/Users/fran/Developer/fcomrqz/dotfiles/kanata/kanata.kbd</string>
       </array>
