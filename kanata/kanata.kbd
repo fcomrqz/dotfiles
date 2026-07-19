@@ -10,6 +10,11 @@
         lmet  lalt                spc                   ralt  rmet
 )
 
+(defhands
+  (left  tab q w e r t lctl a s d f g lsft z x c v b)
+  (right y u i o p [ h j k l ; ' n m , . / rsft)
+)
+
 (deflayer base
   XX    XX    XX    XX    XX    XX     XX    XX    XX    XX    XX    XX    XX    XX    XX
   tab   q     w     e     r     t      y     @u    i     @o    p     [     XX    XX
@@ -27,15 +32,15 @@
 )
 
 (defalias
-  a (tap-hold 200 200 a lctl)
-  s (tap-hold 200 200 s lalt)
-  d (fork (tap-hold 200 200 d lmet) d (rmet ralt rctl))
-  f (fork (tap-hold 200 200 f lsft) f (ralt rctl))
+  a (tap-hold-opposite-hand-release 200 a lctl (same-hand tap) (timeout hold))
+  s (tap-hold-opposite-hand-release 200 s lalt (same-hand tap) (timeout hold))
+  d (tap-hold-opposite-hand-release 200 d lmet (same-hand tap) (timeout hold))
+  f (tap-hold-opposite-hand-release 200 f lsft (same-hand tap) (timeout hold))
 
-  j (tap-hold 200 200 j rsft)
-  k (fork (tap-hold 200 200 k rmet) k (lalt))
-  l (fork (tap-hold 200 200 l ralt) l (lmet lalt))
-  sc (tap-hold 200 200 ; rctl)
+  j (tap-hold-opposite-hand-release 200 j rsft (same-hand tap) (timeout hold))
+  k (tap-hold-opposite-hand-release 200 k rmet (same-hand tap) (timeout hold))
+  l (tap-hold-opposite-hand-release 200 l ralt (same-hand tap) (timeout hold))
+  sc (tap-hold-opposite-hand-release 200 ; rctl (same-hand tap) (timeout hold))
 
   esc (tap-hold 200 200 esc (multi lctl lalt lmet lsft))
 
