@@ -418,9 +418,9 @@ const key_override_t right_key_override = ko_make_basic(MOD_BIT_RCTRL, LSFT_T(KC
 const key_override_t left_key_override = ko_make_basic(MOD_BIT_RCTRL, KC_B, KC_LEFT);
 const key_override_t delete_key_override = ko_make_basic(MOD_BIT_RCTRL, LCMD_T(KC_D), KC_DEL);
 
-// Hyper
-const key_override_t hyper_scroll_up_key_override = ko_make_basic(MOD_MASK_CSAG, KC_P, MS_WHLU);
-const key_override_t hyper_scroll_down_key_override = ko_make_basic(MOD_MASK_CSAG, KC_N, MS_WHLD);
+// Hyper + the Control navigation overrides. Scroll in the opposite direction.
+const key_override_t hyper_up_scroll_down_key_override = ko_make_basic(MOD_MASK_CSAG, KC_P, MS_WHLD);
+const key_override_t hyper_down_scroll_up_key_override = ko_make_basic(MOD_MASK_CSAG, KC_N, MS_WHLU);
 
 // Option
 const key_override_t opt_up_key_override = ko_make_basic(MOD_BIT_LALT, KC_P, A(KC_UP));
@@ -461,8 +461,8 @@ const key_override_t cmd_enter_key_override = ko_make_basic(MOD_BIT_LGUI, RSFT_T
 const key_override_t cmd_backspace_key_override = ko_make_basic(MOD_BIT_LGUI, KC_H, G(KC_BSPC));
 
 const key_override_t *key_overrides[] = {
-  &hyper_scroll_up_key_override,
-  &hyper_scroll_down_key_override,
+  &hyper_up_scroll_down_key_override,
+  &hyper_down_scroll_up_key_override,
   &shift_cmd_h_key_override,
   &ctrl_opt_pageup_key_override,
   &ctrl_opt_pagedown_key_override,

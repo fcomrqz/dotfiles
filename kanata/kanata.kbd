@@ -8,6 +8,8 @@
   hold-timeout 200
   alternate-hold-timeout 300
   caps-word-timeout 3000
+  wheel-interval 90
+  wheel-distance 1
 )
 
 (defsrc
@@ -20,7 +22,7 @@
 
 (deflayer base
   XX    XX    XX    XX    XX    XX     XX    XX    XX    XX    XX    XX    XX    XX    XX
-  tab   q     w     e     r     t      y     @u    i     @o    p     [     XX    XX
+  tab   q     w     e     r     t      y     @u    i     @o    @p    [     XX    XX
   @esc  @a    @s    @d    @f    g      h     @j    @k    @l    @sc   '     XX
   grv   z     x     c     v     b      @n    m     ,     .     /     =     XX
         XX    XX                  @spc                   XX    XX
@@ -60,9 +62,17 @@
       bspc del up down left rght
       lctl rctl lsft rsft ralt))
 
+  scroll-up (mwheel-up $wheel-interval $wheel-distance)
+  scroll-down (mwheel-down $wheel-interval $wheel-distance)
+
   ;; Long holds intentionally emit accented lowercase characters.
   ;; N remains a normal shortcut key while a left-side modifier is held.
-  n (fork (tap-hold $tap-repress-timeout $alternate-hold-timeout n (unicode ñ)) n (lsft lmet lalt lctl))
+  n (switch
+    ((and lctl lalt lmet lsft)) (multi (unmod nop0) @scroll-up) break
+    () (fork (tap-hold $tap-repress-timeout $alternate-hold-timeout n (unicode ñ)) n (lsft lmet lalt lctl)) break)
+  p (switch
+    ((and lctl lalt lmet lsft)) (multi (unmod nop0) @scroll-down) break
+    () p break)
   u (tap-hold $tap-repress-timeout $alternate-hold-timeout u (unicode ü))
   o (tap-hold $tap-repress-timeout $alternate-hold-timeout o (unicode ö))
 
@@ -96,9 +106,6 @@
   (lctl j) (ret)
   (lctl h) (bspc)
 
-  (lctl lalt p) (pgup)
-  (lctl lalt n) (pgdn)
-
   (lalt p) (lalt up)
   (lalt n) (lalt down)
   (lalt j) (lalt ret)
@@ -110,4 +117,10 @@
 
   ;; Preserve native Shift+Command+H instead of remapping H to Backspace.
   (lsft lmet h) (lsft lmet h)
+
+  ;; Overrides are single-pass. Match the physical P/N chords directly;
+  ;; these must follow the general Ctrl navigation overrides because the
+  ;; last matching override wins.
+  (lctl lalt p) (pgup)
+  (lctl lalt n) (pgdn)
 )
