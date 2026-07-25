@@ -18,12 +18,6 @@
         lmet  lalt                spc                   ralt  rmet
 )
 
-(defhands
-  ;; Physical sides used to resolve opposite-hand home-row modifiers.
-  (left  tab q w e r t lctl a s d f g lsft z x c v b)
-  (right y u i o p [ h j k l ; ' n m , . / rsft)
-)
-
 (deflayer base
   XX    XX    XX    XX    XX    XX     XX    XX    XX    XX    XX    XX    XX    XX    XX
   tab   q     w     e     r     t      y     @u    i     @o    p     [     XX    XX
@@ -41,17 +35,16 @@
 )
 
 (defalias
-  ;; Same-hand rolls tap; an opposite-hand key becomes a modified chord
-  ;; when that key is released first.
-  a (tap-hold-opposite-hand-release $hold-timeout a lctl (same-hand tap) (timeout hold))
-  s (tap-hold-opposite-hand-release $hold-timeout s lalt (same-hand tap) (timeout hold))
-  d (tap-hold-opposite-hand-release $hold-timeout d lmet (same-hand tap) (timeout hold))
-  f (tap-hold-opposite-hand-release $hold-timeout f lsft (same-hand tap) (timeout hold))
+  ;; Preserve the original modifier stacking and shortcut behavior.
+  a (tap-hold $tap-repress-timeout $hold-timeout a lctl)
+  s (tap-hold $tap-repress-timeout $hold-timeout s lalt)
+  d (fork (tap-hold $tap-repress-timeout $hold-timeout d lmet) d (rmet ralt rctl))
+  f (fork (tap-hold $tap-repress-timeout $hold-timeout f lsft) f (ralt rctl))
 
-  j (tap-hold-opposite-hand-release $hold-timeout j rsft (same-hand tap) (timeout hold))
-  k (tap-hold-opposite-hand-release $hold-timeout k rmet (same-hand tap) (timeout hold))
-  l (tap-hold-opposite-hand-release $hold-timeout l ralt (same-hand tap) (timeout hold))
-  sc (tap-hold-opposite-hand-release $hold-timeout ; rctl (same-hand tap) (timeout hold))
+  j (tap-hold $tap-repress-timeout $hold-timeout j rsft)
+  k (fork (tap-hold $tap-repress-timeout $hold-timeout k rmet) k (lalt))
+  l (fork (tap-hold $tap-repress-timeout $hold-timeout l ralt) l (lmet lalt))
+  sc (tap-hold $tap-repress-timeout $hold-timeout ; rctl)
 
   ;; Tap Escape; hold all four modifiers as Hyper.
   esc (tap-hold $tap-repress-timeout $hold-timeout esc (multi lctl lalt lmet lsft))
@@ -59,7 +52,13 @@
   ;; Tap Space; hold the numeric and media layer.
   spc (tap-hold $tap-repress-timeout $hold-timeout spc (layer-toggle space))
 
-  caps (caps-word $caps-word-timeout)
+  caps (caps-word-custom
+    $caps-word-timeout
+    (a b c d e f g h i j k l m n o p q r s t u v w x y z -)
+    (0 1 2 3 4 5 6 7 8 9
+      kp0 kp1 kp2 kp3 kp4 kp5 kp6 kp7 kp8 kp9
+      bspc del up down left rght
+      lctl rctl lsft rsft ralt))
 
   ;; Long holds intentionally emit accented lowercase characters.
   ;; N remains a normal shortcut key while a left-side modifier is held.
@@ -97,6 +96,9 @@
   (lctl j) (ret)
   (lctl h) (bspc)
 
+  (lctl lalt p) (pgup)
+  (lctl lalt n) (pgdn)
+
   (lalt p) (lalt up)
   (lalt n) (lalt down)
   (lalt j) (lalt ret)
@@ -105,9 +107,6 @@
 
   (lmet j) (lmet ret)
   (lmet h) (lmet bspc)
-
-  ;; Expose Right Command+Tab as an application-level function key.
-  (rmet tab) (f20)
 
   ;; Preserve native Shift+Command+H instead of remapping H to Backspace.
   (lsft lmet h) (lsft lmet h)

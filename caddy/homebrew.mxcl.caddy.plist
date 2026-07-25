@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>homebrew.mxcl.caddy</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/fran/Library/Application Support/com.fcomrqz.caddy/bin/caddy-launcher</string>
+    <string>/opt/homebrew/opt/caddy/bin/caddy</string>
+    <string>run</string>
+    <string>--config</string>
+    <string>/Users/fran/Developer/fcomrqz/dotfiles/caddy/caddy.json</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>Sockets</key>
+  <dict>
+    <key>HTTPSIPv4</key>
+    <dict>
+      <key>SockFamily</key>
+      <string>IPv4</string>
+      <key>SockNodeName</key>
+      <string>127.0.0.1</string>
+      <key>SockServiceName</key>
+      <string>443</string>
+      <key>SockType</key>
+      <string>stream</string>
+    </dict>
+    <key>HTTPSIPv6</key>
+    <dict>
+      <key>SockFamily</key>
+      <string>IPv6</string>
+      <key>SockNodeName</key>
+      <string>::1</string>
+      <key>SockServiceName</key>
+      <string>443</string>
+      <key>SockType</key>
+      <string>stream</string>
+    </dict>
+  </dict>
+  <key>StandardOutPath</key>
+  <string>/Users/fran/Library/Logs/caddy.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/fran/Library/Logs/caddy.log</string>
+</dict>
+</plist>

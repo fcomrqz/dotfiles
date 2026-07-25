@@ -13,18 +13,6 @@ sudo -v
 
 ~/.gum/gum spin --title "Creating Homebrew folder" -- sudo mkdir -p /opt/homebrew/bin
 
-USER_NAME="${SUDO_USER:-$(id -un)}"
-
-ENTRY="$USER_NAME ALL=(ALL) NOPASSWD: /Library/Application\ Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/Applications/Karabiner-VirtualHIDDevice-Daemon.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Daemon"
-TMP="$(mktemp)"; trap 'rm -f "$TMP"' EXIT
-echo "$ENTRY" > "$TMP"
-~/.gum/gum spin --title "Creating Karabiner DriverKit VirtualHIDDevice sudoers entry" -- sudo install -o root -g wheel -m 440 "$TMP" /etc/sudoers.d/karabiner
-
-ENTRY="$USER_NAME ALL=(ALL) NOPASSWD: /opt/homebrew/bin/kanata"
-TMP="$(mktemp)"; trap 'rm -f "$TMP"' EXIT
-echo "$ENTRY" > "$TMP"
-~/.gum/gum spin --title "Creating sudoers entry" -- sudo install -o root -g wheel -m 440 "$TMP" /etc/sudoers.d/kanata
-
 clear
 
 ~/.gum/gum log --prefix Installing "Command Line Tools"
@@ -104,6 +92,8 @@ mkdir ~/.config
 
 ~/.gum/gum spin --title "ripgrep: Better grep" -- brew install ripgrep
 
+~/.gum/gum spin --title "shellcheck: Static analysis tool for shell scripts" -- brew install shellcheck
+
 ~/.gum/gum spin --title "rename: Rename multiple files" -- brew install rename
 
 ~/.gum/gum spin --title "trash: tool that moves files or folder to the trash" -- brew install trash
@@ -116,18 +106,24 @@ mkdir ~/.config
 
 ~/.gum/gum spin --title "cloudflared: Cloudflare Tunnel client" -- brew install cloudflared
 
+~/.gum/gum spin --title "dnsmasq: Lightweight DNS forwarder and DHCP server" -- brew install dnsmasq
+
+~/.gum/gum spin --title "Caddy: Fast and extensible web server" -- brew install caddy
+~/.gum/gum spin --title "Caddy: Compile launchd socket-activation helper" -- mkdir -p "$HOME/Library/Application Support/com.fcomrqz.caddy/bin"
+~/.gum/gum spin --title "Caddy: Compile launchd socket-activation helper" -- /usr/bin/clang -O2 -Wall -Wextra ~/Developer/fcomrqz/dotfiles/caddy/caddy-launcher.c -o "$HOME/Library/Application Support/com.fcomrqz.caddy/bin/caddy-launcher"
+~/.gum/gum spin --title "Caddy: Start automatically at login" -- brew services start caddy --file=~/Developer/fcomrqz/dotfiles/caddy/homebrew.mxcl.caddy.plist
+
 ~/.gum/gum spin --title "codex: OpenAI's coding agent that runs in your terminal" -- brew install --cask codex
 
 ~/.gum/gum spin --title "claude-code: Terminal-based AI coding assistant" -- brew install --cask claude-code
 
 ~/.gum/gum spin --title "sox: SOund eXchange universal sound sample translator (rec, play)" -- brew install sox
 
+~/.gum/gum spin --title "ffmpeg: Record, convert, and stream audio and video" -- brew install ffmpeg
+
 ~/.gum/gum spin --title "kanata: Keyboard remapper" -- brew install kanata
 ~/.gum/gum spin --title "kanata: Validating configuration" -- kanata --check -c ~/Developer/fcomrqz/dotfiles/kanata/kanata.kbd
-~/.gum/gum spin --title "kanata: Keyboard remapper" -- ln ~/Developer/fcomrqz/dotfiles/kanata/kanata.plist ~/Library/LaunchAgents/com.fcomrqz.kanata.plist
-~/.gum/gum spin --title "kanata: Keyboard remapper" -- launchctl load ~/Library/LaunchAgents/com.fcomrqz.kanata.plist
-~/.gum/gum spin --title "kanata: Keyboard remapper" -- ln ~/Developer/fcomrqz/dotfiles/kanata/karabiner.plist ~/Library/LaunchAgents/com.fcomrqz.karabiner.plist
-~/.gum/gum spin --title "kanata: Keyboard remapper" -- launchctl load ~/Library/LaunchAgents/com.fcomrqz.karabiner.plist
+~/.gum/gum spin --title "kanata: Installing secure system daemons" -- sudo /bin/bash ~/Developer/fcomrqz/dotfiles/kanata/manage-daemons.sh install "$(command -v kanata)" ~/Developer/fcomrqz/dotfiles/kanata/kanata.kbd "$(id -u)" "$HOME"
 
 
 ~/.gum/gum spin --title "micro: A modern and intuitive terminal-based text editor" -- brew install micro
@@ -145,7 +141,7 @@ mkdir ~/.config
 clear
 
 ~/.gum/gum log --prefix Installing "npm global packages"
-~/.gum/gum spin --title "np: A better `npm publish`" -- bun i -g np
+~/.gum/gum spin --title "np: A better npm publish" -- bun i -g np
 # ~/.gum/gum spin --title "prettier: Opinionated code formatter" -- bun i -g prettier && bun i -g prettier-plugin-toml && ln -sF ~/Developer/fcomrqz/dotfiles/prettier/.prettierrc ~/
 # ~/.gum/gum spin --title "stylelint: A mighty CSS linter that helps you avoid errors and enforce conventions" -- bun i -g stylelint
 # ~/.gum/gum spin --title "postcss: Transforming styles with JS plugins" -- bun i -g postcss
@@ -174,9 +170,11 @@ clear
 
 ~/.gum/gum spin --title "Figma: The collaborative interface design tool" -- brew install --cask figma
 
-~/.gum/gum spin --title "Tailscale: Mesh VPN based on WireGuard" -- brew install --cask tailscale
+~/.gum/gum spin --title "Tailscale: Mesh VPN based on WireGuard" -- brew install tailscale
 
 # ~/.gum/gum spin --title "Android Studio: Integrated Development Environment for Android" brew install --cask android-studio
+
+~/.gum/gum spin --title "Temurin: Eclipse Temurin Java 17 JDK" -- brew install --cask temurin@17
 
 ~/.gum/gum spin --title "ChatGPT: OpenAI's official desktop app" -- brew install --cask chatgpt
 

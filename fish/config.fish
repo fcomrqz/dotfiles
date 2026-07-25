@@ -41,9 +41,9 @@ if status --is-interactive
     # --------
     # env vars
     # --------
-    if not set -q GH_TOKEN[1]; or test -z "$GH_TOKEN"
-        set -Ux GH_TOKEN (gh auth token)
-    end
+    # if not set -q GH_TOKEN[1]; or test -z "$GH_TOKEN"
+    #     set -Ux GH_TOKEN (gh auth token)
+    # end
     set -q EDITOR; or set -Ux EDITOR micro
     set -q BAT_THEME; or set -Ux BAT_THEME ansi
     set -q GEMINI_SANDBOX; or set -Ux GEMINI_SANDBOX true

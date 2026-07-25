@@ -106,7 +106,6 @@
       "cmd-k cmd-k": "workspace::ActivatePaneDown",
 
       "cmd-e": "project_panel::ToggleFocus",
-      "cmd-b": "workspace::ToggleBottomDock",
 
       "ctrl-tab": "tab_switcher::Toggle",
       "ctrl-shift-tab": ["tab_switcher::Toggle", { "select_last": true }],

@@ -3,8 +3,13 @@
     "http": {
       "servers": {
         "local": {
-          "listen": [":443"],
-          "routes": []
+          "listen": ["fd/3", "fd/4"],
+          "protocols": ["h1", "h2"],
+          "routes": [],
+          "tls_connection_policies": [{}],
+          "automatic_https": {
+            "disable_redirects": true
+          }
         }
       }
     }

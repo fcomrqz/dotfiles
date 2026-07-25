@@ -5,6 +5,8 @@ config-version = 2
 start-at-login = true
 default-root-container-layout = 'tiles'
 default-root-container-orientation = 'auto'
+default-windows-insertion-point = 'before-the-mru-window'
+persistent-workspaces = ['1', '2', '3']
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 accordion-padding = 0
 gaps.outer.top = [{ monitor."(1)" = 30 }, 16]
@@ -45,6 +47,10 @@ run = ['move-node-to-workspace 1']
 if.app-id = 'com.apple.freeform'
 run = ['move-node-to-workspace 1']
 
+[[on-window-detected]]
+if.app-name-regex-substring = 'YouTube'
+run = ['move-node-to-workspace 1']
+
 ## ---------------------
 ## Main monitor floating
 ## ---------------------
@@ -74,10 +80,6 @@ run = ['layout floating', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.FaceTime'
-run = ['layout floating', 'move-node-to-workspace 1']
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'YouTube'
 run = ['layout floating', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
@@ -113,7 +115,7 @@ run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
-run = ['move-node-to-workspace 1']
+run = ['move-node-to-workspace 2']
 
 ## ---------------------
 ## Left monitor floating
@@ -194,12 +196,12 @@ cmd-alt-right = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospa
 cmd-alt-backtick = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.mail Mail']
 cmd-alt-a = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.MobileSMS Messages']
 cmd-alt-q = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh net.whatsapp.WhatsApp WhatsApp']
-alt-f20 = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.culturedcode.ThingsMac Things3']
+cmd-alt-tab = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.culturedcode.ThingsMac Things3']
 cmd-alt-x = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.dt.Xcode Xcode']
 cmd-alt-semicolon = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.openai.codex']
 cmd-alt-u = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Music Music']
 cmd-alt-g = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.figma.Desktop Figma']
-f20 = ["exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'"]
+alt-space = ["exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'"]
 
 f14 = ["exec-and-forget /opt/homebrew/bin/fish -c 'brdn'"]
 f15 = ["exec-and-forget /opt/homebrew/bin/fish -c 'brup'"]
@@ -213,7 +215,7 @@ f15 = ["exec-and-forget /opt/homebrew/bin/fish -c 'brup'"]
 ## - Keypad numbers   keypad0, keypad1, keypad2, ..., keypad9
 ## - F-keys           f1, f2, ..., f20
 ## - Special keys     minus, equal, period, comma, slash, backslash, quote, semicolon, backtick,
-##                    leftSquareBracket, rightSquareBracket, space, enter, esc, backspace, tab
+##                    leftSquareBracket, rightSquareBracket, space, enter, esc, backspace,
 ## - Keypad special   keypadClear, keypadDecimalMark, keypadDivide, keypadEnter, keypadEqual,
 ##                    keypadMinus, keypadMultiply, keypadPlus
 ## - Arrows           left, down, up, right
