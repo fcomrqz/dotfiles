@@ -203,8 +203,8 @@ cmd-alt-u = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/c
 cmd-alt-g = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.figma.Desktop Figma']
 alt-space = ["exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'"]
 
-f14 = ["exec-and-forget /opt/homebrew/bin/fish -c 'brdn'"]
-f15 = ["exec-and-forget /opt/homebrew/bin/fish -c 'brup'"]
+f14 = ['exec-and-forget /opt/homebrew/bin/display brightness down']
+f15 = ['exec-and-forget /opt/homebrew/bin/display brightness up']
 
 ## -----------------
 ## All possible keys
