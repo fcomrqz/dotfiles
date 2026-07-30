@@ -102,6 +102,10 @@ run = ['layout floating', 'move-node-to-workspace 1']
 if.app-id = 'com.apple.AddressBook'
 run = ['layout floating', 'move-node-to-workspace 1']
 
+[[on-window-detected]]
+if.app-id = 'com.apple.ScreenSharing'
+run = ['layout floating', 'move-node-to-workspace 1']
+
 # ------------
 # Left monitor
 # ------------
