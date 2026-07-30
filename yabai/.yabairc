@@ -1,0 +1,193 @@
+#!/bin/sh
+
+set -u
+
+YABAI_BIN="${YABAI_BIN:-/opt/homebrew/bin/yabai}"
+YABAI_CONFIG_DIR="${YABAI_CONFIG_DIR:-$HOME/Developer/fcomrqz/dotfiles/yabai}"
+
+if [ ! -x "$YABAI_BIN" ]; then
+    YABAI_BIN="$(command -v yabai 2>/dev/null || true)"
+fi
+
+if [ -z "$YABAI_BIN" ]; then
+    printf 'yabairc: yabai is not installed\n' >&2
+    exit 1
+fi
+
+"$YABAI_CONFIG_DIR/build-focus-helper.sh" >/dev/null 2>&1 || true
+
+# Global behavior
+"$YABAI_BIN" -m config layout bsp
+# Split along the x-axis so every managed window becomes a new row in one
+# top-to-bottom column.
+"$YABAI_BIN" -m config split_type horizontal
+"$YABAI_BIN" -m config auto_balance on
+"$YABAI_BIN" -m config window_origin_display focused
+"$YABAI_BIN" -m config window_insertion_point focused
+"$YABAI_BIN" -m config window_placement first_child
+"$YABAI_BIN" -m config display_arrangement_order horizontal
+"$YABAI_BIN" -m config mouse_follows_focus on
+"$YABAI_BIN" -m config focus_follows_mouse off
+"$YABAI_BIN" -m config mouse_drop_action swap
+"$YABAI_BIN" -m config skip_window_focus_animation on
+
+# Defaults for native Spaces. bootstrap-spaces.sh applies the 30-point top
+# padding to the leftmost display's live normal Space.
+"$YABAI_BIN" -m config top_padding 16
+"$YABAI_BIN" -m config bottom_padding 16
+"$YABAI_BIN" -m config left_padding 16
+"$YABAI_BIN" -m config right_padding 16
+"$YABAI_BIN" -m config window_gap 16
+
+"$YABAI_CONFIG_DIR/bootstrap-spaces.sh"
+
+# Remove only rules and signals owned by this file, making manual reloads safe.
+for label in \
+    route-main-tiled \
+    route-youtube \
+    route-main-floating \
+    route-gemini \
+    route-mail \
+    route-simulator \
+    route-chromium \
+    route-playwright-webkit \
+    route-playwright-chromium \
+    float-main-apps \
+    float-gemini \
+    float-simulator \
+    float-chromium \
+    float-playwright-webkit \
+    float-playwright-chromium \
+    float-zed-dialog
+do
+    "$YABAI_BIN" -m rule --remove "$label" >/dev/null 2>&1 || true
+done
+
+for label in \
+    mirror-dialog-heuristic \
+    mirror-window-created \
+    focus-memory-window-focused \
+    focus-memory-window-moved \
+    focus-memory-space-changed \
+    focus-memory-display-changed \
+    focus-recovery-window-focused \
+    focus-recovery-window-background \
+    mirror-spaces-dock \
+    mirror-spaces-display-added \
+    mirror-spaces-display-removed \
+    mirror-spaces-display-moved \
+    mirror-spaces-wake
+do
+    "$YABAI_BIN" -m signal --remove "$label" >/dev/null 2>&1 || true
+done
+
+# Floating rules are independent of placement. New windows otherwise use
+# window_origin_display focused and the window-created placement handler.
+"$YABAI_BIN" -m rule --add \
+    label=float-main-apps \
+    app='^(Things|Claude|WhatsApp|Messages|FaceTime|Music|Passwords|Find My|Reminders|Contacts|Home)$' \
+    manage=off
+
+"$YABAI_BIN" -m rule --add \
+    label=float-gemini \
+    app='Gemini' \
+    manage=off
+
+"$YABAI_BIN" -m rule --add \
+    label=float-simulator \
+    app='^Simulator$' \
+    manage=off
+
+"$YABAI_BIN" -m rule --add \
+    label=float-chromium \
+    app='^Chromium$' \
+    manage=off
+
+"$YABAI_BIN" -m rule --add \
+    label=float-playwright-webkit \
+    app='^Playwright$' \
+    manage=off
+
+"$YABAI_BIN" -m rule --add \
+    label=float-playwright-chromium \
+    app='^Chromium$' \
+    title='^Playwright.*$' \
+    manage=off
+
+# Preserve the historical Zed Open/Save fallback for dialogs that report
+# themselves as standard windows.
+"$YABAI_BIN" -m rule --add \
+    label=float-zed-dialog \
+    app='^Zed$' \
+    title='^(Open|Save)$' \
+    manage=off
+
+# Place top-level windows on the focused display, apply the dialog heuristic,
+# and refresh the pre-close row snapshot from one creation handler.
+window_created_action="\"$YABAI_CONFIG_DIR/handle-window-created.sh\" \"\$YABAI_WINDOW_ID\""
+"$YABAI_BIN" -m signal --add \
+    label=mirror-window-created \
+    event=window_created \
+    action="$window_created_action"
+
+# Keep per-display focus memory synchronized with focus changes made by
+# shortcuts, the mouse, and Cmd+Tab. Focus changes do not rebuild row order.
+window_focused_action="\"$YABAI_CONFIG_DIR/focus-memory.sh\" record \"\$YABAI_WINDOW_ID\""
+"$YABAI_BIN" -m signal --add \
+    label=focus-memory-window-focused \
+    event=window_focused \
+    action="$window_focused_action"
+
+window_moved_action="\"$YABAI_CONFIG_DIR/focus-memory.sh\" debounce-window-moved \"\$YABAI_WINDOW_ID\""
+"$YABAI_BIN" -m signal --add \
+    label=focus-memory-window-moved \
+    event=window_moved \
+    active=yes \
+    action="$window_moved_action"
+
+display_changed_action="\"$YABAI_CONFIG_DIR/focus-memory.sh\" set-active-display \"\$YABAI_DISPLAY_INDEX\""
+"$YABAI_BIN" -m signal --add \
+    label=focus-memory-display-changed \
+    event=display_changed \
+    action="$display_changed_action"
+
+# Yabai's active filter preserves whether the destroyed window had key focus,
+# which is no longer queryable after the window_destroyed event.
+focused_close_action="\"$YABAI_CONFIG_DIR/focus-recovery.sh\" focused \"\$YABAI_WINDOW_ID\""
+"$YABAI_BIN" -m signal --add \
+    label=focus-recovery-window-focused \
+    event=window_destroyed \
+    active=yes \
+    action="$focused_close_action"
+
+background_close_action="\"$YABAI_CONFIG_DIR/focus-recovery.sh\" background \"\$YABAI_WINDOW_ID\""
+"$YABAI_BIN" -m signal --add \
+    label=focus-recovery-window-background \
+    event=window_destroyed \
+    active=no \
+    action="$background_close_action"
+
+# Reapply layout and padding after display/Space churn.
+refresh_spaces_action="\"$YABAI_CONFIG_DIR/bootstrap-spaces.sh\"; \"$YABAI_CONFIG_DIR/focus-memory.sh\" seed"
+for signal_spec in \
+    'mirror-spaces-dock:dock_did_restart' \
+    'mirror-spaces-display-added:display_added' \
+    'mirror-spaces-display-removed:display_removed' \
+    'mirror-spaces-display-moved:display_moved' \
+    'mirror-spaces-wake:system_woke'
+do
+    signal_label="${signal_spec%%:*}"
+    signal_event="${signal_spec#*:}"
+    "$YABAI_BIN" -m signal --add \
+        label="$signal_label" \
+        event="$signal_event" \
+        action="$refresh_spaces_action"
+done
+
+# Rules normally affect only newly created windows. Applying them here mirrors
+# an AeroSpace reload by reconciling windows already known to yabai.
+"$YABAI_BIN" -m rule --apply
+
+# Initialize focus memory and pre-close order for windows that existed before
+# this configuration was loaded.
+"$YABAI_CONFIG_DIR/focus-memory.sh" seed

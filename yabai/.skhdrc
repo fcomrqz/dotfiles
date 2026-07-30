@@ -1,0 +1,44 @@
+# AeroSpace keybinding mirror for yabai.
+# Punctuation uses physical macOS keycodes, matching the historical skhd setup.
+
+# Window movement and layout
+cmd + alt - m     : /opt/homebrew/bin/yabai -m window --swap north
+cmd + alt - 0x2B  : /Users/fran/Developer/fcomrqz/dotfiles/yabai/move-display.sh prev
+cmd + alt - 0x2F  : /Users/fran/Developer/fcomrqz/dotfiles/yabai/move-display.sh next
+cmd + alt - 0x2C  : /Users/fran/Developer/fcomrqz/dotfiles/yabai/toggle-layout.sh
+cmd + alt - space : /Users/fran/Developer/fcomrqz/dotfiles/yabai/resize-smart.sh 160
+
+# Focus/cycle the three displays. Repeated presses cycle rows and then native
+# Spaces on that display, including native-fullscreen application Spaces.
+cmd + alt - return : /Users/fran/Developer/fcomrqz/dotfiles/yabai/focus-display.sh 1
+cmd + alt - j      : /Users/fran/Developer/fcomrqz/dotfiles/yabai/focus-display.sh 1
+cmd + alt - k      : /Users/fran/Developer/fcomrqz/dotfiles/yabai/focus-display.sh 2
+cmd + alt - l      : /Users/fran/Developer/fcomrqz/dotfiles/yabai/focus-display.sh 3
+
+# Fullscreen
+cmd - right     : /opt/homebrew/bin/yabai -m window --toggle native-fullscreen
+cmd + alt - f   : /opt/homebrew/bin/yabai -m window --toggle windowed-fullscreen
+
+# Camera automation
+cmd + alt - 0x27 : osascript '/Users/fran/Library/Mobile Documents/com~apple~ScriptEditor2/Documents/Cameras.scpt'
+
+# Cycle application windows, or launch the application when none exist.
+cmd + alt - o    : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Safari$' com.apple.Safari Safari
+cmd + alt - z    : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Zed$' dev.zed.Zed Zed
+cmd + alt - t    : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Terminal$' com.apple.Terminal Terminal
+cmd + alt - right : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Finder$' com.apple.finder Finder
+cmd + alt - 0x32 : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Mail$' com.apple.mail Mail
+cmd + alt - a    : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Messages$' com.apple.MobileSMS Messages
+cmd + alt - q    : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^WhatsApp$' net.whatsapp.WhatsApp WhatsApp
+cmd + alt - tab  : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Things$' com.culturedcode.ThingsMac Things3
+cmd + alt - x    : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Xcode$' com.apple.dt.Xcode Xcode
+cmd + alt - 0x29 : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Codex$' com.openai.codex Codex
+cmd + alt - u    : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Music$' com.apple.Music Music
+cmd + alt - g    : /Users/fran/Developer/fcomrqz/dotfiles/yabai/cycle.sh '^Figma$' com.figma.Desktop Figma
+
+# Things Quick Entry
+alt - space : osascript -e 'tell application "Things3" to show quick entry panel'
+
+# Display brightness
+f14 : /opt/homebrew/bin/display brightness down
+f15 : /opt/homebrew/bin/display brightness up
