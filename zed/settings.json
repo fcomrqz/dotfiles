@@ -1,14 +1,35 @@
 {
+  "restore_on_startup": "last_workspace",
+  "ssh_connections": [
+    {
+      "host": "localhost",
+      "username": "codex@ubuntu",
+      "port": 32222,
+      "args": [
+        "-i",
+        "~/.orbstack/ssh/id_ed25519"
+      ],
+      "projects": [
+        {
+          "paths": [
+            "/mnt/mac/Users/fran/Developer/fcomrqz/bookip"
+          ]
+        }
+      ],
+      "nickname": "orb"
+    }
+  ],
   "session": {
     "trust_all_worktrees": true
   },
   "agent_servers": {
     "codex-acp": {
       "default_config_options": {
-        "fast-mode": false,
+        "collaboration_mode": "default",
+        "fast-mode": true,
         "mode": "agent",
         "model": "gpt-5.6-sol",
-        "reasoning_effort": "medium",
+        "reasoning_effort": "xhigh",
       },
       "type": "registry",
     },
@@ -61,14 +82,15 @@
   "vertical_scroll_margin": 12.0,
   "when_closing_with_no_tabs": "keep_window_open",
   "agent": {
+    "show_turn_stats": true,
+    "expand_terminal_card": false,
+    "expand_edit_card": false,
+    "sidebar_side": "left",
     "enable_feedback": false,
     "tool_permissions": {
       "default": "confirm",
     },
-    "message_editor_min_lines": 8,
-    "notify_when_agent_waiting": "never",
-    "play_sound_when_agent_done": "always",
-    "single_file_review": true,
+    "message_editor_min_lines": 16,
     "default_profile": "write",
     "default_model": {
       "effort": "high",
@@ -78,7 +100,14 @@
     },
     "button": false,
     "dock": "left",
-    "default_width": 720,
+    "default_width": 600,
+    "commit_message_model": {
+      "provider": "openai-subscribed",
+      "model": "gpt-5.6-sol",
+      "effort": "medium",
+      "speed": "fast"
+    },
+    "commit_message_instructions": "Use Conventional Commits format: <type>(<scope>): <description>. Keep the subject under 72 characters. Output only the commit message."
   },
   "project_panel": {
     "hide_root": true,
@@ -254,6 +283,7 @@
     "button": false,
   },
   "gutter": {
+    "bookmarks": false,
     "line_numbers": true,
     "runnables": false,
     "breakpoints": false,
@@ -332,6 +362,7 @@
     "font_size": 13,
     "button": false,
     "detect_venv": "off",
+    "cursor_shape":"bar"
   },
   "global_lsp_settings": {
     "button": false,
