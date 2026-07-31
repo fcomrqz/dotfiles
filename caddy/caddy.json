@@ -1,9 +1,20 @@
 {
+  "admin": {
+    "listen": "127.0.0.1:2019"
+  },
   "apps": {
+    "pki": {
+      "certificate_authorities": {
+        "local": {
+          "name": "OrbStack Development CA",
+          "install_trust": false
+        }
+      }
+    },
     "http": {
       "servers": {
         "local": {
-          "listen": ["fd/3", "fd/4"],
+          "listen": [":443"],
           "protocols": ["h1", "h2"],
           "routes": [],
           "tls_connection_policies": [{}],

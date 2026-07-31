@@ -1,38 +1,62 @@
 # Caddy
 
-Caddy is installed by Homebrew and runs as a user LaunchAgent. It does not run
-as root.
+Caddy runs inside the isolated OrbStack development machine. The systemd unit
+loads `caddy.json`, listens on the machine's HTTPS port, and leaves the route
+array empty for applications to update through the admin API.
 
-macOS permits an unprivileged process to bind a low port on every interface,
-but not directly on a specific interface. The small `caddy-launcher` helper
-receives IPv4 and IPv6 loopback port 443 sockets from launchd and passes those
-file descriptors to Caddy. This keeps the development server unreachable from
-the LAN without granting Caddy elevated privileges.
+## Networking
 
-The LaunchAgent uses Homebrew's stable path:
+- `dnsmasq` resolves every `*.test` name to the isolated machine's IPv4 address.
+- Caddy accepts HTTPS on port 443.
+- OrbStack machine-port exposure to the LAN is disabled.
+- The admin API is available only inside the machine at `127.0.0.1:2019`.
+- Application processes register mappings such as
+  `my-feature.test -> 127.0.0.1:4173`.
+- OrbStack is created with host integration, mounts, SSH-agent forwarding, and
+  cross-machine networking disabled.
 
-```text
-/opt/homebrew/opt/caddy/bin/caddy
-```
+The `pki` application provisions an internal development CA. The machine
+manager adds its root certificate to Linux's trust store and the macOS System
+keychain; the private key never leaves Linux.
 
-## Update
+## Dynamic routes
 
-```sh
-brew update
-brew upgrade caddy
-brew services restart caddy --file="$HOME/Developer/fcomrqz/dotfiles/caddy/homebrew.mxcl.caddy.plist"
-```
-
-Homebrew verifies the downloaded formula bottle. Restarting switches the
-running process to the version selected by Homebrew's `opt/caddy` symlink.
-
-## Verify
+The existing Caddy JSON API remains the routing interface. For example, an
+application can add a reverse-proxy route to the `local` server with:
 
 ```sh
-brew services info caddy
-caddy version
-lsof -nP -a -c caddy -iTCP -sTCP:LISTEN
+curl -X POST \
+  -H 'Content-Type: application/json' \
+  http://127.0.0.1:2019/config/apps/http/servers/local/routes \
+  --data '{
+    "@id": "example.test",
+    "match": [{"host": ["example.test"]}],
+    "handle": [{
+      "handler": "reverse_proxy",
+      "upstreams": [{"dial": "127.0.0.1:3000"}]
+    }]
+  }'
 ```
 
-The expected public listeners are `127.0.0.1:443` and `[::1]:443`. The admin
-API listens on `127.0.0.1:2019`.
+Delete it later through its ID:
+
+```sh
+curl -X DELETE http://127.0.0.1:2019/id/example.test
+```
+
+## Verification
+
+Inside the machine:
+
+```sh
+systemctl status caddy dnsmasq systemd-resolved
+curl http://127.0.0.1:2019/config/
+getent hosts any-name.test
+```
+
+From macOS:
+
+```sh
+dscacheutil -q host -a name any-name.test
+curl https://example.test
+```

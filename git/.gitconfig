@@ -4,10 +4,11 @@
 	name = Fran
 	email = fcomrqz@users.noreply.github.com
 [core]
-	editor = micro
 	pager = delta
 	quotepath = false
-	attributesFile = ~/Developer/fcomrqz/dotfiles/git/attributes
+	attributesFile = ~/.config/git/attributes
+[include]
+	path = ~/.config/git/platform.gitconfig
 [blame]
 	date = relative
 [format]
@@ -49,12 +50,6 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[credential "https://github.com"]
-	helper =
-	helper = !/opt/homebrew/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-	helper =
-	helper = !/opt/homebrew/bin/gh auth git-credential
 [push]
 	autoSetupRemote = true
 [rerere]

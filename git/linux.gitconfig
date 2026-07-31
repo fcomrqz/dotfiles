@@ -1,0 +1,5 @@
+[core]
+	editor = micro
+[credential "https://github.com"]
+	helper =
+	helper = github-app
