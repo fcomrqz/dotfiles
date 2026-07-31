@@ -1,0 +1,86 @@
+#!/bin/bash
+
+set -euo pipefail
+
+readonly RUNTIME_ROOT="/run/fcomrqz-github-app"
+RUNTIME_DIRECTORY="$RUNTIME_ROOT/$(id -un)"
+readonly RUNTIME_DIRECTORY
+readonly TOKEN_FILE="$RUNTIME_DIRECTORY/token.json"
+
+validate_runtime_directory() {
+  local owner mode
+  [[ -d "$RUNTIME_DIRECTORY" && ! -L "$RUNTIME_DIRECTORY" ]] || {
+    printf 'Missing managed GitHub App runtime directory: %s\n' \
+      "$RUNTIME_DIRECTORY" >&2
+    return 1
+  }
+  owner="$(stat -c '%u' -- "$RUNTIME_DIRECTORY")"
+  mode="$(stat -c '%a' -- "$RUNTIME_DIRECTORY")"
+  if [[ "$owner" != "$(id -u)" || "$mode" != "700" ]]; then
+    printf 'Unsafe GitHub App runtime directory ownership or mode.\n' >&2
+    return 1
+  fi
+}
+
+store_token() {
+  local token expires expires_epoch temporary
+  token="${FCRQZ_GITHUB_APP_TOKEN:-}"
+  expires="${FCRQZ_GITHUB_APP_TOKEN_EXPIRES_AT:-}"
+  unset FCRQZ_GITHUB_APP_TOKEN FCRQZ_GITHUB_APP_TOKEN_EXPIRES_AT
+
+  [[ "$token" =~ ^ghs_[A-Za-z0-9_.-]+$ && "${#token}" -le 16384 ]] || {
+    printf 'Refusing a GitHub App token with an unexpected format.\n' >&2
+    return 1
+  }
+  [[ "$expires" =~ ^[0-9T:+.-]+Z$ ]] || {
+    printf 'Refusing an invalid GitHub App token expiration.\n' >&2
+    return 1
+  }
+  expires_epoch="$(date -d "$expires" +%s 2>/dev/null)" || {
+    printf 'Refusing an invalid GitHub App token expiration.\n' >&2
+    return 1
+  }
+  if (( expires_epoch <= $(date +%s) + 60 )); then
+    printf 'Refusing an expired GitHub App token.\n' >&2
+    return 1
+  fi
+
+  validate_runtime_directory
+  umask 077
+  temporary="$(mktemp "$RUNTIME_DIRECTORY/.token.XXXXXX")"
+  trap 'rm -f -- "$temporary"' EXIT
+  # Both values are restricted to JSON-safe character sets above. Keeping
+  # printf in this process prevents the token from becoming another process's
+  # command-line argument.
+  printf '{"token":"%s","expires_at":"%s"}\n' "$token" "$expires" \
+    > "$temporary"
+  chmod 0600 "$temporary"
+  mv -f -- "$temporary" "$TOKEN_FILE"
+  trap - EXIT
+}
+
+remove_token() {
+  validate_runtime_directory
+  rm -f -- "$TOKEN_FILE"
+}
+
+show_status() {
+  local expiration
+  # shellcheck source=bin/github-app-token-common
+  source /usr/local/libexec/fcomrqz/github-app-token-common
+  github_app_read_token >/dev/null
+  expiration="$(github_app_read_expiration)"
+  printf 'available=true\n'
+  printf 'expires_at=%s\n' "$expiration"
+  printf 'path=%s\n' "$TOKEN_FILE"
+}
+
+case "${1:-store}" in
+  store) store_token ;;
+  remove) remove_token ;;
+  status) show_status ;;
+  *)
+    printf 'Usage: github-token-store [store|remove|status]\n' >&2
+    exit 2
+    ;;
+esac

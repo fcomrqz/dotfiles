@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Shared by root-installed GitHub App wrappers inside the OrbStack machine.
+# This file is sourced; it deliberately does not enable shell options.
+
+github_app_runtime_directory() {
+  printf '/run/fcomrqz-github-app/%s\n' "$(id -un)"
+}
+
+github_app_token_file() {
+  printf '%s/token.json\n' "$(github_app_runtime_directory)"
+}
+
+github_app_read_token() {
+  local directory file owner mode token expires expires_epoch now
+  directory="$(github_app_runtime_directory)"
+  file="$directory/token.json"
+
+  if [[ ! -d "$directory" || -L "$directory" ]]; then
+    printf 'GitHub App runtime directory is unavailable. Run orbstack/machine github refresh on macOS.\n' >&2
+    return 1
+  fi
+  owner="$(stat -c '%u' -- "$directory")"
+  mode="$(stat -c '%a' -- "$directory")"
+  if [[ "$owner" != "$(id -u)" || "$mode" != "700" ]]; then
+    printf 'GitHub App runtime directory has unsafe ownership or permissions.\n' >&2
+    return 1
+  fi
+  if [[ ! -f "$file" || -L "$file" ]]; then
+    printf 'GitHub App token is unavailable. Run orbstack/machine github refresh on macOS.\n' >&2
+    return 1
+  fi
+  owner="$(stat -c '%u' -- "$file")"
+  mode="$(stat -c '%a' -- "$file")"
+  if [[ "$owner" != "$(id -u)" || "$mode" != "600" ]]; then
+    printf 'GitHub App token has unsafe ownership or permissions.\n' >&2
+    return 1
+  fi
+
+  token="$(jq -er '.token | strings' "$file" 2>/dev/null)" || {
+    printf 'GitHub App token file is invalid.\n' >&2
+    return 1
+  }
+  expires="$(jq -er '.expires_at | strings' "$file" 2>/dev/null)" || {
+    printf 'GitHub App token expiration is invalid.\n' >&2
+    return 1
+  }
+  if [[ ! "$token" =~ ^ghs_[A-Za-z0-9_.-]+$ || "${#token}" -gt 16384 ]]; then
+    printf 'GitHub App token has an unexpected format.\n' >&2
+    return 1
+  fi
+  expires_epoch="$(date -d "$expires" +%s 2>/dev/null)" || {
+    printf 'GitHub App token expiration is invalid.\n' >&2
+    return 1
+  }
+  now="$(date +%s)"
+  if (( expires_epoch <= now + 30 )); then
+    printf 'GitHub App token has expired or is about to expire.\n' >&2
+    return 1
+  fi
+  printf '%s\n' "$token"
+}
+
+github_app_read_expiration() {
+  local file
+  file="$(github_app_token_file)"
+  [[ -f "$file" && ! -L "$file" ]] || return 1
+  jq -er '.expires_at | strings' "$file"
+}
