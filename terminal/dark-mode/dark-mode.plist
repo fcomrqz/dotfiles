@@ -2,19 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Label</key>
-    <string>com.fcomrqz.dark-mode</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/Users/fran/Developer/fcomrqz/dotfiles/terminal/dark-mode/dark-mode</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>KeepAlive</key>
-    <true/>
-    <key>StandardErrorPath</key>
-    <string>/tmp/com.fcomrqz.dark-mode.stderr.log</string>
-    <key>StandardOutPath</key>
-    <string>/tmp/com.fcomrqz.dark-mode.stdout.log</string>
+	<key>KeepAlive</key>
+	<true/>
+	<key>Label</key>
+	<string>com.fcomrqz.dark-mode</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/fran/Developer/fcomrqz/worktrees/dotfiles/zephyr-thorn/dotfiles/terminal/dark-mode/dark-mode</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardErrorPath</key>
+	<string>/tmp/com.fcomrqz.dark-mode.stderr.log</string>
+	<key>StandardOutPath</key>
+	<string>/tmp/com.fcomrqz.dark-mode.stdout.log</string>
 </dict>
 </plist>
