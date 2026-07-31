@@ -40,4 +40,30 @@ assert_equal \
     "empty query preserves input order"
 or set failures (math "$failures + 1")
 
+__gum_filter_rank mañ mañana gamma
+assert_equal \
+    "mañana" \
+    (string join '|' $__gum_filter_ranked_values) \
+    "UTF-8 queries work with macOS awk"
+or set failures (math "$failures + 1")
+
+assert_equal \
+    "a" \
+    (printf 'a' | __gum_filter_read_key; and printf '%s' "$__gum_filter_key") \
+    "printable input uses the built-in reader"
+or set failures (math "$failures + 1")
+
+assert_equal \
+    "ñ" \
+    (printf 'ñ' | __gum_filter_read_key; and printf '%s' "$__gum_filter_key") \
+    "the built-in reader preserves UTF-8 characters"
+or set failures (math "$failures + 1")
+
+printf '\n' | __gum_filter_read_key
+assert_equal \
+    '\n' \
+    (string escape -- "$__gum_filter_key") \
+    "the built-in reader preserves Enter"
+or set failures (math "$failures + 1")
+
 exit $failures

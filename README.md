@@ -298,6 +298,7 @@ The interactive history, project, and file selectors use a Fish
 implementation of the Gum 0.14.5 single-select UI. It preserves the prompt,
 indicator, colors, fuzzy scoring, highlighted matches, wraparound navigation,
 scrolling, and stdout/stderr behavior used by these dotfiles without installing
-Gum.
+Gum. Non-empty searches retain the best 256 matches so large history lists
+remain responsive while the query is refined.
 
 Upstream attribution is in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

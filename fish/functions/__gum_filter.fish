@@ -9,102 +9,6 @@ function __gum_filter_strip_ansi --argument-names value
     string replace -ra '\e\[[0-9;?]*[ -/]*[@-~]' '' -- "$value"
 end
 
-function __gum_filter_score --argument-names pattern candidate
-    set -g __gum_filter_score_value
-    set -g __gum_filter_score_indexes
-
-    set -l pattern_chars (string split '' -- "$pattern")
-    set -l pattern_lower (string split '' -- (string lower -- "$pattern"))
-    set -l candidate_chars (string split '' -- "$candidate")
-    set -l candidate_lower (string split '' -- (string lower -- "$candidate"))
-
-    if test (count $pattern_chars) -eq 0
-        set -g __gum_filter_score_value 0
-        return 0
-    end
-
-    set -l pattern_index 1
-    set -l best_score -1
-    set -l best_index 0
-    set -l total_score 0
-    set -l adjacent_bonus 0
-    set -l matched_indexes
-    set -l last_char ''
-    set -l last_index 0
-
-    for candidate_index in (seq (count $candidate_chars))
-        if test "$candidate_lower[$candidate_index]" = "$pattern_lower[$pattern_index]"
-            set -l score 0
-            if test $candidate_index -eq 1
-                set score (math "$score + 10")
-            end
-            if string match -qr '^[[:lower:]]$' -- "$last_char"
-                if string match -qr '^[[:upper:]]$' -- "$candidate_chars[$candidate_index]"
-                    set score (math "$score + 20")
-                end
-            end
-            if test $candidate_index -ne 1
-                if contains -- "$last_char" / - _ ' ' . \\
-                    set score (math "$score + 20")
-                end
-            end
-            if test (count $matched_indexes) -gt 0
-                if test "$matched_indexes[-1]" -eq "$last_index"
-                    set -l bonus (math "$adjacent_bonus * 2 + 5")
-                    set score (math "$score + $bonus")
-                    set adjacent_bonus (math "$adjacent_bonus + $bonus")
-                end
-            end
-            if test $score -gt $best_score
-                set best_score $score
-                set best_index $candidate_index
-            end
-        end
-
-        set -l next_pattern ''
-        set -l next_candidate ''
-        if test $pattern_index -lt (count $pattern_lower)
-            set -l next_pattern_index (math "$pattern_index + 1")
-            set next_pattern "$pattern_lower[$next_pattern_index]"
-        end
-        if test $candidate_index -lt (count $candidate_lower)
-            set -l next_candidate_index (math "$candidate_index + 1")
-            set next_candidate "$candidate_lower[$next_candidate_index]"
-        end
-
-        if test -z "$next_candidate"; or test "$next_pattern" = "$next_candidate"
-            if test $best_index -gt 0
-                if test (count $matched_indexes) -eq 0
-                    set -l leading_penalty (math "($best_index - 1) * -5")
-                    if test $leading_penalty -lt -15
-                        set leading_penalty -15
-                    end
-                    set best_score (math "$best_score + $leading_penalty")
-                end
-                set total_score (math "$total_score + $best_score")
-                set -a matched_indexes $best_index
-                set best_score -1
-                set best_index 0
-                set pattern_index (math "$pattern_index + 1")
-                if test $pattern_index -gt (count $pattern_lower)
-                    break
-                end
-            end
-        end
-
-        set last_index $candidate_index
-        set last_char "$candidate_chars[$candidate_index]"
-    end
-
-    set total_score (math "$total_score + "(count $matched_indexes)" - "(count $candidate_chars))
-    if test (count $matched_indexes) -eq (count $pattern_chars)
-        set -g __gum_filter_score_value $total_score
-        set -g __gum_filter_score_indexes $matched_indexes
-        return 0
-    end
-    return 1
-end
-
 function __gum_filter_rank --argument-names query
     set -l candidates $argv[2..-1]
     set -g __gum_filter_ranked_values
@@ -118,47 +22,31 @@ function __gum_filter_rank --argument-names query
         return 0
     end
 
-    set -l sortable
-    for candidate_index in (seq (count $candidates))
-        set -l plain (__gum_filter_strip_ansi "$candidates[$candidate_index]")
-        if __gum_filter_score "$query" "$plain"
-            set -a sortable "$__gum_filter_score_value\t$candidate_index\t"(string join , $__gum_filter_score_indexes)
-        end
-    end
-
-    for record in (printf '%b\n' $sortable | command sort -t \t -k1,1nr -k2,2n)
+    set -l scorer (
+        path resolve \
+            (path dirname (functions --details __gum_filter_rank))/__gum_filter_rank.awk
+    )
+    set -lx GUM_FILTER_QUERY "$query"
+    # Apple awk only handles UTF-8 predictably in byte-oriented locales.
+    set -lx LC_ALL C
+    for record in (
+        printf '%s\n' $candidates |
+            command awk -f "$scorer" |
+            command sort -t \t -k1,1nr -k2,2n |
+            command head -n 256
+    )
         set -l fields (string split \t -- "$record")
         set -a __gum_filter_ranked_values "$candidates[$fields[2]]"
         set -a __gum_filter_ranked_indexes "$fields[3]"
     end
 end
 
-function __gum_filter_read_byte
-    command dd if=/dev/tty bs=1 count=1 2>/dev/null |
-        command od -An -tu1 |
-        string trim
+function __gum_filter_read_key
+    set -g __gum_filter_key
+    read --null --nchars 1 --global __gum_filter_key
 end
 
-function __gum_filter_read_character --argument-names first_byte
-    set -l byte_count 1
-    if test $first_byte -ge 194 -a $first_byte -le 223
-        set byte_count 2
-    else if test $first_byte -ge 224 -a $first_byte -le 239
-        set byte_count 3
-    else if test $first_byte -ge 240 -a $first_byte -le 244
-        set byte_count 4
-    end
-
-    set -l escaped (printf '\\x%02x' $first_byte)
-    for continuation_index in (seq 2 $byte_count)
-        set -l next_byte (__gum_filter_read_byte)
-        test -n "$next_byte"; or break
-        set escaped "$escaped"(printf '\\x%02x' $next_byte)
-    end
-    printf '%b' "$escaped"
-end
-
-function __gum_filter_render_candidate --argument-names candidate indexes selected max_width
+function __gum_filter_render_candidate --argument-names candidate indexes selected max_width final_row
     set -l tokens (string match -ar '\e\[[0-9;?]*[ -/]*[@-~]|.' -- "$candidate")
     set -l matched (string split , -- "$indexes")
     set -l available (math "max(1, $max_width - 2)")
@@ -201,7 +89,11 @@ function __gum_filter_render_candidate --argument-names candidate indexes select
         set rendered (math "$rendered + 1")
     end
     set_color normal >&2
-    printf '\033[K\n' >&2
+    if test "$final_row" -eq 1
+        printf '\033[K' >&2
+    else
+        printf '\033[K\n' >&2
+    end
 end
 
 function __gum_filter_render --argument-names height cursor offset query query_cursor
@@ -210,7 +102,11 @@ function __gum_filter_render --argument-names height cursor offset query query_c
         set terminal_width 80
     end
 
-    printf '\r\033[J' >&2
+    # Hide the hardware cursor while repainting the rows below the query. If
+    # left visible, terminals show it travel to the bottom and jump back up.
+    # Each rendered row clears its own remainder, so clearing the whole region
+    # here only makes the bottom rows disappear briefly before they are drawn.
+    printf '\033[?25l\r' >&2
     set_color green >&2
     printf '→ ' >&2
     set_color normal >&2
@@ -218,6 +114,8 @@ function __gum_filter_render --argument-names height cursor offset query query_c
 
     for row in (seq $height)
         set -l match_index (math "$offset + $row - 1")
+        set -l final_row 0
+        test $row -eq $height; and set final_row 1
         if test $match_index -le (count $__gum_filter_ranked_values)
             set -l is_selected 0
             if test $match_index -eq $cursor
@@ -227,25 +125,31 @@ function __gum_filter_render --argument-names height cursor offset query query_c
                 "$__gum_filter_ranked_values[$match_index]" \
                 "$__gum_filter_ranked_indexes[$match_index]" \
                 $is_selected \
-                $terminal_width
+                $terminal_width \
+                $final_row
         else
-            printf '\033[K\n' >&2
+            if test $final_row -eq 1
+                printf '\033[K' >&2
+            else
+                printf '\033[K\n' >&2
+            end
         end
     end
 
     # Leave the real terminal cursor in the query, like Gum's textinput.
-    printf '\033[%dA\r' (math "$height + 1") >&2
+    printf '\033[%dA\r' $height >&2
     set -l cursor_column (math "2 + $query_cursor")
     if test $cursor_column -gt 0
         printf '\033[%dC' $cursor_column >&2
     end
+    printf '\033[?25h' >&2
 end
 
 function __gum_filter_restore_terminal
     if set -q __gum_filter_saved_stty[1]
         command stty "$__gum_filter_saved_stty" </dev/tty 2>/dev/null
     end
-    printf '\r\033[J' >&2
+    printf '\033[?25h\r\033[J' >&2
     set_color normal >&2
     set -e __gum_filter_saved_stty
 end
@@ -290,8 +194,16 @@ function __gum_filter --description 'Single-select filter matching the pinned Gu
     set -l result_status 0
 
     __gum_filter_rank "$query" $candidates
+    set -l ranked_query "$query"
 
     while true
+        if test "$query" != "$ranked_query"
+            __gum_filter_rank "$query" $candidates
+            set cursor 1
+            set offset 1
+            set ranked_query "$query"
+        end
+
         set -l match_count (count $__gum_filter_ranked_values)
         if test $match_count -eq 0
             set cursor 0
@@ -310,35 +222,35 @@ function __gum_filter --description 'Single-select filter matching the pinned Gu
         end
 
         __gum_filter_render $height $cursor $offset "$query" $query_cursor
-        set -l byte (__gum_filter_read_byte)
-        test -n "$byte"; or continue
+        __gum_filter_read_key </dev/tty
+        or continue
+        set -l key "$__gum_filter_key"
 
-        switch $byte
-            case 3
+        switch "$key"
+            case \cc
                 set result_status 130
                 break
-            case 13
+            case \n \r
                 if test $cursor -gt 0
                     set selected (__gum_filter_strip_ansi "$__gum_filter_ranked_values[$cursor]")
                 end
                 break
-            case 10 14
+            case \cn
                 if test $match_count -gt 0
                     set cursor (math "$cursor % $match_count + 1")
                 end
-            case 11 16
+            case \ck \cp
                 if test $match_count -gt 0
                     set cursor (math "($cursor - 2 + $match_count) % $match_count + 1")
                 end
-            case 1
+            case \ca
                 set query_cursor 0
-            case 5
+            case \ce
                 set query_cursor (string length -- "$query")
-            case 21
+            case \cu
                 set query (string sub -s (math "$query_cursor + 1") -- "$query")
                 set query_cursor 0
-                __gum_filter_rank "$query" $candidates
-            case 23
+            case \cw
                 if test $query_cursor -gt 0
                     set -l before (string sub -s 1 -l $query_cursor -- "$query")
                     set -l after ''
@@ -348,9 +260,8 @@ function __gum_filter --description 'Single-select filter matching the pinned Gu
                     set before (string replace -r '[[:space:]]*[^[:space:]]+[[:space:]]*$' '' -- "$before")
                     set query "$before$after"
                     set query_cursor (string length -- "$before")
-                    __gum_filter_rank "$query" $candidates
                 end
-            case 127 8
+            case \x7f \b
                 if test $query_cursor -gt 0
                     set -l before ''
                     set -l after ''
@@ -362,42 +273,46 @@ function __gum_filter --description 'Single-select filter matching the pinned Gu
                     end
                     set query "$before$after"
                     set query_cursor (math "$query_cursor - 1")
-                    __gum_filter_rank "$query" $candidates
                 end
-            case 27
+            case \e
                 command stty min 0 time 1 </dev/tty
-                set -l second (__gum_filter_read_byte)
+                __gum_filter_read_key </dev/tty
+                set -l escape_status $status
+                set -l second "$__gum_filter_key"
                 command stty min 1 time 0 </dev/tty
-                if test -z "$second"
+                if test $escape_status -ne 0
                     set result_status 130
                     break
                 end
-                if test "$second" = 91
-                    set -l third (__gum_filter_read_byte)
-                    switch $third
-                        case 65
+                if contains -- "$second" \[ O
+                    __gum_filter_read_key </dev/tty
+                    or continue
+                    set -l third "$__gum_filter_key"
+                    switch "$third"
+                        case A
                             if test $match_count -gt 0
                                 set cursor (math "($cursor - 2 + $match_count) % $match_count + 1")
                             end
-                        case 66
+                        case B
                             if test $match_count -gt 0
                                 set cursor (math "$cursor % $match_count + 1")
                             end
-                        case 67
+                        case C
                             if test $query_cursor -lt (string length -- "$query")
                                 set query_cursor (math "$query_cursor + 1")
                             end
-                        case 68
+                        case D
                             if test $query_cursor -gt 0
                                 set query_cursor (math "$query_cursor - 1")
                             end
-                        case 72
+                        case H
                             set query_cursor 0
-                        case 70
+                        case F
                             set query_cursor (string length -- "$query")
-                        case 51
-                            set -l fourth (__gum_filter_read_byte)
-                            if test "$fourth" = 126
+                        case 3
+                            __gum_filter_read_key </dev/tty
+                            or continue
+                            if test "$__gum_filter_key" = \~
                                 set -l query_length (string length -- "$query")
                                 if test $query_cursor -lt $query_length
                                     set -l before ''
@@ -409,14 +324,12 @@ function __gum_filter --description 'Single-select filter matching the pinned Gu
                                         set after (string sub -s (math "$query_cursor + 2") -- "$query")
                                     end
                                     set query "$before$after"
-                                    __gum_filter_rank "$query" $candidates
                                 end
                             end
                     end
                 end
             case '*'
-                if test $byte -ge 32
-                    set -l character (__gum_filter_read_character $byte)
+                if not string match -qr '[[:cntrl:]]' -- "$key"
                     set -l before ''
                     set -l after ''
                     if test $query_cursor -gt 0
@@ -425,15 +338,14 @@ function __gum_filter --description 'Single-select filter matching the pinned Gu
                     if test $query_cursor -lt (string length -- "$query")
                         set after (string sub -s (math "$query_cursor + 1") -- "$query")
                     end
-                    set query "$before$character$after"
+                    set query "$before$key$after"
                     set query_cursor (math "$query_cursor + 1")
-                    __gum_filter_rank "$query" $candidates
                 end
         end
     end
 
     __gum_filter_restore_terminal
-    set -e __gum_filter_ranked_values __gum_filter_ranked_indexes
+    set -e __gum_filter_key __gum_filter_ranked_values __gum_filter_ranked_indexes
 
     if test $result_status -ne 0
         return $result_status
