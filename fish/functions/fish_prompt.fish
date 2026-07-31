@@ -1,3 +1,8 @@
+set -e __fish_prompt_os
+set -e __fish_prompt_context_cache_pwd
+set -e __fish_prompt_context_cache_value
+set -e __fish_prompt_title_context_cache_value
+
 function fish_prompt
     set -l last_status $status
 
@@ -64,8 +69,8 @@ function __fish_prompt_git_status
                 set has_upstream 1
                 set -l counts (string match -r '# branch.ab \+([0-9]+) -([0-9]+)' -- $line)
                 if test (count $counts) -ge 3
-                    set ahead $counts
-                    set behind $counts
+                    set ahead $counts[2]
+                    set behind $counts[3]
                 end
             case 'u *'
                 set has_conflicts 1
@@ -174,6 +179,19 @@ function __fish_prompt_git_status
     end
 end
 
+function __fish_prompt_display_path
+    set -l location (path normalize "$argv[1]")
+    set -l home (path normalize "$HOME")
+
+    if test "$location" = "$home"
+        printf '~'
+    else if string match --quiet "$home/*" "$location"
+        printf '~%s' (string sub -s (math (string length "$home") + 1) -- "$location")
+    else
+        printf '%s' "$location"
+    end
+end
+
 function __fish_prompt_command_context
     set -l without_commit 0
     contains -- --without-commit $argv; and set without_commit 1
@@ -189,26 +207,25 @@ function __fish_prompt_command_context
     end
 
     if not set -q __fish_prompt_os
+        set -g __fish_prompt_os
         switch (uname)
-            case Darwin
-                set -g __fish_prompt_os ""
             case Linux
                 set -g __fish_prompt_os "⌁"
         end
     end
 
-    set -l repository (path basename "$PWD")
+    set -l repository (__fish_prompt_display_path "$PWD")
     set -l worktree
     set -l branch
     set -l commit
     set -l git_info (command git rev-parse --show-toplevel --git-common-dir --git-dir --short HEAD 2>/dev/null)
 
     if test (count $git_info) -ge 3
-        set -l worktree_root $git_info
-        set -l common_dir $git_info
-        set -l git_dir $git_info
+        set -l worktree_root $git_info[1]
+        set -l common_dir $git_info[2]
+        set -l git_dir $git_info[3]
         if test (count $git_info) -ge 4
-            set commit $git_info
+            set commit $git_info[4]
         end
 
         if not string match --quiet --regex '^/' "$common_dir"
@@ -216,15 +233,6 @@ function __fish_prompt_command_context
         end
         if not string match --quiet --regex '^/' "$git_dir"
             set git_dir (path resolve "$git_dir")
-        end
-
-        if test "$git_dir" != "$common_dir"
-            set -l codex_worktree (string match -r '/\.codex/worktrees/([^/]+)(?:/|$)' -- "$worktree_root")
-            if test (count $codex_worktree) -ge 2
-                set worktree $codex_worktree
-            else
-                set worktree (path basename "$worktree_root")
-            end
         end
 
         if test (path basename "$common_dir") = .git
@@ -247,12 +255,24 @@ function __fish_prompt_command_context
             end
         end
 
+        if test "$git_dir" != "$common_dir"
+            set -l codex_worktree (string match -r '/\.codex/worktrees/([^/]+)(?:/|$)' -- "$worktree_root")
+            if test (count $codex_worktree) -ge 2
+                set worktree $codex_worktree[2]
+            else
+                set worktree (path basename "$worktree_root")
+                if test "$worktree" = "$repository"
+                    set worktree (path basename (path dirname "$worktree_root"))
+                end
+            end
+        end
+
         # Reading HEAD avoids another Git process on every cache refresh.
         if test -r "$git_dir/HEAD"
             set -l head (string trim -- (string collect <"$git_dir/HEAD"))
             set -l head_ref (string match -r '^ref: refs/heads/(.+)$' -- "$head")
             if test (count $head_ref) -ge 2
-                set branch $head_ref
+                set branch $head_ref[2]
             else if string match --quiet --regex '^[0-9a-fA-F]{7,}$' "$head"
                 if test -n "$commit"
                     set branch "@$commit"
@@ -282,7 +302,7 @@ function __fish_prompt_command_context
     end
     if test (count $safe_title_fields) -ge 2
         set -l title_details (string join "  " -- $safe_title_fields[2..-1])
-        set -g __fish_prompt_title_context_cache_value "$safe_title_fields  $title_details"
+        set -g __fish_prompt_title_context_cache_value "$safe_title_fields[1]  $title_details"
     else
         set -g __fish_prompt_title_context_cache_value (string join " " -- $safe_title_fields)
     end
