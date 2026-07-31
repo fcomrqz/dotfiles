@@ -1,22 +1,18 @@
 {
   "restore_on_startup": "last_workspace",
+  "cli_default_open_behavior": "existing_window",
   "ssh_connections": [
     {
-      "host": "localhost",
-      "username": "codex@ubuntu",
-      "port": 32222,
-      "args": [
-        "-i",
-        "~/.orbstack/ssh/id_ed25519"
-      ],
+      "host": "orb",
+      "username": "fcomrqz@ubuntu",
+      "args": [],
       "projects": [
         {
           "paths": [
-            "/mnt/mac/Users/fran/Developer/fcomrqz/bookip"
+            "/home/fcomrqz/bookip"
           ]
         }
-      ],
-      "nickname": "orb"
+      ]
     }
   ],
   "session": {
@@ -27,7 +23,7 @@
       "default_config_options": {
         "collaboration_mode": "default",
         "fast-mode": true,
-        "mode": "agent",
+        "mode": "agent-full-access",
         "model": "gpt-5.6-sol",
         "reasoning_effort": "xhigh",
       },
@@ -237,8 +233,8 @@
     "Swift": {
       "formatter": {
         "external": {
-          "command": "swift-format",
-          "arguments": [],
+          "command": "xcrun",
+          "arguments": ["swift-format"],
         },
       },
     },
