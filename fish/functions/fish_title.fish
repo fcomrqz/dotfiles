@@ -1,26 +1,17 @@
 function fish_title
-    if not set -q INSIDE_EMACS; or string match -vq '*,term:*' -- $INSIDE_EMACS
-        set -l cwd (prompt_pwd --dir-length=0)
-        set -l title_text ""
-
-        if string match -q '~' "$cwd"
-            set title_text '~'
-        else if string match -q '~*' "$cwd"
-            set title_text (path basename $cwd)
-        else
-            set title_text $cwd
-        end
-
-        # Add git branch if in a git repository AND .git is a directory (not a file) AND no .jj folder
-        if test -d .git; and not test -f .git; and not test -d .jj
-            set -l branch_name (git symbolic-ref --short HEAD 2>/dev/null; or git describe --contains --all HEAD 2>/dev/null)
-            if test -n "$branch_name"
-                set title_text "$title_text  ·  $branch_name"
-            end
-        end
-
-        echo $title_text
-        echo '  ·  '
-        echo (set -q argv[1] && echo $argv[1] || status current-command)
+    if set -q INSIDE_EMACS; and string match -q '*,term:*' -- $INSIDE_EMACS
+        return
     end
+
+    # Reuse the prompt's cached context without commit or status details.
+    set -l title_context (fish_prompt --title-context | string collect)
+
+    set -l command_name (status current-command)
+    if set -q argv[1]; and test -n "$argv"
+        set command_name $argv
+    end
+    set command_name (string replace -ra '[[:cntrl:]]+' ' ' -- "$command_name")
+    set command_name (string trim -- "$command_name")
+
+    printf "%s  ·  %s\n" "$title_context" "$command_name"
 end

@@ -1,46 +1,28 @@
 function fish_prompt
     set -l last_status $status
-    set -l cwd_basename
-    if test "$PWD" = "$HOME"
-        set cwd_basename "~"
-    else
-        set cwd_basename (string join ' ' -- (path basename $PWD | string replace -ra '[[:cntrl:]]' ''))
+
+    if contains -- --title-context $argv
+        __fish_prompt_command_context --without-commit
+        return
     end
 
-    if test -n "$DIRENV_DIR"
-        set_color yellow
-        printf "%s" "*"
+    set -l header_color yellow
+    set -l final_rendering 0
+    if contains -- --final-rendering $argv
+        set header_color brblack
+        set final_rendering 1
     end
-    set_color yellow
-    printf "%s" $cwd_basename
+
+    set_color $header_color
+    printf "%s " (__fish_prompt_command_context)
     set_color normal
-    printf " "
-
-    # Cache jj repository status.
-    if not set -q __jj_repo_cache_pwd; or test "$PWD" != "$__jj_repo_cache_pwd"
-        set -g __jj_repo_cache_pwd $PWD
-        if command -sq jj; and jj root --quiet >/dev/null 2>&1
-            set -g __jj_repo_cache_result 1
-        else
-            set -g __jj_repo_cache_result 0
-        end
+    if test -n "$DIRENV_DIR"
+        set_color $header_color
+        printf "* "
+        set_color normal
     end
 
-    if test $__jj_repo_cache_result -eq 1
-        jj log --quiet --no-graph --color always -r @ -T "separate(
-            ' ',
-            if(conflict, label('conflict', '×'),
-               if(remote_bookmarks.filter(|b| b.name().contains('main')),
-                  if(remote_bookmarks.filter(|b| b.remote().contains('origin')),
-                     label('empty', '✓'),
-                     label('working_copy change_id', '!')
-                  )
-               )
-            ),
-            description.first_line(),
-            if(empty, label('empty', 'empty'), commit_timestamp(self).ago())
-        )"
-    else
+    if test $final_rendering -eq 0
         __fish_prompt_git_status
     end
 
@@ -82,8 +64,8 @@ function __fish_prompt_git_status
                 set has_upstream 1
                 set -l counts (string match -r '# branch.ab \+([0-9]+) -([0-9]+)' -- $line)
                 if test (count $counts) -ge 3
-                    set ahead $counts[2]
-                    set behind $counts[3]
+                    set ahead $counts
+                    set behind $counts
                 end
             case 'u *'
                 set has_conflicts 1
@@ -112,7 +94,7 @@ function __fish_prompt_git_status
         set branch_name "@"(string sub -s 1 -l 7 -- $git_head)
     end
 
-    if not set -q __git_dir_cache_pwd; or test "$PWD" != "$__git_dir_cache_pwd"; or not set -q __git_dir_cache_value[1]
+    if not set -q __git_dir_cache_pwd; or test "$PWD" != "$__git_dir_cache_pwd"; or not set -q __git_dir_cache_value
         set -g __git_dir_cache_pwd $PWD
         set -g __git_dir_cache_value (git rev-parse --git-dir 2>/dev/null)
     end
@@ -141,12 +123,6 @@ function __fish_prompt_git_status
     set -l tag
     if test "$git_head" != "(initial)"
         set tag (git describe --exact-match --tags 2>/dev/null)
-    end
-
-    if test -n "$branch_name"; and test "$branch_name" != "(initial)"
-        set_color magenta
-        printf "%s " "$branch_name"
-        set_color normal
     end
 
     if test "$behind" -gt 0
@@ -198,72 +174,140 @@ function __fish_prompt_git_status
     end
 end
 
-function getCursorRow --description 'Print cursor row (1-based), empty on timeout'
-    if set -q __fish_prompt_cursor_query_supported; and test $__fish_prompt_cursor_query_supported -eq 0
+function __fish_prompt_command_context
+    set -l without_commit 0
+    contains -- --without-commit $argv; and set without_commit 1
+
+    if set -q __fish_prompt_context_cache_pwd __fish_prompt_context_cache_value __fish_prompt_title_context_cache_value
+        and test "$PWD" = "$__fish_prompt_context_cache_pwd"
+        if test $without_commit -eq 1
+            printf "%s" "$__fish_prompt_title_context_cache_value"
+        else
+            printf "%s" "$__fish_prompt_context_cache_value"
+        end
         return
     end
 
-    set -l old (stty -g </dev/tty 2>/dev/null)
-    or begin
-        set -g __fish_prompt_cursor_query_supported 0
-        return
+    if not set -q __fish_prompt_os
+        switch (uname)
+            case Darwin
+                set -g __fish_prompt_os ""
+            case Linux
+                set -g __fish_prompt_os "⌁"
+        end
     end
 
-    stty -icanon -echo min 0 time 1 </dev/tty 2>/dev/null
-    or begin
-        stty $old </dev/tty 2>/dev/null
-        set -g __fish_prompt_cursor_query_supported 0
-        return
+    set -l repository (path basename "$PWD")
+    set -l worktree
+    set -l branch
+    set -l commit
+    set -l git_info (command git rev-parse --show-toplevel --git-common-dir --git-dir --short HEAD 2>/dev/null)
+
+    if test (count $git_info) -ge 3
+        set -l worktree_root $git_info
+        set -l common_dir $git_info
+        set -l git_dir $git_info
+        if test (count $git_info) -ge 4
+            set commit $git_info
+        end
+
+        if not string match --quiet --regex '^/' "$common_dir"
+            set common_dir (path resolve "$common_dir")
+        end
+        if not string match --quiet --regex '^/' "$git_dir"
+            set git_dir (path resolve "$git_dir")
+        end
+
+        if test "$git_dir" != "$common_dir"
+            set -l codex_worktree (string match -r '/\.codex/worktrees/([^/]+)(?:/|$)' -- "$worktree_root")
+            if test (count $codex_worktree) -ge 2
+                set worktree $codex_worktree
+            else
+                set worktree (path basename "$worktree_root")
+            end
+        end
+
+        if test (path basename "$common_dir") = .git
+            set repository (path basename (path dirname "$common_dir"))
+        else
+            set repository (path basename "$common_dir")
+        end
+
+        # Prefer GitHub's canonical repository name when origin points there,
+        # supporting HTTPS, SSH URLs, and SCP-style SSH remotes.
+        set -l origin_url (command git config --get remote.origin.url 2>/dev/null)
+        if string match --quiet --ignore-case --regex 'github\.com[/:]' "$origin_url"
+            set -l github_path (string replace -r '^.*github\.com[/:]' '' -- "$origin_url")
+            set github_path (string replace -r '[?#].*$' '' -- "$github_path")
+            set github_path (string replace -r '\.git/?$' '' -- "$github_path")
+            set github_path (string trim -c / -- "$github_path")
+            set -l github_parts (string split / -- "$github_path")
+            if test (count $github_parts) -ge 2
+                set repository $github_parts[-1]
+            end
+        end
+
+        # Reading HEAD avoids another Git process on every cache refresh.
+        if test -r "$git_dir/HEAD"
+            set -l head (string trim -- (string collect <"$git_dir/HEAD"))
+            set -l head_ref (string match -r '^ref: refs/heads/(.+)$' -- "$head")
+            if test (count $head_ref) -ge 2
+                set branch $head_ref
+            else if string match --quiet --regex '^[0-9a-fA-F]{7,}$' "$head"
+                if test -n "$commit"
+                    set branch "@$commit"
+                else
+                    set branch "@"(string sub -s 1 -l 7 -- "$head")
+                end
+                set commit
+            end
+        end
     end
 
-    printf '\e[6n' >/dev/tty
-
-    set -l buf ''
-    while read --null --nchars 1 ch </dev/tty 2>/dev/null
-        set buf "$buf$ch"
-        test "$ch" = R; and break
+    set -l fields $__fish_prompt_os $repository $worktree $branch $commit
+    set -l safe_fields
+    for field in $fields
+        test -n "$field"; or continue
+        set -a safe_fields (string replace -ra '[[:cntrl:]]' '' -- "$field")
     end
 
-    stty $old </dev/tty 2>/dev/null
+    set -g __fish_prompt_context_cache_pwd $PWD
+    set -g __fish_prompt_context_cache_value (string join " " -- $safe_fields)
 
-    if test -z "$buf"
-        set -g __fish_prompt_cursor_query_supported 0
-        return
+    set -l title_fields $__fish_prompt_os $repository $worktree
+    set -l safe_title_fields
+    for field in $title_fields
+        test -n "$field"; or continue
+        set -a safe_title_fields (string replace -ra '[[:cntrl:]]' '' -- "$field")
+    end
+    if test (count $safe_title_fields) -ge 2
+        set -l title_details (string join "  " -- $safe_title_fields[2..-1])
+        set -g __fish_prompt_title_context_cache_value "$safe_title_fields  $title_details"
+    else
+        set -g __fish_prompt_title_context_cache_value (string join " " -- $safe_title_fields)
+    end
+    if test -n "$branch"
+        set -l safe_branch (string replace -ra '[[:cntrl:]]' '' -- "$branch")
+        set -g __fish_prompt_title_context_cache_value "$__fish_prompt_title_context_cache_value  $safe_branch"
     end
 
-    set -g __fish_prompt_cursor_query_supported 1
-
-    set -l cleaned (string replace -ra '[^0-9;]+' '' -- $buf)
-    set -l parts (string split ';' -- $cleaned)
-    test (count $parts) -ge 1; and echo $parts[1]
+    if test $without_commit -eq 1
+        printf "%s" "$__fish_prompt_title_context_cache_value"
+    else
+        printf "%s" "$__fish_prompt_context_cache_value"
+    end
 end
 
-function clean --on-event fish_preexec
-    set -l cmd $argv[1]
-    set -l offset (math (string length -- $cmd) + 3)
-
-    set -l cwd (string replace -r "^$HOME" "~" $PWD)
-    set -l cwd_basename
-    if test (count $cwd) -eq 1
-        set cwd_basename (path basename $cwd)
-    else
-        # Preserve basename's multi-argument behavior for paths containing newlines.
-        set cwd_basename (basename $cwd)
+function __fish_prompt_commandline_is_blank
+    if test (count $argv) -eq 0
+        return 0
     end
 
-    set -l row (getCursorRow)
-
-    if test "$row" = 2
-        printf "\033[2A\r\033[%dC%s\033[1B\r" \
-            $offset (set_color brblack)$cwd_basename(set_color normal)
-    else
-        printf "\033[2A\r\033[K\033[1B\r\033[%dC%s\033[1B\r" \
-            $offset (set_color brblack)$cwd_basename(set_color normal)
-    end
+    not string match --quiet --regex '\S' -- (string join \n -- $argv)
 end
 
 function __fish_prompt_accept_line
-    if test -z (string trim -- (commandline))
+    if __fish_prompt_commandline_is_blank (commandline)
         set -g __fish_prompt_empty_submit 1
     else
         set -e __fish_prompt_empty_submit
@@ -282,12 +326,16 @@ function __fish_prompt_compact_empty --on-event fish_prompt
 end
 
 function space --on-event fish_postexec
+    set -e __fish_prompt_context_cache_pwd
+    set -e __fish_prompt_context_cache_value
+    set -e __fish_prompt_title_context_cache_value
     printf "\n\n"
 end
 
-function __clear_jj_cache --on-variable PWD
-    set -e __jj_repo_cache_pwd
-    set -e __jj_repo_cache_result
+function __clear_prompt_cache --on-variable PWD
     set -e __git_dir_cache_pwd
     set -e __git_dir_cache_value
+    set -e __fish_prompt_context_cache_pwd
+    set -e __fish_prompt_context_cache_value
+    set -e __fish_prompt_title_context_cache_value
 end
