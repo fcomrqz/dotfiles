@@ -85,8 +85,14 @@ end
 cd "$linked_repository"
 __clear_prompt_cache
 set linked_context (__fish_prompt_command_context)
-string match --quiet '*repository topic feature *' "$linked_context"
-or fail "linked worktree, repository, and branch are rendered"
+set linked_title (fish_prompt --title-context)
+string match --quiet '*repository feature *' "$linked_context"
+or fail "linked worktree prompt renders repository and branch"
+string match --quiet '*repository*feature' "$linked_title"
+or fail "linked worktree title renders repository and branch"
+if string match --quiet '*topic*' "$linked_context" "$linked_title"
+    fail "linked worktree prompt and title omit the worktree name"
+end
 
 cd "$temporary_directory"
 __clear_prompt_cache
@@ -102,6 +108,6 @@ command rm -rf "$temporary_directory"
 
 printf 'ok - prompt accepts multiline commands\n'
 printf 'ok - prompt parses ahead and behind counts\n'
-printf 'ok - prompt renders repository, worktree, and branch context\n'
+printf 'ok - prompt renders repository and branch without worktree names\n'
 printf 'ok - prompt applies platform symbols\n'
 printf 'ok - prompt renders abbreviated full paths outside repositories\n'

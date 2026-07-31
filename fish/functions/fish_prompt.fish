@@ -215,17 +215,15 @@ function __fish_prompt_command_context
     end
 
     set -l repository (__fish_prompt_display_path "$PWD")
-    set -l worktree
     set -l branch
     set -l commit
-    set -l git_info (command git rev-parse --show-toplevel --git-common-dir --git-dir --short HEAD 2>/dev/null)
+    set -l git_info (command git rev-parse --git-common-dir --git-dir --short HEAD 2>/dev/null)
 
-    if test (count $git_info) -ge 3
-        set -l worktree_root $git_info[1]
-        set -l common_dir $git_info[2]
-        set -l git_dir $git_info[3]
-        if test (count $git_info) -ge 4
-            set commit $git_info[4]
+    if test (count $git_info) -ge 2
+        set -l common_dir $git_info[1]
+        set -l git_dir $git_info[2]
+        if test (count $git_info) -ge 3
+            set commit $git_info[3]
         end
 
         if not string match --quiet --regex '^/' "$common_dir"
@@ -255,18 +253,6 @@ function __fish_prompt_command_context
             end
         end
 
-        if test "$git_dir" != "$common_dir"
-            set -l codex_worktree (string match -r '/\.codex/worktrees/([^/]+)(?:/|$)' -- "$worktree_root")
-            if test (count $codex_worktree) -ge 2
-                set worktree $codex_worktree[2]
-            else
-                set worktree (path basename "$worktree_root")
-                if test "$worktree" = "$repository"
-                    set worktree (path basename (path dirname "$worktree_root"))
-                end
-            end
-        end
-
         # Reading HEAD avoids another Git process on every cache refresh.
         if test -r "$git_dir/HEAD"
             set -l head (string trim -- (string collect <"$git_dir/HEAD"))
@@ -284,7 +270,7 @@ function __fish_prompt_command_context
         end
     end
 
-    set -l fields $__fish_prompt_os $repository $worktree $branch $commit
+    set -l fields $__fish_prompt_os $repository $branch $commit
     set -l safe_fields
     for field in $fields
         test -n "$field"; or continue
@@ -294,7 +280,7 @@ function __fish_prompt_command_context
     set -g __fish_prompt_context_cache_pwd $PWD
     set -g __fish_prompt_context_cache_value (string join " " -- $safe_fields)
 
-    set -l title_fields $__fish_prompt_os $repository $worktree
+    set -l title_fields $__fish_prompt_os $repository
     set -l safe_title_fields
     for field in $title_fields
         test -n "$field"; or continue
