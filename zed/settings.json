@@ -1,12 +1,27 @@
 {
+  "cli_default_open_behavior": "existing_window",
+  "ssh_connections": [
+    {
+      "host": "orb",
+      "username": "fcomrqz@ubuntu",
+      "args": [],
+      "projects": [
+        {
+          "paths": [
+            "/home/fcomrqz/bookip"
+          ]
+        }
+      ]
+    }
+  ],
   "session": {
     "trust_all_worktrees": true
   },
   "agent_servers": {
     "codex-acp": {
       "default_config_options": {
-        "fast-mode": false,
-        "mode": "agent",
+        "fast-mode": true,
+        "mode": "agent-full-access",
         "model": "gpt-5.6-sol",
         "reasoning_effort": "medium",
       },
@@ -208,8 +223,8 @@
     "Swift": {
       "formatter": {
         "external": {
-          "command": "swift-format",
-          "arguments": [],
+          "command": "xcrun",
+          "arguments": ["swift-format"],
         },
       },
     },
