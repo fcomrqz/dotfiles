@@ -1,3 +1,24 @@
+#!/bin/bash
+
+set -euo pipefail
+
+DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+readonly DOTFILES_ROOT
+# shellcheck source=install/shared.sh
+source "$DOTFILES_ROOT/install/shared.sh"
+
+step() {
+  local title=""
+  if [[ "${1:-}" == "--title" ]]; then
+    title="$2"
+    shift 2
+  fi
+  if [[ "${1:-}" == "--" ]]; then
+    shift
+  fi
+  run_step "$title" "$@"
+}
+
 # Finder
 # defaults write NSGlobalDomain "AppleShowAllExtensions" -bool "false"
 
@@ -38,51 +59,51 @@ defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool false
 #
 #
 
-gum log --prefix Defaults "macOS"
-# gum spin --title "Spotlight" -- defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 '{ enabled = 0; value = { parameters = (32,49,1048576); type = standard; }; }'
-gum spin --title "Desktop" -- defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+log_section "Applying macOS defaults"
+# step --title "Spotlight" -- defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 '{ enabled = 0; value = { parameters = (32,49,1048576); type = standard; }; }'
+step --title "Desktop" -- defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
 
-gum spin --title "Dock" -- defaults write com.apple.dock persistent-apps -array
-gum spin --title "Dock" -- defaults write com.apple.dock persistent-others -array
-gum spin --title "Dock" -- defaults write com.apple.dock static-only -bool true
-gum spin --title "Dock" -- defaults write com.apple.dock show-recents -bool false
-gum spin --title "Dock" -- defaults write com.apple.dock show-process-indicators -bool false
-gum spin --title "Dock" -- defaults write com.apple.dock tilesize -int 48
-gum spin --title "Dock" -- defaults write com.apple.dock autohide -bool true
-gum spin --title "Dock" -- defaults write com.apple.dock no-bouncing -bool true
-gum spin --title "Dock" -- killall Dock
+step --title "Dock" -- defaults write com.apple.dock persistent-apps -array
+step --title "Dock" -- defaults write com.apple.dock persistent-others -array
+step --title "Dock" -- defaults write com.apple.dock static-only -bool true
+step --title "Dock" -- defaults write com.apple.dock show-recents -bool false
+step --title "Dock" -- defaults write com.apple.dock show-process-indicators -bool false
+step --title "Dock" -- defaults write com.apple.dock tilesize -int 48
+step --title "Dock" -- defaults write com.apple.dock autohide -bool true
+step --title "Dock" -- defaults write com.apple.dock no-bouncing -bool true
+step --title "Dock" -- killall Dock
 
-gum spin --title "Safari" -- defaults write com.apple.Safari HomePage -string 'https://www.youtube.com/feed/subscriptions'
+step --title "Safari" -- defaults write com.apple.Safari HomePage -string 'https://www.youtube.com/feed/subscriptions'
 
-gum spin --title "Trackpad" -- defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool false # Don't back or next on swipe in Safari
-gum spin --title "General" -- defaults write NSGlobalDomain _HIHideMenuBar -bool true
+step --title "Trackpad" -- defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool false # Don't back or next on swipe in Safari
+step --title "General" -- defaults write NSGlobalDomain _HIHideMenuBar -bool true
 
-gum spin --title "Menu Bar" -- defaults write com.apple.menuextra.clock ShowAMPM -bool false
-gum spin --title "Menu Bar" -- defaults write com.apple.menuextra.clock ShowDayOfMonth -bool true
-gum spin --title "Menu Bar" -- defaults write com.apple.menuextra.clock ShowDayOfWeek -bool true
+step --title "Menu Bar" -- defaults write com.apple.menuextra.clock ShowAMPM -bool false
+step --title "Menu Bar" -- defaults write com.apple.menuextra.clock ShowDayOfMonth -bool true
+step --title "Menu Bar" -- defaults write com.apple.menuextra.clock ShowDayOfWeek -bool true
 
-gum spin --title "Spaces" -- defaults write com.apple.spaces spans-displays -bool false
-gum spin --title "Spaces" -- killall SystemUIServer
+step --title "Spaces" -- defaults write com.apple.spaces spans-displays -bool false
+step --title "Spaces" -- killall SystemUIServer
 
 
-gum spin --title "Finder" -- defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+step --title "Finder" -- defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-gum spin --title "Finder" -- defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true # Avoid creating .DS_Store files on network or USB volumes
-gum spin --title "Finder" -- defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+step --title "Finder" -- defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true # Avoid creating .DS_Store files on network or USB volumes
+step --title "Finder" -- defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
-gum spin --title "Finder" -- defaults write com.apple.Finder "PreferencesWindow.LastSelection" "ADVD"
-gum spin --title "Finder" -- defaults write com.apple.Finder CreateDesktop -bool false
-gum spin --title "Finder" -- defaults write com.apple.Finder FXDefaultSearchScope -string "SCcf"
-gum spin --title "Finder" -- defaults write com.apple.Finder FXEnableExtensionChangeWarning -bool false
-gum spin --title "Finder" -- defaults write com.apple.Finder NewWindowTarget "PfLo"
-gum spin --title "Finder" -- defaults write com.apple.Finder NewWindowTargetPath "file:///Users/fran/Developer/"
-gum spin --title "Finder" -- defaults write com.apple.Finder FinderSpawnTab -int 0
-gum spin --title "Finder" -- defaults write com.apple.Finder "_FXSortFoldersFirst" -int 1
-gum spin --title "Finder" -- defaults write com.apple.Finder WarnOnEmptyTrash -int 0
-gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSettings -dict-add CustomViewStyle "Nlsv"
-gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSettings -dict-add GroupBy "Kind"
-gum spin --title "Finder" -- defaults write com.apple.Finder FXPreferredGroupBy "Kind"
-gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSettings -dict-add ExtendedListViewSettingsV2 '{
+step --title "Finder" -- defaults write com.apple.Finder "PreferencesWindow.LastSelection" "ADVD"
+step --title "Finder" -- defaults write com.apple.Finder CreateDesktop -bool false
+step --title "Finder" -- defaults write com.apple.Finder FXDefaultSearchScope -string "SCcf"
+step --title "Finder" -- defaults write com.apple.Finder FXEnableExtensionChangeWarning -bool false
+step --title "Finder" -- defaults write com.apple.Finder NewWindowTarget "PfLo"
+step --title "Finder" -- defaults write com.apple.Finder NewWindowTargetPath "file://$HOME/Developer/"
+step --title "Finder" -- defaults write com.apple.Finder FinderSpawnTab -int 0
+step --title "Finder" -- defaults write com.apple.Finder "_FXSortFoldersFirst" -int 1
+step --title "Finder" -- defaults write com.apple.Finder WarnOnEmptyTrash -int 0
+step --title "Finder" -- defaults write com.apple.Finder ComputerViewSettings -dict-add CustomViewStyle "Nlsv"
+step --title "Finder" -- defaults write com.apple.Finder ComputerViewSettings -dict-add GroupBy "Kind"
+step --title "Finder" -- defaults write com.apple.Finder FXPreferredGroupBy "Kind"
+step --title "Finder" -- defaults write com.apple.Finder ComputerViewSettings -dict-add ExtendedListViewSettingsV2 '{
   "calculateAllSizes" = 0;
   "columns" = (
     { "ascending" = 1; "identifier" = "name"; "visible" = 1; "width" = 288; },
@@ -107,7 +128,7 @@ gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSetting
   "useRelativeDates" = 1;
   "viewOptionsVersion" = 1;
 }'
-gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSettings -dict-add ListViewSettings  '{
+step --title "Finder" -- defaults write com.apple.Finder ComputerViewSettings -dict-add ListViewSettings  '{
   "calculateAllSizes" = 0;
   "columns" = (
     { "ascending" = 1; "identifier" = "name"; "visible" = 1; "width" = 288; },
@@ -133,7 +154,7 @@ gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSetting
   "viewOptionsVersion" = 1;
 }'
 
-# gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSettings -dict-add WindowState '{
+# step --title "Finder" -- defaults write com.apple.Finder ComputerViewSettings -dict-add WindowState '{
 #     ContainerShowSidebar = 0;
 #     ShowSidebar = 0;
 #     ShowStatusBar = 0;
@@ -141,7 +162,7 @@ gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSetting
 #     ShowToolbar = 1;
 # }'
 
-# gum spin --title "Finder" -- defaults write com.apple.Finder StandardViewSettings -dict-add ExtendedListViewSettingsV2 '{
+# step --title "Finder" -- defaults write com.apple.Finder StandardViewSettings -dict-add ExtendedListViewSettingsV2 '{
 #   "calculateAllSizes" = 0;
 #   "columns" = (
 #     { "ascending" = 1; "identifier" = "name"; "visible" = 1; "width" = 288; },
@@ -166,7 +187,7 @@ gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSetting
 #   "useRelativeDates" = 1;
 #   "viewOptionsVersion" = 1;
 # }'
-# gum spin --title "Finder" -- defaults write com.apple.Finder StandardViewSettings -dict-add ListViewSettings  '{
+# step --title "Finder" -- defaults write com.apple.Finder StandardViewSettings -dict-add ListViewSettings  '{
 #   "calculateAllSizes" = 0;
 #   "columns" = {
 #     "comments" = {
@@ -232,7 +253,7 @@ gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSetting
 #   "viewOptionsVersion" = 1;
 # }'
 
-# gum spin --title "Finder" -- defaults write com.apple.Finder StandardViewSettings -dict-add WindowState '{
+# step --title "Finder" -- defaults write com.apple.Finder StandardViewSettings -dict-add WindowState '{
 #     ContainerShowSidebar = 0;
 #     ShowSidebar = 0;
 #     ShowStatusBar = 0;
@@ -240,7 +261,7 @@ gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSetting
 #     ShowToolbar = 1;
 # }'
 
-# gum spin --title "Finder" -- defaults write com.apple.Finder SearchViewSettings -dict-add WindowState '{
+# step --title "Finder" -- defaults write com.apple.Finder SearchViewSettings -dict-add WindowState '{
 #     ContainerShowSidebar = 0;
 #     ShowSidebar = 0;
 #     ShowStatusBar = 0;
@@ -248,53 +269,53 @@ gum spin --title "Finder" -- defaults write com.apple.Finder ComputerViewSetting
 #     ShowToolbar = 1;
 # }'
 
-# gum spin --title "Finder" -- defaults write com.apple.Finder "NSToolbar Configuration Browser" -dict-add "TB Default Item Identifiers" "('com.apple.finder.BACK', 'com.apple.finder.SWCH', 'NSToolbarSpaceItem', 'com.apple.finder.ARNG', 'com.apple.finder.SHAR', 'com.apple.finder.LABL', 'com.apple.finder.ACTN', 'NSToolbarSpaceItem', 'com.apple.finder.SRCH')"
-# gum spin --title "Finder" -- defaults write com.apple.Finder "NSToolbar Configuration Browser" -dict-add "TB Item Identifiers" "()"
+# step --title "Finder" -- defaults write com.apple.Finder "NSToolbar Configuration Browser" -dict-add "TB Default Item Identifiers" "('com.apple.finder.BACK', 'com.apple.finder.SWCH', 'NSToolbarSpaceItem', 'com.apple.finder.ARNG', 'com.apple.finder.SHAR', 'com.apple.finder.LABL', 'com.apple.finder.ACTN', 'NSToolbarSpaceItem', 'com.apple.finder.SRCH')"
+# step --title "Finder" -- defaults write com.apple.Finder "NSToolbar Configuration Browser" -dict-add "TB Item Identifiers" "()"
 
-gum spin --title "Keyboard" -- killall Finder
-
-
-gum spin --title "Keyboard" -- defaults write NSGlobalDomain KeyRepeat -int 2
-gum spin --title "Keyboard" -- defaults write NSGlobalDomain InitialKeyRepeat -int 15
-gum spin --title "Keyboard" -- killall SystemUIServer
+step --title "Keyboard" -- killall Finder
 
 
-# gum spin --title "Expanded Save Dialog" -- defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-# gum spin --title "Expanded Save Dialog" -- defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+step --title "Keyboard" -- defaults write NSGlobalDomain KeyRepeat -int 2
+step --title "Keyboard" -- defaults write NSGlobalDomain InitialKeyRepeat -int 15
+step --title "Keyboard" -- killall SystemUIServer
 
 
-# gum spin --title "Software Update" -- defaults write com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates -bool true
-# gum spin --title "Software Update" -- defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
-# gum spin --title "Software Update" -- defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
-# gum spin --title "Software Update" -- defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
-# gum spin --title "Software Update" -- defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
+# step --title "Expanded Save Dialog" -- defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+# step --title "Expanded Save Dialog" -- defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 
 
-# gum spin --title "Drag Window" -- defaults write NSGlobalDomain NSWindowShouldDragOnGesture -bool true
+# step --title "Software Update" -- defaults write com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates -bool true
+# step --title "Software Update" -- defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+# step --title "Software Update" -- defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+# step --title "Software Update" -- defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
+# step --title "Software Update" -- defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
+
+
+# step --title "Drag Window" -- defaults write NSGlobalDomain NSWindowShouldDragOnGesture -bool true
 # defaults write -g NSWindowShouldDragOnGesture -bool true
-# gum spin --title "Window Manager" -- defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool true
+# step --title "Window Manager" -- defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool true
 
-gum spin --title "macOS Appearance" -- defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool true
+step --title "macOS Appearance" -- defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool true
 
-gum spin --title "Mail" -- defaults write com.apple.mail ColorQuoterColorIncoming -int 0
-gum spin --title "Mail" -- defaults write com.apple.mail NumberOfSnippetLines -int 0
-gum spin --title "Mail" -- defaults write com.apple.mail ShowCcHeader -int 0
-# gum spin --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration MainWindow" -dict-add "TB Default Item Identifiers" "('toggleMessageListFilter:', 'SeparatorToolbarItem', 'checkNewMail:', 'showComposeWindow:', 'NSToolbarFlexibleSpaceItem', 'archive_delete_junk', 'reply_replyAll_forward', 'FlaggedStatus', 'muteFromToolbar:', 'moveMessagesFromToolbar:', 'Search')"
-# gum spin --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration MainWindow" -dict-add "TB Item Identifiers" "('toggleMessageListFilter:', 'Search', 'SeparatorToolbarItem')"
-# gum spin --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration ComposeWindow" -dict-add "TB Default Item Identifiers" "('send:', 'header_fields', 'EXTENSIONS_TOOLBAR_ITEMS', 'NSToolbarFlexibleSpaceItem', 'changeReplyMode:', 'insertFile:', 'insertOriginalAttachments:', 'toggleComposeFormatInspectorBar:', 'insertEmoji:', 'showMediaBrowser:')"
-# gum spin --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration ComposeWindow" -dict-add "TB Item Identifiers" "('NSToolbarFlexibleSpaceItem', 'send:')"
-# gum spin --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration SingleMessageViewer" -dict-add "TB Item Identifiers" "('archive_delete_junk', 'reply_replyAll_forward', 'NSToolbarFlexibleSpaceItem', 'showPrintPanel:', FlaggedStatus, 'moveMessagesFromToolbar:')"
-# gum spin --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration SingleMessageViewer" -dict-add "TB Item Identifiers" "()"
+step --title "Mail" -- defaults write com.apple.mail ColorQuoterColorIncoming -int 0
+step --title "Mail" -- defaults write com.apple.mail NumberOfSnippetLines -int 0
+step --title "Mail" -- defaults write com.apple.mail ShowCcHeader -int 0
+# step --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration MainWindow" -dict-add "TB Default Item Identifiers" "('toggleMessageListFilter:', 'SeparatorToolbarItem', 'checkNewMail:', 'showComposeWindow:', 'NSToolbarFlexibleSpaceItem', 'archive_delete_junk', 'reply_replyAll_forward', 'FlaggedStatus', 'muteFromToolbar:', 'moveMessagesFromToolbar:', 'Search')"
+# step --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration MainWindow" -dict-add "TB Item Identifiers" "('toggleMessageListFilter:', 'Search', 'SeparatorToolbarItem')"
+# step --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration ComposeWindow" -dict-add "TB Default Item Identifiers" "('send:', 'header_fields', 'EXTENSIONS_TOOLBAR_ITEMS', 'NSToolbarFlexibleSpaceItem', 'changeReplyMode:', 'insertFile:', 'insertOriginalAttachments:', 'toggleComposeFormatInspectorBar:', 'insertEmoji:', 'showMediaBrowser:')"
+# step --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration ComposeWindow" -dict-add "TB Item Identifiers" "('NSToolbarFlexibleSpaceItem', 'send:')"
+# step --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration SingleMessageViewer" -dict-add "TB Item Identifiers" "('archive_delete_junk', 'reply_replyAll_forward', 'NSToolbarFlexibleSpaceItem', 'showPrintPanel:', FlaggedStatus, 'moveMessagesFromToolbar:')"
+# step --title "Mail" -- defaults write com.apple.mail "NSToolbar Configuration SingleMessageViewer" -dict-add "TB Item Identifiers" "()"
 
-# gum spin --title "Safari" -- defaults write com.apple.Safari AlwaysRestoreSessionAtLaunch -int 1
-# gum spin --title "Safari" -- defaults write com.apple.Safari HistoryAgeInDaysLimit -int 7
-# gum spin --title "Safari" -- defaults write com.apple.Safari HomePage "https://www.youtube.com/feed/subscriptions"
-# gum spin --title "Safari" -- defaults write com.apple.Safari IncludeDevelopMenu -int 1
-# gum spin --title "Safari" -- defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -int 1
-# gum spin --title "Safari" -- defaults write com.apple.Safari "WebKitPreferences.developerExtrasEnabled" -int 1
+# step --title "Safari" -- defaults write com.apple.Safari AlwaysRestoreSessionAtLaunch -int 1
+# step --title "Safari" -- defaults write com.apple.Safari HistoryAgeInDaysLimit -int 7
+# step --title "Safari" -- defaults write com.apple.Safari HomePage "https://www.youtube.com/feed/subscriptions"
+# step --title "Safari" -- defaults write com.apple.Safari IncludeDevelopMenu -int 1
+# step --title "Safari" -- defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -int 1
+# step --title "Safari" -- defaults write com.apple.Safari "WebKitPreferences.developerExtrasEnabled" -int 1
 
-# gum spin --title "Notes" -- defaults write com.apple.Notes "NSToolbar Configuration MainWindowToolbar" -dict-add "TB Default Item Identifiers" "('FoldersToolbarItem', 'NSToolbarSidebarTrackingSeparatorItemIdentifier', 'ViewModeToolbarItem', 'NoteGridBackToolbarItem', 'NSToolbarFlexibleSpaceItem', 'DeleteToolbarItem', 'NewNoteToolbarItem', 'NSToolbarFlexibleSpaceItem', 'FormatToolbarItem', 'ChecklistToolbarItem', 'TableToolbarItem', 'RecordAudioToolbarItem', 'MediaToolbarItem', 'NSToolbarFlexibleSpaceItem', 'LinkToolbarItem', 'LockToolbarItem', 'CollaborationToolbarItem', 'SearchToolbarItem')"
-# gum spin --title "Notes" -- defaults write com.apple.Notes "NSToolbar Configuration MainWindowToolbar" -dict-add "TB Item Identifiers" "('NSToolbarSidebarTrackingSeparatorItemIdentifier', 'NoteGridBackToolbarItem', 'NSToolbarFlexibleSpaceItem', 'CollaborationToolbarItem')"
+# step --title "Notes" -- defaults write com.apple.Notes "NSToolbar Configuration MainWindowToolbar" -dict-add "TB Default Item Identifiers" "('FoldersToolbarItem', 'NSToolbarSidebarTrackingSeparatorItemIdentifier', 'ViewModeToolbarItem', 'NoteGridBackToolbarItem', 'NSToolbarFlexibleSpaceItem', 'DeleteToolbarItem', 'NewNoteToolbarItem', 'NSToolbarFlexibleSpaceItem', 'FormatToolbarItem', 'ChecklistToolbarItem', 'TableToolbarItem', 'RecordAudioToolbarItem', 'MediaToolbarItem', 'NSToolbarFlexibleSpaceItem', 'LinkToolbarItem', 'LockToolbarItem', 'CollaborationToolbarItem', 'SearchToolbarItem')"
+# step --title "Notes" -- defaults write com.apple.Notes "NSToolbar Configuration MainWindowToolbar" -dict-add "TB Item Identifiers" "('NSToolbarSidebarTrackingSeparatorItemIdentifier', 'NoteGridBackToolbarItem', 'NSToolbarFlexibleSpaceItem', 'CollaborationToolbarItem')"
 
 # # Omit crash report dialog {none|basic|developer|server}
 # # defaults write com.apple.CrashReporter DialogType none

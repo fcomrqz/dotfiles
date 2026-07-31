@@ -1,0 +1,23 @@
+#cloud-config
+
+package_update: true
+package_upgrade: false
+
+packages:
+  - ca-certificates
+  - curl
+  - git
+  - tar
+
+write_files:
+  - path: /etc/motd
+    permissions: "0644"
+    content: |
+      Isolated development machine managed by fcomrqz/dotfiles.
+      Root administration is available from macOS with: orb -u root
+
+runcmd:
+  - [mkdir, -p, /var/lib/fcomrqz-dotfiles]
+  - [touch, /var/lib/fcomrqz-dotfiles/cloud-init-ready]
+
+final_message: "OrbStack base provisioning completed after $UPTIME seconds"

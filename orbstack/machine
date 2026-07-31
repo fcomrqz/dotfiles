@@ -1,0 +1,797 @@
+#!/bin/bash
+
+set -euo pipefail
+
+DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+readonly DOTFILES_ROOT
+# shellcheck source=install/shared.sh
+source "$DOTFILES_ROOT/install/shared.sh"
+
+readonly DEFAULT_MACHINE="ubuntu"
+readonly LINUX_USER="fcomrqz"
+readonly DOTFILES_REPOSITORY="https://github.com/fcomrqz/dotfiles.git"
+readonly TRUSTED_DOTFILES_ROOT="/var/lib/fcomrqz-dotfiles/source"
+readonly CLOUD_INIT="$DOTFILES_ROOT/orbstack/cloud-init.yml"
+readonly GITHUB_HELPER_LABEL="com.fcomrqz.github-app"
+readonly GITHUB_HELPER_DIRECTORY="$HOME/Library/Application Support/$GITHUB_HELPER_LABEL"
+readonly GITHUB_HELPER="$GITHUB_HELPER_DIRECTORY/bin/github-app-helper"
+readonly GITHUB_HELPER_PLIST="$HOME/Library/LaunchAgents/$GITHUB_HELPER_LABEL.plist"
+# An unversioned OrbStack Ubuntu image follows the latest stable release, which
+# may be an interim release. Pin the current LTS for reproducible machines.
+readonly UBUNTU_LTS_VERSION="26.04"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  machine create [NAME]
+  machine provision [NAME]
+  machine sync-host [NAME]
+  machine doctor [NAME]
+  machine tunnel PORT [NAME]
+  machine github configure CLIENT_ID INSTALLATION_ID PRIVATE_KEY [NAME]
+  machine github start
+  machine github stop
+  machine github refresh
+  machine github status
+  machine github reset
+EOF
+}
+
+require_macos() {
+  if [[ "$(uname -s)" != "Darwin" ]]; then
+    log_error "machine must run on the macOS OrbStack host."
+    exit 1
+  fi
+}
+
+require_orb() {
+  command_exists orb || {
+    log_error "OrbStack is not installed or orb is not on PATH."
+    exit 1
+  }
+}
+
+require_github_helper() {
+  [[ -x "$GITHUB_HELPER" ]] || {
+    log_error "GitHub App helper is not installed. Run bash install.sh first."
+    return 1
+  }
+  [[ -f "$GITHUB_HELPER_PLIST" ]] || {
+    log_error "GitHub App LaunchAgent is not installed. Run bash install.sh first."
+    return 1
+  }
+}
+
+github_launch_domain() {
+  printf 'gui/%s\n' "$(id -u)"
+}
+
+github_helper_configured() {
+  [[ -x "$GITHUB_HELPER" ]] \
+    && "$GITHUB_HELPER" status --quiet >/dev/null 2>&1
+}
+
+github_helper_targets_machine() {
+  local machine="$1"
+  github_helper_configured \
+    && [[ "$(github_config_value machine)" == "$machine" ]] \
+    && [[ "$(github_config_value user)" == "$LINUX_USER" ]]
+}
+
+log_github_helper_target_error() {
+  local machine="$1"
+  if ! github_helper_configured; then
+    log_error "GitHub App helper is not configured for $machine/$LINUX_USER."
+    return
+  fi
+  log_error \
+    "GitHub App helper targets $(github_config_value machine)/$(github_config_value user), expected $machine/$LINUX_USER."
+  log_error "Run github configure again with $machine as the final argument."
+}
+
+require_github_helper_user() {
+  local configured_user
+  configured_user="$(github_config_value user)"
+  if [[ "$configured_user" != "$LINUX_USER" ]]; then
+    log_error \
+      "GitHub App helper targets Linux user $configured_user, expected $LINUX_USER."
+    log_error "Run github configure again before delivering another token."
+    return 1
+  fi
+}
+
+github_config_value() {
+  "$GITHUB_HELPER" config "$1"
+}
+
+wait_for_github_token() {
+  local machine="$1"
+  local user="$2"
+  local attempt
+
+  for attempt in $(seq 1 60); do
+    if orb -m "$machine" -u "$user" \
+      /usr/local/libexec/fcomrqz/github-token-store status \
+      >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep 1
+  done
+  log_error "GitHub App token was not delivered to $machine."
+  return 1
+}
+
+start_github_helper() {
+  local wait_for_delivery="${1:-true}"
+  local domain machine user
+
+  require_github_helper
+  "$GITHUB_HELPER" status --quiet
+  require_github_helper_user
+  domain="$(github_launch_domain)"
+  launchctl bootout "$domain/$GITHUB_HELPER_LABEL" >/dev/null 2>&1 || true
+  launchctl bootstrap "$domain" "$GITHUB_HELPER_PLIST"
+  launchctl kickstart -k "$domain/$GITHUB_HELPER_LABEL"
+  log_success "GitHub App helper is running"
+
+  machine="$(github_config_value machine)"
+  user="$(github_config_value user)"
+  if [[ "$wait_for_delivery" == "true" ]] && machine_exists "$machine"; then
+    wait_for_github_token "$machine" "$user"
+    log_success "GitHub App token is available in $machine"
+  fi
+}
+
+stop_github_helper() {
+  local domain machine="" user=""
+
+  require_github_helper
+  if github_helper_configured; then
+    machine="$(github_config_value machine)"
+    user="$(github_config_value user)"
+  fi
+  domain="$(github_launch_domain)"
+  launchctl bootout "$domain/$GITHUB_HELPER_LABEL" >/dev/null 2>&1 || true
+  if [[ -n "$machine" ]] && machine_exists "$machine"; then
+    orb -m "$machine" -u "$user" \
+      /usr/local/libexec/fcomrqz/github-token-store remove \
+      >/dev/null 2>&1 || true
+  fi
+  log_success "GitHub App helper is stopped"
+}
+
+refresh_github_token() {
+  local domain machine user
+
+  require_github_helper
+  "$GITHUB_HELPER" status --quiet
+  require_github_helper_user
+  machine="$(github_config_value machine)"
+  user="$(github_config_value user)"
+  machine_exists "$machine" || {
+    log_error "Configured OrbStack machine does not exist: $machine"
+    return 1
+  }
+  orb -m "$machine" -u root \
+    test -x /usr/local/libexec/fcomrqz/github-token-store || {
+      log_error "$machine must be provisioned before GitHub tokens can be delivered."
+      return 1
+    }
+
+  domain="$(github_launch_domain)"
+  if ! launchctl print "$domain/$GITHUB_HELPER_LABEL" >/dev/null 2>&1; then
+    launchctl bootstrap "$domain" "$GITHUB_HELPER_PLIST"
+  fi
+  orb -m "$machine" -u "$user" \
+    /usr/local/libexec/fcomrqz/github-token-store remove \
+    >/dev/null 2>&1 || true
+  launchctl kickstart -k "$domain/$GITHUB_HELPER_LABEL"
+  wait_for_github_token "$machine" "$user"
+  log_success "GitHub App token was refreshed in $machine"
+}
+
+configure_github_helper() {
+  local client_id="$1"
+  local installation_id="$2"
+  local private_key="$3"
+  local machine="$4"
+
+  require_github_helper
+  [[ "$client_id" =~ ^[A-Za-z0-9._-]+$ ]] || {
+    log_error "GitHub client ID contains unsupported characters."
+    return 2
+  }
+  [[ "$installation_id" =~ ^[0-9]+$ ]] || {
+    log_error "GitHub installation ID must contain only decimal digits."
+    return 2
+  }
+  validate_machine_name "$machine"
+  [[ -f "$private_key" && ! -L "$private_key" ]] || {
+    log_error "Private key must be a regular, non-symlink file: $private_key"
+    return 2
+  }
+
+  "$GITHUB_HELPER" configure \
+    "$client_id" \
+    "$installation_id" \
+    "$machine" \
+    "$LINUX_USER" \
+    "$private_key"
+  start_github_helper false
+  if machine_exists "$machine" \
+    && orb -m "$machine" -u root \
+      test -x /usr/local/libexec/fcomrqz/github-token-store; then
+    refresh_github_token
+  else
+    log_info "The helper will deliver a token after $machine is provisioned."
+  fi
+}
+
+status_github_helper() {
+  local domain machine user
+
+  require_github_helper
+  "$GITHUB_HELPER" status
+  require_github_helper_user
+  domain="$(github_launch_domain)"
+  launchctl print "$domain/$GITHUB_HELPER_LABEL" >/dev/null 2>&1 || {
+    log_error "GitHub App LaunchAgent is not running."
+    return 1
+  }
+  log_success "GitHub App LaunchAgent is running"
+
+  machine="$(github_config_value machine)"
+  user="$(github_config_value user)"
+  machine_exists "$machine" || {
+    log_error "Configured OrbStack machine does not exist: $machine"
+    return 1
+  }
+  orb -m "$machine" -u "$user" \
+    /usr/local/libexec/fcomrqz/github-token-store status
+  log_success "GitHub App token is current in $machine"
+  orb -m "$machine" -u "$user" \
+    /usr/local/bin/gh api --silent installation/repositories
+  log_success "GitHub accepts the installation token"
+  orb -m "$machine" -u "$user" \
+    git ls-remote https://github.com/fcomrqz/dotfiles.git HEAD >/dev/null
+  log_success "HTTPS Git authentication works"
+}
+
+reset_github_helper() {
+  require_github_helper
+  stop_github_helper
+  "$GITHUB_HELPER" reset
+  log_success "GitHub App configuration and Keychain private key were removed"
+}
+
+validate_machine_name() {
+  local machine="$1"
+  [[ "$machine" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]] || {
+    log_error "Invalid OrbStack machine name: $machine"
+    exit 2
+  }
+}
+
+machine_exists() {
+  local machine="$1"
+  orb list -q 2>/dev/null | grep -Fxq "$machine"
+}
+
+machine_ip() {
+  local machine="$1"
+  local attempt ip
+  for attempt in $(seq 1 30); do
+    ip="$(orb -m "$machine" -u root hostname -I 2>/dev/null | awk '{print $1}')"
+    if [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+      printf '%s\n' "$ip"
+      return 0
+    fi
+    sleep 1
+  done
+  log_error "Could not discover the IPv4 address of $machine."
+  return 1
+}
+
+wait_for_cloud_init() {
+  local machine="$1"
+  local attempt=0
+  while (( attempt < 180 )); do
+    if orb -m "$machine" -u root \
+      test -f /var/lib/fcomrqz-dotfiles/cloud-init-ready 2>/dev/null; then
+      return 0
+    fi
+    attempt=$(( attempt + 1 ))
+    sleep 2
+  done
+  log_error "Cloud-init did not finish in $machine."
+  return 1
+}
+
+guest_home() {
+  local machine="$1"
+  local user="$2"
+  orb -m "$machine" -u root getent passwd "$user" \
+    | awk -F: 'NR == 1 {print $6}'
+}
+
+clone_or_update_repository() {
+  local machine="$1"
+  local checkout_user="$2"
+  local target="$3"
+  local origin status upstream head upstream_head
+
+  if ! orb -m "$machine" -u root test -e "$target"; then
+    log_info "Cloning public dotfiles repository into $target"
+    orb -m "$machine" -u "$checkout_user" \
+      git clone --origin origin -- "$DOTFILES_REPOSITORY" "$target"
+    return
+  fi
+
+  orb -m "$machine" -u root test -d "$target/.git" || {
+    log_error "Refusing to replace non-repository path: $target"
+    return 1
+  }
+  origin="$(
+    orb -m "$machine" -u "$checkout_user" \
+      git -C "$target" remote get-url origin
+  )"
+  [[ "$origin" == "$DOTFILES_REPOSITORY" ]] || {
+    log_error "Unexpected dotfiles origin in $target: $origin"
+    return 1
+  }
+  status="$(
+    orb -m "$machine" -u "$checkout_user" \
+      git -C "$target" status --porcelain
+  )"
+  [[ -z "$status" ]] || {
+    log_error "Refusing to update a dotfiles checkout with local changes:"
+    printf '%s\n' "$status" | sed 's/^/  /' >&2
+    return 1
+  }
+  upstream="$(
+    orb -m "$machine" -u "$checkout_user" \
+      git -C "$target" rev-parse --abbrev-ref '@{upstream}'
+  )" || {
+    log_error "The dotfiles checkout has no upstream branch."
+    return 1
+  }
+
+  log_info "Updating $target from $upstream"
+  orb -m "$machine" -u "$checkout_user" \
+    git -C "$target" fetch --prune origin
+  orb -m "$machine" -u "$checkout_user" \
+    git -C "$target" merge --ff-only "$upstream"
+  head="$(
+    orb -m "$machine" -u "$checkout_user" \
+      git -C "$target" rev-parse HEAD
+  )"
+  upstream_head="$(
+    orb -m "$machine" -u "$checkout_user" \
+      git -C "$target" rev-parse "$upstream"
+  )"
+  [[ "$head" == "$upstream_head" ]] || {
+    log_error "The dotfiles checkout contains commits not present on $upstream."
+    return 1
+  }
+}
+
+prepare_dotfiles_checkouts() {
+  local machine="$1"
+  local user="$2"
+  local home="$3"
+  local user_target="$home/dotfiles"
+
+  orb -m "$machine" -u root install -d -o "$user" -g "$user" \
+    "$home/worktrees"
+  clone_or_update_repository "$machine" root "$TRUSTED_DOTFILES_ROOT"
+  clone_or_update_repository "$machine" "$user" "$user_target"
+}
+
+provision_machine() {
+  local machine="$1"
+  local user guest_ip home user_target
+
+  machine_exists "$machine" || {
+    log_error "OrbStack machine does not exist: $machine"
+    return 1
+  }
+  if github_helper_configured \
+    && ! github_helper_targets_machine "$machine"; then
+    log_github_helper_target_error "$machine"
+    return 1
+  fi
+  wait_for_cloud_init "$machine"
+
+  user="$LINUX_USER"
+  guest_ip="$(machine_ip "$machine")"
+  home="$(guest_home "$machine" "$user")"
+  [[ "$home" == /home/* && "$home" != /home/ ]] || {
+    log_error "Could not find the home directory for $user in $machine."
+    log_error \
+      "Recreate machines made with the previous macOS-derived Linux username."
+    return 1
+  }
+  user_target="$home/dotfiles"
+  prepare_dotfiles_checkouts "$machine" "$user" "$home"
+
+  log_section "Provisioning Linux system packages and services"
+  orb -m "$machine" -u root \
+    /bin/bash "$TRUSTED_DOTFILES_ROOT/install/linux.sh" \
+      system "$user" "$guest_ip"
+
+  log_section "Linking Linux user configuration"
+  orb -m "$machine" -u "$user" \
+    /bin/bash "$TRUSTED_DOTFILES_ROOT/install/linux.sh" user "$user_target"
+
+  log_section "Removing guest sudo access"
+  orb -m "$machine" -u root \
+    /bin/bash "$TRUSTED_DOTFILES_ROOT/install/linux.sh" lockdown "$user"
+
+  if github_helper_configured; then
+    log_section "Delivering GitHub App authentication"
+    refresh_github_token
+  else
+    log_info "GitHub App authentication is not configured yet."
+    log_info "Run: orbstack/machine github configure CLIENT_ID INSTALLATION_ID PRIVATE_KEY"
+  fi
+
+  sync_host "$machine"
+}
+
+create_machine() {
+  local machine="$1"
+  local arch
+
+  if machine_exists "$machine"; then
+    log_error "OrbStack machine already exists: $machine"
+    return 1
+  fi
+  if ! github_helper_configured; then
+    log_error "Configure the required GitHub App before creating the machine."
+    log_error "Run: orbstack/machine github configure CLIENT_ID INSTALLATION_ID PRIVATE_KEY"
+    return 1
+  fi
+  if ! github_helper_targets_machine "$machine"; then
+    log_github_helper_target_error "$machine"
+    return 1
+  fi
+  case "$(uname -m)" in
+    arm64 | aarch64) arch=arm64 ;;
+    x86_64 | amd64) arch=amd64 ;;
+    *)
+      log_error "Unsupported host architecture: $(uname -m)"
+      return 1
+      ;;
+  esac
+
+  # Caddy and dnsmasq are host-only services. Public access is opt-in through
+  # cloudflared, never implicit LAN publication by OrbStack.
+  orb config set machines.expose_ports_to_lan false
+
+  log_section "Creating isolated Ubuntu $UBUNTU_LTS_VERSION LTS machine: $machine"
+  orb create \
+    --arch "$arch" \
+    --isolated \
+    --isolate-network \
+    --user "$LINUX_USER" \
+    --user-data "$CLOUD_INIT" \
+    "ubuntu:$UBUNTU_LTS_VERSION" \
+    "$machine"
+
+  provision_machine "$machine"
+  doctor_machine "$machine"
+}
+
+certificate_fingerprint() {
+  local certificate="$1"
+  openssl x509 -in "$certificate" -noout -fingerprint -sha1 \
+    | awk -F= '{gsub(":", "", $2); print $2}'
+}
+
+migrate_host_network_services() {
+  local brew_path formula
+
+  command_exists brew || return 0
+  brew_path="$(command -v brew)"
+
+  if brew list --formula caddy >/dev/null 2>&1; then
+    brew services stop caddy >/dev/null 2>&1 || true
+  fi
+  if brew list --formula dnsmasq >/dev/null 2>&1; then
+    sudo "$brew_path" services stop dnsmasq >/dev/null 2>&1 || true
+  fi
+
+  for formula in caddy dnsmasq cloudflared; do
+    if brew list --formula "$formula" >/dev/null 2>&1; then
+      brew uninstall "$formula"
+    fi
+  done
+}
+
+sync_host() {
+  local machine="$1"
+  local guest_ip state_dir new_certificate old_certificate
+  local new_fingerprint old_fingerprint resolver_file
+
+  machine_exists "$machine" || {
+    log_error "OrbStack machine does not exist: $machine"
+    return 1
+  }
+  guest_ip="$(machine_ip "$machine")"
+
+  orb -m "$machine" -u root \
+    test -r "$TRUSTED_DOTFILES_ROOT/install/linux.sh" || {
+    log_error "$machine has not been provisioned from GitHub."
+    return 1
+  }
+  orb -m "$machine" -u root \
+    /bin/bash "$TRUSTED_DOTFILES_ROOT/install/linux.sh" dns "$guest_ip"
+
+  # Provision the default CA through Caddy's loopback-only admin endpoint.
+  orb -m "$machine" -u root \
+    curl -fsS http://127.0.0.1:2019/pki/ca/local >/dev/null
+  orb -m "$machine" -u root \
+    /bin/bash "$TRUSTED_DOTFILES_ROOT/install/linux.sh" trust-ca
+
+  sudo -v
+  state_dir="$HOME/.config/orbstack-dev/$machine"
+  ensure_dir "$state_dir"
+  new_certificate="$(mktemp "${TMPDIR:-/tmp}/caddy-root.XXXXXX.pem")"
+  old_certificate="$state_dir/caddy-root.crt"
+  orb -m "$machine" -u root \
+    cat /var/lib/caddy/.local/share/caddy/pki/authorities/local/root.crt \
+    > "$new_certificate"
+
+  new_fingerprint="$(certificate_fingerprint "$new_certificate")"
+  old_fingerprint=""
+  if [[ -f "$old_certificate" ]]; then
+    old_fingerprint="$(certificate_fingerprint "$old_certificate")"
+  fi
+
+  if [[ "$new_fingerprint" != "$old_fingerprint" ]] \
+    || ! security find-certificate -a -Z /Library/Keychains/System.keychain \
+      | grep -Fq "SHA-1 hash: $new_fingerprint"; then
+    if [[ -n "$old_fingerprint" ]]; then
+      sudo security delete-certificate \
+        -Z "$old_fingerprint" /Library/Keychains/System.keychain \
+        >/dev/null 2>&1 || true
+    fi
+    sudo security add-trusted-cert \
+      -d -r trustRoot \
+      -k /Library/Keychains/System.keychain \
+      "$new_certificate"
+    cp "$new_certificate" "$old_certificate"
+  fi
+  rm -f "$new_certificate"
+
+  # Keep the old host services working until the guest DNS, Caddy, and CA are
+  # all ready. The first successful sync performs the one-way migration.
+  run_step "Removing superseded macOS network services" \
+    migrate_host_network_services
+
+  resolver_file="$(mktemp "${TMPDIR:-/tmp}/test-resolver.XXXXXX")"
+  {
+    printf '# Managed by fcomrqz/dotfiles for OrbStack machine %s.\n' "$machine"
+    printf 'nameserver %s\n' "$guest_ip"
+    printf 'port 53\n'
+    printf 'search_order 1\n'
+  } > "$resolver_file"
+
+  sudo install -d -m 0755 /etc/resolver
+  sudo install -o root -g wheel -m 0644 "$resolver_file" /etc/resolver/test
+  rm -f "$resolver_file"
+  if [[ -f /etc/resolver/bookip.test ]]; then
+    sudo rm -f /etc/resolver/bookip.test
+  fi
+
+  dscacheutil -flushcache
+  sudo killall -HUP mDNSResponder >/dev/null 2>&1 || true
+  log_success "*.test now resolves to $machine at $guest_ip"
+}
+
+doctor_machine() {
+  local machine="$1"
+  local user home guest_ip expose_ports mode codex_version major minor
+  local node_version npm_version bun_version
+
+  machine_exists "$machine" || {
+    log_error "OrbStack machine does not exist: $machine"
+    return 1
+  }
+  if ! github_helper_targets_machine "$machine"; then
+    log_github_helper_target_error "$machine"
+    return 1
+  fi
+  user="$LINUX_USER"
+  home="$(guest_home "$machine" "$user")"
+  guest_ip="$(machine_ip "$machine")"
+  expose_ports="$(orb config get machines.expose_ports_to_lan)"
+
+  log_section "Checking $machine"
+  if [[ "$expose_ports" != "false" ]]; then
+    log_error "OrbStack is exposing machine ports to the LAN."
+    return 1
+  fi
+  log_success "Machine ports are limited to this Mac"
+  orb -m "$machine" -u root systemctl is-active --quiet caddy
+  log_success "Caddy is active"
+  orb -m "$machine" -u root systemctl is-active --quiet dnsmasq
+  log_success "dnsmasq is active"
+  orb -m "$machine" -u root \
+    grep -Eq '^[[:space:]]*nameserver[[:space:]]+127\.0\.0\.1([[:space:]]|$)' \
+    /etc/resolv.conf
+  log_success "Linux sends DNS queries through dnsmasq"
+  orb -m "$machine" -u root getent hosts example.com >/dev/null
+  log_success "Linux forwards public DNS through OrbStack"
+  orb -m "$machine" -u root getent hosts doctor.test >/dev/null
+  log_success "*.test resolves inside Linux"
+  orb -m "$machine" -u root \
+    curl -fsS http://127.0.0.1:2019/config/ >/dev/null
+  log_success "Caddy admin API is loopback-accessible"
+  orb -m "$machine" -u root \
+    test -f /usr/local/share/ca-certificates/orbstack-development-ca.crt
+  log_success "Caddy's development CA is trusted inside Linux"
+
+  node_version="$(orb -m "$machine" -u "$user" node --version)"
+  npm_version="$(orb -m "$machine" -u "$user" npm --version)"
+  bun_version="$(
+    orb -m "$machine" -u "$user" /usr/bin/fish -c 'bun --version'
+  )"
+  log_success \
+    "Node.js $node_version, npm $npm_version, and Bun $bun_version are available"
+
+  codex_version="$(orb -m "$machine" -u "$user" codex --version \
+    | awk 'NR == 1 {print $2}')"
+  if [[ ! "$codex_version" =~ ^([0-9]+)\.([0-9]+)\. ]]; then
+    log_error "Could not determine the Codex version"
+    return 1
+  fi
+  major="${BASH_REMATCH[1]}"
+  minor="${BASH_REMATCH[2]}"
+  if (( major == 0 && minor < 138 )); then
+    log_error "Codex $codex_version does not enforce managed permission profiles"
+    return 1
+  fi
+  orb -m "$machine" -u "$user" codex --strict-config --help >/dev/null
+  log_success "Codex $codex_version configuration is valid"
+  mode="$(orb -m "$machine" -u root stat -c '%a' -- \
+    /etc/codex/requirements.toml)"
+  if [[ "$mode" != "644" ]]; then
+    log_error "Codex requirements mode is $mode, expected 644"
+    return 1
+  fi
+  mode="$(orb -m "$machine" -u root stat -c '%a' -- \
+    /etc/codex/managed_config.toml)"
+  if [[ "$mode" != "644" ]]; then
+    log_error "Codex managed configuration mode is $mode, expected 644"
+    return 1
+  fi
+  log_success "Codex secret denials are enforced by root-owned requirements"
+  orb -m "$machine" -u root test -x "$home/.local/bin/with-secrets"
+  log_success "Project secret launcher is installed"
+  mode="$(orb -m "$machine" -u root \
+    stat -c '%a' -- "$home/.config/fcomrqz/secrets")"
+  if [[ "$mode" != "700" ]]; then
+    log_error "Project secrets directory mode is $mode, expected 700"
+    return 1
+  fi
+  mode="$(orb -m "$machine" -u root stat -c '%a' -- "$home/.codex/config.toml")"
+  if [[ "$mode" != "600" ]]; then
+    log_error "Codex configuration mode is $mode, expected 600"
+    return 1
+  fi
+  if orb -m "$machine" -u root test -f "$home/.codex/auth.json"; then
+    mode="$(orb -m "$machine" -u root stat -c '%a' -- "$home/.codex/auth.json")"
+    if [[ "$mode" != "600" ]]; then
+      log_error "Codex authentication mode is $mode, expected 600"
+      return 1
+    fi
+  fi
+  log_success "Machine-local credentials have private filesystem modes"
+
+  if orb -m "$machine" -u "$user" sudo -n true >/dev/null 2>&1; then
+    log_error "$user still has passwordless sudo in $machine"
+    return 1
+  fi
+  log_success "Development user has no passwordless sudo"
+
+  # The quoted expression is evaluated by the guest shell, not by this one.
+  # shellcheck disable=SC2016
+  if orb -m "$machine" -u "$user" \
+    /bin/sh -c 'test -n "${SSH_AUTH_SOCK:-}"'; then
+    log_error "An SSH agent is forwarded into $machine"
+    return 1
+  fi
+  log_success "No SSH agent is forwarded"
+
+  if ! dscacheutil -q host -a name doctor.test \
+    | grep -Fq "ip_address: $guest_ip"; then
+    log_error "macOS does not resolve doctor.test to $guest_ip"
+    return 1
+  fi
+  log_success "*.test resolves from macOS"
+
+  status_github_helper
+}
+
+start_tunnel() {
+  local port="$1"
+  local machine="$2"
+  if [[ ! "$port" =~ ^[0-9]+$ ]] || (( port < 1 || port > 65535 )); then
+    log_error "Port must be an integer between 1 and 65535."
+    return 2
+  fi
+  machine_exists "$machine" || {
+    log_error "OrbStack machine does not exist: $machine"
+    return 1
+  }
+
+  log_info "Starting a Quick Tunnel to $machine:127.0.0.1:$port"
+  log_info "Press Ctrl-C to stop exposing the application."
+  exec orb -m "$machine" cloudflared tunnel \
+    --no-autoupdate \
+    --url "http://127.0.0.1:$port"
+}
+
+require_macos
+require_orb
+
+command_name="${1:-}"
+case "$command_name" in
+  create | provision | sync-host | doctor)
+    machine="${2:-$DEFAULT_MACHINE}"
+    validate_machine_name "$machine"
+    case "$command_name" in
+      create) create_machine "$machine" ;;
+      provision) provision_machine "$machine" ;;
+      sync-host) sync_host "$machine" ;;
+      doctor) doctor_machine "$machine" ;;
+    esac
+    ;;
+  tunnel)
+    [[ -n "${2:-}" ]] || {
+      usage >&2
+      exit 2
+    }
+    port="$2"
+    machine="${3:-$DEFAULT_MACHINE}"
+    validate_machine_name "$machine"
+    start_tunnel "$port" "$machine"
+    ;;
+  github)
+    github_command="${2:-}"
+    case "$github_command" in
+      configure)
+        [[ -n "${3:-}" && -n "${4:-}" && -n "${5:-}" ]] || {
+          usage >&2
+          exit 2
+        }
+        github_machine="${6:-$DEFAULT_MACHINE}"
+        configure_github_helper "$3" "$4" "$5" "$github_machine"
+        ;;
+      start)
+        start_github_helper
+        ;;
+      stop)
+        stop_github_helper
+        ;;
+      refresh)
+        refresh_github_token
+        ;;
+      status)
+        status_github_helper
+        ;;
+      reset)
+        reset_github_helper
+        ;;
+      *)
+        usage >&2
+        exit 2
+        ;;
+    esac
+    ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac
