@@ -1,5 +1,0 @@
-(
-  commit: Some(( code: Enter, modifiers: "")),
-  toggle_workarea: Some(( code: Tab, modifiers: "")),
-  status_reset_item: Some(( code: Delete, modifiers: "")),
-)
