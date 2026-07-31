@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -euo pipefail
+
+readonly REAL_GH="/usr/bin/gh"
+[[ -x "$REAL_GH" ]] || {
+  printf 'The packaged GitHub CLI is missing: %s\n' "$REAL_GH" >&2
+  exit 1
+}
+
+# shellcheck source=bin/github-app-token-common
+source /usr/local/libexec/fcomrqz/github-app-token-common
+if token="$(github_app_read_token)"; then
+  export GH_TOKEN="$token"
+  unset token
+  exec "$REAL_GH" "$@"
+fi
+
+# Help and version information remain usable before the macOS helper has
+# delivered the first token. Authenticated commands fail with the error above.
+case "${1:-}" in
+  --help | -h | --version | version | help | completion)
+    exec "$REAL_GH" "$@"
+    ;;
+esac
+exit 1
