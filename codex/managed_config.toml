@@ -1,0 +1,4 @@
+# Root-owned defaults applied above user and project configuration.
+[shell_environment_policy]
+inherit = "core"
+exclude = ["DATABASE_URL", "*_PASSWORD", "*_CREDENTIALS"]
