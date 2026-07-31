@@ -1,4 +1,9 @@
 # Root-owned defaults applied above user and project configuration.
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = true
+
 [shell_environment_policy]
 inherit = "core"
 exclude = ["DATABASE_URL", "*_PASSWORD", "*_CREDENTIALS"]

@@ -164,10 +164,10 @@ codex login status
 Codex uses the operating-system credential store when one is available and
 otherwise stores its login in `~/.codex/auth.json`. The Linux installer keeps
 `~/.codex` private. A root-owned `/etc/codex/requirements.toml` restricts Codex
-to read-only or workspace permissions and denies sandboxed commands access to
-that file. Root-owned managed configuration also limits the environment
-inherited by agent-run subprocesses and explicitly removes common credential
-variables.
+to read-only or workspace-write sandbox modes and denies sandboxed commands
+access to that file. Root-owned managed configuration defaults to workspace
+writes with network access, limits the environment inherited by agent-run
+subprocesses, and explicitly removes common credential variables.
 
 Project secrets live outside every checkout:
 
@@ -205,12 +205,13 @@ Terminal 2:  with-secrets bookip bun run dev
 `with-secrets` verifies that the directory and file belong to the current user
 and are inaccessible to group and other users. It then loads the selected file
 and replaces itself with the application. Root-owned Codex requirements deny
-the secrets directory and local `.env` files and cannot be weakened by user,
-project, or command-line configuration. Root-owned managed defaults prevent
-projects from changing the subprocess environment policy at startup. The
-installer copies the launcher and Codex user configuration rather than linking
-them into the agent-editable checkout; changes take effect only after explicit
-provisioning.
+the secrets directory and cannot be weakened by user, project, or command-line
+configuration. Local `.env` files remain readable so Codex can work with
+non-secret development configuration and fixtures; secrets must live in the
+external secrets directory. Root-owned managed defaults prevent projects from
+changing the subprocess environment policy at startup. The installer copies
+the launcher and Codex user configuration rather than linking them into the
+agent-editable checkout; changes take effect only after explicit provisioning.
 
 This prevents direct access from sandboxed agent commands. It cannot make a
 secret safe from application code that receives it, so agent-tested
@@ -218,10 +219,10 @@ integrations should use disposable, least-privilege development credentials,
 never production credentials. Do not approve a sandbox escalation that asks
 to run `with-secrets` or read the secrets directory.
 
-The managed permission-profile allowlist requires Codex 0.138.0 or later; the
-installer fetches the current Codex release. See the official
-[authentication](https://learn.chatgpt.com/docs/auth#credential-storage) and
-[managed configuration](https://learn.chatgpt.com/docs/enterprise/managed-configuration#control-available-permission-profiles)
+The installer ensures Codex supports the managed sandbox configuration. See the
+official [authentication](https://learn.chatgpt.com/docs/auth#credential-storage)
+and
+[managed configuration](https://learn.chatgpt.com/docs/enterprise/managed-configuration#enforce-deny-read-requirements)
 documentation.
 
 Fetch the public dotfiles checkout and repeat provisioning:

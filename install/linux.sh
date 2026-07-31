@@ -94,7 +94,7 @@ install_github_archive_binary() {
   rm -rf "$directory"
 }
 
-codex_supports_managed_permissions() {
+codex_supports_managed_sandbox() {
   local codex_command version major minor
 
   if command_exists codex; then
@@ -473,8 +473,8 @@ install_user() {
     run_step "Fly CLI" /bin/bash -c 'curl -L https://fly.io/install.sh | sh'
   fi
   install_bun
-  if ! codex_supports_managed_permissions; then
-    run_step "Codex CLI 0.138 or newer" \
+  if ! codex_supports_managed_sandbox; then
+    run_step "Codex CLI with managed sandbox support" \
       /bin/bash -c \
       'curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_NON_INTERACTIVE=1 sh'
   fi

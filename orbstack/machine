@@ -591,7 +591,7 @@ sync_host() {
 
 doctor_machine() {
   local machine="$1"
-  local user home guest_ip expose_ports mode codex_version major minor
+  local user home guest_ip expose_ports mode codex_version
   local node_version npm_version bun_version
 
   machine_exists "$machine" || {
@@ -642,14 +642,8 @@ doctor_machine() {
 
   codex_version="$(orb -m "$machine" -u "$user" codex --version \
     | awk 'NR == 1 {print $2}')"
-  if [[ ! "$codex_version" =~ ^([0-9]+)\.([0-9]+)\. ]]; then
+  if [[ ! "$codex_version" =~ ^[0-9]+\.[0-9]+\. ]]; then
     log_error "Could not determine the Codex version"
-    return 1
-  fi
-  major="${BASH_REMATCH[1]}"
-  minor="${BASH_REMATCH[2]}"
-  if (( major == 0 && minor < 138 )); then
-    log_error "Codex $codex_version does not enforce managed permission profiles"
     return 1
   fi
   orb -m "$machine" -u "$user" codex --strict-config --help >/dev/null
