@@ -301,4 +301,11 @@ scrolling, and stdout/stderr behavior used by these dotfiles without installing
 Gum. Non-empty searches retain the best 256 matches so large history lists
 remain responsive while the query is refined.
 
+`open_project` scans `$HOME/Developer` on macOS and `$HOME` on Linux for
+primary clones, then includes their registered Git worktrees wherever they
+live. Entries use `repo branch commit [status]`; worktree identifiers are
+omitted, and changed checkouts retain the yellow `*` status marker. Current
+working-tree edits determine the recent-first order. A detached HEAD uses
+`@<short-hash>` in place of the branch and does not repeat the commit.
+
 Upstream attribution is in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

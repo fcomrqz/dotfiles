@@ -1,45 +1,260 @@
-function open_project
-    set -l developer_root "$HOME/Developer"
-    test -d "$developer_root"; or return 1
+function __open_project_root
+    switch (uname)
+        case Darwin
+            printf '%s\n' "$HOME/Developer"
+        case Linux
+            printf '%s\n' "$HOME"
+        case '*'
+            return 1
+    end
+end
 
-    set -l projects (
-        command find "$developer_root" \
-            \( -name node_modules -o -name .build -o -name .cache \) -prune -o \
-            -name .git -print -prune 2>/dev/null |
-        while read -l git_entry
-            path dirname "$git_entry"
+function __open_project_primary_repositories --argument-names project_root operating_system
+    set project_root (path resolve "$project_root")
+    set -l maximum_depth 2
+    if test "$operating_system" = Darwin
+        # macOS clones may be direct children or grouped by GitHub owner.
+        set maximum_depth 3
+    end
+
+    command find "$project_root" \
+        -mindepth 2 \
+        -maxdepth $maximum_depth \
+        -type d \
+        -name .git \
+        -print 2>/dev/null |
+        while read -l git_directory
+            set -l repository (path dirname "$git_directory")
+            set -l relative_path (
+                string replace "$project_root/" '' -- "$repository"
+            )
+            set -l path_parts (string split / -- "$relative_path")
+
+            # Worktrees are obtained from Git below; never treat their nested
+            # .git entries as independent repositories.
+            contains -- worktrees $path_parts; and continue
+
+            # If a direct macOS clone exists, ignore nested repositories inside
+            # it. Otherwise owner/repository layouts remain supported.
+            if test "$operating_system" = Darwin
+                if test (count $path_parts) -eq 2
+                    test -d "$project_root/$path_parts[1]/.git"; and continue
+                end
+            end
+
+            printf '%s\n' "$repository"
         end |
         command sort -u
-    )
-    test (count $projects) -gt 0; or return 1
+end
 
+function __open_project_collect_checkouts --argument-names project_root operating_system
+    set project_root (path resolve "$project_root")
+    set -g __open_project_checkout_paths
+    set -g __open_project_repository_names
+
+    set -l primary_repositories (
+        __open_project_primary_repositories "$project_root" "$operating_system"
+    )
+
+    for primary_repository in $primary_repositories
+        set -l repository_name (path basename "$primary_repository")
+        set -l worktree_lines (
+            command git -C "$primary_repository" worktree list --porcelain 2>/dev/null
+        )
+
+        for line in $worktree_lines
+            string match --quiet 'worktree *' -- "$line"; or continue
+            set -l checkout (string replace -r '^worktree ' '' -- "$line")
+            test -d "$checkout"; or continue
+            set checkout (path resolve "$checkout")
+            contains -- "$checkout" $__open_project_checkout_paths; and continue
+
+            set -a __open_project_checkout_paths "$checkout"
+            set -a __open_project_repository_names "$repository_name"
+        end
+
+        # A damaged worktree registry should not hide the primary checkout.
+        if not contains -- "$primary_repository" $__open_project_checkout_paths
+            set -a __open_project_checkout_paths "$primary_repository"
+            set -a __open_project_repository_names "$repository_name"
+        end
+    end
+end
+
+function __open_project_mtime --argument-names operating_system target
+    test -e "$target"; or test -L "$target"; or return 1
+
+    switch "$operating_system"
+        case Darwin
+            command stat -f %m "$target" 2>/dev/null
+        case Linux
+            command stat -c %Y "$target" 2>/dev/null
+    end
+end
+
+function __open_project_changed_path --argument-names status_line
+    set -l fields
+    switch "$status_line"
+        case '1 *'
+            set fields (string split -m 8 ' ' -- "$status_line")
+            test (count $fields) -ge 9; and printf '%s\n' "$fields[9]"
+        case '2 *'
+            set fields (string split -m 9 ' ' -- "$status_line")
+            if test (count $fields) -ge 10
+                string split \t -- "$fields[10]" | head -n 1
+            end
+        case 'u *'
+            set fields (string split -m 10 ' ' -- "$status_line")
+            test (count $fields) -ge 11; and printf '%s\n' "$fields[11]"
+        case '? *'
+            string sub -s 3 -- "$status_line"
+    end
+end
+
+function __open_project_describe \
+    --argument-names checkout repository operating_system
+    set -g __open_project_description
+    set -g __open_project_plain_description
+    set -g __open_project_activity 0
+
+    set -l status_lines (
+        command git -C "$checkout" \
+            status --porcelain=v2 --branch --untracked-files=normal 2>/dev/null
+    )
+    or return 1
+
+    set -l branch -
+    set -l commit -
+    set -l repository_status clean
+
+    for line in $status_lines
+        switch "$line"
+            case '# branch.head *'
+                set branch (string replace '# branch.head ' '' -- "$line")
+                test "$branch" = '(detached)'; and set branch detached
+            case '# branch.oid *'
+                set -l oid (string replace '# branch.oid ' '' -- "$line")
+                if string match --quiet -r '^[0-9a-fA-F]{7,}$' -- "$oid"
+                    set commit (string sub -s 1 -l 7 -- "$oid")
+                end
+            case 'u *'
+                set repository_status conflict
+            case '1 *' '2 *' '? *'
+                test "$repository_status" = conflict
+                or set repository_status dirty
+        end
+    end
+
+    if test "$branch" = detached
+        set branch "@$commit"
+        set commit
+    end
+
+    set -l commit_time (
+        command git -C "$checkout" show -s --format=%ct HEAD 2>/dev/null
+    )
+    if string match --quiet -r '^[0-9]+$' -- "$commit_time"
+        set -g __open_project_activity "$commit_time"
+    end
+
+    # Dirty file mtimes make current edits outrank merely recent commits.
+    for line in $status_lines
+        set -l changed_path (__open_project_changed_path "$line")
+        test -n "$changed_path"; or continue
+
+        set -l full_path "$checkout/$changed_path"
+        if not test -e "$full_path"; and not test -L "$full_path"
+            set full_path (path dirname "$full_path")
+        end
+        set -l modified (
+            __open_project_mtime "$operating_system" "$full_path"
+        )
+        if string match --quiet -r '^[0-9]+$' -- "$modified"
+            if test "$modified" -gt "$__open_project_activity"
+                set -g __open_project_activity "$modified"
+            end
+        end
+    end
+
+    set -l fields $repository
+    set -a fields "$branch"
+    test -n "$commit"; and set -a fields "$commit"
+    set -l safe_fields
+    for field in $fields
+        set -a safe_fields (
+            string replace -ra '[[:cntrl:]]' '' -- "$field"
+        )
+    end
+    set -g __open_project_plain_description (string join ' ' -- $safe_fields)
+    set -g __open_project_description "$__open_project_plain_description"
+    if test "$repository_status" != clean
+        set -g __open_project_plain_description \
+            "$__open_project_plain_description *"
+        set -l marker (
+            string join '' -- (set_color yellow) '*' (set_color normal)
+        )
+        set -g __open_project_description \
+            "$__open_project_description $marker"
+    end
+    return 0
+end
+
+function open_project
+    set -l operating_system (uname)
+    set -l project_root (__open_project_root)
+    test -d "$project_root"; or return 1
+
+    __open_project_collect_checkouts "$project_root" "$operating_system"
+    test (count $__open_project_checkout_paths) -gt 0; or return 1
+
+    set -l checkout_paths
+    set -l descriptions
+    set -l plain_descriptions
     set -l sortable
-    for project in $projects
-        set -l relative_path (string replace "$developer_root/" '' -- "$project")
-        set -l dirty 0
-        set -l marker ''
-        if test -n "$(command git -C "$project" status --porcelain 2>/dev/null)"
-            set dirty 1
-            set marker ' '(set_color yellow)'*'(set_color normal)
-        end
-        set -l modified (command git -C "$project" log -1 --format=%ct 2>/dev/null)
-        test -n "$modified"; or set modified 0
-        set -a sortable "$dirty|$modified|$relative_path$marker"
+
+    for checkout_index in (seq (count $__open_project_checkout_paths))
+        __open_project_describe \
+            "$__open_project_checkout_paths[$checkout_index]" \
+            "$__open_project_repository_names[$checkout_index]" \
+            "$operating_system"
+        or continue
+
+        set -a checkout_paths "$__open_project_checkout_paths[$checkout_index]"
+        set -a descriptions "$__open_project_description"
+        set -a plain_descriptions "$__open_project_plain_description"
+        set -a sortable \
+            "$__open_project_activity\t"(count $descriptions)
     end
 
-    set -l sorted_projects (
-        printf '%s\n' $sortable |
-        command sort -t '|' -k1,1r -k2,2nr |
-        command cut -d '|' -f 3-
+    set -l sorted_paths
+    set -l sorted_descriptions
+    set -l sorted_plain_descriptions
+    for record in (
+        printf '%b\n' $sortable |
+            command sort -t \t -k1,1nr -k2,2n
     )
-    set -l selected_project (__gum_filter --height 12 -- $sorted_projects)
+        set -l fields (string split \t -- "$record")
+        set -a sorted_paths "$checkout_paths[$fields[2]]"
+        set -a sorted_descriptions "$descriptions[$fields[2]]"
+        set -a sorted_plain_descriptions "$plain_descriptions[$fields[2]]"
+    end
 
-    if test -n "$selected_project"
-        set -l clean_project (string replace -r ' \*$' '' -- "$selected_project")
-        set -l full_path "$developer_root/$clean_project"
-        if test -d "$full_path"
-            cd "$full_path"
+    set -l selected_project (__gum_filter --height 12 -- $sorted_descriptions)
+    set -l filter_status $status
+    if test $filter_status -eq 0; and test -n "$selected_project"
+        set -l selected_index (
+            contains --index -- "$selected_project" $sorted_plain_descriptions
+        )
+        if test -n "$selected_index"; and test -d "$sorted_paths[$selected_index]"
+            cd "$sorted_paths[$selected_index]"
         end
     end
+
+    set -e \
+        __open_project_activity \
+        __open_project_checkout_paths \
+        __open_project_description \
+        __open_project_plain_description \
+        __open_project_repository_names
     commandline -f repaint
 end

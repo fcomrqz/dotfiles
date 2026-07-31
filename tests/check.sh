@@ -42,6 +42,7 @@ shellcheck \
 "$ROOT/tests/install-lib.sh"
 "$ROOT/tests/with-secrets.sh"
 fish "$ROOT/tests/filter-ranking.fish"
+fish "$ROOT/tests/open-project.fish"
 fish "$ROOT/tests/prompt.fish"
 
 plutil -lint "$ROOT/github/com.fcomrqz.github-app.plist" >/dev/null
