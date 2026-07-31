@@ -59,8 +59,7 @@ __open_project_describe \
     "$primary" \
     "$__open_project_repository_names[$primary_index]" \
     Darwin
-string match --quiet --regex '^repository main [0-9a-f]{7}$' \
-    "$__open_project_plain_description"
+test "$__open_project_plain_description" = 'repository main'
 or fail "primary checkout omits the worktree field"
 set primary_activity $__open_project_activity
 
@@ -68,16 +67,14 @@ __open_project_describe \
     "$zed_checkout" \
     "$__open_project_repository_names[$zed_index]" \
     Darwin
-string match --quiet --regex '^repository zed [0-9a-f]{7}$' \
-    "$__open_project_plain_description"
+test "$__open_project_plain_description" = 'repository zed'
 or fail "Zed worktrees omit their generated name"
 
 __open_project_describe \
     "$codex_checkout" \
     "$__open_project_repository_names[$codex_index]" \
     Darwin
-string match --quiet --regex '^repository codex [0-9a-f]{7}$' \
-    "$__open_project_plain_description"
+test "$__open_project_plain_description" = 'repository codex'
 or fail "Codex worktrees omit their generated key"
 
 command git -C "$zed_checkout" checkout --quiet --detach
@@ -95,11 +92,25 @@ __open_project_describe \
     "$zed_checkout" \
     "$__open_project_repository_names[$zed_index]" \
     Darwin
-string match --quiet --regex '^repository @[0-9a-f]{7} \*$' \
+string match --quiet --regex '^repository \* @[0-9a-f]{7}$' \
     "$__open_project_plain_description"
 or fail "dirty status is displayed"
 test "$__open_project_activity" -gt "$primary_activity"
 or fail "working-tree edits determine recent-first ordering"
+
+__open_project_format_description \
+    repository \
+    main \
+    clean
+test "$__open_project_plain_description" = 'repository main'
+or fail "clean entries use repo and branch fields"
+
+__open_project_format_description \
+    repository \
+    @1234567 \
+    dirty
+test "$__open_project_plain_description" = 'repository * @1234567'
+or fail "dirty entries place status between repo and branch"
 
 set linux_root "$temporary_directory/linux"
 set linux_repository "$linux_root/repository"
@@ -115,5 +126,5 @@ or fail "Linux discovery uses direct home-directory clones"
 command rm -rf "$temporary_directory"
 
 printf 'ok - open_project discovers OS clone roots and registered worktrees\n'
-printf 'ok - open_project formats repo, branch, commit, and status\n'
+printf 'ok - open_project formats repo, status, and branch\n'
 printf 'ok - open_project sorts current edits ahead of older commits\n'

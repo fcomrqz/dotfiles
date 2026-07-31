@@ -111,10 +111,31 @@ function __open_project_changed_path --argument-names status_line
     end
 end
 
+function __open_project_format_description \
+    --argument-names repository branch repository_status
+    set -l plain_description "$repository"
+    set -l styled_description "$repository"
+
+    if test "$repository_status" != clean
+        set plain_description "$plain_description *"
+        set -l marker (
+            string join '' -- (set_color yellow) '*' (set_color normal)
+        )
+        set styled_description "$styled_description $marker"
+    end
+
+    set -g __open_project_plain_description "$plain_description $branch"
+    set -g __open_project_description "$styled_description $branch"
+    return 0
+end
+
 function __open_project_describe \
     --argument-names checkout repository operating_system
     set -g __open_project_description
     set -g __open_project_plain_description
+    set -g __open_project_repository
+    set -g __open_project_branch
+    set -g __open_project_status
     set -g __open_project_activity 0
 
     set -l status_lines (
@@ -176,26 +197,20 @@ function __open_project_describe \
         end
     end
 
-    set -l fields $repository
-    set -a fields "$branch"
-    test -n "$commit"; and set -a fields "$commit"
-    set -l safe_fields
-    for field in $fields
-        set -a safe_fields (
-            string replace -ra '[[:cntrl:]]' '' -- "$field"
-        )
-    end
-    set -g __open_project_plain_description (string join ' ' -- $safe_fields)
-    set -g __open_project_description "$__open_project_plain_description"
-    if test "$repository_status" != clean
-        set -g __open_project_plain_description \
-            "$__open_project_plain_description *"
-        set -l marker (
-            string join '' -- (set_color yellow) '*' (set_color normal)
-        )
-        set -g __open_project_description \
-            "$__open_project_description $marker"
-    end
+    set -l safe_repository (
+        string replace -ra '[[:cntrl:]]' '' -- "$repository"
+    )
+    set -l safe_branch (
+        string replace -ra '[[:cntrl:]]' '' -- "$branch"
+    )
+    set -g __open_project_repository "$safe_repository"
+    set -g __open_project_branch "$safe_branch"
+    set -g __open_project_status "$repository_status"
+
+    __open_project_format_description \
+        "$__open_project_repository" \
+        "$__open_project_branch" \
+        "$__open_project_status"
     return 0
 end
 
@@ -208,8 +223,9 @@ function open_project
     test (count $__open_project_checkout_paths) -gt 0; or return 1
 
     set -l checkout_paths
-    set -l descriptions
-    set -l plain_descriptions
+    set -l repositories
+    set -l branches
+    set -l statuses
     set -l sortable
 
     for checkout_index in (seq (count $__open_project_checkout_paths))
@@ -220,10 +236,11 @@ function open_project
         or continue
 
         set -a checkout_paths "$__open_project_checkout_paths[$checkout_index]"
-        set -a descriptions "$__open_project_description"
-        set -a plain_descriptions "$__open_project_plain_description"
+        set -a repositories "$__open_project_repository"
+        set -a branches "$__open_project_branch"
+        set -a statuses "$__open_project_status"
         set -a sortable \
-            "$__open_project_activity\t"(count $descriptions)
+            "$__open_project_activity\t"(count $checkout_paths)
     end
 
     set -l sorted_paths
@@ -234,9 +251,14 @@ function open_project
             command sort -t \t -k1,1nr -k2,2n
     )
         set -l fields (string split \t -- "$record")
-        set -a sorted_paths "$checkout_paths[$fields[2]]"
-        set -a sorted_descriptions "$descriptions[$fields[2]]"
-        set -a sorted_plain_descriptions "$plain_descriptions[$fields[2]]"
+        set -l checkout_index $fields[2]
+        __open_project_format_description \
+            "$repositories[$checkout_index]" \
+            "$branches[$checkout_index]" \
+            "$statuses[$checkout_index]"
+        set -a sorted_paths "$checkout_paths[$checkout_index]"
+        set -a sorted_descriptions "$__open_project_description"
+        set -a sorted_plain_descriptions "$__open_project_plain_description"
     end
 
     set -l selected_project (__gum_filter --height 12 -- $sorted_descriptions)
@@ -252,9 +274,12 @@ function open_project
 
     set -e \
         __open_project_activity \
+        __open_project_branch \
         __open_project_checkout_paths \
         __open_project_description \
         __open_project_plain_description \
-        __open_project_repository_names
+        __open_project_repository \
+        __open_project_repository_names \
+        __open_project_status
     commandline -f repaint
 end
