@@ -1,0 +1,17 @@
+# Root-owned Codex requirements for the isolated development machine. Local
+# configuration, trusted projects, and CLI flags cannot weaken these rules.
+default_permissions = ":workspace"
+
+[allowed_permission_profiles]
+":read-only" = true
+":workspace" = true
+# :danger-full-access and future profiles are denied because they are omitted.
+
+[permissions.filesystem]
+deny_read = [
+  "~/.codex/auth.json",
+  "~/.config/fcomrqz/secrets",
+  "/**/*.env",
+  "/**/.env.local",
+  "/**/.env.*.local",
+]

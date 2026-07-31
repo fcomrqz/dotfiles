@@ -2,3 +2,4 @@
 .build
 display/display
 display/*.o
+/codex/tmp/
