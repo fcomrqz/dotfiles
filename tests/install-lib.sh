@@ -15,7 +15,7 @@ success_output="$(
 )"
 [[ "$success_output" == *"Running a successful step"* ]]
 [[ "$success_output" == *"command output"* ]]
-[[ "$success_output" == *"(0s)"* ]]
+[[ "$success_output" != *"(0s)"* ]]
 
 if failure_output="$(
   CI=1 run_step "Running a failed step" \

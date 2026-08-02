@@ -36,15 +36,6 @@ is_interactive_terminal() {
     && "${TERM:-}" != "dumb" ]]
 }
 
-format_duration() {
-  local elapsed="$1"
-  if (( elapsed >= 60 )); then
-    printf '%dm %ds' "$(( elapsed / 60 ))" "$(( elapsed % 60 ))"
-  else
-    printf '%ds' "$elapsed"
-  fi
-}
-
 step_progress() {
   if [[ -n "${DOTFILES_PROGRESS_FILE:-}" ]]; then
     printf '%s\n' "$*" > "$DOTFILES_PROGRESS_FILE"
@@ -57,8 +48,7 @@ run_step() {
   local title="$1"
   shift
   local errexit_was_set=0
-  local started_at=$SECONDS
-  local elapsed status
+  local status
 
   if ! is_interactive_terminal; then
     log_info "$title"
@@ -76,11 +66,10 @@ run_step() {
     if [[ "$errexit_was_set" -eq 1 ]]; then
       set -e
     fi
-    elapsed=$(( SECONDS - started_at ))
     if [[ "$status" -eq 0 ]]; then
-      log_success "$title ($(format_duration "$elapsed"))"
+      log_success "$title"
     else
-      log_error "$title ($(format_duration "$elapsed"))"
+      log_error "$title"
     fi
     return "$status"
   fi
@@ -123,13 +112,12 @@ run_step() {
   fi
   trap - INT TERM
 
-  elapsed=$(( SECONDS - started_at ))
   printf '\r\033[2K' >&2
   if [[ "$status" -eq 0 ]]; then
-    log_success "$title ($(format_duration "$elapsed"))"
+    log_success "$title"
     rm -f "$log_file"
   else
-    log_error "$title ($(format_duration "$elapsed"))"
+    log_error "$title"
     if [[ -s "$log_file" ]]; then
       printf '  Last output:\n' >&2
       tail -n "${INSTALL_FAILURE_LINES:-30}" "$log_file" \
