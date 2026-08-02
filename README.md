@@ -17,9 +17,9 @@ bash install.sh
 
 The macOS installer manages:
 
-- Fish, GitHub CLI, Git Delta, `mas`, Kanata, and Tailscale.
+- Fish, Micro, GitHub CLI, Git Delta, `mas`, Kanata, and Tailscale.
 - Zed, AeroSpace, Chrome, OrbStack, KeyCastr, Figma, Android Studio,
-  Temurin 17, ChatGPT, SF Symbols, and Parallels.
+  Temurin 17, ChatGPT, and Parallels.
 - Xcode, Numbers, WhatsApp, Pure Paste, Pandan, Base, and Things.
 - Fish, Git, Zed, AeroSpace, Kanata, Keytics, Terminal themes, and macOS
   defaults.

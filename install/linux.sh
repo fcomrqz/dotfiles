@@ -94,6 +94,36 @@ install_github_archive_binary() {
   rm -rf "$directory"
 }
 
+install_github_deb_step() {
+  local repository="$1"
+  local pattern="$2"
+  local package="$3"
+  local title="$4"
+
+  if dpkg-query -W -f='${Status}' "$package" 2>/dev/null \
+    | grep -Fq 'install ok installed'; then
+    log_skip "$title is already installed"
+  else
+    run_step "Installing $title" \
+      install_github_deb "$repository" "$pattern" "$package"
+  fi
+}
+
+install_github_archive_binary_step() {
+  local repository="$1"
+  local pattern="$2"
+  local binary_name="$3"
+  local title="$4"
+
+  if [[ -x "/usr/local/bin/$binary_name" ]]; then
+    log_skip "$title is already installed"
+  else
+    run_step "Installing $title" \
+      install_github_archive_binary \
+      "$repository" "$pattern" "$binary_name"
+  fi
+}
+
 codex_supports_managed_sandbox() {
   local codex_command version major minor
 
@@ -113,13 +143,14 @@ codex_supports_managed_sandbox() {
 
 install_bun() {
   if [[ -x "$HOME/.bun/bin/bun" ]]; then
+    log_skip "Bun JavaScript runtime is already installed"
     return 0
   fi
 
   # Put the destination on PATH before running Bun's official installer. Once
   # the binary exists, the installer detects it and does not append duplicate
   # configuration to our symlinked Fish config.
-  run_step "Bun JavaScript runtime" \
+  run_step "Installing Bun JavaScript runtime" \
     env \
     BUN_INSTALL="$HOME/.bun" \
     PATH="$HOME/.bun/bin:$PATH" \
@@ -259,6 +290,7 @@ EOF
 configure_dns() {
   local guest_ip="$1"
   local upstream_dns
+  step_progress "discovering OrbStack's upstream resolver"
   [[ "$guest_ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
     log_error "Invalid guest IPv4 address: $guest_ip"
     return 1
@@ -279,6 +311,7 @@ configure_dns() {
     return 1
   }
 
+  step_progress "writing the dnsmasq configuration"
   cat > /etc/dnsmasq.d/test.conf <<EOF
 # Managed by fcomrqz/dotfiles.
 local=/test/
@@ -294,6 +327,7 @@ EOF
   # OrbStack deliberately masks systemd-resolved and provides its own
   # read-only resolv.conf. Use dnsmasq as the guest resolver and forward
   # non-.test queries to the OrbStack resolver discovered above.
+  step_progress "restarting dnsmasq"
   rm -f /etc/systemd/resolved.conf.d/test.conf
   systemctl restart dnsmasq
   rm -f /etc/resolv.conf
@@ -303,6 +337,7 @@ nameserver 127.0.0.1
 options edns0
 EOF
 
+  step_progress "verifying public and wildcard DNS"
   getent hosts example.com >/dev/null || {
     log_error "dnsmasq cannot reach OrbStack's upstream DNS resolver."
     return 1
@@ -314,6 +349,7 @@ EOF
 }
 
 configure_caddy() {
+  step_progress "installing the Caddy configuration"
   install -o root -g caddy -m 0640 "$DOTFILES_ROOT/caddy/caddy.json" /etc/caddy/caddy.json
   install -d -o root -g root -m 0755 /etc/systemd/system/caddy.service.d
   cat > /etc/systemd/system/caddy.service.d/override.conf <<'EOF'
@@ -323,12 +359,14 @@ ExecStart=/usr/bin/caddy run --environ --config /etc/caddy/caddy.json
 ExecReload=
 ExecReload=/usr/bin/caddy reload --config /etc/caddy/caddy.json --force
 EOF
+  step_progress "enabling and restarting Caddy"
   systemctl daemon-reload
   systemctl enable --now caddy
   systemctl restart caddy
 
   # Asking for the default CA provisions it even before the first dynamic
   # application route is registered.
+  step_progress "waiting for Caddy's local certificate authority"
   for _ in $(seq 1 30); do
     if curl -fsS http://127.0.0.1:2019/pki/ca/local >/dev/null; then
       trust_caddy_ca
@@ -345,6 +383,7 @@ install_github_app_authentication() {
   local target_group
 
   target_group="$(id -gn "$target_user")"
+  step_progress "installing credential helper commands"
   install -d -o root -g root -m 0755 /usr/local/libexec/fcomrqz
   install -o root -g root -m 0644 \
     "$DOTFILES_ROOT/bin/github-app-token-common" \
@@ -361,6 +400,7 @@ install_github_app_authentication() {
 
   # /run is a tmpfs. Recreate only the narrow, user-owned token directory on
   # every boot; the macOS helper repopulates its contents through ORBENV.
+  step_progress "configuring the runtime token directory"
   {
     printf '# Managed by fcomrqz/dotfiles.\n'
     printf 'd /run/fcomrqz-github-app 0711 root root -\n'
@@ -368,6 +408,16 @@ install_github_app_authentication() {
       "$target_user" "$target_user" "$target_group"
   } > /etc/tmpfiles.d/fcomrqz-github-app.conf
   systemd-tmpfiles --create /etc/tmpfiles.d/fcomrqz-github-app.conf
+}
+
+install_codex_system_configuration() {
+  install -d -o root -g root -m 0755 /etc/codex
+  install -o root -g root -m 0644 \
+    "$DOTFILES_ROOT/codex/requirements.toml" \
+    /etc/codex/requirements.toml
+  install -o root -g root -m 0644 \
+    "$DOTFILES_ROOT/codex/managed_config.toml" \
+    /etc/codex/managed_config.toml
 }
 
 trust_caddy_ca() {
@@ -378,67 +428,10 @@ trust_caddy_ca() {
   update-ca-certificates >/dev/null
 }
 
-install_system() {
-  local target_user="${1:?target user is required}"
-  local guest_ip="${2:?guest IPv4 address is required}"
-  local arch
+link_linux_configuration() {
+  local config_root="$1"
 
-  require_root
-  arch="$(linux_arch)"
-
-  export DEBIAN_FRONTEND=noninteractive
-  # A previous interrupted run may have written the Caddy source before its
-  # keyring. Repair that state before the first apt update so provisioning is
-  # safely resumable.
-  if [[ -f /etc/apt/sources.list.d/caddy-stable.list ]]; then
-    install_caddy_repository
-  fi
-  apt-get update
-  apt-get install -y \
-    ca-certificates curl dnsmasq ffmpeg fish git gnupg jq micro \
-    nodejs npm ripgrep shellcheck sqlite3 tar unzip xz-utils
-
-  install_playwright_dependencies
-
-  install_caddy_repository
-  apt-get update
-  apt-get install -y caddy
-  install -d -o root -g root -m 0755 /etc/codex
-  install -o root -g root -m 0644 \
-    "$DOTFILES_ROOT/codex/requirements.toml" \
-    /etc/codex/requirements.toml
-  install -o root -g root -m 0644 \
-    "$DOTFILES_ROOT/codex/managed_config.toml" \
-    /etc/codex/managed_config.toml
-
-  case "$arch" in
-    arm64)
-      install_github_deb cli/cli 'gh_.*_linux_arm64\.deb$' gh
-      install_github_deb dandavison/delta 'git-delta_.*_arm64\.deb$' git-delta
-      install_github_deb cloudflare/cloudflared 'cloudflared-linux-arm64\.deb$' cloudflared
-      install_github_archive_binary stripe/stripe-cli 'stripe_.*_linux_arm64\.tar\.gz$' stripe
-      install_github_archive_binary boyter/scc 'scc_Linux_arm64\.tar\.gz$' scc
-      ;;
-    amd64)
-      install_github_deb cli/cli 'gh_.*_linux_amd64\.deb$' gh
-      install_github_deb dandavison/delta 'git-delta_.*_amd64\.deb$' git-delta
-      install_github_deb cloudflare/cloudflared 'cloudflared-linux-amd64\.deb$' cloudflared
-      install_github_archive_binary stripe/stripe-cli 'stripe_.*_linux_x86_64\.tar\.gz$' stripe
-      install_github_archive_binary boyter/scc 'scc_Linux_x86_64\.tar\.gz$' scc
-      ;;
-  esac
-
-  install_github_app_authentication "$target_user"
-  configure_dns "$guest_ip"
-  configure_caddy
-  chsh -s "$(command -v fish)" "$target_user"
-}
-
-install_user() {
-  local config_root="${1:-$DOTFILES_ROOT}"
-  require_non_root
-
-  log_section "Linking Linux configuration"
+  step_progress "installing trusted Codex configuration"
   install -d -m 0700 "$HOME/.codex"
   install -d -m 0700 "$HOME/.config/fcomrqz/secrets"
   ensure_dir "$HOME/.local/bin"
@@ -452,6 +445,7 @@ install_user() {
     chmod 0600 "$HOME/.codex/auth.json"
   fi
 
+  step_progress "linking Fish, Git, and GitHub CLI"
   ensure_dir "$HOME/.config/fish/themes"
   prepare_fish_configuration
   safe_link "$config_root/fish/functions" "$HOME/.config/fish/functions"
@@ -463,20 +457,95 @@ install_user() {
   safe_link "$config_root/git/linux.gitconfig" "$HOME/.config/git/platform.gitconfig"
   ensure_dir "$HOME/.config/gh"
   safe_link "$config_root/gh/config.yml" "$HOME/.config/gh/config.yml"
+
+  step_progress "linking Micro"
   ensure_dir "$HOME/.config/micro"
   safe_link "$config_root/micro/settings.json" "$HOME/.config/micro/settings.json"
   safe_link "$config_root/micro/bindings.json" "$HOME/.config/micro/bindings.json"
   safe_link "$config_root/micro/syntax" "$HOME/.config/micro/syntax"
   safe_link "$config_root/micro/colorschemes" "$HOME/.config/micro/colorschemes"
+}
+
+install_system() {
+  local target_user="${1:?target user is required}"
+  local guest_ip="${2:?guest IPv4 address is required}"
+  local arch
+
+  require_root
+  arch="$(linux_arch)"
+
+  export DEBIAN_FRONTEND=noninteractive
+  log_section "Installing Linux system packages"
+  # A previous interrupted run may have written the Caddy source before its
+  # keyring. Repair that state before the first apt update so provisioning is
+  # safely resumable.
+  if [[ -f /etc/apt/sources.list.d/caddy-stable.list ]]; then
+    run_step "Repairing the Caddy package repository" \
+      install_caddy_repository
+  fi
+  run_step "Refreshing the Ubuntu package index" apt-get update
+  run_step "Installing base development packages" apt-get install -y \
+    ca-certificates curl dnsmasq ffmpeg fish git gnupg jq micro \
+    nodejs npm ripgrep shellcheck sqlite3 tar unzip xz-utils
+
+  run_step "Installing Playwright system dependencies" \
+    install_playwright_dependencies
+
+  run_step "Configuring the Caddy package repository" \
+    install_caddy_repository
+  run_step "Refreshing the package index for Caddy" apt-get update
+  run_step "Installing the Caddy web server" apt-get install -y caddy
+  run_step "Installing managed Codex system policy" \
+    install_codex_system_configuration
+
+  log_section "Installing Linux command-line tools"
+  case "$arch" in
+    arm64)
+      install_github_deb_step cli/cli 'gh_.*_linux_arm64\.deb$' gh "GitHub CLI"
+      install_github_deb_step dandavison/delta 'git-delta_.*_arm64\.deb$' git-delta "Git Delta"
+      install_github_deb_step cloudflare/cloudflared 'cloudflared-linux-arm64\.deb$' cloudflared "Cloudflare Tunnel"
+      install_github_archive_binary_step stripe/stripe-cli 'stripe_.*_linux_arm64\.tar\.gz$' stripe "Stripe CLI"
+      install_github_archive_binary_step boyter/scc 'scc_Linux_arm64\.tar\.gz$' scc "SCC code counter"
+      ;;
+    amd64)
+      install_github_deb_step cli/cli 'gh_.*_linux_amd64\.deb$' gh "GitHub CLI"
+      install_github_deb_step dandavison/delta 'git-delta_.*_amd64\.deb$' git-delta "Git Delta"
+      install_github_deb_step cloudflare/cloudflared 'cloudflared-linux-amd64\.deb$' cloudflared "Cloudflare Tunnel"
+      install_github_archive_binary_step stripe/stripe-cli 'stripe_.*_linux_x86_64\.tar\.gz$' stripe "Stripe CLI"
+      install_github_archive_binary_step boyter/scc 'scc_Linux_x86_64\.tar\.gz$' scc "SCC code counter"
+      ;;
+  esac
+
+  log_section "Configuring Linux services"
+  run_step "Installing GitHub App authentication" \
+    install_github_app_authentication "$target_user"
+  run_step "Configuring local development DNS" configure_dns "$guest_ip"
+  run_step "Configuring the Caddy HTTPS proxy" configure_caddy
+  run_step "Setting Fish as the default shell" \
+    chsh -s "$(command -v fish)" "$target_user"
+}
+
+install_user() {
+  local config_root="${1:-$DOTFILES_ROOT}"
+  require_non_root
+
+  log_section "Configuring the Linux user"
+  run_step "Installing Linux user configuration" \
+    link_linux_configuration "$config_root"
 
   if ! command_exists flyctl; then
-    run_step "Fly CLI" /bin/bash -c 'curl -L https://fly.io/install.sh | sh'
+    run_step "Installing Fly CLI" \
+      /bin/bash -c 'curl -L https://fly.io/install.sh | sh'
+  else
+    log_skip "Fly CLI is already installed"
   fi
   install_bun
   if ! codex_supports_managed_sandbox; then
-    run_step "Codex CLI with managed sandbox support" \
+    run_step "Installing Codex CLI with managed sandbox support" \
       /bin/bash -c \
       'curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_NON_INTERACTIVE=1 sh'
+  else
+    log_skip "Codex CLI with managed sandbox support is already installed"
   fi
 
   log_success "Linux user configuration is complete."
@@ -486,6 +555,7 @@ lock_down_user() {
   local target_user="${1:?target user is required}"
   require_root
 
+  step_progress "removing sudo group membership"
   if id -nG "$target_user" \
     | grep -Eq '(^|[[:space:]])sudo([[:space:]]|$)'; then
     gpasswd -d "$target_user" sudo
@@ -493,6 +563,7 @@ lock_down_user() {
 
   # OrbStack/cloud-init may add an explicit passwordless rule. Remove only
   # lines that grant this exact user sudo access; never edit /etc/sudoers.
+  step_progress "removing explicit sudoers grants"
   local file
   for file in /etc/sudoers.d/*; do
     [[ -f "$file" ]] || continue
@@ -503,6 +574,7 @@ lock_down_user() {
       fi
     fi
   done
+  step_progress "validating sudoers"
   visudo -cf /etc/sudoers >/dev/null
 }
 
@@ -529,15 +601,16 @@ case "${1:-user}" in
   dns)
     shift
     require_root
-    configure_dns "${1:?guest IPv4 address is required}"
+    run_step "Configuring local development DNS" \
+      configure_dns "${1:?guest IPv4 address is required}"
     ;;
   trust-ca)
     shift
-    trust_caddy_ca
+    run_step "Trusting Caddy's local certificate authority" trust_caddy_ca
     ;;
   lockdown)
     shift
-    lock_down_user "$@"
+    run_step "Removing Linux administrative access" lock_down_user "$@"
     ;;
   *)
     usage >&2
