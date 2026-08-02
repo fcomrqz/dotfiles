@@ -34,6 +34,14 @@ The installer is repeatable and resolves this checkout from its own location;
 it does not require the repository to live at a particular home-directory
 path.
 
+Interactive installs show structured progress and keep command output hidden
+unless a step fails. Set `INSTALL_VERBOSE=1` to stream the underlying command
+output while troubleshooting:
+
+```sh
+INSTALL_VERBOSE=1 bash install.sh
+```
+
 ## GitHub App authentication
 
 Ubuntu uses a GitHub App installation instead of a personal GitHub login. The
