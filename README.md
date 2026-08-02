@@ -42,6 +42,14 @@ output while troubleshooting:
 INSTALL_VERBOSE=1 bash install.sh
 ```
 
+## Remote access
+
+Hardened remote administration uses Tailscale SSH into macOS and keeps the
+OrbStack Ubuntu machine outside the tailnet. After reaching macOS, use
+`orb -m ubuntu` to enter the development environment. Setup, policy, cutover,
+iPhone Codex Remote validation, and rollback are documented in
+[`tailscale/README.md`](tailscale/README.md).
+
 ## GitHub App authentication
 
 Ubuntu uses a GitHub App installation instead of a personal GitHub login. The

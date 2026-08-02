@@ -1,0 +1,29 @@
+// Merge these sections into the existing tailnet policy. Do not replace
+// unrelated grants, SSH rules, tests, groups, or host aliases.
+{
+  // Tailscale IPs remain stable while a device remains registered. Update this
+  // alias if the Mac is ever deleted from and re-added to the tailnet.
+  "hosts": {
+    "privileged-mac": "100.107.25.116",
+  },
+
+  // Tailscale SSH needs network access to TCP 22 as well as the SSH rule below.
+  "grants": [
+    {
+      "src": ["fcomrqz@github"],
+      "dst": ["privileged-mac"],
+      "ip": ["tcp:22"],
+    },
+  ],
+
+  "ssh": [
+    {
+      // Omitting checkPeriod uses Tailscale's 12-hour default. Custom periods
+      // require a Premium or Enterprise plan.
+      "action": "check",
+      "src": ["fcomrqz@github"],
+      "dst": ["autogroup:self"],
+      "users": ["fran"],
+    },
+  ],
+}
