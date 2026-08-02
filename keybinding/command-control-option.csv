@@ -1,0 +1,11 @@
+Key,macOS,Zed Editor,Terminal,Things
+Up,,,,Move to previous sidebar item
+Down,,,,Move to next sidebar item
+Comma,Reduce screen contrast,,,
+Period,Increase screen contrast,,,
+Slash,,,Search manual page index,
+8,Invert screen colors,,,
+F,,Follow next collaborator,,
+P,,Choose settings profile,,
+R,,,Perform hard reset,
+W,,Close inactive tabs and panes,,

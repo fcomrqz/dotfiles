@@ -1,0 +1,17 @@
+Key,Zed Editor,Zed Agent,Zed Git,fish,Figma,Things
+Tab,Show previous edit prediction,,,,,
+Escape,,Expand message editor,Expand commit editor,,,
+Up,Duplicate line upward,,,,,Extend selection to first item
+Down,Duplicate line downward,,,,,Extend selection to last item
+Left,Select to previous word,,,,,
+Right,Select to next word,,,,,
+9,,,,Delete next word,,
+A,Toggle block comments,,,,Remove auto layout,
+E,,,,,Exclude selection,
+I,,,,,Intersect selection,
+O,Organize imports,,,,,
+S,,,,,Subtract selection,
+U,,Undo last rejection,,,Union selection,
+Y,,Keep all changes,,,,
+Z,,Reject all changes,,,,
+F12,Find all references,,,,,

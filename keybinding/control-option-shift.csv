@@ -1,0 +1,6 @@
+Key,Zed Editor
+Left,Select to previous subword
+Right,Select to next subword
+B,Select to previous subword
+F,Select to next subword
+R,Run task and reveal it in center

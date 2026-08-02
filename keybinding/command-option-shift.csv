@@ -1,0 +1,14 @@
+Key,macOS,ChatGPT,Zed Editor,Zed Agent,Terminal,Figma,Things,Mail
+Enter,,,,Send next queued message,,,,
+Backspace,,,Go to next change,,,,,
+Minus,,,,,,Decrease interface scale,,
+Equal,,,,,,Increase interface scale,,
+0,,,,,,Reset interface scale,,
+C,,Copy the current chat path,Copy relative path,,Copy plain text,,,
+F,,,Search in selected directory,,,,Find and replace,
+J,,,,,,,Create code block,
+M,,,,,Insert named bookmark,,,
+N,,,,Open new thread menu,,,Create heading from selection,Open new viewer tab
+O,,Open project picker,,,,,,
+Q,Log out immediately,,,,,,,
+W,,,,,Close all windows,,,

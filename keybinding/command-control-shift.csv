@@ -1,0 +1,8 @@
+Key,macOS,Zed Editor,Zed Agent,Zed Terminal,Zed Git,Terminal
+Slash,,,,,,Open manual page for selection
+3,Copy a screenshot of the entire screen to the clipboard,,,,,
+4,Copy a screenshot of a selected area to the clipboard,,,,,
+C,,,,,,Copy without background color
+O,,Open remote project using existing connection,Open remote project using existing connection,Open remote project using existing connection,Open remote project using existing connection,
+V,,,,,,Paste escaped selection
+Y,,,,,Unstage all,

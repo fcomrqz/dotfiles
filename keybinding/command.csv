@@ -1,0 +1,64 @@
+Key,macOS,ChatGPT,Zed Editor,Zed Agent,Zed Terminal,Zed Git,Terminal,Safari,Figma,Things,Mail,Messages,WhatsApp
+Tab,Switch applications,,,,,,,,,,,,
+Grave,Cycle windows in the current application,,,,,,,,,,,,
+0,,Reset zoom,Reset buffer font size,Reset buffer font size,Reset buffer font size,Reset buffer font size,,Actual size,,,,,
+1,,Go to chat 1,Activate pane 1,Activate pane 1,Activate pane 1,Open Changes tab,,Select tab 1,,Go to Inbox,,Open pinned conversation 1,
+2,,Go to chat 2,Activate pane 2,Activate pane 2,Activate pane 2,Open History tab,,Select tab 2,,Go to Today,,Open pinned conversation 2,
+3,,Go to chat 3,Activate pane 3,Activate pane 3,Activate pane 3,Activate pane 3,,Select tab 3,,Go to Upcoming,,Open pinned conversation 3,
+4,,Go to chat 4,Activate pane 4,Activate pane 4,Activate pane 4,Activate pane 4,,Select tab 4,,Go to Anytime,,Open pinned conversation 4,
+5,,Go to chat 5,Activate pane 5,Activate pane 5,Activate pane 5,Activate pane 5,,Select tab 5,,Go to Someday,,Open pinned conversation 5,
+6,,Go to chat 6,Activate pane 6,Activate pane 6,Activate pane 6,Activate pane 6,,Select tab 6,,Go to Logbook,,Open pinned conversation 6,
+7,,Go to chat 7,Activate pane 7,Activate pane 7,Activate pane 7,Activate pane 7,,Select tab 7,,,,Open pinned conversation 7,
+8,,Go to chat 8,Activate pane 8,Activate pane 8,Activate pane 8,Activate pane 8,,Select tab 8,,,,Open pinned conversation 8,
+9,,Go to chat 9,Activate pane 9,Activate pane 9,Activate pane 9,Activate pane 9,,Select last tab,,,,Open pinned conversation 9,
+Minus,,Zoom out,Decrease buffer font size,Decrease buffer font size,Decrease buffer font size,Decrease buffer font size,Make fonts smaller,Zoom out,Zoom out,,,Make text smaller,
+Equals,,Zoom in,Increase buffer font size,Increase buffer font size,Increase buffer font size,Increase buffer font size,,,,,,,
+Plus,,Zoom in,,,,,Make fonts bigger,Zoom in,Zoom in,,,Make text bigger,
+Q,,Quit ChatGPT,Quit Zed,Quit Zed,Quit Zed,Quit Zed,Quit Terminal,Quit Safari,Quit Figma,Quit Things,Quit Mail,Quit Messages,Quit WhatsApp
+W,,Close tab or window,Close active item,Close active item,Close active item,Close active item,Close tab,Close active tab,Close tab,Close window,Close Mail window,Close Messages window,Close window
+E,,,Use selection for Find,,,,Find using selected text,Use selection for Find,Flatten selection,Start This Evening,,Edit sent message,Archive chat
+R,,Reload browser page,Toggle right dock,Toggle right dock,Toggle right dock,Toggle right dock,Toggle Allow Mouse Reporting,Reload page,Rename selection,Start Anytime,Reply to selected email,Reply to selected message,
+T,,Open browser tab,Project symbols,Project symbols,Project symbols,Project symbols,New tab,New tab,New tab,Start Today,Show Fonts,Add Tapback,
+Y,,,Stage and select next change,,,Stage file,,Show History,,,,,
+U,,,Undo selection,,,,Mark line,Underline text,Underline text,,Underline text,Underline text,Underline text
+I,,,Show signature help,Open profile selector,,,Show Inspector,Italicize text,Italicize text,Italicize text,Italicize text,Italicize text,Italicize text
+O,,Open folder,Open,Open,Open,Open,,Open file,Open file browser,Start Someday,Open selected message,,
+P,,Search files,Open file finder,Open file finder,Open file finder,Open file finder,Print,Print page,,Print,Print,Print conversation,Open profile and About
+Left Bracket,,Go back,Outdent,,,,Previous tab,Go back,Send backward,Decrease indent,,Go back,
+Right Bracket,,Go forward,Indent,,,,Next tab,Go forward,Bring forward,Increase indent,,Go forward,
+Backslash,,,Split pane right,Split pane right,Split pane right,Split pane right,,,,,,,
+A,,Select all,Select all,Select all,Select all,,Select all,Select all,Select all,Select all,Select all,Select all,Select all
+S,,Save,Save,Save,Save,Save,Export text,Save page,,Show When,Save draft,Save,Save
+D,,,Select next occurrence,,Split pane right,,Split pane,Add Bookmark,Duplicate selection,Duplicate selected item,,,
+F,,Find in thread,Find in buffer,Search agent threads,Find,Search,Find,Find on page,Find,Search Things,Search Mail,Search conversations,Search chats
+G,,,Select next search match,Select next thread match,Select next search match,,Find next,Find next,Group selection,Find next in text,,,
+H,,Hide ChatGPT,Hide Zed,Hide Zed,Hide Zed,Hide Zed,Hide Terminal,Hide Safari,Hide Figma,Hide Things,Hide Mail,Hide Messages,Hide WhatsApp
+J,,Toggle bottom panel,Toggle bottom dock,Toggle bottom dock,Toggle bottom dock,Toggle bottom dock,Jump to selected text,,,,,,
+K,,Open command menu,Start command chord,Start command chord,Clear terminal,Start command chord,Clear to start,Add a web link,Create link,Complete selected item,Add a web link,Add a web link,
+L,,Go to line or focus browser address bar,Select line,,,,Clear to previous mark,Focus Smart Search field,,Show in parent list,Toggle message filter,,
+Semicolon,,,Toggle line numbers,,,,,Find misspelled words,Find misspelled words,Find misspelled words,Find misspelled words,Find misspelled words,Find misspelled words
+Apostrophe,,,,,,,,,,Format as quote,,,
+Return,,,Insert newline below,Send message,,Commit,Mark line and send Return,Open address in new tab,,Save and close item or open in new window,,,
+Z,,Undo,Undo,Undo,,,Undo,Undo,Undo,Undo,Unsend email,Undo,Undo
+X,,Cut,Cut,Cut,,,Cut,Cut,Cut,Cut,Cut,Cut,Cut
+C,,Copy,Copy,Copy,Copy,,Copy,Copy,Copy,Copy selected item,Copy,Copy,Copy
+V,,Paste,Paste,Paste,Paste,,Paste,Paste,Paste,Paste or create to-dos from clipboard,Paste,Paste,Paste
+B,,Toggle sidebar,Toggle left dock,Toggle left dock,Toggle left dock,Toggle left dock,Bold text,Bold text,Bold text,Bold text,Bold text,Bold text,Bold text
+N,,Start a new chat,New file,New agent thread,New terminal,New file,New window,New window,New file,New to-do,New email,New message,New chat
+M,,Minimize ChatGPT,Minimize Zed,Minimize Zed,Minimize Zed,Minimize Zed,Minimize Terminal,Minimize Safari,Minimize Figma,Minimize Things,Minimize Mail,Minimize Messages,Minimize WhatsApp
+Comma,,Open ChatGPT settings,Open Zed settings,Open Zed settings,Open Zed settings,Open Zed settings,Open Terminal settings,Open Safari settings,Open Figma preferences,Open Things settings,Open Mail settings,Open Messages settings,Open WhatsApp settings
+Period,,,Show code actions,,,,Send interrupt,Stop loading,,,,,
+Slash,,Show keyboard shortcuts,Toggle comments,,,,,,Open Actions,Show or hide sidebar,,,
+Space,Open Spotlight,,,,,,,,,,,,
+Backspace,,,Delete to beginning of line,,Clear line,Restore file,,,,,Delete selected email,,
+Forward Delete,,,Delete to end of line,,Delete to end of line,Restore file,,,,,,,
+Left Arrow,,Go back in browser history,Move to beginning of line,Move to beginning of line,Move to beginning of line,,,,,Go back,,,
+Right Arrow,,Go forward in browser history,Move to end of line,Move to end of line,Move to end of line,,,,,Enter selected project,,,
+Up Arrow,,,Move to beginning of document,Move to beginning of document,Scroll page up,Select first Git entry,Jump to previous mark,,,Move selected item up,,,
+Down Arrow,,,Move to end of document,Move to end of document,Scroll page down,Select last Git entry,Jump to next mark,,,Move selected item down,,,
+Page Up,,,Page up,Page up,,,Page up,,,,,,
+Page Down,,,Page down,Page down,,,Page down,,,,,,
+Home,,,Move to beginning of document,Move to beginning of document,Scroll to top,,Scroll to top,,,,,,
+End,,,Move to end of document,Move to end of document,Scroll to bottom,,Scroll to bottom,,,,,,
+F2,,,Select all matches,,,,,,,,,,
+F12,,,Go to type definition,,,,,,,,,,

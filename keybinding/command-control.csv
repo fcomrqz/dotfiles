@@ -1,0 +1,31 @@
+Key,macOS,Zed Editor,Zed Agent,Zed Terminal,Zed Git,Terminal,Things,Mail,Messages
+Space,Open Character Viewer,Show Character Viewer,,Show Character Viewer,,,,,
+Up,,Select previous syntax node,,,,,,,
+Down,,Select next syntax node,,,,,,,
+Left,,Select smaller syntax node,,,,,,,
+Right,,Select larger syntax node,,,,,,,
+0,,,,,,,,Show Activity window,
+1,,,,,,,Format as heading,,Show all conversations
+2,,,,,,,Format as subheading,,Show known senders
+3,,,,,,,,,Show unknown senders
+4,,,,,,,,,Show unread conversations
+5,,,,,,,,,Show recently deleted
+A,,,,,,,,Archive selected messages,
+B,,Open recent branches,,,,,,,
+C,,Display cursor names,,,,,,,
+D,Look up the selected word,Select previous occurrence,,,,,,,
+E,,Toggle edit prediction,Edit first queued message,,,,,,
+F,Enter or leave full screen,Enter or leave full screen,Enter or leave full screen,Enter or leave full screen,Enter or leave full screen,,,,
+I,,Toggle edit-prediction menu,,,,,,,
+L,,Toggle language-server menu,,,,,Create task list,Apply rules,
+M,,,,,,,,Move to predicted mailbox,
+N,,Add selection below,,,,Open new window with same command,Open new window,,
+O,,Open remote project,,,,,,,
+P,,Add selection above,,,,,,,
+Q,Lock the screen,,,,,,,,
+S,,Toggle worktree security,Toggle steering for first queued message,,,,,Show or hide sidebar,
+T,,,,,,Open new tab with same command,Open tag window,,
+V,,,,,,Paste escaped text,,,
+W,,Open Git worktrees,,,,,,,
+Y,,,,,Stage all,,,,
+Z,,Rate edit predictions,,,,,,,

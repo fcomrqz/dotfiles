@@ -1,0 +1,98 @@
+Context,Key,Action
+Global,cmd-o,"[""projects::OpenRecent"",{""create_new_window"":false}]"
+Global,cmd-shift-t,project_symbols::Toggle
+Global,cmd-t,outline::Toggle
+Editor,alt-l,editor::SelectLine
+Editor,alt-shift-up,editor::SelectLargerSyntaxNode
+Editor,alt-shift-down,editor::SelectSmallerSyntaxNode
+Editor,shift-pageup,editor::SelectLargerSyntaxNode
+Editor,shift-pagedown,editor::SelectSmallerSyntaxNode
+Editor,home,editor::MoveToBeginning
+Editor,end,editor::MoveToEnd
+Editor,alt-cmd-p,editor::MoveLineUp
+Editor,alt-cmd-n,editor::MoveLineDown
+Editor,alt-cmd-up,editor::MoveLineUp
+Editor,alt-cmd-down,editor::MoveLineDown
+Editor,alt-cmd-shift-p,editor::DuplicateLineUp
+Editor,alt-cmd-shift-n,editor::DuplicateLineDown
+Editor,alt-cmd-shift-up,editor::DuplicateLineUp
+Editor,alt-cmd-shift-down,editor::DuplicateLineDown
+Editor,alt-up,editor::MoveToStartOfParagraph
+Editor,alt-down,editor::MoveToEndOfParagraph
+Editor,ctrl-alt-up,editor::MoveToStartOfParagraph
+Editor,ctrl-alt-down,editor::MoveToEndOfParagraph
+Editor,pageup,"[""editor::MovePageUp"",{""center_cursor"":true}]"
+Editor,pagedown,"[""editor::MovePageDown"",{""center_cursor"":true}]"
+Editor,alt-r,editor::Rename
+Editor,alt-k,editor::DeleteLine
+Editor,cmd-k cmd-j,workspace::ActivatePaneLeft
+Editor,cmd-k cmd-l,workspace::ActivatePaneRight
+Editor,cmd-k cmd-i,workspace::ActivatePaneUp
+Editor,cmd-k cmd-k,workspace::ActivatePaneDown
+Editor,cmd-e,project_panel::ToggleFocus
+Editor,"alt-,",editor::GoToPreviousHunk
+Editor,alt-.,editor::GoToHunk
+Editor,alt-v,editor::ToggleSelectedDiffHunks
+Editor,"ctrl-,",editor::GoToPreviousDiagnostic
+Editor,ctrl-.,editor::GoToDiagnostic
+Editor,cmd-;,editor::Fold
+Editor,cmd-',editor::UnfoldLines
+Editor,alt-c,editor::ConvertToTitleCase
+Editor,alt-u,editor::ConvertToUpperCase
+Editor && !agent_diff && !AgentPanel,alt-z,git::Restore
+Editor && !agent_diff && !AgentPanel,alt-y,git::ToggleStaged
+Editor && !agent_diff && !AgentPanel,cmd-y,git::StageAndNext
+Editor && !agent_diff && !AgentPanel,cmd-shift-y,git::UnstageAndNext
+AgentDiff,alt-y,agent::Keep
+AgentDiff,alt-z,agent::Reject
+AgentDiff,shift-alt-y,agent::KeepAll
+AgentDiff,shift-alt-z,agent::RejectAll
+Editor && editor_agent_diff,alt-y,agent::Keep
+Editor && editor_agent_diff,alt-z,agent::Reject
+Editor && editor_agent_diff,shift-alt-y,agent::KeepAll
+Editor && editor_agent_diff,shift-alt-z,agent::RejectAll
+Editor && editor_agent_diff,shift-ctrl-r,agent::OpenAgentDiff
+Workspace,cmd-t,Disabled
+Workspace,cmd-k cmd-enter,workspace::ActivatePaneLeft
+Workspace,cmd-k cmd-l,workspace::ActivatePaneRight
+Workspace,cmd-k cmd-i,workspace::ActivatePaneUp
+Workspace,cmd-k cmd-k,workspace::ActivatePaneDown
+Workspace,cmd-e,project_panel::ToggleFocus
+Workspace,ctrl-tab,tab_switcher::Toggle
+Workspace,ctrl-shift-tab,"[""tab_switcher::Toggle"",{""select_last"":true}]"
+Workspace,cmd-alt-delete,git::Diff
+Workspace,cmd-alt-d,git::Diff
+Pane,cmd-1,"[""pane::ActivateItem"",0]"
+Pane,cmd-2,"[""pane::ActivateItem"",1]"
+Pane,cmd-3,"[""pane::ActivateItem"",2]"
+Pane,cmd-4,"[""pane::ActivateItem"",3]"
+Pane,cmd-5,"[""pane::ActivateItem"",4]"
+Pane,cmd-6,"[""pane::ActivateItem"",5]"
+Pane,cmd-7,"[""pane::ActivateItem"",6]"
+Pane,cmd-8,"[""pane::ActivateItem"",7]"
+Pane,cmd-9,"[""pane::ActivateItem"",8]"
+Pane,cmd-k k,pane::SplitDown
+Pane,cmd-k j,pane::SplitLeft
+Pane,cmd-k l,pane::SplitRight
+Pane,cmd-k i,pane::SplitUp
+ProjectPanel,cmd-enter,project_panel::OpenPermanent
+ProjectPanel,alt-cmd-down,project_panel::NewDirectory
+Terminal,cmd-t,workspace::NewTerminal
+Editor && jupyter && !ContextEditor,ctrl-r,repl::RunInPlace
+Editor && jupyter && !ContextEditor,ctrl-alt-r,repl::ClearOutputs
+TabSwitcher,ctrl-w,tab_switcher::CloseSelectedItem
+FileFinder && !menu_open,cmd-enter,pane::SplitDown
+FileFinder && !menu_open,cmd-i,pane::SplitUp
+FileFinder && !menu_open,cmd-j,pane::SplitLeft
+FileFinder && !menu_open,cmd-l,pane::SplitRight
+FileFinder && menu_open,k,pane::SplitDown
+FileFinder && menu_open,i,pane::SplitUp
+FileFinder && menu_open,j,pane::SplitLeft
+FileFinder && menu_open,l,pane::SplitRight
+FileFinder || (FileFinder > Picker > Editor) || (FileFinder > Picker > menu),cmd-i,pane::SplitUp
+FileFinder || (FileFinder > Picker > Editor) || (FileFinder > Picker > menu),cmd-k,pane::SplitDown
+FileFinder || (FileFinder > Picker > Editor) || (FileFinder > Picker > menu),cmd-enter,pane::SplitLeft
+FileFinder || (FileFinder > Picker > Editor) || (FileFinder > Picker > menu),cmd-l,pane::SplitRight
+MessageEditor,alt-enter,editor::Newline
+Global,cmd-shift-o,workspace::Open
+Editor,ctrl-l,editor::ScrollCursorTop

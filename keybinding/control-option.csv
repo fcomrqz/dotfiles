@@ -1,0 +1,14 @@
+Key,Zed Editor,Zed Agent,Zed Terminal,Things
+Space,,,,Open Quick Entry with Autofill
+Enter,Run REPL in place,,,
+Backspace,Delete previous subword,,,
+Delete,Delete next subword,,,
+Page Up,,Scroll to previous message,,
+Page Down,,Scroll to next message,,
+Up,,Scroll output up one line,Split pane upward,
+Down,,Scroll output down one line,Split pane downward,
+Left,Move to previous subword,,Split pane left,
+Right,Move to next subword,,Split pane right,
+Minus,Decrease active dock size,,,
+Equal,Increase active dock size,,,
+0,Reset active dock size,,,
