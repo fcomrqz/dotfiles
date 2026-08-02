@@ -7,18 +7,18 @@ launch it when no matching window exists. The implementation is `../cycle.sh`.
 
 | Shortcut | Application |
 | --- | --- |
-| `cmd + opt + o` | Safari |
-| `cmd + opt + z` | Zed |
-| `cmd + opt + t` | Terminal |
-| `cmd + opt + right` | Finder |
-| `cmd + opt + backtick` | Mail |
-| `cmd + opt + a` | Messages |
-| `cmd + opt + q` | WhatsApp |
-| `cmd + opt + tab` | Things |
-| `cmd + opt + x` | Xcode |
-| `cmd + opt + semicolon` | Codex |
-| `cmd + opt + u` | Music |
-| `cmd + opt + g` | Figma |
+| `ctrl + opt + o` | Safari |
+| `ctrl + opt + z` | Zed |
+| `ctrl + opt + t` | Terminal |
+| `ctrl + opt + right` | Finder |
+| `ctrl + opt + backtick` | Mail |
+| `ctrl + opt + a` | Messages |
+| `ctrl + opt + q` | WhatsApp |
+| `ctrl + opt + tab` | Things |
+| `ctrl + opt + x` | Xcode |
+| `ctrl + opt + semicolon` | Codex |
+| `ctrl + opt + u` | Music |
+| `ctrl + opt + g` | Figma |
 
 Punctuation bindings use physical macOS keycodes in `../.skhdrc`.
 

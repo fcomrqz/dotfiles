@@ -167,44 +167,44 @@ run = ['layout floating', 'move-node-to-workspace 2']
 # -----------
 [mode.main.binding]
 
-cmd-alt-m = ['move up']
-cmd-alt-comma = ['move-node-to-monitor prev --wrap-around', 'focus-monitor prev --wrap-around']
-cmd-alt-period = ['move-node-to-monitor next --wrap-around', 'focus-monitor next --wrap-around']
-cmd-alt-slash = ['layout tiles accordion']
-cmd-alt-space = ['resize smart +160']
+ctrl-alt-m = ['move up']
+ctrl-alt-comma = ['move-node-to-monitor prev --wrap-around', 'focus-monitor prev --wrap-around']
+ctrl-alt-period = ['move-node-to-monitor next --wrap-around', 'focus-monitor next --wrap-around']
+ctrl-alt-slash = ['layout tiles accordion']
+ctrl-alt-space = ['resize smart +160']
 
-cmd-alt-enter = [
+ctrl-alt-enter = [
   "exec-and-forget aerospace list-monitors --focused | grep -q '^1 | LG UltraFine (3)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(3)' && aerospace move-mouse window-lazy-center",
 ]
 
-cmd-alt-j = [
+ctrl-alt-j = [
   "exec-and-forget aerospace list-monitors --focused | grep -q '^1 | LG UltraFine (3)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(3)' && aerospace move-mouse window-lazy-center",
 ]
 
-cmd-alt-k = [
+ctrl-alt-k = [
   "exec-and-forget aerospace list-monitors --focused | grep -q '^2 | LG UltraFine (1)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(1)' && aerospace move-mouse window-lazy-center",
 ]
 
-cmd-alt-l = [
+ctrl-alt-l = [
   "exec-and-forget aerospace list-monitors --focused | grep -q '^3 | LG UltraFine (2)$' && aerospace focus down --boundaries-action wrap-around-the-workspace || aerospace focus-monitor '(2)' && aerospace move-mouse window-lazy-center",
 ]
 
-cmd-alt-quote = [
+ctrl-alt-quote = [
   "exec-and-forget osascript '/Users/fran/Library/Mobile Documents/com~apple~ScriptEditor2/Documents/Cameras.scpt'",
 ]
 
-cmd-alt-o = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Safari Safari']
-cmd-alt-z = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh dev.zed.Zed Zed']
-cmd-alt-t = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Terminal Terminal']
-cmd-alt-right = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.finder Finder']
-cmd-alt-backtick = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.mail Mail']
-cmd-alt-a = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.MobileSMS Messages']
-cmd-alt-q = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh net.whatsapp.WhatsApp WhatsApp']
-cmd-alt-tab = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.culturedcode.ThingsMac Things3']
-cmd-alt-x = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.dt.Xcode Xcode']
-cmd-alt-semicolon = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.openai.codex']
-cmd-alt-u = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Music Music']
-cmd-alt-g = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.figma.Desktop Figma']
+ctrl-alt-o = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Safari Safari']
+ctrl-alt-z = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh dev.zed.Zed Zed']
+ctrl-alt-t = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Terminal Terminal']
+ctrl-alt-right = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.finder Finder']
+ctrl-alt-backtick = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.mail Mail']
+ctrl-alt-a = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.MobileSMS Messages']
+ctrl-alt-q = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh net.whatsapp.WhatsApp WhatsApp']
+ctrl-alt-tab = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.culturedcode.ThingsMac Things3']
+ctrl-alt-x = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.dt.Xcode Xcode']
+ctrl-alt-semicolon = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.openai.codex']
+ctrl-alt-u = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.apple.Music Music']
+ctrl-alt-g = ['exec-and-forget /Users/fran/Developer/fcomrqz/dotfiles/aerospace/cycle.sh com.figma.Desktop Figma']
 alt-space = ["exec-and-forget osascript -e 'tell application  \"Things3\" to show quick entry panel'"]
 
 f14 = ['exec-and-forget /opt/homebrew/bin/display brightness down']

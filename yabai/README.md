@@ -73,8 +73,7 @@ leftmost normal Space receives the 30-point top padding; the others receive 16.
   popup behavior consistent across placement, focus, movement, and memory.
   Dialogs and non-resizable normal windows are floated; non-root,
   non-normal-level, and immovable popup surfaces are ignored.
-- `cmd-right` toggles native macOS fullscreen.
-- `cmd-alt-f` toggles yabai's instant, same-Space `windowed-fullscreen`.
+- `ctrl-alt-f` toggles yabai's instant, same-Space `windowed-fullscreen`.
 
 ## Differences that cannot be mirrored exactly
 

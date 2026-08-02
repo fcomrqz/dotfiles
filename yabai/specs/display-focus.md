@@ -1,6 +1,6 @@
 # Display focus
 
-Display focus defines `cmd + opt + enter/j/k/l`. The implementation is
+Display focus defines `ctrl + opt + enter/j/k/l`. The implementation is
 `../focus-display.sh`.
 
 It uses:
@@ -13,10 +13,10 @@ It uses:
 
 | Shortcut | One display | Three displays |
 | --- | --- | --- |
-| `cmd + opt + enter` | No action | Left display |
-| `cmd + opt + j` | No action | Left display |
-| `cmd + opt + k` | Cycle | Center display |
-| `cmd + opt + l` | No action | Right display |
+| `ctrl + opt + enter` | No action | Left display |
+| `ctrl + opt + j` | No action | Left display |
+| `ctrl + opt + k` | Cycle | Center display |
+| `ctrl + opt + l` | No action | Right display |
 
 The three-display mapping follows Yabai's horizontal display arrangement.
 

@@ -1,14 +1,14 @@
 # Cross-display window movement
 
-This feature owns `cmd + opt + comma/period` and is implemented by
+This feature owns `ctrl + opt + comma/period` and is implemented by
 `../move-display.sh`.
 
 ## Bindings
 
 | Shortcut | Direction |
 | --- | --- |
-| `cmd + opt + comma` | Previous display |
-| `cmd + opt + period` | Next display |
+| `ctrl + opt + comma` | Previous display |
+| `ctrl + opt + period` | Next display |
 
 Displays are ordered by their physical horizontal position. Movement wraps
 from the first display to the last and from the last to the first. With one
