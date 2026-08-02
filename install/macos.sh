@@ -98,59 +98,111 @@ kanata_system_is_current() {
       | grep -Fq "state = running"
 }
 
-install_github_app_helper() {
-  local build_directory executable_directory executable template destination
-  local domain
+github_token_manager_source_fingerprint() {
+  local file
 
-  command_exists swift || {
-    log_error "Swift is required to build the GitHub App helper."
-    return 1
-  }
-  build_directory="$(mktemp -d "${TMPDIR:-/tmp}/github-app-build.XXXXXX")"
-  swift build \
-    --package-path "$DOTFILES_ROOT/github" \
-    --scratch-path "$build_directory" \
-    --configuration release
-  executable="$(
-    find "$build_directory" -type f -name github-app-helper -perm -111 \
-      -print -quit
-  )"
-  if [[ -z "$executable" ]]; then
-    rm -rf -- "$build_directory"
-    log_error "Swift did not produce the GitHub App helper executable."
-    return 1
+  {
+    shasum -a 256 < "$DOTFILES_ROOT/github/Package.swift"
+    while IFS= read -r file; do
+      shasum -a 256 < "$file"
+    done < <(
+      find "$DOTFILES_ROOT/github/Sources" -type f -print | LC_ALL=C sort
+    )
+  } | shasum -a 256 | awk '{print $1}'
+}
+
+migrate_github_token_manager() {
+  local legacy_directory legacy_plist manager_directory domain
+
+  legacy_directory="$HOME/Library/Application Support/com.fcomrqz.github-app"
+  legacy_plist="$HOME/Library/LaunchAgents/com.fcomrqz.github-app.plist"
+  manager_directory="$HOME/Library/Application Support/com.fcomrqz.github-token-manager"
+  domain="gui/$(id -u)"
+
+  if [[ -f "$legacy_directory/config.json" \
+    && ! -e "$manager_directory/config.json" ]]; then
+    ensure_dir "$manager_directory"
+    /usr/bin/install -m 0600 \
+      "$legacy_directory/config.json" "$manager_directory/config.json"
   fi
 
-  executable_directory="$HOME/Library/Application Support/com.fcomrqz.github-app/bin"
-  ensure_dir "$executable_directory"
-  chmod 0700 "$HOME/Library/Application Support/com.fcomrqz.github-app"
-  chmod 0700 "$executable_directory"
-  /usr/bin/install -m 0700 \
-    "$executable" "$executable_directory/github-app-helper"
-  rm -rf -- "$build_directory"
+  launchctl bootout \
+    "$domain/com.fcomrqz.github-app" >/dev/null 2>&1 || true
+  rm -f -- "$legacy_plist" "$legacy_directory/bin/github-app-helper"
+  if [[ -f "$legacy_directory/config.json" \
+    && -f "$manager_directory/config.json" ]] \
+    && cmp -s \
+      "$legacy_directory/config.json" "$manager_directory/config.json"; then
+    rm -f -- "$legacy_directory/config.json"
+  fi
+  rmdir "$legacy_directory/bin" "$legacy_directory" >/dev/null 2>&1 || true
+}
 
-  template="$DOTFILES_ROOT/github/com.fcomrqz.github-app.plist"
-  destination="$HOME/Library/LaunchAgents/com.fcomrqz.github-app.plist"
-  ensure_dir "$HOME/Library/LaunchAgents"
-  cp "$template" "$destination"
-  /usr/libexec/PlistBuddy -c \
-    "Set :ProgramArguments:0 $executable_directory/github-app-helper" \
-    "$destination"
+install_github_token_manager() {
+  local build_directory executable_directory executable fingerprint_file
+  local installed_executable source_fingerprint template destination domain
+
+  executable_directory="$HOME/Library/Application Support/com.fcomrqz.github-token-manager/bin"
+  installed_executable="$executable_directory/github-token-manager"
+  fingerprint_file="$executable_directory/source.sha256"
+  source_fingerprint="$(github_token_manager_source_fingerprint)"
+
+  ensure_dir "$executable_directory"
+  chmod 0700 "$HOME/Library/Application Support/com.fcomrqz.github-token-manager"
+  chmod 0700 "$executable_directory"
+
+  if [[ -x "$installed_executable" \
+    && -f "$fingerprint_file" \
+    && "$(<"$fingerprint_file")" == "$source_fingerprint" ]]; then
+    step_progress "the installed executable is current"
+  else
+    command_exists swift || {
+      log_error "Swift is required to build the GitHub token manager."
+      return 1
+    }
+    step_progress "compiling the Swift executable"
+    build_directory="$(
+      mktemp -d "${TMPDIR:-/tmp}/github-token-manager-build.XXXXXX"
+    )"
+    swift build \
+      --package-path "$DOTFILES_ROOT/github" \
+      --scratch-path "$build_directory" \
+      --configuration release
+    executable="$(
+      find "$build_directory" -type f -name github-token-manager -perm -111 \
+        -print -quit
+    )"
+    if [[ -z "$executable" ]]; then
+      rm -rf -- "$build_directory"
+      log_error "Swift did not produce the GitHub token manager executable."
+      return 1
+    fi
+
+    step_progress "installing the manager executable"
+    /usr/bin/install -m 0700 "$executable" "$installed_executable"
+    printf '%s\n' "$source_fingerprint" > "$fingerprint_file"
+    chmod 0600 "$fingerprint_file"
+    rm -rf -- "$build_directory"
+  fi
+
+  migrate_github_token_manager
+  step_progress "configuring the LaunchAgent"
+  template="$DOTFILES_ROOT/github/com.fcomrqz.github-token-manager.plist"
+  destination="$HOME/Library/LaunchAgents/com.fcomrqz.github-token-manager.plist"
   ensure_dir "$HOME/Library/Logs"
-  /usr/libexec/PlistBuddy -c \
-    "Set :StandardOutPath $HOME/Library/Logs/com.fcomrqz.github-app.stdout.log" \
-    "$destination"
-  /usr/libexec/PlistBuddy -c \
-    "Set :StandardErrorPath $HOME/Library/Logs/com.fcomrqz.github-app.stderr.log" \
-    "$destination"
+  write_launch_agent_plist \
+    "$template" \
+    "$destination" \
+    "Set :ProgramArguments:0 $installed_executable" \
+    "Set :StandardOutPath $HOME/Library/Logs/com.fcomrqz.github-token-manager.stdout.log" \
+    "Set :StandardErrorPath $HOME/Library/Logs/com.fcomrqz.github-token-manager.stderr.log"
 
   # A fresh installation has no App credentials yet. Re-enable the agent only
   # when the existing Keychain and non-secret configuration are complete.
-  if "$executable_directory/github-app-helper" status --quiet \
-    >/dev/null 2>&1; then
+  if "$installed_executable" status --quiet >/dev/null 2>&1; then
     domain="gui/$(id -u)"
     launchctl bootout \
-      "$domain/com.fcomrqz.github-app" >/dev/null 2>&1 || true
+      "$domain/com.fcomrqz.github-token-manager" >/dev/null 2>&1 || true
     launchctl bootstrap "$domain" "$destination"
   fi
 }
@@ -230,27 +282,11 @@ run_step "Building macOS display controls" \
 run_step "Installing the display command" \
   safe_link "$DOTFILES_ROOT/display/display" "$(brew --prefix)/bin/display"
 
-run_step "Installing GitHub App token helper" install_github_app_helper
+run_step "Installing GitHub token manager" install_github_token_manager
 
-log_section "Linking macOS configuration"
-ensure_dir "$HOME/.config/fish/themes"
-safe_link "$DOTFILES_ROOT/fish/functions" "$HOME/.config/fish/functions"
-safe_link "$DOTFILES_ROOT/fish/config.fish" "$HOME/.config/fish/config.fish"
-safe_link "$DOTFILES_ROOT/fish/themes/alavesper.theme" "$HOME/.config/fish/themes/alavesper.theme"
-safe_link "$DOTFILES_ROOT/git/.gitconfig" "$HOME/.gitconfig"
-ensure_dir "$HOME/.config/git"
-safe_link "$DOTFILES_ROOT/git/attributes" "$HOME/.config/git/attributes"
-safe_link "$DOTFILES_ROOT/git/macos.gitconfig" "$HOME/.config/git/platform.gitconfig"
-ensure_dir "$HOME/.config/gh"
-safe_link "$DOTFILES_ROOT/gh/config.yml" "$HOME/.config/gh/config.yml"
-ensure_dir "$HOME/.config/zed"
-safe_link "$DOTFILES_ROOT/zed/settings.json" "$HOME/.config/zed/settings.json"
-safe_link "$DOTFILES_ROOT/zed/keymap.json" "$HOME/.config/zed/keymap.json"
-safe_link "$DOTFILES_ROOT/zed/alavesper.json" "$HOME/.config/zed/themes/alavesper.json"
-safe_link "$DOTFILES_ROOT/aerospace/.aerospace.toml" "$HOME/.aerospace.toml"
-touch "$HOME/.hushlogin"
+log_section "Configuring macOS"
+run_step "Linking macOS configuration" link_macos_configuration
 
-sudo -v
 run_step "Validating Kanata configuration" \
   kanata --check -c "$DOTFILES_ROOT/kanata/kanata.kbd"
 if kanata_system_is_current; then

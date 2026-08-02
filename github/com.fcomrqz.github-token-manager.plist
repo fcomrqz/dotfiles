@@ -4,7 +4,7 @@
 <plist version="1.0">
   <dict>
     <key>Label</key>
-    <string>com.fcomrqz.github-app</string>
+    <string>com.fcomrqz.github-token-manager</string>
 
     <key>ProgramArguments</key>
     <array>
@@ -25,9 +25,9 @@
     <string>Background</string>
 
     <key>StandardOutPath</key>
-    <string>/tmp/com.fcomrqz.github-app.stdout.log</string>
+    <string>/tmp/com.fcomrqz.github-token-manager.stdout.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/tmp/com.fcomrqz.github-app.stderr.log</string>
+    <string>/tmp/com.fcomrqz.github-token-manager.stderr.log</string>
   </dict>
 </plist>

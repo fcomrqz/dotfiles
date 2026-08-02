@@ -1,13 +1,13 @@
 import Foundation
 
 @main
-struct GitHubAppHelperCommand {
+struct GitHubTokenManagerCommand {
     static func main() async {
         do {
             try await run(arguments: Array(CommandLine.arguments.dropFirst()))
         } catch {
             FileHandle.standardError.write(
-                Data("github-app-helper: \(error.localizedDescription)\n".utf8)
+                Data("github-token-manager: \(error.localizedDescription)\n".utf8)
             )
             exit(error is HelperError ? 2 : 1)
         }
@@ -106,11 +106,11 @@ struct GitHubAppHelperCommand {
 
     private static let usage = """
     Usage:
-      github-app-helper configure CLIENT_ID INSTALLATION_ID MACHINE USER PRIVATE_KEY
-      github-app-helper run
-      github-app-helper once
-      github-app-helper status [--quiet]
-      github-app-helper config machine|user|client-id|installation-id
-      github-app-helper reset
+      github-token-manager configure CLIENT_ID INSTALLATION_ID MACHINE USER PRIVATE_KEY
+      github-token-manager run
+      github-token-manager once
+      github-token-manager status [--quiet]
+      github-token-manager config machine|user|client-id|installation-id
+      github-token-manager reset
     """
 }

@@ -75,7 +75,7 @@ enum HelperError: LocalizedError {
         case let .invalidConfiguration(message):
             return "Invalid configuration: \(message)"
         case .missingConfiguration:
-            return "GitHub App helper is not configured."
+            return "GitHub token manager is not configured."
         case .missingPrivateKey:
             return "The GitHub App private key is missing from Keychain."
         case let .invalidPrivateKey(message):
@@ -99,8 +99,10 @@ enum HelperError: LocalizedError {
 }
 
 enum HelperPaths {
-    static let applicationName = "com.fcomrqz.github-app"
-    static let keychainService = applicationName
+    static let applicationName = "com.fcomrqz.github-token-manager"
+    // Retain the original service so existing installations keep access to
+    // their private key after the executable and LaunchAgent are renamed.
+    static let keychainService = "com.fcomrqz.github-app"
     static let keychainAccount = "private-key-pem"
     static let launchAgentLabel = applicationName
 

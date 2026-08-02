@@ -36,7 +36,7 @@ struct GitHubClient {
         request.setValue("Bearer \(jwt)", forHTTPHeaderField: "Authorization")
         request.setValue(apiVersion, forHTTPHeaderField: "X-GitHub-Api-Version")
         request.setValue(
-            "fcomrqz-github-app-helper",
+            "fcomrqz-github-token-manager",
             forHTTPHeaderField: "User-Agent"
         )
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

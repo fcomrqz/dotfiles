@@ -58,7 +58,7 @@ permissions only when a concrete workflow needs them.
 Copy the **Client ID** from the App's General settings, generate a private key,
 and find the installation ID in the installation URL. Use the Client ID—not
 the numeric App ID—as the JWT issuer. After running `bash install.sh`,
-configure the helper on macOS:
+configure the token manager on macOS:
 
 ```sh
 orbstack/machine github configure \
@@ -69,7 +69,7 @@ orbstack/machine github configure \
 
 Configuration imports the RSA private key into the macOS login Keychain. The
 downloaded PEM is deliberately not deleted; remove or archive it securely after
-the helper is confirmed working.
+the token manager is confirmed working.
 
 The native Swift LaunchAgent runs as the logged-in macOS user. It creates a
 one-hour installation token, refreshes it before expiration, and sends it to a
@@ -102,10 +102,10 @@ CLI process. Git uses a root-installed credential helper with
 `x-access-token` over HTTPS. Do not run `gh auth login` inside Ubuntu.
 
 The App private key never leaves Keychain, but Codex can extract the active
-installation token because it is allowed to use Git and `gh`. Since the helper
-runs indefinitely and the App covers every repository, compromised agent code
-can continue requesting one-hour tokens until the helper is stopped, the App
-is uninstalled, or the private key is revoked.
+installation token because it is allowed to use Git and `gh`. Since the token
+manager runs indefinitely and the App covers every repository, compromised
+agent code can continue requesting one-hour tokens until the manager is
+stopped, the App is uninstalled, or the private key is revoked.
 
 ## Isolated development machine
 
@@ -154,7 +154,7 @@ Administration remains available from macOS:
 orb -m ubuntu -u root
 ```
 
-The required GitHub App helper must be configured before machine creation.
+The required GitHub token manager must be configured before machine creation.
 Other host credentials are deliberately not copied.
 
 ## Secrets

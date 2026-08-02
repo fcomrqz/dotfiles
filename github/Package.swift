@@ -3,23 +3,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "GitHubAppHelper",
+    name: "GitHubTokenManager",
     platforms: [
         .macOS(.v13),
     ],
     products: [
         .executable(
-            name: "github-app-helper",
-            targets: ["GitHubAppHelper"]
+            name: "github-token-manager",
+            targets: ["GitHubTokenManager"]
         ),
     ],
     targets: [
         .executableTarget(
-            name: "GitHubAppHelper"
+            name: "GitHubTokenManager"
         ),
         .testTarget(
-            name: "GitHubAppHelperTests",
-            dependencies: ["GitHubAppHelper"]
+            name: "GitHubTokenManagerTests",
+            dependencies: ["GitHubTokenManager"]
         ),
     ]
 )

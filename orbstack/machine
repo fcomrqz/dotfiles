@@ -12,10 +12,10 @@ readonly LINUX_USER="fcomrqz"
 readonly DOTFILES_REPOSITORY="https://github.com/fcomrqz/dotfiles.git"
 readonly TRUSTED_DOTFILES_ROOT="/var/lib/fcomrqz-dotfiles/source"
 readonly CLOUD_INIT="$DOTFILES_ROOT/orbstack/cloud-init.yml"
-readonly GITHUB_HELPER_LABEL="com.fcomrqz.github-app"
-readonly GITHUB_HELPER_DIRECTORY="$HOME/Library/Application Support/$GITHUB_HELPER_LABEL"
-readonly GITHUB_HELPER="$GITHUB_HELPER_DIRECTORY/bin/github-app-helper"
-readonly GITHUB_HELPER_PLIST="$HOME/Library/LaunchAgents/$GITHUB_HELPER_LABEL.plist"
+readonly GITHUB_TOKEN_MANAGER_LABEL="com.fcomrqz.github-token-manager"
+readonly GITHUB_TOKEN_MANAGER_DIRECTORY="$HOME/Library/Application Support/$GITHUB_TOKEN_MANAGER_LABEL"
+readonly GITHUB_TOKEN_MANAGER="$GITHUB_TOKEN_MANAGER_DIRECTORY/bin/github-token-manager"
+readonly GITHUB_TOKEN_MANAGER_PLIST="$HOME/Library/LaunchAgents/$GITHUB_TOKEN_MANAGER_LABEL.plist"
 # An unversioned OrbStack Ubuntu image follows the latest stable release, which
 # may be an interim release. Pin the current LTS for reproducible machines.
 readonly UBUNTU_LTS_VERSION="26.04"
@@ -51,13 +51,13 @@ require_orb() {
   }
 }
 
-require_github_helper() {
-  [[ -x "$GITHUB_HELPER" ]] || {
-    log_error "GitHub App helper is not installed. Run bash install.sh first."
+require_github_token_manager() {
+  [[ -x "$GITHUB_TOKEN_MANAGER" ]] || {
+    log_error "GitHub token manager is not installed. Run bash install.sh first."
     return 1
   }
-  [[ -f "$GITHUB_HELPER_PLIST" ]] || {
-    log_error "GitHub App LaunchAgent is not installed. Run bash install.sh first."
+  [[ -f "$GITHUB_TOKEN_MANAGER_PLIST" ]] || {
+    log_error "GitHub token manager LaunchAgent is not installed. Run bash install.sh first."
     return 1
   }
 }
@@ -66,42 +66,42 @@ github_launch_domain() {
   printf 'gui/%s\n' "$(id -u)"
 }
 
-github_helper_configured() {
-  [[ -x "$GITHUB_HELPER" ]] \
-    && "$GITHUB_HELPER" status --quiet >/dev/null 2>&1
+github_token_manager_configured() {
+  [[ -x "$GITHUB_TOKEN_MANAGER" ]] \
+    && "$GITHUB_TOKEN_MANAGER" status --quiet >/dev/null 2>&1
 }
 
-github_helper_targets_machine() {
+github_token_manager_targets_machine() {
   local machine="$1"
-  github_helper_configured \
+  github_token_manager_configured \
     && [[ "$(github_config_value machine)" == "$machine" ]] \
     && [[ "$(github_config_value user)" == "$LINUX_USER" ]]
 }
 
-log_github_helper_target_error() {
+log_github_token_manager_target_error() {
   local machine="$1"
-  if ! github_helper_configured; then
-    log_error "GitHub App helper is not configured for $machine/$LINUX_USER."
+  if ! github_token_manager_configured; then
+    log_error "GitHub token manager is not configured for $machine/$LINUX_USER."
     return
   fi
   log_error \
-    "GitHub App helper targets $(github_config_value machine)/$(github_config_value user), expected $machine/$LINUX_USER."
+    "GitHub token manager targets $(github_config_value machine)/$(github_config_value user), expected $machine/$LINUX_USER."
   log_error "Run github configure again with $machine as the final argument."
 }
 
-require_github_helper_user() {
+require_github_token_manager_user() {
   local configured_user
   configured_user="$(github_config_value user)"
   if [[ "$configured_user" != "$LINUX_USER" ]]; then
     log_error \
-      "GitHub App helper targets Linux user $configured_user, expected $LINUX_USER."
+      "GitHub token manager targets Linux user $configured_user, expected $LINUX_USER."
     log_error "Run github configure again before delivering another token."
     return 1
   fi
 }
 
 github_config_value() {
-  "$GITHUB_HELPER" config "$1"
+  "$GITHUB_TOKEN_MANAGER" config "$1"
 }
 
 wait_for_github_token() {
@@ -121,18 +121,18 @@ wait_for_github_token() {
   return 1
 }
 
-start_github_helper() {
+start_github_token_manager() {
   local wait_for_delivery="${1:-true}"
   local domain machine user
 
-  require_github_helper
-  "$GITHUB_HELPER" status --quiet
-  require_github_helper_user
+  require_github_token_manager
+  "$GITHUB_TOKEN_MANAGER" status --quiet
+  require_github_token_manager_user
   domain="$(github_launch_domain)"
-  launchctl bootout "$domain/$GITHUB_HELPER_LABEL" >/dev/null 2>&1 || true
-  launchctl bootstrap "$domain" "$GITHUB_HELPER_PLIST"
-  launchctl kickstart -k "$domain/$GITHUB_HELPER_LABEL"
-  log_success "GitHub App helper is running"
+  launchctl bootout "$domain/$GITHUB_TOKEN_MANAGER_LABEL" >/dev/null 2>&1 || true
+  launchctl bootstrap "$domain" "$GITHUB_TOKEN_MANAGER_PLIST"
+  launchctl kickstart -k "$domain/$GITHUB_TOKEN_MANAGER_LABEL"
+  log_success "GitHub token manager is running"
 
   machine="$(github_config_value machine)"
   user="$(github_config_value user)"
@@ -142,30 +142,30 @@ start_github_helper() {
   fi
 }
 
-stop_github_helper() {
+stop_github_token_manager() {
   local domain machine="" user=""
 
-  require_github_helper
-  if github_helper_configured; then
+  require_github_token_manager
+  if github_token_manager_configured; then
     machine="$(github_config_value machine)"
     user="$(github_config_value user)"
   fi
   domain="$(github_launch_domain)"
-  launchctl bootout "$domain/$GITHUB_HELPER_LABEL" >/dev/null 2>&1 || true
+  launchctl bootout "$domain/$GITHUB_TOKEN_MANAGER_LABEL" >/dev/null 2>&1 || true
   if [[ -n "$machine" ]] && machine_exists "$machine"; then
     orb -m "$machine" -u "$user" \
       /usr/local/libexec/fcomrqz/github-token-store remove \
       >/dev/null 2>&1 || true
   fi
-  log_success "GitHub App helper is stopped"
+  log_success "GitHub token manager is stopped"
 }
 
 refresh_github_token() {
   local domain machine user
 
-  require_github_helper
-  "$GITHUB_HELPER" status --quiet
-  require_github_helper_user
+  require_github_token_manager
+  "$GITHUB_TOKEN_MANAGER" status --quiet
+  require_github_token_manager_user
   machine="$(github_config_value machine)"
   user="$(github_config_value user)"
   machine_exists "$machine" || {
@@ -179,24 +179,24 @@ refresh_github_token() {
     }
 
   domain="$(github_launch_domain)"
-  if ! launchctl print "$domain/$GITHUB_HELPER_LABEL" >/dev/null 2>&1; then
-    launchctl bootstrap "$domain" "$GITHUB_HELPER_PLIST"
+  if ! launchctl print "$domain/$GITHUB_TOKEN_MANAGER_LABEL" >/dev/null 2>&1; then
+    launchctl bootstrap "$domain" "$GITHUB_TOKEN_MANAGER_PLIST"
   fi
   orb -m "$machine" -u "$user" \
     /usr/local/libexec/fcomrqz/github-token-store remove \
     >/dev/null 2>&1 || true
-  launchctl kickstart -k "$domain/$GITHUB_HELPER_LABEL"
+  launchctl kickstart -k "$domain/$GITHUB_TOKEN_MANAGER_LABEL"
   wait_for_github_token "$machine" "$user"
   log_success "GitHub App token was refreshed in $machine"
 }
 
-configure_github_helper() {
+configure_github_token_manager() {
   local client_id="$1"
   local installation_id="$2"
   local private_key="$3"
   local machine="$4"
 
-  require_github_helper
+  require_github_token_manager
   [[ "$client_id" =~ ^[A-Za-z0-9._-]+$ ]] || {
     log_error "GitHub client ID contains unsupported characters."
     return 2
@@ -211,34 +211,34 @@ configure_github_helper() {
     return 2
   }
 
-  "$GITHUB_HELPER" configure \
+  "$GITHUB_TOKEN_MANAGER" configure \
     "$client_id" \
     "$installation_id" \
     "$machine" \
     "$LINUX_USER" \
     "$private_key"
-  start_github_helper false
+  start_github_token_manager false
   if machine_exists "$machine" \
     && orb -m "$machine" -u root \
       test -x /usr/local/libexec/fcomrqz/github-token-store; then
     refresh_github_token
   else
-    log_info "The helper will deliver a token after $machine is provisioned."
+    log_info "The token manager will deliver a token after $machine is provisioned."
   fi
 }
 
-status_github_helper() {
+status_github_token_manager() {
   local domain machine user
 
-  require_github_helper
-  "$GITHUB_HELPER" status
-  require_github_helper_user
+  require_github_token_manager
+  "$GITHUB_TOKEN_MANAGER" status
+  require_github_token_manager_user
   domain="$(github_launch_domain)"
-  launchctl print "$domain/$GITHUB_HELPER_LABEL" >/dev/null 2>&1 || {
-    log_error "GitHub App LaunchAgent is not running."
+  launchctl print "$domain/$GITHUB_TOKEN_MANAGER_LABEL" >/dev/null 2>&1 || {
+    log_error "GitHub token manager LaunchAgent is not running."
     return 1
   }
-  log_success "GitHub App LaunchAgent is running"
+  log_success "GitHub token manager LaunchAgent is running"
 
   machine="$(github_config_value machine)"
   user="$(github_config_value user)"
@@ -257,10 +257,10 @@ status_github_helper() {
   log_success "HTTPS Git authentication works"
 }
 
-reset_github_helper() {
-  require_github_helper
-  stop_github_helper
-  "$GITHUB_HELPER" reset
+reset_github_token_manager() {
+  require_github_token_manager
+  stop_github_token_manager
+  "$GITHUB_TOKEN_MANAGER" reset
   log_success "GitHub App configuration and Keychain private key were removed"
 }
 
@@ -395,9 +395,9 @@ provision_machine() {
     log_error "OrbStack machine does not exist: $machine"
     return 1
   }
-  if github_helper_configured \
-    && ! github_helper_targets_machine "$machine"; then
-    log_github_helper_target_error "$machine"
+  if github_token_manager_configured \
+    && ! github_token_manager_targets_machine "$machine"; then
+    log_github_token_manager_target_error "$machine"
     return 1
   fi
   wait_for_cloud_init "$machine"
@@ -427,7 +427,7 @@ provision_machine() {
   orb -m "$machine" -u root \
     /bin/bash "$TRUSTED_DOTFILES_ROOT/install/linux.sh" lockdown "$user"
 
-  if github_helper_configured; then
+  if github_token_manager_configured; then
     log_section "Delivering GitHub App authentication"
     refresh_github_token
   else
@@ -446,13 +446,13 @@ create_machine() {
     log_error "OrbStack machine already exists: $machine"
     return 1
   fi
-  if ! github_helper_configured; then
+  if ! github_token_manager_configured; then
     log_error "Configure the required GitHub App before creating the machine."
     log_error "Run: orbstack/machine github configure CLIENT_ID INSTALLATION_ID PRIVATE_KEY"
     return 1
   fi
-  if ! github_helper_targets_machine "$machine"; then
-    log_github_helper_target_error "$machine"
+  if ! github_token_manager_targets_machine "$machine"; then
+    log_github_token_manager_target_error "$machine"
     return 1
   fi
   case "$(uname -m)" in
@@ -598,8 +598,8 @@ doctor_machine() {
     log_error "OrbStack machine does not exist: $machine"
     return 1
   }
-  if ! github_helper_targets_machine "$machine"; then
-    log_github_helper_target_error "$machine"
+  if ! github_token_manager_targets_machine "$machine"; then
+    log_github_token_manager_target_error "$machine"
     return 1
   fi
   user="$LINUX_USER"
@@ -705,7 +705,7 @@ doctor_machine() {
   fi
   log_success "*.test resolves from macOS"
 
-  status_github_helper
+  status_github_token_manager
 }
 
 start_tunnel() {
@@ -761,22 +761,22 @@ case "$command_name" in
           exit 2
         }
         github_machine="${6:-$DEFAULT_MACHINE}"
-        configure_github_helper "$3" "$4" "$5" "$github_machine"
+        configure_github_token_manager "$3" "$4" "$5" "$github_machine"
         ;;
       start)
-        start_github_helper
+        start_github_token_manager
         ;;
       stop)
-        stop_github_helper
+        stop_github_token_manager
         ;;
       refresh)
         refresh_github_token
         ;;
       status)
-        status_github_helper
+        status_github_token_manager
         ;;
       reset)
-        reset_github_helper
+        reset_github_token_manager
         ;;
       *)
         usage >&2

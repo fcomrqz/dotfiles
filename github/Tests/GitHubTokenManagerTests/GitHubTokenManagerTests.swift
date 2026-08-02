@@ -1,9 +1,9 @@
 import Foundation
 import Security
 import XCTest
-@testable import GitHubAppHelper
+@testable import GitHubTokenManager
 
-final class GitHubAppHelperTests: XCTestCase {
+final class GitHubTokenManagerTests: XCTestCase {
     func testBase64URLRemovesPaddingAndUnsafeCharacters() {
         XCTAssertEqual(Data([0xfb, 0xff]).base64URL, "-_8")
     }

@@ -45,11 +45,11 @@ fish "$ROOT/tests/filter-ranking.fish"
 fish "$ROOT/tests/open-project.fish"
 fish "$ROOT/tests/prompt.fish"
 
-plutil -lint "$ROOT/github/com.fcomrqz.github-app.plist" >/dev/null
+plutil -lint "$ROOT/github/com.fcomrqz.github-token-manager.plist" >/dev/null
 if [[ "$(uname -s)" == "Darwin" ]] && command -v swift >/dev/null 2>&1; then
   swift test \
     --package-path "$ROOT/github" \
-    --scratch-path "${TMPDIR:-/tmp}/fcomrqz-github-app-tests" \
+    --scratch-path "${TMPDIR:-/tmp}/fcomrqz-github-token-manager-tests" \
     --disable-sandbox
 fi
 

@@ -54,12 +54,9 @@ struct KeychainStore {
     }
 
     func containsPrivateKey() -> Bool {
-        do {
-            _ = try loadPrivateKey()
-            return true
-        } catch {
-            return false
-        }
+        var query = baseQuery
+        query[kSecMatchLimit] = kSecMatchLimitOne
+        return SecItemCopyMatching(query as CFDictionary, nil) == errSecSuccess
     }
 
     func removePrivateKey() throws {
