@@ -52,7 +52,19 @@
 	required = true
 [push]
 	autoSetupRemote = true
+	default = current
 [rerere]
 	enabled = true
+	autoUpdate = true
 [pull]
   rebase = true
+[fetch]
+	prune = true
+[merge]
+	conflictStyle = zdiff3
+[rebase]
+	autoSquash = true
+[commit]
+	verbose = true
+[diff]
+	algorithm = histogram

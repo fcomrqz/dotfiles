@@ -2,22 +2,22 @@
   {
     "bindings": {
       "cmd-o": ["projects::OpenRecent", { "create_new_window": false }],
-      "cmd-shift-t": "project_symbols::Toggle",
-      "cmd-t": "outline::Toggle"
+      // "cmd-shift-t": "project_symbols::Toggle",
+      // "cmd-t": "outline::Toggle"
     }
   },
   {
     "context": "Editor",
     "bindings": {
-      "alt-l": "editor::SelectLine",
+      // "alt-l": "editor::SelectLine",
 
       "alt-shift-up": "editor::SelectLargerSyntaxNode",
       "alt-shift-down": "editor::SelectSmallerSyntaxNode",
       "shift-pageup": "editor::SelectLargerSyntaxNode",
       "shift-pagedown": "editor::SelectSmallerSyntaxNode",
 
-      "home": "editor::MoveToBeginning",
-      "end": "editor::MoveToEnd",
+      // "home": "editor::MoveToBeginning",
+      // "end": "editor::MoveToEnd",
 
       "alt-cmd-p": "editor::MoveLineUp",
       "alt-cmd-n": "editor::MoveLineDown",
@@ -105,13 +105,13 @@
       "cmd-k cmd-i": "workspace::ActivatePaneUp",
       "cmd-k cmd-k": "workspace::ActivatePaneDown",
 
-      "cmd-e": "project_panel::ToggleFocus",
+      // "cmd-e": "project_panel::ToggleFocus",
 
       "ctrl-tab": "tab_switcher::Toggle",
       "ctrl-shift-tab": ["tab_switcher::Toggle", { "select_last": true }],
 
-      "cmd-alt-delete": "git::Diff",
-      "cmd-alt-d": "git::Diff"
+      // "cmd-alt-delete": "git::Diff",
+      // "cmd-alt-d": "git::Diff"
     }
   },
   {
@@ -144,13 +144,6 @@
     "context": "Terminal",
     "bindings": {
       "cmd-t": "workspace::NewTerminal"
-    }
-  },
-  {
-    "context": "Editor && jupyter && !ContextEditor",
-    "bindings": {
-      "ctrl-r": "repl::RunInPlace",
-      "ctrl-alt-r": "repl::ClearOutputs"
     }
   },
   {

@@ -1,4 +1,14 @@
 {
+  "proxy": "",
+  "use_smartcase_search": true,
+  "scroll_sensitivity": 1.0,
+  "bottom_dock_layout": "full",
+  "agent_buffer_font_size": 14.0,
+  "agent_ui_font_size": 16.0,
+  "ui_font_size": 15.0,
+  "buffer_font_size": 14.0,
+  "ui_font_family": "SF Mono",
+  "base_keymap": "VSCode",
   "restore_on_startup": "last_workspace",
   "cli_default_open_behavior": "existing_window",
   "ssh_connections": [
@@ -23,7 +33,7 @@
       "default_config_options": {
         "collaboration_mode": "default",
         "fast-mode": true,
-        "mode": "agent-full-access",
+        "mode": "agent",
         "model": "gpt-5.6-sol",
         "reasoning_effort": "xhigh",
       },
@@ -73,30 +83,72 @@
   },
   "git_panel": {
     "button": false,
+    "show_count_badge": false,
+    "entry_primary_click_action": "file_diff",
+    "diff_stats": true,
+    "folder_icons": false,
+    "file_icons": false,
+    "tree_view": true,
+    "collapse_untracked_diff": true,
+    "group_by": "staging",
+    "sort_by": "path",
+    "status_style": "label_color",
     "dock": "right",
   },
   "vertical_scroll_margin": 12.0,
   "when_closing_with_no_tabs": "keep_window_open",
   "agent": {
+    "message_editor_min_lines": 12,
+    "play_sound_when_agent_done": "always",
+    "flexible": true,
     "show_turn_stats": true,
     "expand_terminal_card": false,
     "expand_edit_card": false,
     "sidebar_side": "left",
     "enable_feedback": false,
     "tool_permissions": {
+      "tools": {
+        "terminal": {
+          "always_allow": [
+            {
+              "pattern": "^git\\b"
+            },
+            {
+              "pattern": "^grep\\b"
+            },
+            {
+              "pattern": "^npx\\s+biome(\\s|$)"
+            },
+            {
+              "pattern": "^bunx\\s+biome(\\s|$)"
+            },
+            {
+              "pattern": "^npm\\s+test(\\s|$)"
+            },
+            {
+              "pattern": "^vitest\\s+run(\\s|$)"
+            },
+            {
+              "pattern": "^bunx\\s+vitest(\\s|$)"
+            },
+            {
+              "pattern": "^npm\\s+run(\\s|$)"
+            }
+          ]
+        }
+      },
       "default": "confirm",
     },
-    "message_editor_min_lines": 16,
     "default_profile": "write",
     "default_model": {
-      "effort": "high",
+      "speed": "standard",
+      "effort": "low",
       "enable_thinking": true,
       "provider": "openai-subscribed",
       "model": "gpt-5.6-sol",
     },
     "button": false,
-    "dock": "left",
-    "default_width": 600,
+    "dock": "right",
     "commit_message_model": {
       "provider": "openai-subscribed",
       "model": "gpt-5.6-sol",
@@ -106,6 +158,7 @@
     "commit_message_instructions": "Use Conventional Commits format: <type>(<scope>): <description>. Keep the subject under 72 characters. Output only the commit message."
   },
   "project_panel": {
+    "default_width": 360.0,
     "hide_root": true,
     "entry_spacing": "comfortable",
     "dock": "right",
@@ -122,14 +175,8 @@
     "light": "Alavesper Light",
     "dark": "Alavesper Dark",
   },
-  "ui_font_family": "SF Mono",
-  "agent_ui_font_size": 17,
-  "ui_font_size": 14.0,
   "buffer_font_family": "SF Mono",
-  "buffer_font_size": 14.0,
-  "buffer_line_height": {
-    "custom": 1.7,
-  },
+  "buffer_line_height": "comfortable",
   "tab_size": 2,
   "prettier": {
     "trailingComma": "all",
@@ -254,6 +301,9 @@
   },
   "inline_code_actions": false,
   "title_bar": {
+    "show_user_menu": false,
+    "show_worktree_name": true,
+    "show_branch_status_icon": true,
     "show_menus": false,
     "show_onboarding_banner": true,
     "show_project_items": true,

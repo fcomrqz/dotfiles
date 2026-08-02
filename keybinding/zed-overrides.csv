@@ -1,14 +1,9 @@
 Context,Key,Action
 Global,cmd-o,"[""projects::OpenRecent"",{""create_new_window"":false}]"
-Global,cmd-shift-t,project_symbols::Toggle
-Global,cmd-t,outline::Toggle
-Editor,alt-l,editor::SelectLine
 Editor,alt-shift-up,editor::SelectLargerSyntaxNode
 Editor,alt-shift-down,editor::SelectSmallerSyntaxNode
 Editor,shift-pageup,editor::SelectLargerSyntaxNode
 Editor,shift-pagedown,editor::SelectSmallerSyntaxNode
-Editor,home,editor::MoveToBeginning
-Editor,end,editor::MoveToEnd
 Editor,alt-cmd-p,editor::MoveLineUp
 Editor,alt-cmd-n,editor::MoveLineDown
 Editor,alt-cmd-up,editor::MoveLineUp
@@ -57,11 +52,8 @@ Workspace,cmd-k cmd-enter,workspace::ActivatePaneLeft
 Workspace,cmd-k cmd-l,workspace::ActivatePaneRight
 Workspace,cmd-k cmd-i,workspace::ActivatePaneUp
 Workspace,cmd-k cmd-k,workspace::ActivatePaneDown
-Workspace,cmd-e,project_panel::ToggleFocus
 Workspace,ctrl-tab,tab_switcher::Toggle
 Workspace,ctrl-shift-tab,"[""tab_switcher::Toggle"",{""select_last"":true}]"
-Workspace,cmd-alt-delete,git::Diff
-Workspace,cmd-alt-d,git::Diff
 Pane,cmd-1,"[""pane::ActivateItem"",0]"
 Pane,cmd-2,"[""pane::ActivateItem"",1]"
 Pane,cmd-3,"[""pane::ActivateItem"",2]"
@@ -78,8 +70,6 @@ Pane,cmd-k i,pane::SplitUp
 ProjectPanel,cmd-enter,project_panel::OpenPermanent
 ProjectPanel,alt-cmd-down,project_panel::NewDirectory
 Terminal,cmd-t,workspace::NewTerminal
-Editor && jupyter && !ContextEditor,ctrl-r,repl::RunInPlace
-Editor && jupyter && !ContextEditor,ctrl-alt-r,repl::ClearOutputs
 TabSwitcher,ctrl-w,tab_switcher::CloseSelectedItem
 FileFinder && !menu_open,cmd-enter,pane::SplitDown
 FileFinder && !menu_open,cmd-i,pane::SplitUp
