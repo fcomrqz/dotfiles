@@ -1,6 +1,8 @@
 (defcfg
   process-unmapped-keys no
   macos-dev-names-include ("HHKB-Classic")
+  movemouse-inherit-accel-state yes
+  movemouse-smooth-diagonals yes
 )
 
 (defvar
@@ -10,6 +12,10 @@
   caps-word-timeout 3000
   wheel-interval 90
   wheel-distance 1
+  mouse-interval 16
+  mouse-acceleration-time 600
+  mouse-min-distance 1
+  mouse-max-distance 12
 )
 
 (defsrc
@@ -22,7 +28,7 @@
 
 (deflayer base
   XX    XX    XX    XX    XX    XX     XX    XX    XX    XX    XX    XX    XX    XX    XX
-  tab   q     w     e     r     t      y     @u    i     @o    @p    [     XX    XX
+  tab   q     w     e     r     t      y     @u    i     @o    p     [     XX    XX
   @esc  @a    @s    @d    @f    g      h     @j    @k    @l    @sc   '     XX
   grv   z     x     c     v     b      @n    m     ,     .     /     =     XX
         XX    XX                  @spc                   XX    XX
@@ -36,7 +42,23 @@
         XX    XX                    XX                   XX    XX
 )
 
+(deflayer hyper
+  XX    XX          XX          XX          XX          XX           XX          XX               XX          XX                 XX            XX          XX    XX    XX
+  C-A-M-S-tab C-A-M-S-q   C-A-M-S-w   C-A-M-S-e   C-A-M-S-r   C-A-M-S-t    C-A-M-S-y   @mouse-primary   @mouse-up   @mouse-secondary   @scroll-down  C-A-M-S-[   XX    XX
+  XX    C-A-M-S-a   C-A-M-S-s   C-A-M-S-d   C-A-M-S-f   C-A-M-S-g    @mouse-middle @mouse-left      @mouse-down @mouse-right       C-A-M-S-;     C-A-M-S-'   XX
+  C-A-M-S-grv C-A-M-S-z   C-A-M-S-x   C-A-M-S-c   C-A-M-S-v   C-A-M-S-b    @scroll-up    C-A-M-S-m        C-A-M-S-,   C-A-M-S-.         C-A-M-S-/     C-A-M-S-=   XX
+        XX          XX                              C-A-M-S-spc                                 XX          XX
+)
+
 (defalias
+  mouse-up (movemouse-accel-up $mouse-interval $mouse-acceleration-time $mouse-min-distance $mouse-max-distance)
+  mouse-down (movemouse-accel-down $mouse-interval $mouse-acceleration-time $mouse-min-distance $mouse-max-distance)
+  mouse-left (movemouse-accel-left $mouse-interval $mouse-acceleration-time $mouse-min-distance $mouse-max-distance)
+  mouse-right (movemouse-accel-right $mouse-interval $mouse-acceleration-time $mouse-min-distance $mouse-max-distance)
+  mouse-primary mltp
+  mouse-secondary mrtp
+  mouse-middle mmtp
+
   ;; Preserve the original modifier stacking and shortcut behavior.
   a (tap-hold $tap-repress-timeout $hold-timeout a lctl)
   s (tap-hold $tap-repress-timeout $hold-timeout s lalt)
@@ -48,8 +70,8 @@
   l (fork (tap-hold $tap-repress-timeout $hold-timeout l ralt) l (lmet lalt))
   sc (tap-hold $tap-repress-timeout $hold-timeout ; rctl)
 
-  ;; Tap Escape; hold all four modifiers as Hyper.
-  esc (tap-hold $tap-repress-timeout $hold-timeout esc (multi lctl lalt lmet lsft))
+  ;; Tap Escape; hold the modifier-free Hyper and mouse layer.
+  esc (tap-hold $tap-repress-timeout $hold-timeout esc (layer-toggle hyper))
 
   ;; Tap Space; hold the numeric and media layer.
   spc (tap-hold $tap-repress-timeout $hold-timeout spc (layer-toggle space))
@@ -67,12 +89,7 @@
 
   ;; Long holds intentionally emit accented lowercase characters.
   ;; N remains a normal shortcut key while a left-side modifier is held.
-  n (switch
-    ((and lctl lalt lmet lsft)) (multi (unmod nop0) @scroll-up) break
-    () (fork (tap-hold $tap-repress-timeout $alternate-hold-timeout n (unicode ñ)) n (lsft lmet lalt lctl)) break)
-  p (switch
-    ((and lctl lalt lmet lsft)) (multi (unmod nop0) @scroll-down) break
-    () p break)
+  n (fork (tap-hold $tap-repress-timeout $alternate-hold-timeout n (unicode ñ)) n (lsft lmet lalt lctl))
   u (tap-hold $tap-repress-timeout $alternate-hold-timeout u (unicode ü))
   o (tap-hold $tap-repress-timeout $alternate-hold-timeout o (unicode ö))
 

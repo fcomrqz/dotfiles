@@ -1,0 +1,37 @@
+Key,macOS
+Tab,Send ⌃⌥⌘⇧Tab
+Q,Send ⌃⌥⌘⇧Q
+W,Send ⌃⌥⌘⇧W
+E,Send ⌃⌥⌘⇧E
+R,Send ⌃⌥⌘⇧R
+T,Send ⌃⌥⌘⇧T
+Y,Send ⌃⌥⌘⇧Y
+U,Click
+I,Move pointer up
+O,Right-click
+P,Scroll down
+Left Bracket,Send ⌃⌥⌘⇧[
+A,Send ⌃⌥⌘⇧A
+S,Send ⌃⌥⌘⇧S
+D,Send ⌃⌥⌘⇧D
+F,Send ⌃⌥⌘⇧F
+G,Send ⌃⌥⌘⇧G
+H,Middle-click
+J,Move pointer left
+K,Move pointer down
+L,Move pointer right
+Semicolon,Send ⌃⌥⌘⇧;
+Apostrophe,Send ⌃⌥⌘⇧'
+Grave,Send ⌃⌥⌘⇧`
+Z,Send ⌃⌥⌘⇧Z
+X,Send ⌃⌥⌘⇧X
+C,Send ⌃⌥⌘⇧C
+V,Send ⌃⌥⌘⇧V
+B,Send ⌃⌥⌘⇧B
+N,Scroll up
+M,Send ⌃⌥⌘⇧M
+Comma,"Send ⌃⌥⌘⇧,"
+Period,Send ⌃⌥⌘⇧.
+Slash,Send ⌃⌥⌘⇧/
+Equals,Send ⌃⌥⌘⇧=
+Space,Send ⌃⌥⌘⇧Space

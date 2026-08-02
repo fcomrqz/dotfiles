@@ -18,6 +18,9 @@ enum custom_keycodes {
   SYM_LPRN,
   SYM_RPRN,
   SYM_UNDS,
+  MOUSE_BTN1_TAP,
+  MOUSE_BTN2_TAP,
+  MOUSE_BTN3_TAP,
 };
 
 static bool caps_word_active;
@@ -404,6 +407,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         tap_code16(pgm_read_word(&symbol_keycodes[keycode - SYM_AT]));
       }
       return false;
+    case MOUSE_BTN1_TAP:
+    case MOUSE_BTN2_TAP:
+    case MOUSE_BTN3_TAP:
+      if (record->event.pressed) {
+        tap_code(MS_BTN1 + (keycode - MOUSE_BTN1_TAP));
+      }
+      return false;
   }
   return true;
 }
@@ -461,8 +471,6 @@ const key_override_t cmd_enter_key_override = ko_make_basic(MOD_BIT_LGUI, RSFT_T
 const key_override_t cmd_backspace_key_override = ko_make_basic(MOD_BIT_LGUI, KC_H, G(KC_BSPC));
 
 const key_override_t *key_overrides[] = {
-  &hyper_up_scroll_down_key_override,
-  &hyper_down_scroll_up_key_override,
   &shift_cmd_h_key_override,
   &ctrl_opt_pageup_key_override,
   &ctrl_opt_pagedown_key_override,
@@ -503,11 +511,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_LBRC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-HYPR_T(KC_ESC), LCTL_T(KC_A), LOPT_T(KC_S), LCMD_T(KC_D), LSFT_T(KC_F), KC_G,       KC_H, RSFT_T(KC_J), RCMD_T(KC_K), ROPT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
+ LT(1, KC_ESC), LCTL_T(KC_A), LOPT_T(KC_S), LCMD_T(KC_D), LSFT_T(KC_F), KC_G,       KC_H, RSFT_T(KC_J), RCMD_T(KC_K), ROPT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_GRV,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                          KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_EQL,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_NO, LT(9, KC_SPC), KC_NO, KC_NO, LT(9, KC_SPC), KC_NO
+  ),
+
+  // MODIFIER-FREE HYPER AND MOUSE LAYER
+  [1] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+   HYPR(KC_TAB), HYPR(KC_Q), HYPR(KC_W), HYPR(KC_E), HYPR(KC_R), HYPR(KC_T),    HYPR(KC_Y), MOUSE_BTN1_TAP, MS_UP, MOUSE_BTN2_TAP, MS_WHLD, HYPR(KC_LBRC),
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        KC_NO, HYPR(KC_A), HYPR(KC_S), HYPR(KC_D), HYPR(KC_F), HYPR(KC_G),     MOUSE_BTN3_TAP, MS_LEFT, MS_DOWN, MS_RGHT, HYPR(KC_SCLN), HYPR(KC_QUOT),
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+ HYPR(KC_GRV), HYPR(KC_Z), HYPR(KC_X), HYPR(KC_C), HYPR(KC_V), HYPR(KC_B),        MS_WHLU, HYPR(KC_M), HYPR(KC_COMM), HYPR(KC_DOT), HYPR(KC_SLSH), HYPR(KC_EQL),
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_NO, HYPR(KC_SPC), KC_NO, KC_NO, HYPR(KC_SPC), KC_NO
   ),
 
   [9] = LAYOUT_split_3x6_3(
