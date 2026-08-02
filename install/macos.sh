@@ -130,6 +130,7 @@ install_homebrew
 
 log_section "Installing macOS command-line tools"
 install_formula fish "Fish shell"
+install_formula micro "Micro editor"
 install_formula gh "GitHub CLI"
 install_formula git-delta "Git Delta"
 install_formula mas "Mac App Store CLI"
