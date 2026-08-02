@@ -241,6 +241,10 @@ install_formula git-delta "Git Delta"
 install_formula mas "Mac App Store CLI"
 install_formula kanata "Kanata keyboard remapper"
 install_formula tailscale "Tailscale"
+sudo -v
+run_step "Installing Tailscale system daemon" \
+  sudo /bin/bash "$DOTFILES_ROOT/tailscale/manage-daemon.sh" \
+    install "$(command -v tailscaled)"
 
 log_section "Installing macOS desktop applications"
 install_cask zed "Zed" "/Applications/Zed.app"
