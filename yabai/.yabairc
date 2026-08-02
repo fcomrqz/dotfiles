@@ -85,7 +85,7 @@ done
 # window_origin_display focused and the window-created placement handler.
 "$YABAI_BIN" -m rule --add \
     label=float-main-apps \
-    app='^(Things|Claude|WhatsApp|Messages|FaceTime|Music|Passwords|Find My|Reminders|Contacts|Home)$' \
+    app='^(Things|WhatsApp|Messages|FaceTime|Music|Passwords|Find My|Reminders|Contacts|Screen Sharing|Home|System Settings)$' \
     manage=off
 
 "$YABAI_BIN" -m rule --add \
