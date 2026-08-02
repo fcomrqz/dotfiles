@@ -247,6 +247,10 @@ Fetch the public dotfiles checkout and repeat provisioning:
 orbstack/machine provision
 ```
 
+System provisioning configures the Fish maintainers' 4.x release PPA before
+installing Fish. Repeating provisioning therefore upgrades Fish independently
+of the version frozen into the Ubuntu release.
+
 Run health checks:
 
 ```sh

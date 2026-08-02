@@ -484,8 +484,13 @@ install_system() {
       install_caddy_repository
   fi
   run_step "Refreshing the Ubuntu package index" apt-get update
+  run_step "Installing APT repository support" apt-get install -y \
+    ca-certificates software-properties-common
+  run_step "Configuring the Fish package repository" \
+    add-apt-repository -y ppa:fish-shell/release-4
+  run_step "Refreshing the package index for Fish" apt-get update
   run_step "Installing base development packages" apt-get install -y \
-    ca-certificates curl dnsmasq ffmpeg fish git gnupg jq micro \
+    curl dnsmasq ffmpeg fish git gnupg jq micro \
     nodejs npm ripgrep shellcheck sqlite3 tar unzip xz-utils
 
   run_step "Installing Playwright system dependencies" \
