@@ -424,13 +424,12 @@ const key_override_t down_key_override = ko_make_basic(MOD_BIT_LCTRL, KC_N, KC_D
 const key_override_t enter_key_override = ko_make_basic(MOD_BIT_LCTRL, RSFT_T(KC_J), KC_ENT);
 const key_override_t backspace_key_override = ko_make_basic(MOD_BIT_LCTRL, KC_H, KC_BSPC);
 
-const key_override_t right_key_override = ko_make_basic(MOD_BIT_RCTRL, LSFT_T(KC_F), KC_RIGHT);
-const key_override_t left_key_override = ko_make_basic(MOD_BIT_RCTRL, KC_B, KC_LEFT);
-const key_override_t delete_key_override = ko_make_basic(MOD_BIT_RCTRL, LCMD_T(KC_D), KC_DEL);
-
-// Hyper + the Control navigation overrides. Scroll in the opposite direction.
-const key_override_t hyper_up_scroll_down_key_override = ko_make_basic(MOD_MASK_CSAG, KC_P, MS_WHLD);
-const key_override_t hyper_down_scroll_up_key_override = ko_make_basic(MOD_MASK_CSAG, KC_N, MS_WHLU);
+const key_override_t right_key_override =
+  ko_make_with_layers_and_negmods(MOD_BIT_RCTRL, LSFT_T(KC_F), KC_RIGHT, ~0, MOD_MASK_GUI);
+const key_override_t left_key_override =
+  ko_make_with_layers_and_negmods(MOD_BIT_RCTRL, KC_B, KC_LEFT, ~0, MOD_MASK_GUI);
+const key_override_t delete_key_override =
+  ko_make_with_layers_and_negmods(MOD_BIT_RCTRL, LCMD_T(KC_D), KC_DEL, ~0, MOD_MASK_SHIFT);
 
 // Option
 const key_override_t opt_up_key_override = ko_make_basic(MOD_BIT_LALT, KC_P, A(KC_UP));
@@ -466,6 +465,25 @@ const key_override_t opt_shift_right_key_override = ko_make_basic(MOD_BIT_RSHIFT
 const key_override_t opt_shift_left_key_override = ko_make_basic(MOD_BIT_RSHIFT | MOD_BIT_RALT, KC_B, RSA(KC_LEFT));
 const key_override_t opt_shift_delete_key_override = ko_make_basic(MOD_BIT_RSHIFT | MOD_BIT_RALT, LCMD_T(KC_D), RSA(KC_DEL));
 
+// Preserve Command+Right Option+Shift+F while leaving the navigation overrides
+// active for the same chord without Command.
+const key_override_t cmd_ralt_shift_f_key_override = {
+  .trigger = LSFT_T(KC_F),
+  .trigger_mods = MOD_MASK_GUI | MOD_BIT_RALT | MOD_MASK_SHIFT,
+  .layers = ~0,
+  .replacement = KC_F,
+  .options = ko_options_default,
+};
+// Preserve Command+Left Option+Shift+N while leaving the navigation overrides
+// active for the same chord without Command.
+const key_override_t cmd_lalt_shift_n_key_override = {
+  .trigger = KC_N,
+  .trigger_mods = MOD_MASK_GUI | MOD_BIT_LALT | MOD_MASK_SHIFT,
+  .layers = ~0,
+  .replacement = KC_N,
+  .options = ko_options_default,
+};
+
 // Command
 const key_override_t cmd_enter_key_override = ko_make_basic(MOD_BIT_LGUI, RSFT_T(KC_J), G(KC_ENT));
 const key_override_t cmd_backspace_key_override = ko_make_basic(MOD_BIT_LGUI, KC_H, G(KC_BSPC));
@@ -479,6 +497,8 @@ const key_override_t *key_overrides[] = {
   &ctrl_opt_enter_key_override,
   &ctrl_opt_backspace_key_override,
   &ctrl_opt_delete_key_override,
+  &cmd_ralt_shift_f_key_override,
+  &cmd_lalt_shift_n_key_override,
   &opt_shift_up_key_override,
   &opt_shift_down_key_override,
   &opt_shift_right_key_override,

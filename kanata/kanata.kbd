@@ -113,9 +113,25 @@
   (rctl b) (left)
   (rctl d) (del)
 
+  ;; Preserve Command+Right Control+B/F for application shortcuts.
+  (lmet rctl b) (lmet rctl b)
+  (rmet rctl b) (rmet rctl b)
+  (lmet rctl f) (lmet rctl f)
+  (rmet rctl f) (rmet rctl f)
+
+  ;; Preserve shifted Right Control+D for application shortcuts.
+  (rctl lsft d) (rctl lsft d)
+  (rctl rsft d) (rctl rsft d)
+
   (ralt f) (ralt right)
   (ralt b) (ralt left)
   (ralt d) (ralt del)
+
+  ;; Preserve Command+Right Option+Shift+F for application shortcuts.
+  (lmet ralt lsft f) (lmet ralt lsft f)
+  (lmet ralt rsft f) (lmet ralt rsft f)
+  (rmet ralt lsft f) (rmet ralt lsft f)
+  (rmet ralt rsft f) (rmet ralt rsft f)
 
   ;; Left-side modifiers navigate with right-hand keys.
   (lctl p) (up)
@@ -128,6 +144,12 @@
   (lalt j) (lalt ret)
   (lalt h) (lalt bspc)
   (lalt [) (])
+
+  ;; Preserve Command+Left Option+Shift+N for application shortcuts.
+  (lmet lalt lsft n) (lmet lalt lsft n)
+  (lmet lalt rsft n) (lmet lalt rsft n)
+  (rmet lalt lsft n) (rmet lalt lsft n)
+  (rmet lalt rsft n) (rmet lalt rsft n)
 
   (lmet j) (lmet ret)
   (lmet h) (lmet bspc)

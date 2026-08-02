@@ -1,0 +1,3 @@
+Intercepted,Unreachable,Emit,Command
+⌘ + L⌃ + P,Zed Editor: Add selection above,⌘↑,Zed Editor/Agent: Beginning of document; Zed Terminal: Page up; Zed Git: First entry; Terminal: Previous mark; Things: Move item up
+⌘ + L⌃ + L⌥ + P,Zed Editor: Choose settings profile,⌘Page Up,Zed Editor/Agent: Page up; Terminal: Page up
