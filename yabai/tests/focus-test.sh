@@ -18,9 +18,9 @@ trap 'rm -rf "$test_tmp"' EXIT HUP INT TERM
 three_display_state='
 {
   "displays": [
-    {"id": 501, "uuid": "LEFT", "index": 1, "frame": {"x": 0, "y": 0, "w": 100, "h": 100}, "has-focus": true},
-    {"id": 502, "uuid": "CENTER", "index": 2, "frame": {"x": 100, "y": 0, "w": 100, "h": 100}, "has-focus": false},
-    {"id": 503, "uuid": "RIGHT", "index": 3, "frame": {"x": 200, "y": 0, "w": 100, "h": 100}, "has-focus": false}
+    {"id": 501, "uuid": "LEFT", "index": 1, "frame": {"x": -100, "y": 0, "w": 100, "h": 100}, "has-focus": true},
+    {"id": 502, "uuid": "CENTER", "index": 2, "frame": {"x": 0, "y": 0, "w": 100, "h": 100}, "has-focus": false},
+    {"id": 503, "uuid": "RIGHT", "index": 3, "frame": {"x": 100, "y": 0, "w": 100, "h": 100}, "has-focus": false}
   ],
   "spaces": [
     {"id": 601, "index": 1, "label": "aero-1", "display": 1, "has-focus": true, "is-native-fullscreen": false},
@@ -29,12 +29,12 @@ three_display_state='
     {"id": 604, "index": 4, "label": "", "display": 1, "has-focus": false, "is-native-fullscreen": true}
   ],
   "windows": [
-    {"id": 101, "pid": 10, "app": "Zed", "title": "one", "role": "AXWindow", "subrole": "AXStandardWindow", "root-window": true, "display": 1, "space": 1, "frame": {"x": 0, "y": 0, "w": 100, "h": 30}, "has-focus": true, "is-visible": true, "is-minimized": false, "is-hidden": false, "is-floating": false, "is-native-fullscreen": false},
-    {"id": 104, "pid": 10, "app": "Zed", "title": "", "role": "AXWindow", "subrole": "AXSystemDialog", "root-window": true, "display": 1, "space": 1, "frame": {"x": 25, "y": 32, "w": 50, "h": 10}, "has-focus": false, "is-visible": true, "is-minimized": false, "is-hidden": false, "is-floating": true, "is-native-fullscreen": false},
-    {"id": 102, "pid": 11, "app": "Safari", "title": "two", "role": "AXWindow", "subrole": "AXStandardWindow", "root-window": true, "display": 1, "space": 1, "frame": {"x": 0, "y": 35, "w": 100, "h": 30}, "has-focus": false, "is-visible": true, "is-minimized": false, "is-hidden": false, "is-floating": false, "is-native-fullscreen": false},
-    {"id": 103, "pid": 12, "app": "Terminal", "title": "three", "role": "AXWindow", "subrole": "AXStandardWindow", "root-window": true, "display": 1, "space": 1, "frame": {"x": 0, "y": 70, "w": 100, "h": 30}, "has-focus": false, "is-visible": true, "is-minimized": false, "is-hidden": false, "is-floating": false, "is-native-fullscreen": false},
-    {"id": 150, "pid": 20, "app": "Safari", "title": "fullscreen", "role": "AXWindow", "subrole": "AXStandardWindow", "root-window": true, "display": 1, "space": 4, "frame": {"x": 0, "y": 0, "w": 100, "h": 100}, "has-focus": false, "is-visible": false, "is-minimized": false, "is-hidden": false, "is-floating": false, "is-native-fullscreen": true},
-    {"id": 201, "pid": 30, "app": "Mail", "title": "mail", "role": "AXWindow", "subrole": "AXStandardWindow", "root-window": true, "display": 2, "space": 2, "frame": {"x": 100, "y": 0, "w": 100, "h": 100}, "has-focus": false, "is-visible": true, "is-minimized": false, "is-hidden": false, "is-floating": false, "is-native-fullscreen": false}
+    {"id": 101, "pid": 10, "app": "Zed", "title": "one", "role": "AXWindow", "subrole": "AXStandardWindow", "root-window": true, "display": 1, "space": 1, "frame": {"x": -100, "y": 0, "w": 100, "h": 30}, "has-focus": true, "is-visible": true, "is-minimized": false, "is-hidden": false, "is-floating": false, "is-native-fullscreen": false},
+    {"id": 104, "pid": 10, "app": "Zed", "title": "", "role": "AXWindow", "subrole": "AXSystemDialog", "root-window": true, "display": 1, "space": 1, "frame": {"x": -75, "y": 32, "w": 50, "h": 10}, "has-focus": false, "is-visible": true, "is-minimized": false, "is-hidden": false, "is-floating": true, "is-native-fullscreen": false},
+    {"id": 102, "pid": 11, "app": "Safari", "title": "two", "role": "AXWindow", "subrole": "AXStandardWindow", "root-window": true, "display": 1, "space": 1, "frame": {"x": -100, "y": 35, "w": 100, "h": 30}, "has-focus": false, "is-visible": true, "is-minimized": false, "is-hidden": false, "is-floating": false, "is-native-fullscreen": false},
+    {"id": 103, "pid": 12, "app": "Terminal", "title": "three", "role": "AXWindow", "subrole": "AXStandardWindow", "root-window": true, "display": 1, "space": 1, "frame": {"x": -100, "y": 70, "w": 100, "h": 30}, "has-focus": false, "is-visible": true, "is-minimized": false, "is-hidden": false, "is-floating": false, "is-native-fullscreen": false},
+    {"id": 150, "pid": 20, "app": "Safari", "title": "fullscreen", "role": "AXWindow", "subrole": "AXStandardWindow", "root-window": true, "display": 1, "space": 4, "frame": {"x": -100, "y": 0, "w": 100, "h": 100}, "has-focus": false, "is-visible": false, "is-minimized": false, "is-hidden": false, "is-floating": false, "is-native-fullscreen": true},
+    {"id": 201, "pid": 30, "app": "Mail", "title": "mail", "role": "AXWindow", "subrole": "AXStandardWindow", "root-window": true, "display": 2, "space": 2, "frame": {"x": 0, "y": 0, "w": 100, "h": 100}, "has-focus": false, "is-visible": true, "is-minimized": false, "is-hidden": false, "is-floating": false, "is-native-fullscreen": false}
   ]
 }'
 
@@ -75,7 +75,7 @@ clear_log() {
 
 assert_log_has() {
     expected="$1"
-    if ! grep -Fx "$expected" "$log_file" >/dev/null; then
+    if ! grep -Fx -- "$expected" "$log_file" >/dev/null; then
         printf 'FAIL: expected log entry: %s\n' "$expected" >&2
         sed -n '1,240p' "$log_file" >&2
         exit 1
@@ -100,6 +100,13 @@ assert_log_has_pattern() {
     fi
 }
 
+assert_pointer_warp() {
+    expected_x="$1"
+    expected_y="$2"
+    assert_log_has \
+        "-l JavaScript -e ObjC.import('CoreGraphics'); $.CGWarpMouseCursorPosition({x: $expected_x, y: $expected_y});"
+}
+
 pass() {
     passed=$((passed + 1))
     printf 'ok %s - %s\n' "$passed" "$1"
@@ -113,6 +120,7 @@ clear_log
 run_script "$yabai_dir/focus-display.sh" 1
 assert_log_has 'window 101 --focus'
 assert_log_lacks_pattern '^window 102 --focus$'
+assert_pointer_warp -50 15
 pass 'restore per-display focus'
 
 # Selecting the focused display advances through normal rows.
@@ -120,6 +128,7 @@ reset_case
 run_script "$yabai_dir/focus-display.sh" 1
 assert_log_has 'window 102 --focus'
 assert_log_lacks_pattern '^window 104 --focus$'
+assert_pointer_warp -50 50
 queries_before_focus="$(
     awk '
         /^query / { queries += 1 }
@@ -151,7 +160,7 @@ mutate_state '
       "level": 3,
       "can-move": true,
       "can-resize": false,
-      "frame": {"x": 20, "y": 20, "w": 40, "h": 20},
+      "frame": {"x": -80, "y": 20, "w": 40, "h": 20},
       "has-focus": false,
       "is-visible": true,
       "is-minimized": false,
@@ -172,7 +181,7 @@ mutate_state '
       "level": 0,
       "can-move": false,
       "can-resize": false,
-      "frame": {"x": 30, "y": 30, "w": 40, "h": 20},
+      "frame": {"x": -70, "y": 30, "w": 40, "h": 20},
       "has-focus": false,
       "is-visible": true,
       "is-minimized": false,
@@ -332,7 +341,7 @@ mutate_state '
     "root-window": true,
     "display": 3,
     "space": 3,
-    "frame": {"x": 200, "y": 0, "w": 100, "h": 100},
+    "frame": {"x": 100, "y": 0, "w": 100, "h": 100},
     "has-focus": true,
     "is-visible": true,
     "is-minimized": false,
@@ -364,7 +373,7 @@ mutate_state '
     "root-window": true,
     "display": 1,
     "space": 1,
-    "frame": {"x": 0, "y": 0, "w": 80, "h": 80},
+    "frame": {"x": -100, "y": 0, "w": 80, "h": 80},
     "has-focus": false,
     "is-visible": true,
     "is-minimized": false,
@@ -397,7 +406,7 @@ mutate_state '
     "root-window": true,
     "display": 1,
     "space": 4,
-    "frame": {"x": 10, "y": 10, "w": 80, "h": 80},
+    "frame": {"x": -90, "y": 10, "w": 80, "h": 80},
     "has-focus": false,
     "is-visible": true,
     "is-minimized": false,
@@ -431,7 +440,7 @@ mutate_state '
     "root-window": true,
     "display": 1,
     "space": 4,
-    "frame": {"x": 0, "y": 0, "w": 100, "h": 100},
+    "frame": {"x": -100, "y": 0, "w": 100, "h": 100},
     "has-focus": true,
     "is-visible": true,
     "is-minimized": false,
@@ -460,7 +469,7 @@ mutate_state '
     "root-window": false,
     "display": 1,
     "space": 4,
-    "frame": {"x": 10, "y": 10, "w": 80, "h": 40},
+    "frame": {"x": -90, "y": 10, "w": 80, "h": 40},
     "has-focus": false,
     "is-visible": true,
     "is-minimized": false,
@@ -490,7 +499,7 @@ mutate_state '
     "level": 3,
     "can-move": true,
     "can-resize": false,
-    "frame": {"x": 10, "y": 10, "w": 40, "h": 40},
+    "frame": {"x": -90, "y": 10, "w": 40, "h": 40},
     "has-focus": false,
     "is-visible": true,
     "is-minimized": false,
@@ -524,7 +533,7 @@ mutate_state '
     "level": 0,
     "can-move": true,
     "can-resize": false,
-    "frame": {"x": 10, "y": 10, "w": 60, "h": 60},
+    "frame": {"x": -90, "y": 10, "w": 60, "h": 60},
     "has-focus": false,
     "is-visible": true,
     "is-minimized": false,
@@ -587,6 +596,7 @@ mutate_state '
         | select(.id == 150)
         | .display = 2
         | .space = 4
+        | .frame.x = 0
         | ."has-focus" = true
       ),
       (
@@ -595,6 +605,7 @@ mutate_state '
         | .id = 151
         | .display = 2
         | .space = 6
+        | .frame.x = 0
         | ."has-focus" = false
       )
     ]
@@ -608,7 +619,7 @@ clear_log
 MOCK_IGNORE_DISPLAY_FOCUS=1 run_script "$yabai_dir/focus-display.sh" 2
 assert_log_has 'window 150 --focus'
 assert_log_lacks_pattern '^window 151 --focus$'
-assert_log_has_pattern 'CGWarpMouseCursorPosition'
+assert_pointer_warp 50 50
 pass 'empty display does not advance fullscreen elsewhere'
 
 # The complete configuration registers all focus signals successfully.
@@ -671,6 +682,9 @@ if grep -E '^rule --add .*space=' "$log_file" >/dev/null; then
     printf 'FAIL: application rule still contains a fixed Space\n' >&2
     exit 1
 fi
+assert_log_has 'space 1 --padding abs:16:16:16:16'
+assert_log_has 'space 2 --padding abs:30:16:16:16'
+assert_log_has 'space 3 --padding abs:16:16:16:16'
 pass 'register focus signals'
 
 printf '1..%s\n' "$passed"

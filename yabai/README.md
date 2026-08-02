@@ -31,15 +31,15 @@ Spaces used by focus cycling.
 
 The bootstrap script discovers each display's normal Space from live Yabai
 topology. It does not create or maintain labels. It reapplies BSP layout, gaps,
-and padding after display changes, Dock restarts, and wake. The physically
-leftmost normal Space receives the 30-point top padding; the others receive 16.
+and padding after display changes, Dock restarts, and wake. The macOS main
+display's normal Space receives the 30-point top padding; the others receive 16.
 
 ## Mirrored behavior
 
 - BSP corresponds to AeroSpace tiles; stack corresponds to accordion.
 - `window_insertion_point focused` plus `window_placement first_child`
   approximates `before-the-mru-window`.
-- Inner gaps and outer padding are 16 points; the leftmost display has a
+- Inner gaps and outer padding are 16 points; the macOS main display has a
   30-point top padding.
 - New top-level windows open in the focused display's normal Space. Window
   rules preserve application floating behavior without assigning displays.

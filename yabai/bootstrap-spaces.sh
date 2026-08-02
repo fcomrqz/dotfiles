@@ -22,7 +22,8 @@ displays_json="$("$YABAI_BIN" -m query --displays 2>/dev/null)" || exit 0
 spaces_json="$("$YABAI_BIN" -m query --spaces 2>/dev/null)" || exit 0
 
 # Space labels are deliberately unnecessary. Select each display's sole normal
-# Space from the live topology, ordered by physical display position.
+# Space from the live topology. macOS anchors the main display at (0, 0), so
+# use that stable property instead of assuming the leftmost display is main.
 normal_spaces="$(
     "$JQ_BIN" -nr \
         --argjson displays "$displays_json" \
@@ -31,8 +32,8 @@ normal_spaces="$(
         $displays
         | sort_by(.frame.x, .frame.y, .index)
         | to_entries[]
-        | .key as $position
-        | .value.index as $display
+        | .value as $display_details
+        | $display_details.index as $display
         | (
             [
                 $spaces[]
@@ -47,7 +48,13 @@ normal_spaces="$(
         | [
             $display,
             $space,
-            (if $position == 0 then 30 else 16 end)
+            (
+                if $display_details.frame.x == 0
+                    and $display_details.frame.y == 0
+                then 30
+                else 16
+                end
+            )
         ]
         | @tsv
         '
