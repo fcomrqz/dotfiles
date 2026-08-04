@@ -1,3 +1,18 @@
-# Authentication and project secrets remain machine-local and must never be
-# added to this repository.
 cli_auth_credentials_store = "auto"
+
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
+service_tier = "priority"
+
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+approvals_reviewer = "guardian_subagent"
+
+[projects."/home/fcomrqz/bookip"]
+trust_level = "trusted"
+
+[tui]
+status_line = ["project-name", "git-branch", "pull-request-number", "fast-mode", "reasoning", "weekly-limit"]
+status_line_use_colors = true
+theme = "ansi"
+terminal_title = ["activity", "project-name", "thread-title"]
