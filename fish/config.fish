@@ -1,4 +1,5 @@
 fish_add_path "$HOME/.local/bin"
+set -gx LESSCHARSET utf-8
 
 if test (uname) = Linux
     set -gx BUN_INSTALL "$HOME/.bun"
