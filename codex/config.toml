@@ -1,18 +1,32 @@
-cli_auth_credentials_store = "auto"
+#:schema https://developers.openai.com/codex/config-schema.json
 
 model = "gpt-5.6-sol"
-model_reasoning_effort = "high"
-service_tier = "priority"
+review_model = "gpt-5.6-sol"
 
-sandbox_mode = "workspace-write"
+personality = "pragmatic"
+
+service_tier = "default"
+
+model_reasoning_effort = "medium"
+plan_mode_reasoning_effort = "high"
+
+model_reasoning_summary = "concise"
+model_verbosity = "low"
+
+# Additional user instructions are injected before AGENTS.md. Default: unset.
+# developer_instructions = ""
+
 approval_policy = "on-request"
-approvals_reviewer = "guardian_subagent"
+approvals_reviewer = "auto_review"
 
-[projects."/home/fcomrqz/bookip"]
-trust_level = "trusted"
+[agents]
+enabled = true
+default_subagent_model = "gpt-5.6-terra"
+default_subagent_reasoning_effort = "high"
 
 [tui]
-status_line = ["project-name", "git-branch", "pull-request-number", "fast-mode", "reasoning", "weekly-limit"]
+status_line = ["project-name", "git-branch", "pull-request-number", "fast-mode", "reasoning", "context-remaining", "weekly-limit"]
 status_line_use_colors = true
 theme = "ansi"
 terminal_title = ["activity", "project-name", "thread-title"]
+alternate_screen = "never"

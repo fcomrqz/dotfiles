@@ -1,4 +1,30 @@
-allowed_sandbox_modes = [ "read-only", "workspace-write", "danger-full-access" ]
-allowed_approval_policies = [ "on-request", "never" ]
-allowed_approvals_reviewers = [ "auto_review" ]
-allowed_web_search_modes = [ "live" ]
+#:schema https://developers.openai.com/codex/config-schema.json
+#:tombi schema.strict = false
+
+default_permissions = "ubuntu"
+
+allowed_approval_policies = ["on-request", "never"]
+allowed_approvals_reviewers = ["user", "auto_review"]
+
+[allowed_permission_profiles]
+":read-only" = true
+":workspace" = true
+":danger-full-access" = false
+ubuntu = true
+
+[permissions.ubuntu]
+extends = ":workspace"
+
+[permissions.ubuntu.filesystem]
+"/home/fcomrqz/.config/.wrangler/registry" = "write"
+
+[permissions.ubuntu.network]
+enabled = true
+allow_local_binding = true
+
+[permissions.ubuntu.network.domains]
+"localhost" = "allow"
+"127.0.0.1" = "allow"
+"::1" = "allow"
+"registry.npmjs.org" = "allow"
+"api.github.com" = "allow"
