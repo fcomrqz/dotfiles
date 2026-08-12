@@ -46,14 +46,12 @@ for label in \
     route-main-tiled \
     route-youtube \
     route-main-floating \
-    route-gemini \
     route-mail \
     route-simulator \
     route-chromium \
     route-playwright-webkit \
     route-playwright-chromium \
     float-main-apps \
-    float-gemini \
     float-simulator \
     float-chromium \
     float-playwright-webkit \
@@ -86,11 +84,6 @@ done
 "$YABAI_BIN" -m rule --add \
     label=float-main-apps \
     app='^(Things|WhatsApp|Messages|FaceTime|Music|Passwords|Find My|Reminders|Contacts|Screen Sharing|Home|System Settings)$' \
-    manage=off
-
-"$YABAI_BIN" -m rule --add \
-    label=float-gemini \
-    app='Gemini' \
     manage=off
 
 "$YABAI_BIN" -m rule --add \
