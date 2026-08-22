@@ -278,14 +278,23 @@ feature-two.test -> 127.0.0.1:3002
 review.test      -> 127.0.0.1:4173
 ```
 
-Caddy owns a local development CA. The machine script trusts only its root
-certificate inside Linux and on macOS; its private key stays inside Linux.
+Caddy owns a local development CA. The machine script trusts only its public
+root certificate inside Linux, on macOS, and in the running Parallels Windows
+VM; its private key stays inside Linux.
 
-If OrbStack changes the machine IP or the CA is recreated, refresh macOS:
+If OrbStack changes the machine IP or the CA is recreated, refresh the host
+integrations:
 
 ```sh
 orbstack/machine sync-host
 ```
+
+The same command also keeps Caddy's public development CA trusted in the
+`Windows 11` Parallels VM. It uses Parallels Tools to compare certificate
+thumbprints and imports the root into the Windows machine trust store only
+when needed. If the VM is stopped or unavailable, the Windows step is skipped;
+run `sync-host` again after starting it. CA rotation imports and verifies the
+new root before removing the exact previously synchronized Windows root.
 
 The `.test` namespace is available only while the machine is running.
 The first successful host sync removes the superseded Homebrew Caddy,

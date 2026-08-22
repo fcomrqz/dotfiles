@@ -9,6 +9,7 @@ source "$DOTFILES_ROOT/install/shared.sh"
 
 readonly DEFAULT_MACHINE="ubuntu"
 readonly LINUX_USER="fcomrqz"
+readonly PARALLELS_WINDOWS_VM="Windows 11"
 readonly DOTFILES_REPOSITORY="https://github.com/fcomrqz/dotfiles.git"
 readonly TRUSTED_DOTFILES_ROOT="/var/lib/fcomrqz-dotfiles/source"
 readonly CLOUD_INIT="$DOTFILES_ROOT/orbstack/cloud-init.yml"
@@ -488,6 +489,134 @@ certificate_fingerprint() {
     | awk -F= '{gsub(":", "", $2); print $2}'
 }
 
+parallels_windows_state() {
+  local status_output
+
+  if ! command_exists prlctl; then
+    printf 'unavailable\n'
+    return
+  fi
+  if ! status_output="$(prlctl status "$PARALLELS_WINDOWS_VM" 2>/dev/null)"; then
+    printf 'missing\n'
+    return
+  fi
+  printf '%s\n' "$status_output" | awk 'NF {state=$NF} END {print state}'
+}
+
+windows_certificate_is_trusted() {
+  local fingerprint="$1"
+  local powershell_script
+
+  powershell_script="if (Test-Path 'Cert:\\LocalMachine\\Root\\$fingerprint') { exit 0 }; exit 1"
+  prlctl exec "$PARALLELS_WINDOWS_VM" \
+    powershell.exe -NoProfile -NonInteractive -Command "$powershell_script" \
+    >/dev/null 2>&1
+}
+
+sync_windows_certificate() {
+  local certificate="$1"
+  local state_dir="$2"
+  local certificate_base64 fingerprint fingerprint_file old_fingerprint
+  local powershell_remove_old powershell_script state state_file
+
+  state="$(parallels_windows_state)"
+  case "$state" in
+    unavailable)
+      log_skip "Parallels is unavailable; skipped the Windows CA sync"
+      return
+      ;;
+    missing)
+      log_skip \
+        "Parallels VM $PARALLELS_WINDOWS_VM does not exist; skipped the Windows CA sync"
+      return
+      ;;
+    running) ;;
+    *)
+      log_skip \
+        "Parallels VM $PARALLELS_WINDOWS_VM is $state; skipped the Windows CA sync"
+      return
+      ;;
+  esac
+
+  fingerprint="$(certificate_fingerprint "$certificate")"
+  state_file="$state_dir/parallels-windows-caddy-root.sha1"
+  old_fingerprint=""
+  if [[ -f "$state_file" ]]; then
+    IFS= read -r old_fingerprint < "$state_file" || true
+    if [[ ! "$old_fingerprint" =~ ^[0-9A-Fa-f]{40}$ ]]; then
+      old_fingerprint=""
+    fi
+  fi
+  certificate_base64="$(base64 < "$certificate" | tr -d '\r\n')"
+  powershell_remove_old=""
+  if [[ -n "$old_fingerprint" && "$old_fingerprint" != "$fingerprint" ]]; then
+    powershell_remove_old="
+    if (Test-Path 'Cert:\\LocalMachine\\Root\\$old_fingerprint') {
+      Remove-Item 'Cert:\\LocalMachine\\Root\\$old_fingerprint' -Force
+    }"
+  fi
+
+  powershell_script="
+\$ErrorActionPreference = 'Stop'
+\$certificatePath = Join-Path ([IO.Path]::GetTempPath()) ('orbstack-caddy-root-' + [Guid]::NewGuid().ToString('N') + '.crt')
+try {
+  [IO.File]::WriteAllBytes(\$certificatePath, [Convert]::FromBase64String('$certificate_base64'))
+  if (-not (Test-Path 'Cert:\\LocalMachine\\Root\\$fingerprint')) {
+    Import-Certificate -FilePath \$certificatePath -CertStoreLocation 'Cert:\\LocalMachine\\Root' | Out-Null
+  }
+  if (-not (Test-Path 'Cert:\\LocalMachine\\Root\\$fingerprint')) {
+    throw 'The Caddy root certificate was not imported into the Windows trust store.'
+  }$powershell_remove_old
+} finally {
+  Remove-Item \$certificatePath -Force -ErrorAction SilentlyContinue
+}"
+
+  if ! prlctl exec "$PARALLELS_WINDOWS_VM" \
+    powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass \
+      -Command "$powershell_script"; then
+    log_error "Could not synchronize Caddy's development CA with $PARALLELS_WINDOWS_VM"
+    return 1
+  fi
+
+  fingerprint_file="$(mktemp "$state_dir/.parallels-windows-caddy-root.XXXXXX")"
+  printf '%s\n' "$fingerprint" > "$fingerprint_file"
+  chmod 0600 "$fingerprint_file"
+  mv -f "$fingerprint_file" "$state_file"
+  log_success "Caddy's development CA is trusted in $PARALLELS_WINDOWS_VM"
+}
+
+doctor_windows_certificate() {
+  local certificate="$1"
+  local fingerprint state
+
+  state="$(parallels_windows_state)"
+  case "$state" in
+    unavailable)
+      log_skip "Parallels is unavailable; skipped the Windows CA check"
+      return
+      ;;
+    missing)
+      log_skip \
+        "Parallels VM $PARALLELS_WINDOWS_VM does not exist; skipped the Windows CA check"
+      return
+      ;;
+    running) ;;
+    *)
+      log_skip \
+        "Parallels VM $PARALLELS_WINDOWS_VM is $state; skipped the Windows CA check"
+      return
+      ;;
+  esac
+
+  fingerprint="$(certificate_fingerprint "$certificate")"
+  if ! windows_certificate_is_trusted "$fingerprint"; then
+    log_error \
+      "Caddy's development CA is not trusted in $PARALLELS_WINDOWS_VM; run orbstack/machine sync-host"
+    return 1
+  fi
+  log_success "Caddy's development CA is trusted in $PARALLELS_WINDOWS_VM"
+}
+
 migrate_host_network_services() {
   local brew_path formula
 
@@ -587,12 +716,14 @@ sync_host() {
   dscacheutil -flushcache
   sudo killall -HUP mDNSResponder >/dev/null 2>&1 || true
   log_success "*.test now resolves to $machine at $guest_ip"
+
+  sync_windows_certificate "$old_certificate" "$state_dir"
 }
 
 doctor_machine() {
   local machine="$1"
   local user home guest_ip expose_ports mode codex_version
-  local node_version npm_version bun_version
+  local node_version npm_version bun_version host_certificate
 
   machine_exists "$machine" || {
     log_error "OrbStack machine does not exist: $machine"
@@ -704,6 +835,13 @@ doctor_machine() {
     return 1
   fi
   log_success "*.test resolves from macOS"
+
+  host_certificate="$HOME/.config/orbstack-dev/$machine/caddy-root.crt"
+  if [[ ! -f "$host_certificate" ]]; then
+    log_error "The synchronized Caddy root certificate is missing on macOS"
+    return 1
+  fi
+  doctor_windows_certificate "$host_certificate"
 
   status_github_token_manager
 }
